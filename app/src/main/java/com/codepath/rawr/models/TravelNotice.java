@@ -112,7 +112,7 @@ public class TravelNotice {
         // required, 4 parameters
         params.put("_id", this.id);
         params.put("tuid", this.tuid);
-        params.put("airline", this.airline);
+        params.put("airline_iata", this.airline);
         params.put("airline_name", this.airline_name);
         params.put("flight_num", this.flight_num);
         // optional: 7 parameters
@@ -204,7 +204,7 @@ public class TravelNotice {
         // get the important required informations into tvl
         tvl.id = response.getString("_id");
         tvl.tuid = response.getString("tuid");
-        tvl.airline = response.getString("airline");
+        tvl.airline = response.getString("airline_iata");
         tvl.airline_name = response.getString("airline_name");
         tvl.flight_num = response.getString("flight_num");
 
