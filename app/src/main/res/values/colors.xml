@@ -19,4 +19,15 @@
     <color name="Red">#ff2528</color>
     <color name="RedTransparent">#AAff2528</color>
     <color name="PotentialAccent">#00e676</color>
+    <!-- COLORS FOR SUITCASE -->
+    <color name="suitcaseColorBlack">#202020</color>
+    <color name="suitcaseColorWhite">#fafafa</color>
+    <color name="suitcaseColorRed">#e74c3c</color>
+    <color name="suitcaseColorPurple">#9b59b6</color>
+    <color name="suitcaseColorBlue">#3498db</color>
+    <color name="suitcaseColorGreen">#2ecc71</color>
+    <color name="suitcaseColorYellow">#f1c40f</color>
+    <color name="suitcaseColorOrange">#e67e22</color>
+    <color name="suitcaseColorGrey">#7f8c8d</color>
+    <color name="suitcaseColorRainbow">#7f8c8d</color> <!-- TODO - Change this into rainbow -->
 </resources>
