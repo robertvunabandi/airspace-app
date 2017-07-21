@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvName_isr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="Amanda's Trip"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/tv_from_isr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="SEA"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="30sp" />
+
+
+    <TextView
+        android:id="@+id/tv_arrow_isr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_from_isr"
+        android:layout_alignBottom="@+id/tv_from_isr"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/tv_from_isr"
+        android:layout_toRightOf="@+id/tv_from_isr"
+        android:text="➝"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/tv_to_isr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/tv_arrow_isr"
+        android:layout_toRightOf="@+id/tv_arrow_isr"
+        android:text="JFK"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="30sp" />
+
+
+    <TextView
+        android:id="@+id/tv_fromTime_isr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_from_isr"
+        android:layout_alignStart="@+id/tv_from_isr"
+        android:layout_below="@+id/tv_from_isr"
+        android:layout_toLeftOf="@+id/tv_arrow_isr"
+        android:layout_toStartOf="@+id/tv_arrow_isr"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_toTime_isr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tv_to_isr"
+        android:layout_alignLeft="@+id/tv_to_isr"
+        android:layout_alignRight="@+id/tv_to_isr"
+        android:layout_alignStart="@+id/tv_to_isr"
+        android:layout_below="@+id/tv_to_isr"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+
+    <TextView
+        android:id="@+id/tv_dateFrom_isr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tv_fromTime_isr"
+        android:layout_alignLeft="@+id/tv_fromTime_isr"
+        android:layout_alignRight="@+id/tv_fromTime_isr"
+        android:layout_alignStart="@+id/tv_fromTime_isr"
+        android:layout_below="@+id/tv_fromTime_isr"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_dateTo_isr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tv_toTime_isr"
+        android:layout_alignLeft="@+id/tv_toTime_isr"
+        android:layout_alignRight="@+id/tv_toTime_isr"
+        android:layout_alignStart="@+id/tv_toTime_isr"
+        android:layout_below="@+id/tv_toTime_isr"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+
+    <RelativeLayout
+        android:id="@+id/rlChecks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_toTime_isr">
+
+
+        <RelativeLayout
+            android:id="@+id/rl_infoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tv_infoTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="REQUEST + ADDITIONAL INFO"
+                android:textColor="@color/SXLight"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_toggleInfo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:gravity="center_vertical"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_collapsed"
+                android:tint="@color/PLight" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <!-- FROM: http://www.viralandroid.com/2016/03/android-expandable-layout-tutorial-with-example.html
+            # Really cool expandable relative layout ! -->
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/erl_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlChecks"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical">
+        <!---->
+        <!--&gt;-->
+        <!-- TODO - ADD FILTERS HERE -->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="16dp"-->
+        <!--android:text="Sample Text just for now "/>-->
+        <RelativeLayout
+            android:id="@+id/rlCheckBoxes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cb_envelope_isr"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:text="envelopes" />
+
+            <CheckBox
+                android:id="@+id/cb_largeBox_isr"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cb_envelope_isr"
+                android:text="large boxes" />
+
+            <CheckBox
+                android:id="@+id/cb_smallBox_isr"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/cb_envelope_isr"
+                android:text="small boxes" />
+
+            <CheckBox
+                android:id="@+id/cb_clothing_isr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/cb_largeBox_isr"
+                android:layout_toRightOf="@+id/cb_largeBox_isr"
+                android:text="clothing items" />
+
+            <CheckBox
+                android:id="@+id/cb_other_isr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/cb_smallBox_isr"
+                android:text="others" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_flexibility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlCheckBoxes">
+
+            <!-- flexibility drop off -->
+            <TextView
+                android:id="@+id/tv_dropoff_label_isr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="Drop-Off Flexibility" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_dropoff_isr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_dropoff_label_isr">
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_dropoff_isr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/til_dropoff_isr"
+                android:hint="Meet me at the airport to pass me the item!"
+                android:textSize="14sp" />
+
+            <!-- flexibility pick up -->
+            <TextView
+                android:id="@+id/tv_pickup_label_isr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_dropoff_isr"
+                android:text="Pick-Up Flexibility" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_pickup_isr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_pickup_label_isr">
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tv_pickup_isr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_pickup_label_isr"
+                android:hint="Meet me at the airport to collect the item!"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_buttons_isr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_flexibility">
+
+            <Button
+                android:id="@+id/btn_askQ_isr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CONTACT" />
+
+            <Button
+                android:id="@+id/btn_request_isr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="REQUEST"
+                android:layout_toRightOf="@id/btn_askQ_isr"/>
+
+        </RelativeLayout>
+
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_below="@id/erl_info"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+
+
+</RelativeLayout>
