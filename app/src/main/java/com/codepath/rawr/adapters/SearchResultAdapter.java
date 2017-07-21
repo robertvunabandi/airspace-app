@@ -93,14 +93,13 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 // TODO - Add filters in XML
             }
         });
-
     }
 
 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mTrips.size();
     }
 
 

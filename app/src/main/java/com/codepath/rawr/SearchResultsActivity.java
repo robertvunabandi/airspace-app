@@ -66,11 +66,10 @@ public class SearchResultsActivity extends AppCompatActivity {
                 mSearchResults.add(travelNotice);
                 searchResultAdapter.notifyItemInserted(mSearchResults.size() - 1);
                 Toast.makeText(this, String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
-
             } catch (JSONException e) {
                 Log.e("E", String.format("Error occured in JSON parsing"));
                 e.printStackTrace();
-                // Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, String.format("%s", e), Toast.LENGTH_LONG).show();
             }
         }
     }
