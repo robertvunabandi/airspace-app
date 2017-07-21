@@ -7,13 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.codepath.rawr.R;
 import com.codepath.rawr.models.TravelNotice;
-import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
 import java.util.List;
 
@@ -75,8 +73,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public TextView tv_dateFrom_isr;
         public TextView tv_dateTo_isr;
 
-        final ImageView ivToggleInfo;
-        final ExpandableRelativeLayout erl_info;
+        // final ImageView ivToggleInfo;
+        // final ExpandableRelativeLayout erl_info;
 
         public RelativeLayout rlCheckBoxes;
         public CheckBox cb_envelope_isr;
