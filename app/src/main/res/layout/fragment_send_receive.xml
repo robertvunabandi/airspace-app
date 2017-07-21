@@ -228,6 +228,7 @@
                     android:padding="10dp"/>
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_pending_requests"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_pendingTitle">
@@ -255,6 +256,7 @@
                     android:padding="10dp"/>
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_accepted_requests"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_acceptedTitle">
