@@ -20,14 +20,13 @@
     <color name="RedTransparent">#AAff2528</color>
     <color name="PotentialAccent">#00e676</color>
     <!-- COLORS FOR SUITCASE -->
-    <color name="suitcaseColorBlack">#202020</color>
-    <color name="suitcaseColorWhite">#fafafa</color>
-    <color name="suitcaseColorRed">#e74c3c</color>
-    <color name="suitcaseColorPurple">#9b59b6</color>
-    <color name="suitcaseColorBlue">#3498db</color>
-    <color name="suitcaseColorGreen">#2ecc71</color>
-    <color name="suitcaseColorYellow">#f1c40f</color>
-    <color name="suitcaseColorOrange">#e67e22</color>
-    <color name="suitcaseColorGrey">#7f8c8d</color>
-    <color name="suitcaseColorRainbow">#7f8c8d</color> <!-- TODO - Change this into rainbow -->
+    <color name="suitcaseColorBlack">#202020</color> <!-- 0 -->
+    <color name="suitcaseColorWhite">#fafafa</color> <!-- 1 -->
+    <color name="suitcaseColorRed">#e74c3c</color> <!-- 2 -->
+    <color name="suitcaseColorPurple">#9b59b6</color> <!-- 3 -->
+    <color name="suitcaseColorBlue">#3498db</color> <!-- 4 -->
+    <color name="suitcaseColorGreen">#2ecc71</color> <!-- 5 -->
+    <color name="suitcaseColorYellow">#f1c40f</color> <!-- 6 -->
+    <color name="suitcaseColorOrange">#e67e22</color> <!-- 7 -->
+    <color name="suitcaseColorGrey">#7f8c8d</color> <!-- 8 -->
 </resources>
