@@ -9,7 +9,6 @@
     <string name="dialog_title">Is this your flight?</string>
 
 
-
     <!-- Add this to class:
     public String[] DB_URLS;
     Then on createView, do this:

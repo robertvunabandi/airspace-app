@@ -2,6 +2,7 @@ package com.codepath.rawr.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.codepath.rawr.R;
+import com.codepath.rawr.ReceiverFormActivity;
+import com.codepath.rawr.SenderFormActivity;
 import com.codepath.rawr.models.TravelNotice;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 
@@ -179,19 +182,19 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                     builder.setPositiveButton("sender", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked OK button
-                    /*       Intent i = new Intent(context, SenderFormActivity.class);
+                            Intent i = new Intent(context, SenderFormActivity.class);
                             i.putExtra("trip_id", mTrips.get(pos).id);
                             i.putExtra("sender_id", "596d0b5626bffc280b32187e");
-                            context.startActivity(i);   */
+                            context.startActivity(i);
                         }
                     });
                     builder.setNegativeButton("receiver", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User cancelled the dialog
-                     /*       Intent i = new Intent(context, RecipientFormActivity.class);
+                            Intent i = new Intent(context, ReceiverFormActivity.class);
                             i.putExtra("trip_id", mTrips.get(pos).id);
                             i.putExtra("recipient_id", "596d0b5626bffc280b32187e");
-                            context.startActivity(i);   */
+                            context.startActivity(i);
                         }
                     });
 

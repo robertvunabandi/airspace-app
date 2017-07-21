@@ -112,7 +112,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                 try {
                     populateList(response.getJSONArray("data"));
-                    Toast.makeText(getBaseContext(), String.format("%s", response), Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getBaseContext(), String.format("%s", response), Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                 }
             }
