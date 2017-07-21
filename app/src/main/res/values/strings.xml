@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Rawr</string>
-
+    <string name="DB_HEROKU_URL">http://mysterious-headland-54722.herokuapp.com</string>
+    <string name="DB_LOCAL_URL">http://172.22.11.86:3000</string>
+    <!-- Add this to class:
+    public String[] DB_URLS;
+    Then on createView, do this:
+    DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
+    -->
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
