@@ -25,9 +25,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
 
     // Database url
-    public final static String DB_HEROKU_URL = "http://mysterious-headland-54722.herokuapp.com";
-    public final static String DB_LOCAL_URL = "http://172.22.8.106:3000";
-    public final static String[] DB_URLS = {DB_HEROKU_URL, DB_LOCAL_URL};
+    public String[] DB_URLS;
 
     // Declaring client
     AsyncHttpClient client;
@@ -35,6 +33,11 @@ public class SearchResultsActivity extends AppCompatActivity {
     RecyclerView rvSearchResults;
     SearchResultAdapter searchResultAdapter;
     ArrayList<TravelNotice> mSearchResults;
+    String from;
+    String to;
+    int month_by;
+    int day_by;
+    int year_by;
 
 
 
@@ -43,8 +46,17 @@ public class SearchResultsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
+        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
 
         client = new AsyncHttpClient();
+
+
+        // get extras from intent
+        from = getIntent().getExtras().getString("from");
+        to = getIntent().getExtras().getString("to");
+        month_by = getIntent().getExtras().getInt("month");
+        day_by = getIntent().getExtras().getInt("dayOfMonth");
+        year_by = getIntent().getExtras().getInt("year");
 
         // find the RecyclerView
         mSearchResults = new ArrayList<>();
@@ -55,7 +67,6 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         getData();
 
-
     }
 
 
@@ -65,12 +76,11 @@ public class SearchResultsActivity extends AppCompatActivity {
                 TravelNotice travelNotice = TravelNotice.fromJSONServer(travelNoticeList.getJSONObject(i));
                 mSearchResults.add(travelNotice);
                 searchResultAdapter.notifyItemInserted(mSearchResults.size() - 1);
-                Toast.makeText(this, String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
-
+                // Toast.makeText(this, String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 Log.e("E", String.format("Error occured in JSON parsing"));
                 e.printStackTrace();
-                // Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, String.format("%s", e), Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -86,8 +96,14 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         // Set the request parameters
         RequestParams params = new RequestParams();
+        params.put("to", to);
+        params.put("from", from);
+        params.put("day_by", day_by);
+        params.put("month_by", month_by);
+        params.put("year_by", year_by);
 
-        client.get(DB_URLS[0] + "/travel_notice_all", params, new JsonHttpResponseHandler() {
+
+        client.get(DB_URLS[0] + "/travels", params, new JsonHttpResponseHandler() {
 
             // implement endpoint here
             @Override
@@ -96,6 +112,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                 try {
                     populateList(response.getJSONArray("data"));
+                    Toast.makeText(getBaseContext(), String.format("%s", response), Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                 }
             }
@@ -103,19 +120,19 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void onFailure ( int statusCode, Header[] headers, Throwable throwable, JSONObject
                     errorResponse){
-                // Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure ( int statusCode, Header[] headers, Throwable throwable, JSONArray
                     errorResponse){
-                // Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure ( int statusCode, Header[] headers, String responseString, Throwable
                     throwable){
-                // Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
             }
         });
     }

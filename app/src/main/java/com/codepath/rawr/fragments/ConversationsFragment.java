@@ -7,9 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.rawr.R;
+import com.loopj.android.http.AsyncHttpClient;
+
+import org.json.JSONArray;
 
 public class ConversationsFragment extends Fragment {
+    // variables for HTTP calls
     public String[] DB_URLS;
+    AsyncHttpClient client;
 
     public ConversationsFragment() {
         // Required empty public constructor
@@ -18,14 +23,25 @@ public class ConversationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        client = new AsyncHttpClient();
+        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
-        
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        View v = inflater.inflate(R.layout.fragment_message, container, false);
+
+        // get the variables for all the texts. Needed: Name, time,
+
+        // populate the recycler view of messages with messages from the server
+
+        return v;
+    }
+
+    public JSONArray getMessagesFromServer(){
+        // returns all the messages from the current user
+        // TODO - Implement this function, and call it in onCreateView
+        return new JSONArray(); // CHANGE THIS TO THE ACTUAL RESPONSE
     }
 }
