@@ -48,6 +48,8 @@ public class TravelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
+        getData();
+
     }
 
     @Override
@@ -72,20 +74,17 @@ public class TravelFragment extends Fragment {
                 TravelNotice travelNotice = TravelNotice.fromJSONServer(travelNoticeList.getJSONObject(i));
                 mTrips.add(travelNotice);
                 upcomingTripAdapter.notifyItemInserted(mTrips.size() - 1);
-//                Toast.makeText(getContext(), String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
+                // Toast.makeText(getContext(), String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
 
             } catch (JSONException e) {
-                Log.e(TAG, String.format("Error occured in JSON parsing"));
+                Log.e(TAG, String.format("Error occurred in JSON parsing"));
                 e.printStackTrace();
                 Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
             }
         }
+    }
 
     private void getData() {
-
-        // Temporary tuid
-        String traveler_id = "596d0b5626bffc280b32187e";
-
         // Set the request parameters
         RequestParams params = new RequestParams();
 
@@ -101,5 +100,26 @@ public class TravelFragment extends Fragment {
                 } catch (JSONException e) {
                 }
             }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
+                    errorResponse) {
+                Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
+                    errorResponse) {
+                Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
+                    throwable) {
+                Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
+
 }

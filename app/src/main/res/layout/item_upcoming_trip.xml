@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/relative_layout"
+    android:weightSum="1">
+
+    <TextView
+        android:id="@+id/tv_from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SEA"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/tv_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_from"
+        android:layout_alignBottom="@+id/tv_from"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/tv_from"
+        android:layout_toRightOf="@+id/tv_from"
+        android:text="➝"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/tv_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="JFK"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="30sp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/tv_arrow"
+        android:layout_toEndOf="@+id/tv_arrow"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
+
+    <TextView
+        android:id="@+id/tv_fromTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_from"
+        android:layout_alignStart="@+id/tv_from"
+        android:layout_below="@+id/tv_from"
+        android:layout_toLeftOf="@+id/tv_arrow"
+        android:layout_toStartOf="@+id/tv_arrow"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_toTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tv_to"
+        android:layout_alignLeft="@+id/tv_to"
+        android:layout_alignRight="@+id/tv_to"
+        android:layout_alignStart="@+id/tv_to"
+        android:layout_below="@+id/tv_to"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_dateFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tv_fromTime"
+        android:layout_alignLeft="@+id/tv_fromTime"
+        android:layout_alignRight="@+id/tv_fromTime"
+        android:layout_alignStart="@+id/tv_fromTime"
+        android:layout_below="@+id/tv_fromTime"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tv_dateTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/tv_toTime"
+        android:layout_alignLeft="@+id/tv_toTime"
+        android:layout_alignRight="@+id/tv_toTime"
+        android:layout_alignStart="@+id/tv_toTime"
+        android:layout_below="@+id/tv_toTime"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/bt_edit"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="edit"
+        android:layout_below="@+id/tv_dateFrom" />
+
+    <Button
+        android:id="@+id/bt_delete"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="del"
+        android:layout_below="@+id/tv_dateTo"
+        android:layout_toRightOf="@+id/bt_edit"
+        android:layout_alignRight="@+id/tv_dateTo"
+        android:layout_alignEnd="@+id/tv_dateTo" />
+
+    <TextView
+        android:id="@+id/tv_requestsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirmed Requests"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_above="@+id/tv_pendingTitle"
+        android:layout_alignRight="@+id/tv_pendingTitle"
+        android:layout_alignEnd="@+id/tv_pendingTitle" />
+
+    <TextView
+        android:id="@+id/tv_pendingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pending Requests"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/holo_red_dark"
+        android:layout_below="@+id/tv_toTime"
+        android:layout_alignRight="@+id/bt_detail"
+        android:layout_alignEnd="@+id/bt_detail" />
+
+    <TextView
+        android:id="@+id/tv_requestNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_toTime"
+        android:layout_alignBottom="@+id/tv_toTime"
+        android:layout_toLeftOf="@+id/tv_requestsTitle"
+        android:layout_toStartOf="@+id/tv_requestsTitle"
+        android:text="2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/tv_pendingNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_pendingTitle"
+        android:layout_alignBottom="@+id/tv_pendingTitle"
+        android:layout_alignLeft="@+id/tv_requestNo"
+        android:layout_alignStart="@+id/tv_requestNo"
+        android:text="5"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/holo_red_dark" />
+
+    <Button
+        android:id="@+id/bt_detail"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="view more details"
+        android:layout_alignBaseline="@+id/bt_delete"
+        android:layout_alignBottom="@+id/bt_delete"
+        android:layout_toRightOf="@+id/bt_delete"
+        android:layout_toEndOf="@+id/bt_delete" />
+
+    <TextView
+        android:id="@+id/tv_airlineCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="20sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/tv_requestNo"
+        android:layout_alignStart="@+id/tv_requestNo" />
+
+    <TextView
+        android:id="@+id/tv_airlineNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_airlineCode"
+        android:layout_alignBottom="@+id/tv_airlineCode"
+        android:layout_toEndOf="@+id/tv_airlineCode"
+        android:layout_toRightOf="@+id/tv_airlineCode"
+        android:text="TextView"
+        android:textSize="20sp" />
+
+</RelativeLayout>
