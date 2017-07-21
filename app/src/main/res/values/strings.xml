@@ -2,6 +2,14 @@
     <string name="app_name">Rawr</string>
     <string name="DB_HEROKU_URL">http://mysterious-headland-54722.herokuapp.com</string>
     <string name="DB_LOCAL_URL">http://172.22.11.86:3000</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="cancel">cancel</string>
+    <string name="ok">ok</string>
+    <string name="dialog_title">Is this your flight?</string>
+
+
+
     <!-- Add this to class:
     public String[] DB_URLS;
     Then on createView, do this:

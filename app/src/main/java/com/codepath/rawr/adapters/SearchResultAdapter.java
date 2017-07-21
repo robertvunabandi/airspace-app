@@ -93,14 +93,13 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 // TODO - Add filters in XML
             }
         });
-
     }
 
 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mTrips.size();
     }
 
 
@@ -174,7 +173,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                     // context.startActivity(i);
                     // 1. Instantiate an AlertDialog.Builder with its constructor
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("Are you a")
+                    builder.setMessage("Are you a sender or a receiver?")
                            /* .setTitle(R.string.dialog_title)  */   ;
 
                     builder.setPositiveButton("sender", new DialogInterface.OnClickListener() {

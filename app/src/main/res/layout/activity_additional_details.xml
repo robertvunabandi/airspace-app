@@ -1,9 +1,454 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootAdditionalDetails"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codepath.rawr.AdditionalDetailsActivity">
+    android:padding="8dp"
+    tools:context="com.example.mandaleeyp.teamrawrapp.AdditionalDetailsActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            tools:context="com.example.mandaleeyp.teamrawrapp.AdditionalDetails">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ADDITIONAL DETAILS"
+                android:textColor="@color/PDark"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/separator_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_below="@+id/tv_title"
+                android:layout_marginTop="2dp"
+                android:background="@color/SXXDark" />
+
+            <RelativeLayout
+                android:id="@+id/rl_travelInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/separator_tv_title"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/SXLight"
+                android:padding="8dp">
+                <!-- TI stands for travel info -->
+                <RelativeLayout
+                    android:id="@+id/lineSepStart"
+                    android:layout_width="match_parent"
+                    android:background="@color/SLight"
+                    android:layout_height="1dp"
+                    android:visibility="gone"/>
+                <RelativeLayout
+                    android:id="@+id/rl_TIPath"
+                    android:layout_below="@+id/lineSepStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_TIDeparture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="Departure"
+                        android:textColor="@color/SDark"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_TIArrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toEndOf="@+id/tv_TIDeparture"
+                        android:layout_toRightOf="@+id/tv_TIDeparture"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/ic_arrowleftright"
+                        android:tint="@color/SDark" />
+
+                    <TextView
+                        android:id="@+id/tv_TIDestination"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/iv_TIArrow"
+                        android:layout_toRightOf="@+id/iv_TIArrow"
+                        android:text="Destination"
+                        android:textColor="@color/SDark"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_TITime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_TIPath" >
+
+                    <RelativeLayout
+                        android:id="@+id/rl_TITimeWrapper"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_TITimeDeparture"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="DD:DD"
+                            android:textColor="@color/SDark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/iv_TITimeArrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="18dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_toEndOf="@+id/tv_TITimeDeparture"
+                            android:layout_toRightOf="@+id/tv_TITimeDeparture"
+                            android:adjustViewBounds="true"
+                            android:src="@drawable/ic_arrowleftright"
+                            android:tint="@color/SDark" />
+
+                        <TextView
+                            android:id="@+id/tv_TITimeArrival"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/iv_TITimeArrow"
+                            android:layout_toRightOf="@+id/iv_TITimeArrow"
+                            android:text="AA:AA"
+                            android:textColor="@color/SDark"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <RelativeLayout
+                            android:id="@+id/rl_TITTimeOvernightIndicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toEndOf="@+id/tv_TITimeArrival"
+                            android:layout_toRightOf="@+id/tv_TITimeArrival"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tv_TITimeOvernightIndicatorAdd"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:text="+1"
+                                android:textColor="@color/SDark"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_TITimeOvernightIndicator"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="6dp"
+                                android:layout_toEndOf="@+id/tv_TITimeOvernightIndicatorAdd"
+
+                                android:layout_toRightOf="@+id/tv_TITimeOvernightIndicatorAdd"
+                                android:text="Overnight"
+                                android:textColor="@color/RedTransparent"
+                                android:textSize="14sp"
+                                android:textStyle="italic" />
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_TIDateAndFlight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_TITime" >
+
+                    <TextView
+                        android:id="@+id/tv_TITextOn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="On"
+                        android:textColor="@color/SDark"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_TIDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_toEndOf="@+id/tv_TITextOn"
+                        android:layout_toRightOf="@+id/tv_TITextOn"
+                        android:text="DATE"
+                        android:textColor="@color/SDark"
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:id="@+id/tv_TITextVia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_toEndOf="@+id/tv_TIDate"
+                        android:layout_toRightOf="@+id/tv_TIDate"
+                        android:text="via"
+                        android:textAllCaps="false"
+                        android:textColor="@color/SDark"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_TIAirline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_toEndOf="@+id/tv_TITextVia"
+                        android:layout_toRightOf="@+id/tv_TITextVia"
+                        android:text="AIRLINE"
+                        android:textStyle="italic"
+                        android:textColor="@color/SDark"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/lineSepEndp"
+                    android:layout_width="match_parent"
+                    android:background="@color/SLight"
+                    android:layout_below="@+id/rl_TIDateAndFlight"
+                    android:layout_height="1dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/separator_rl_travel_info"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:layout_below="@+id/rl_travelInfo"
+                android:layout_marginBottom="16dp"
+                android:background="@color/SXXDark" />
+
+            <TextView
+                android:id="@+id/tv_itemQuestion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/separator_rl_travel_info"
+                android:text="WHAT CAN YOU BRING WITH YOU?"
+                android:textColor="@color/PDark"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:id="@+id/rl_checkboxes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_itemQuestion"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:id="@+id/rl_choicesCheckboxes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <!-- envelope, smbox, lgbox, clothing, other -->
+                    <LinearLayout
+                        android:id="@+id/ll_choicesCheckboxes1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <CheckBox
+                            android:id="@+id/cb_envelope"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/PRegular"
+                            android:buttonTint="@color/SDark"
+                            android:onClick="onCheckboxClicked"
+                            android:text="envelope"
+                            android:textColor="@color/SRegular"
+                            android:textSize="16sp" />
+
+                        <CheckBox
+                            android:id="@+id/cb_clothing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:backgroundTint="@color/PRegular"
+                            android:buttonTint="@color/SDark"
+                            android:onClick="onCheckboxClicked"
+                            android:text="clothing item"
+                            android:textColor="@color/SRegular"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_choicesCheckboxes2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <CheckBox
+                            android:id="@+id/cb_smallBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/PRegular"
+                            android:buttonTint="@color/SDark"
+                            android:onClick="onCheckboxClicked"
+                            android:text="small box"
+                            android:textColor="@color/SRegular"
+                            android:textSize="16sp" />
+
+                        <CheckBox
+                            android:id="@+id/cb_largeBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:backgroundTint="@color/PRegular"
+                            android:buttonTint="@color/SDark"
+                            android:onClick="onCheckboxClicked"
+                            android:text="large box"
+                            android:textColor="@color/SRegular"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_choicesOther"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_choicesCheckboxes"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp">
+
+                    <CheckBox
+                        android:id="@+id/cb_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerHorizontal="true"
+                        android:buttonTint="@color/SDark"
+                        android:onClick="onCheckboxClicked"
+                        android:text="other item not listed here"
+                        android:textColor="@color/SRegular"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+            <!-- flexibility pick up -->
+            <RelativeLayout
+                android:id="@+id/rl_flexiblityPickup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_checkboxes">
+
+                <TextView
+                    android:id="@+id/tv_pickup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="HOW FLEXIBLE ARE YOU WITH PICKING UP ITEMS?"
+                    android:textColor="@color/PDark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_flexiblityPickupInit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_pickup"
+                    android:padding="8dp">
+
+                    <EditText
+                        android:id="@+id/et_pickup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:backgroundTint="@color/SXLight"
+                        android:hint="Meet me at the airport to collect the item!"
+                        android:textColor="@color/PRegular"
+                        android:textColorHighlight="@color/PRegular"
+                        android:textColorHint="@color/SXLight"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+            <!-- flexibility drop off -->
+            <RelativeLayout
+                android:id="@+id/rl_flexiblityDropoff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_flexiblityPickup">
+
+
+                <TextView
+                    android:id="@+id/tv_dropoff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="HOW FLEXIBLE ARE YOU WITH DROPPING OFF ITEMS?"
+                    android:textColor="@color/PDark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_flexiblityDropoffInit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_dropoff"
+                    android:padding="8dp">
+
+                    <EditText
+                        android:id="@+id/et_dropoff"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:backgroundTint="@color/SXLight"
+                        android:hint="Meet me at the airport to pass me the item!"
+                        android:textColor="@color/PRegular"
+                        android:textColorHighlight="@color/PRegular"
+                        android:textColorHint="@color/SXLight"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/bt_addDetailsSubmit"
+                style="@android:style/Widget.Material.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/rl_flexiblityDropoff"
+                android:background="@color/PRegular"
+                android:text="Confirm"
+                android:textColor="@color/White" />
+        </RelativeLayout>
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

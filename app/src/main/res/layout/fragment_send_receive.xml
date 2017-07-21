@@ -174,7 +174,21 @@
                 android:layout_below="@id/rl_filtersButton"
                 app:ael_interpolator="bounce"
                 app:ael_orientation="vertical">
+
+
                 <!-- TODO - ADD FILTERS HERE -->
+
+
+
+
+
+
+
+
+
+
+
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
