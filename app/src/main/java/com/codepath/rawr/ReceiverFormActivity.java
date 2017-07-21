@@ -10,4 +10,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver_form);
     }
+
+
+
 }
