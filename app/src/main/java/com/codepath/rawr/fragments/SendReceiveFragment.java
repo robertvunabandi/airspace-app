@@ -74,9 +74,16 @@ public class SendReceiveFragment extends Fragment {
                 // *from* *to* and *by* parameters typed in here, and there in SRA we will get
                 // back an array of TravelNotices to put into the recycler view
 
-                i.putExtra("from", et_from.getText());
-                i.putExtra("to", et_to.getText());
-                i.putExtra("by", et_date.getText());
+                i.putExtra("from", et_from.getText().toString());
+                i.putExtra("to", et_to.getText().toString());
+
+                int month = Integer.parseInt(et_date.getText().toString().substring(0, 2));
+                int dayOfMonth = Integer.parseInt(et_date.getText().toString().substring(3, 5));
+                int year = Integer.parseInt(et_date.getText().toString().substring(6, 8)) + 2000;
+
+                i.putExtra("month", month);
+                i.putExtra("dayOfMonth", dayOfMonth);
+                i.putExtra("year", year);
 
                 getContext().startActivity(i);
             }

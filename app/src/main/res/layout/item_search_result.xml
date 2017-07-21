@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvName_isr"
@@ -292,8 +293,8 @@
                 android:id="@+id/btn_request_isr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="REQUEST"
-                android:layout_toRightOf="@id/btn_askQ_isr"/>
+                android:layout_toRightOf="@id/btn_askQ_isr"
+                android:text="REQUEST" />
 
         </RelativeLayout>
 
@@ -301,12 +302,11 @@
 
     <View
         android:layout_width="match_parent"
+        android:layout_height="1dp"
         android:layout_below="@id/erl_info"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
-
+        android:background="@android:color/darker_gray" />
 
 
 </RelativeLayout>
