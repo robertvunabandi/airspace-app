@@ -71,6 +71,18 @@ tools:context="com.codepath.rawr.SenderFormActivity">
                         android:text="clothing item"
                         android:textColor="@color/SRegular"
                         android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_fragile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/PRegular"
+                        android:buttonTint="@color/SDark"
+                        android:onClick="onCheckboxClicked"
+                        android:text="fragile item"
+                        android:textColor="@color/SRegular"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -101,6 +113,18 @@ tools:context="com.codepath.rawr.SenderFormActivity">
                         android:buttonTint="@color/SDark"
                         android:onClick="onCheckboxClicked"
                         android:text="large box"
+                        android:textColor="@color/SRegular"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_liquids"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/PRegular"
+                        android:buttonTint="@color/SDark"
+                        android:onClick="onCheckboxClicked"
+                        android:text="contains liquids"
                         android:textColor="@color/SRegular"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -182,7 +206,7 @@ tools:context="com.codepath.rawr.SenderFormActivity">
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/rl_flexiblityDropoffInit"
-            android:text="How will you get the item/s to the reciepent?"
+            android:text="How will you get the item/s to the recipient?"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="18sp" />
 
@@ -212,7 +236,7 @@ tools:context="com.codepath.rawr.SenderFormActivity">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_flexiblityPickupInit"
-            android:text="Reciepient Details"
+            android:text="Recipient Details"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="-1dp"
@@ -239,12 +263,26 @@ tools:context="com.codepath.rawr.SenderFormActivity">
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/et_no"
+                android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/et_name"
+                android:backgroundTint="@color/SXLight"
+                android:hint="stacy89@gmail.com"
+                android:textColor="@color/PRegular"
+                android:textColorHighlight="@color/PRegular"
+                android:textColorHint="@color/SXLight"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/et_email"
                 android:backgroundTint="@color/SXLight"
                 android:hint="xxx-xxx-xxx"
                 android:inputType="number"

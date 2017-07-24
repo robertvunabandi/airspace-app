@@ -62,6 +62,8 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
         cb_smallBox = (CheckBox) findViewById(R.id.cb_smallBox);
         cb_largeBox = (CheckBox) findViewById(R.id.cb_largeBox);
         cb_clothing = (CheckBox) findViewById(R.id.cb_clothing);
+        cb_clothing = (CheckBox) findViewById(R.id.cb_fragile);
+        cb_clothing = (CheckBox) findViewById(R.id.cb_liquids);
         cb_other = (CheckBox) findViewById(R.id.cb_other);
         addDetailsSubmit = (Button) findViewById(R.id.bt_addDetailsSubmit);
         dropoffFlexibility = (EditText) findViewById(R.id.et_pickup);
@@ -159,6 +161,14 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
             }
             case R.id.cb_other: {
                 tvl.item_other = checked;
+                break;
+            }
+            case R.id.cb_fragile: {
+                tvl.item_fragile = checked;
+                break;
+            }
+            case R.id.cb_liquids: {
+                tvl.item_liquid = checked;
                 break;
             }
             default: {

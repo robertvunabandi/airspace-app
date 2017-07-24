@@ -68,6 +68,18 @@ tools:context="com.codepath.rawr.ReceiverFormActivity">
                         android:text="clothing item"
                         android:textColor="@color/SRegular"
                         android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_fragile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/PRegular"
+                        android:buttonTint="@color/SDark"
+                        android:onClick="onCheckboxClicked"
+                        android:text="fragile item"
+                        android:textColor="@color/SRegular"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -98,6 +110,18 @@ tools:context="com.codepath.rawr.ReceiverFormActivity">
                         android:buttonTint="@color/SDark"
                         android:onClick="onCheckboxClicked"
                         android:text="large box"
+                        android:textColor="@color/SRegular"
+                        android:textSize="16sp" />
+
+                    <CheckBox
+                        android:id="@+id/cb_liquids"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="@color/PRegular"
+                        android:buttonTint="@color/SDark"
+                        android:onClick="onCheckboxClicked"
+                        android:text="contains liquids"
                         android:textColor="@color/SRegular"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -236,12 +260,26 @@ tools:context="com.codepath.rawr.ReceiverFormActivity">
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/et_no"
+                android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/et_name"
+                android:backgroundTint="@color/SXLight"
+                android:hint="stacy89@gmail.com"
+                android:textColor="@color/PRegular"
+                android:textColorHighlight="@color/PRegular"
+                android:textColorHint="@color/SXLight"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/et_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/et_email"
                 android:backgroundTint="@color/SXLight"
                 android:hint="xxx-xxx-xxx"
                 android:inputType="number"

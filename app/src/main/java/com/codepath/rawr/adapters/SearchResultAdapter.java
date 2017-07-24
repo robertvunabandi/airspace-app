@@ -30,6 +30,7 @@ import java.util.List;
 
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 
+    String usingUserId = "596d0b5626bffc280b32187e";
 
     // declare variables
     private List<TravelNotice> mTrips;
@@ -183,8 +184,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked OK button
                             Intent i = new Intent(context, SenderFormActivity.class);
-                            i.putExtra("trip_id", mTrips.get(pos).id);
-                            i.putExtra("sender_id", "596d0b5626bffc280b32187e");
+                            i.putExtra("travel_notice_id", mTrips.get(pos).id);
+                            i.putExtra("sender_id", usingUserId);
+                            i.putExtra("tuid", mTrips.get(pos).tuid);
                             context.startActivity(i);
                         }
                     });
@@ -192,8 +194,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                         public void onClick(DialogInterface dialog, int id) {
                             // User cancelled the dialog
                             Intent i = new Intent(context, ReceiverFormActivity.class);
-                            i.putExtra("trip_id", mTrips.get(pos).id);
-                            i.putExtra("recipient_id", "596d0b5626bffc280b32187e");
+                            i.putExtra("travel_notice_id", mTrips.get(pos).id);
+                            i.putExtra("recipient_id", usingUserId);
+                            i.putExtra("tuid", mTrips.get(pos).tuid);
                             context.startActivity(i);
                         }
                     });
