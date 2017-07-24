@@ -16,6 +16,8 @@ public class ShippingRequest {
     public int action, status, item_total;
     public boolean item_envelopes, item_smbox, item_lgbox, item_clothing, item_fragile, item_liquid, item_other;
 
+    public TravelNotice tvl;
+
     /**
      * HERE
      * DROP_OFF_FLEX MEANS: FLEXIBILITY OF THE REQUESTER TO GET THE ITEM DROPPED OFF TO TRAVELER WHEN TRAVELER PICKS UP THE ITEM TO BE SHIPPED
@@ -44,7 +46,7 @@ public class ShippingRequest {
         return this.status == 2;
     }
 
-    public ShippingRequest fromJSONServer(JSONObject response) throws JSONException {
+    public ShippingRequest fromJSONServer(JSONObject response, JSONObject travelNoticeJSON) throws JSONException {
         ShippingRequest sr = new ShippingRequest();
         sr.id = response.getString("_id");
         sr.travelNoticeId = response.getString("travel_notice_id");
@@ -68,6 +70,7 @@ public class ShippingRequest {
 
         sr.recipient = Recipient.fromJSONServer(response.getJSONObject("recipient"));
         sr.deliverer = Deliverer.fromJSONServer(response.getJSONObject("deliverer"));
+        sr.tvl = TravelNotice.fromJSONServer(travelNoticeJSON);
 
         // if the flexibilities are put, update flexibilities
         try {
