@@ -17,7 +17,7 @@ import java.util.List;
 public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPendingRequestsAdapter.ViewHolder> {
 
     // declare variables
-    private List<ShippingRequest> mRequests;
+    static private List<ShippingRequest> mRequests;
     Context context;
 
     public TravelPendingRequestsAdapter(List<ShippingRequest> requests) {
@@ -61,16 +61,13 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         public TextView tv_toTime;
         public TextView tv_dateFrom;
         public TextView tv_dateTo;
-        public TextView tv_requestsTitle;
-        public TextView tv_pendingTitle;
-        public TextView tv_requestsNo;
-        public TextView tv_pendingNo;
+        public TextView tv_item;
+        public TextView tv_requester;
         public TextView tv_airlineCode;
         public TextView tv_airlineNo;
 
-        public Button bt_edit;
-        public Button bt_delete;
-        public Button bt_detail;
+        public Button bt_accept;
+        public Button bt_decline;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -83,16 +80,14 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
             tv_toTime = (TextView) itemView.findViewById(R.id.tv_toTime);
             tv_dateFrom = (TextView) itemView.findViewById(R.id.tv_dateFrom);
             tv_dateTo = (TextView) itemView.findViewById(R.id.tv_dateTo);
-            tv_requestsTitle = (TextView) itemView.findViewById(R.id.tv_requestsTitle);
-            tv_pendingTitle = (TextView) itemView.findViewById(R.id.tv_pendingTitle);
-            tv_requestsNo = (TextView) itemView.findViewById(R.id.tv_requestNo);
-            tv_pendingNo = (TextView) itemView.findViewById(R.id.tv_pendingNo);
+
+            tv_item = (TextView) itemView.findViewById(R.id.tv_item);
+            tv_requester = (TextView) itemView.findViewById(R.id.tv_requester);
             tv_airlineCode = (TextView) itemView.findViewById(R.id.tv_airlineCode);
             tv_airlineNo = (TextView) itemView.findViewById(R.id.tv_airlineNo);
 
-            bt_edit = (Button) itemView.findViewById(R.id.bt_edit);
-            bt_delete = (Button) itemView.findViewById(R.id.bt_delete);
-            bt_detail = (Button) itemView.findViewById(R.id.bt_detail);
+            bt_accept = (Button) itemView.findViewById(R.id.bt_accept);
+            bt_decline = (Button) itemView.findViewById(R.id.bt_decline);
         }
     }
 
