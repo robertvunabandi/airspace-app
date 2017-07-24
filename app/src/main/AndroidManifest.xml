@@ -21,7 +21,9 @@
         <activity android:name=".SearchResultsActivity" />
         <activity android:name=".ChatActivity" />
         <activity android:name=".TravelFormActivity" />
-        <activity android:name=".AdditionalDetailsActivity"></activity>
+        <activity android:name=".AdditionalDetailsActivity" />
+        <activity android:name=".SenderFormActivity" />
+        <activity android:name=".ReceiverFormActivity"></activity>
     </application>
 
 </manifest>

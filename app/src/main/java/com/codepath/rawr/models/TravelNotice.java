@@ -13,7 +13,7 @@ import org.json.JSONObject;
 public class TravelNotice {
     // required: 3
     public String id, tuid, airline, airline_name, flight_num;
-    // optional: 6
+    // optional: 9
     public Boolean item_envelopes, item_smbox, item_lgbox, item_clothing, item_fragile, item_liquid, item_other;
     public String drop_off_flexibility, pick_up_flexibility;
     // required: 12
@@ -24,7 +24,7 @@ public class TravelNotice {
     public JSONArray requests_ids;
 
     // for verbose method of dates
-    public String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    public static String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
     public final static String TAG = "TravelNoticeModel";
 
