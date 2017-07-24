@@ -103,6 +103,28 @@ public class TravelNotice {
         return tvl;
     }
 
+    /* Makes all the parameters false */
+    public void setAllFalse() {
+        this.item_envelopes = false;
+        this.item_smbox = false;
+        this.item_lgbox = false;
+        this.item_clothing = false;
+        this.item_fragile = false;
+        this.item_liquid = false;
+        this.item_other = false;
+    }
+
+    /* Makes all the parameters false */
+    public void setAllTrue() {
+        this.item_envelopes = true;
+        this.item_smbox = true;
+        this.item_lgbox = true;
+        this.item_clothing = true;
+        this.item_fragile = true;
+        this.item_liquid = true;
+        this.item_other = true;
+    }
+
     /* Creates parameters for sending a request to our database directly
     from this travel notice using its own data, which is why the "this". */
     public RequestParams createParams() {
