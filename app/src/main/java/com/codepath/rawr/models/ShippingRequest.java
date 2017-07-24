@@ -27,7 +27,7 @@ public class ShippingRequest {
         return !this.accepted && this.declined;
     }
 
-    public ShippingRequest fromJSONServer(JSONObject response) throws JSONException {
+    public static ShippingRequest fromJSONServer(JSONObject response) throws JSONException {
         ShippingRequest sr = new ShippingRequest();
         sr.id = response.getString("_id");
         sr.travelNoticeId = response.getString("_id");
