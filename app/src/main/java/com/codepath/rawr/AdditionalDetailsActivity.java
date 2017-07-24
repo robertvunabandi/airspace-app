@@ -41,9 +41,6 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
     public String travelNoticeId, tuid;
     public TravelNotice tvl;
 
-    // each index refer to one thing, so [envelope, smbox, lgbox, clothing, other]
-    public Boolean[] itemBools = {false, false, false, false, false};
-
     // Tag for debugging, A stands for activity and parent layout for snackbar
     public final static String TAG = "A:AdditionalDetails";
     public View parentLayout;
@@ -145,22 +142,18 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
         // Check which checkbox was clicked
         switch (view.getId()) {
             case R.id.cb_envelope: {
-                itemBools[0] = checked;
                 tvl.item_envelopes = checked;
                 break;
             }
             case R.id.cb_smallBox: {
-                itemBools[1] = checked;
                 tvl.item_smbox = checked;
                 break;
             }
             case R.id.cb_largeBox: {
-                itemBools[2] = checked;
                 tvl.item_lgbox = checked;
                 break;
             }
             case R.id.cb_clothing: {
-                itemBools[3] = checked;
                 tvl.item_clothing = checked;
                 break;
             }
@@ -198,6 +191,7 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     tvl = TravelNotice.fromJSONServer(response.getJSONObject("data"));
+//                    tvl.setAllFalse();
                     populateTravelNoticeViews();
                     Log.w(TAG, String.format("%s", response)); // debugging
                 } catch (JSONException e) {
@@ -241,6 +235,7 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
 
     public void updateFlight() {
         RequestParams params = tvl.createParams();
+        Log.e(TAG, String.format("%s, %s, %s, %s, %s, %s, %s", tvl.item_clothing, tvl.item_envelopes, tvl.item_lgbox, tvl.item_other, tvl.item_smbox, tvl.drop_off_flexibility, tvl.pick_up_flexibility));
         client.post(DB_URLS[0] + "/travel_notice_update", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

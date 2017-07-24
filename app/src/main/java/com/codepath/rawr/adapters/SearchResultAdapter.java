@@ -64,11 +64,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.tv_from_isr.setText(trip.dep_iata);
         holder.tv_to_isr.setText(trip.arr_iata);
 
-        holder.tv_dateFrom_isr.setText(trip.dep_month + "/" + trip.dep_day + "/" + String.valueOf(trip.dep_year).substring(2));
-        holder.tv_dateTo_isr.setText(trip.arr_month + "/" + trip.arr_day + "/" + String.valueOf(trip.arr_year).substring(2));
+        holder.tv_dateFrom_isr.setText(trip.getDepartureDaySimple());
+        holder.tv_dateTo_isr.setText(trip.getArrivalDaySimple());
 
-        holder.tv_fromTime_isr.setText(trip.dep_hour + ":" + trip.dep_min);
-        holder.tv_toTime_isr.setText(trip.arr_hour + ":" + trip.arr_min);
+        holder.tv_fromTime_isr.setText(trip.getDepartureTime());
+        holder.tv_toTime_isr.setText(trip.getArrivalTime());
 
         holder.cb_envelope_isr.setChecked(trip.item_envelopes);
         holder.cb_largeBox_isr.setChecked(trip.item_lgbox);
