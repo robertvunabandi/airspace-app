@@ -8,7 +8,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.codepath.rawr.R;
 import com.codepath.rawr.SearchResultsActivity;
@@ -27,15 +25,10 @@ import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class SendReceiveFragment extends Fragment {
 
@@ -254,13 +247,13 @@ public class SendReceiveFragment extends Fragment {
         });   */
     }
 
-
+/*
     private void populateList(JSONArray requestsList) {
         for (int i = 0; i < requestsList.length(); i++) {
             try {
-                ShippingRequest shippingRequest = ShippingRequest.fromJSONServer(requestsList.getJSONObject(i));
+                ShippingRequest shippingRequest = ShippingRequest.fromJSONServer(requestsList.getJSONObject(i), );
 
-                if (shippingRequest.accepted == true) {
+                if (shippingRequest.isAccepted()) {
                     mAcceptedRqs.add(shippingRequest);
                     shippingAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRqs.size() - 1);
                 }
@@ -277,5 +270,5 @@ public class SendReceiveFragment extends Fragment {
                 Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
             }
         }
-    }
+    }*/
 }

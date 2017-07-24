@@ -36,14 +36,14 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
     @Override
     public void onBindViewHolder(TravelPendingRequestsAdapter.ViewHolder holder, int position) {
         ShippingRequest singleRequest = mRequests.get(position);
-        holder.tv_from.setText(trips.dep_iata);
-        holder.tv_to.setText(trips.arr_iata);
-        holder.tv_dateFrom.setText(trips.getDepartureDaySimple());
-        holder.tv_dateTo.setText(trips.getArrivalDaySimple());
-        holder.tv_fromTime.setText(trips.getDepartureTime());
-        holder.tv_toTime.setText(trips.getArrivalTime());
-        holder.tv_airlineCode.setText(trips.airline);
-        holder.tv_airlineNo.setText(trips.flight_num);
+//        holder.tv_from.setText(trips.dep_iata);
+//        holder.tv_to.setText(trips.arr_iata);
+//        holder.tv_dateFrom.setText(trips.getDepartureDaySimple());
+//        holder.tv_dateTo.setText(trips.getArrivalDaySimple());
+//        holder.tv_fromTime.setText(trips.getDepartureTime());
+//        holder.tv_toTime.setText(trips.getArrivalTime());
+//        holder.tv_airlineCode.setText(trips.airline);
+//        holder.tv_airlineNo.setText(trips.flight_num);
     }
 
     @Override

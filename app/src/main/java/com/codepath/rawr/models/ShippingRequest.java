@@ -46,7 +46,7 @@ public class ShippingRequest {
         return this.status == 2;
     }
 
-    public ShippingRequest fromJSONServer(JSONObject response, JSONObject travelNoticeJSON) throws JSONException {
+    public static ShippingRequest fromJSONServer(JSONObject response, JSONObject travelNoticeJSON) throws JSONException {
         ShippingRequest sr = new ShippingRequest();
         sr.id = response.getString("_id");
         sr.travelNoticeId = response.getString("travel_notice_id");
