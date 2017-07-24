@@ -41,6 +41,7 @@ import cz.msebera.android.httpclient.Header;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
+
 public class TravelFragment extends Fragment {
 
     // Database url
@@ -83,7 +84,6 @@ public class TravelFragment extends Fragment {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
         getTripsData();
-
     }
 
     @Override

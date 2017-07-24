@@ -17,7 +17,7 @@ import java.util.List;
 public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapter.ViewHolder> {
 
     // declare variables
-    private List<TravelNotice> mTrips;
+    static private List<TravelNotice> mTrips;
     Context context;
 
     public UpcomingTripAdapter(List<TravelNotice> trips) {

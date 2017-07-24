@@ -3,7 +3,7 @@ package com.codepath.rawr.adapters;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.codepath.rawr.fragments.ConversationsFragment;
 import com.codepath.rawr.fragments.SendReceiveFragment;
@@ -13,7 +13,7 @@ import com.codepath.rawr.fragments.TravelFragment;
  * Created by robertvunabandi on 7/20/17.
  */
 
-public class MainPagerAdapter extends FragmentPagerAdapter {
+public class MainPagerAdapter extends FragmentStatePagerAdapter {
     private String tabTitles[] = new String[]{ "Travel", "Send/Receive", "Messages"};
     private Context context;
 
