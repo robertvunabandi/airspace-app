@@ -191,7 +191,7 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     tvl = TravelNotice.fromJSONServer(response.getJSONObject("data"));
-//                    tvl.setAllFalse();
+                    tvl.setAllFalse();
                     populateTravelNoticeViews();
                     Log.w(TAG, String.format("%s", response)); // debugging
                 } catch (JSONException e) {
@@ -235,7 +235,6 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
 
     public void updateFlight() {
         RequestParams params = tvl.createParams();
-        Log.e(TAG, String.format("%s, %s, %s, %s, %s, %s, %s", tvl.item_clothing, tvl.item_envelopes, tvl.item_lgbox, tvl.item_other, tvl.item_smbox, tvl.drop_off_flexibility, tvl.pick_up_flexibility));
         client.post(DB_URLS[0] + "/travel_notice_update", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

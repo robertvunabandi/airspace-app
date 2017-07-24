@@ -224,25 +224,14 @@
                 android:layout_alignParentStart="true"
                 android:text="Drop-Off Flexibility" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_dropoff_isr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_dropoff_label_isr">
-
-            </android.support.design.widget.TextInputLayout>
-
             <TextView
-                android:id="@+id/tv_dropoff_isr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/til_dropoff_isr"
-                android:hint="Meet me at the airport to pass me the item!"
-                android:textSize="14sp" />
+            android:id="@+id/tv_dropoff_isr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_dropoff_label_isr"
+            android:textSize="14sp" />
 
             <!-- flexibility pick up -->
             <TextView
@@ -254,16 +243,6 @@
                 android:layout_below="@+id/tv_dropoff_isr"
                 android:text="Pick-Up Flexibility" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_pickup_isr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_pickup_label_isr">
-
-            </android.support.design.widget.TextInputLayout>
-
             <TextView
                 android:id="@+id/tv_pickup_isr"
                 android:layout_width="match_parent"
@@ -271,7 +250,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/tv_pickup_label_isr"
-                android:hint="Meet me at the airport to collect the item!"
                 android:textSize="14sp" />
 
         </RelativeLayout>
