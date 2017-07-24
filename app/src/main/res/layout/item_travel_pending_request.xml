@@ -148,7 +148,7 @@
         android:layout_alignStart="@+id/tv_itemTitle" />
 
     <TextView
-        android:id="@+id/tv_requestor"
+        android:id="@+id/tv_requester"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_itemTitle"

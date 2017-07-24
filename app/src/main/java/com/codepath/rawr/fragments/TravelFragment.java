@@ -21,8 +21,10 @@ import android.widget.Toast;
 
 import com.codepath.rawr.AdditionalDetailsActivity;
 import com.codepath.rawr.R;
+import com.codepath.rawr.adapters.TravelPendingRequestsAdapter;
 import com.codepath.rawr.adapters.UpcomingTripAdapter;
 import com.codepath.rawr.models.Flight;
+import com.codepath.rawr.models.ShippingRequest;
 import com.codepath.rawr.models.TravelNotice;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -72,8 +74,8 @@ public class TravelFragment extends Fragment {
     RecyclerView rv_trips;
 
     // Declaring variables for list of pending requests
-//    TravelPendingRequestsAdapter travelPendingRequestsAdapter;
-    //    ArrayList<ShippingRequests> mRequests;
+    TravelPendingRequestsAdapter travelPendingRequestsAdapter;
+    ArrayList<ShippingRequest> mRequests;
     RecyclerView rv_requests;
 
     public TravelFragment() {
@@ -84,6 +86,7 @@ public class TravelFragment extends Fragment {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
         getTripsData();
+        getRequestsData();
     }
 
     @Override
@@ -192,21 +195,20 @@ public class TravelFragment extends Fragment {
         rv_trips.setAdapter(upcomingTripAdapter);
 
         // setting up RecyclerView for list of pending requests
-//        mRequests = new ArrayList<>();
-//        travelPendingRequestsAdapter = new TravelPendingRequestsAdapter(mRequests);
+        mRequests = new ArrayList<>();
+        travelPendingRequestsAdapter = new TravelPendingRequestsAdapter(mRequests);
         rv_requests = (RecyclerView) v.findViewById(R.id.rv_requests);
         rv_requests.setLayoutManager(new LinearLayoutManager(getContext()));
-//        rv_requests.setAdapter(travelPendingRequestsAdapter);
+        rv_requests.setAdapter(travelPendingRequestsAdapter);
 
 
         return v;
     }
 
+    // Process response for adding a trip
     public void processResponse(final JSONObject response) {
-//        Toast.makeText(getContext(), String.format("%s", response.toString()), Toast.LENGTH_SHORT).show();
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(flight.getAirlineName() + "\nFlight " + flight.getAirlineCode() +  " " + flight.getFlightNumber() + "\n"
+        builder.setMessage(flight.getAirlineName() + "\nFlight " + flight.getAirlineCode() + " " + flight.getFlightNumber() + "\n"
                 + flight.getDepartureAirportCode() + " to " + flight.getArrivalAirportCode()
                 + "\nDeparting on " + flight.getDepartFullDate() + " at " + flight.getDepartureTime())
                 .setTitle(R.string.dialog_title);
@@ -224,11 +226,11 @@ public class TravelFragment extends Fragment {
                     // get parameters from the method createParams() in TravelNotice, see that method
                     RequestParams params = tvl.createParams();
                     // Send a request to the database with endpoint /travel_notice_add
-                    client.post(DB_URLS[0] + "/travel_notice_add", params, new JsonHttpResponseHandler(){
+                    client.post(DB_URLS[0] + "/travel_notice_add", params, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             try {
-                                if (!response.getBoolean("error")){
+                                if (!response.getBoolean("error")) {
                                     // in case of no error, pop up the addDetailsDialog that asks the user if they want to add more details
                                     addDetailsDialog(response.getJSONObject("data").getString("_id"), response.getJSONObject("data").getString("tuid"));
                                 } else {
@@ -304,7 +306,7 @@ public class TravelFragment extends Fragment {
         dialog.show();
     }
 
-    public void additionalDetailsActivityLaunch(String travelNoticeId, String tuid){
+    public void additionalDetailsActivityLaunch(String travelNoticeId, String tuid) {
         Intent AdditionalDetailsActivity = new Intent(getContext(), AdditionalDetailsActivity.class);
         AdditionalDetailsActivity.putExtra("tuid", tuid);
         AdditionalDetailsActivity.putExtra("travel_notice_id", travelNoticeId);
@@ -339,6 +341,43 @@ public class TravelFragment extends Fragment {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 upcomingTripAdapter.clear();
+
+                try {
+                    populateList(response.getJSONArray("data"));
+                } catch (JSONException e) {
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
+                    errorResponse) {
+                Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
+                    errorResponse) {
+                Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
+                    throwable) {
+                Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // get data for list of trips
+    private void getRequestsData() {
+        // Set the request parameters
+        RequestParams params = new RequestParams();
+
+        client.get(DB_URLS[0] + "/requests_get_to_me", params, new JsonHttpResponseHandler() {
+            // implement endpoint here
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                travelPendingRequestsAdapter.clear();
 
                 try {
                     populateList(response.getJSONArray("data"));
