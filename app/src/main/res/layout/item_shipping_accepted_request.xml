@@ -8,6 +8,7 @@
     android:id="@+id/relative_layout"
     android:weightSum="1">
 
+
     <TextView
         android:id="@+id/tv_from"
         android:layout_width="wrap_content"
@@ -256,6 +257,12 @@
                 android:layout_below="@+id/cb_envelope"
                 android:text="large boxes" />
 
+            <CheckBox
+                android:id="@+id/cb_fragile"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cb_largeBox"
+                android:text="fragile" />
 
             <CheckBox
                 android:id="@+id/cb_smallBox"
@@ -273,20 +280,6 @@
                 android:text="clothing items" />
 
             <CheckBox
-                android:id="@+id/cb_other"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/cb_smallBox"
-                android:text="others" />
-
-            <CheckBox
-                android:id="@+id/cb_fragile"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cb_largeBox"
-                android:text="fragile" />
-
-            <CheckBox
                 android:id="@+id/cb_liquids"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -294,6 +287,12 @@
                 android:layout_toRightOf="@+id/cb_fragile"
                 android:text="liquids" />
 
+            <CheckBox
+                android:id="@+id/cb_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/cb_smallBox"
+                android:text="others" />
         </RelativeLayout>
 
 

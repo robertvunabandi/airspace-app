@@ -222,7 +222,7 @@
 
                 <TextView
                     android:id="@+id/tv_pendingTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="PENDING REQUESTS"
@@ -232,7 +232,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_pending_requests"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_pendingTitle">
 
@@ -248,7 +248,7 @@
 
                 <TextView
                     android:id="@+id/tv_acceptedTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:text="ACCEPTED REQUESTS"
@@ -258,7 +258,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_accepted_requests"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_acceptedTitle">
 
