@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -79,6 +80,9 @@ public class TravelFragment extends Fragment {
     ArrayList<ShippingRequest> mRequests;
     RecyclerView rv_requests;
 
+    SwipeRefreshLayout swipeContainer;
+
+
     public TravelFragment() {
     }
 
@@ -108,6 +112,18 @@ public class TravelFragment extends Fragment {
         airlinecodeWrapper.setHint("Airline code");
         flightnumberWrapper.setHint("Flight number");
         dateWrapper.setHint("Date of departure");
+
+        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                getTripsData();
+            }
+        });
 
         final EditText et_date = (EditText) v.findViewById(R.id.et_date);
         final Calendar myCalendar = Calendar.getInstance();
@@ -347,6 +363,8 @@ public class TravelFragment extends Fragment {
                     populateList(response.getJSONArray("data"));
                 } catch (JSONException e) {
                 }
+                swipeContainer.setRefreshing(false);
+
             }
 
             @Override
@@ -373,7 +391,7 @@ public class TravelFragment extends Fragment {
     private void getRequestId() {
         // Set the request parameters
         RequestParams params = new RequestParams();
-        params.put("uid", getString(R.string.temporary_user_id_old));
+        params.put("uid", getString(R.string.temporary_user_id_new));
 
         client.get(DB_URLS[0] + "/request_get_to_me", params, new JsonHttpResponseHandler() {
             // implement endpoint here
@@ -382,7 +400,6 @@ public class TravelFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     getRequestData(response.getJSONArray("data"));
-                    Toast.makeText(getContext(), String.format("%s", response), Toast.LENGTH_LONG).show();
                     Log.e(TAG, String.format("%s", response));
                 } catch (JSONException e) {
 
@@ -417,42 +434,45 @@ public class TravelFragment extends Fragment {
     // method that gets request data
     private void getRequestData(final JSONArray requestId) {
 
+        // TODO - get rid of the sketchy empty brackets in index [0]
         for (int i = 0; i < requestId.length(); i++) {
             // Set the request parameters
             RequestParams params = new RequestParams();
             try {
-                params.put("request_id", requestId.getString(i));
+                params.put("request_id", requestId.getJSONObject(i).getString("request_id"));
                 client.get(DB_URLS[0] + "/request_get", params, new JsonHttpResponseHandler() {
                     // implement endpoint here
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
                             final ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
-                            response.getJSONObject("request_id");
-                            mRequests.add(sr);
-                            travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
-                            Toast.makeText(getContext(), String.format("%s", response), Toast.LENGTH_LONG).show();
-                            Log.e(TAG, String.format("%s", response));
+//                            if (sr.isPending()) {
+                                mRequests.add(sr);
+                                travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
+//                            }
                         } catch (JSONException e) {
-
+                            Log.e(TAG, String.format("JSON Exception at request_get request_id: %s", e));
                         }
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
                             errorResponse) {
+                        Log.e(TAG, String.format("Error 1 %s", errorResponse));
                         Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
                             errorResponse) {
+                        Log.e(TAG, String.format("Error 2 %s", errorResponse));
                         Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
                             throwable) {
+                        Log.e(TAG, String.format("Error 3 %s", responseString));
                         Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
                     }
                 });
