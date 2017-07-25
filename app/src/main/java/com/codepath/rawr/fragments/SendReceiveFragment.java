@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.codepath.rawr.R;
+import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.SearchResultsActivity;
 import com.codepath.rawr.adapters.ShippingAcceptedRequestsAdapter;
 import com.codepath.rawr.adapters.ShippingPendingRequestsAdapter;
@@ -120,7 +121,7 @@ public class SendReceiveFragment extends Fragment {
                 i.putExtra("dayOfMonth", dayOfMonth);
                 i.putExtra("year", year);
                 // start activity for result for displaying snackbars for UX
-                getActivity().startActivityForResult(i, CODE_SENDER_FORM_ACTIVITY);
+                getActivity().startActivityForResult(i, RawrApp.CODE_REQUESTER_FORMS_ACTIVITY);
             }
         });
 

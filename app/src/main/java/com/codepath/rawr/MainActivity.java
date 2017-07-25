@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Context context;
 
     private static final String TAG = "MainActivity";
+    private static final int ADDITIONAL_DETAILS_CODE = 0;
     private static final int CODE_SENDER_FORM_ACTIVITY = 1;
 
     @Override
@@ -50,16 +51,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO - this snackbar is not displaying, fix this
-        if (resultCode == RESULT_OK && requestCode == CODE_SENDER_FORM_ACTIVITY) {
+        if (resultCode == RESULT_OK && requestCode == RawrApp.ADDITIONAL_DETAILS_CODE) {
+            // success snackbar
+            Snackbar.make(parentLayout, "Your travel notice has been saved.", Snackbar.LENGTH_LONG).show();
+        } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.ADDITIONAL_DETAILS_CODE) {
+            // failure snackbar
+            Snackbar.make(parentLayout, String.format("The following error occurred: %s", data.getStringExtra("message")), Snackbar.LENGTH_INDEFINITE).show();
+        } else if (resultCode == RESULT_OK && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // success snackbar
             Snackbar.make(parentLayout, "Your request has been sent.", Snackbar.LENGTH_LONG).show();
-            // TODO - uncomment the line below and implement "clearViews()" and "refreshPending()" methods
             ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).clearViews();
             ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).refreshRequests();
-        } else if (resultCode == RESULT_CANCELED && requestCode == CODE_SENDER_FORM_ACTIVITY) {
+        } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // failure snackbar
-            Snackbar.make(parentLayout, String.format("THE FOLLOWING ERROR OCCURRED: %s", data.getStringExtra("message")), Snackbar.LENGTH_INDEFINITE).show();
+            Snackbar.make(parentLayout, String.format("The following error occurred: %s", data.getStringExtra("message")), Snackbar.LENGTH_INDEFINITE).show();
             // clear the texts so that we're back to nothing
             ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).clearViews();
         }

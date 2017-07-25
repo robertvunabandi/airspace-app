@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.codepath.rawr.R;
+import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.ReceiverFormActivity;
 import com.codepath.rawr.SenderFormActivity;
 import com.codepath.rawr.models.TravelNotice;
@@ -175,7 +176,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                             i.putExtra("travel_notice_id", mTrips.get(pos).id);
                             i.putExtra("ruid", context.getString(R.string.temporary_user_id_new));
                             i.putExtra("tuid", mTrips.get(pos).tuid);
-                            ((Activity) context).startActivityForResult(i, CODE_SENDER_FORM_ACTIVITY);
+                            ((Activity) context).startActivityForResult(i, RawrApp.CODE_REQUESTER_FORMS_ACTIVITY);
                             // context.startActivity(i);
                         }
                     });
@@ -188,7 +189,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                             i.putExtra("ruid", context.getString(R.string.temporary_user_id_new));
                             i.putExtra("tuid", mTrips.get(pos).tuid);
                             // converts context into activity and starts the activity for result
-                            ((Activity) context).startActivityForResult(i, CODE_SENDER_FORM_ACTIVITY);
+                            ((Activity) context).startActivityForResult(i, RawrApp.CODE_REQUESTER_FORMS_ACTIVITY);
                             // context.startActivity(i);
                         }
                     });

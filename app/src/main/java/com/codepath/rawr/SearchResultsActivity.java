@@ -139,11 +139,11 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK && requestCode == CODE_SENDER_FORM_ACTIVITY) {
+        if (resultCode == RESULT_OK && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // success, pass onto it the intent data, which should contain a "message" saying something
             String s  = data.getStringExtra("message");
             setResult(RESULT_OK, data); finish();
-        } else if (resultCode == RESULT_CANCELED && requestCode == CODE_SENDER_FORM_ACTIVITY) {
+        } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // failure, pass onto it the intent data, which should contain a "message" saying something
             String s  = data.getStringExtra("message");
             setResult(RESULT_CANCELED, data); finish();
