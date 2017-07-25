@@ -36,14 +36,18 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
     @Override
     public void onBindViewHolder(TravelPendingRequestsAdapter.ViewHolder holder, int position) {
         ShippingRequest singleRequest = mRequests.get(position);
-//        holder.tv_from.setText(trips.dep_iata);
-//        holder.tv_to.setText(trips.arr_iata);
-//        holder.tv_dateFrom.setText(trips.getDepartureDaySimple());
-//        holder.tv_dateTo.setText(trips.getArrivalDaySimple());
-//        holder.tv_fromTime.setText(trips.getDepartureTime());
-//        holder.tv_toTime.setText(trips.getArrivalTime());
-//        holder.tv_airlineCode.setText(trips.airline);
-//        holder.tv_airlineNo.setText(trips.flight_num);
+        holder.tv_from.setText(singleRequest.tvl.dep_iata);
+        holder.tv_to.setText(singleRequest.tvl.arr_iata);
+        holder.tv_dateFrom.setText(singleRequest.tvl.getDepartureDaySimple());
+        holder.tv_dateTo.setText(singleRequest.tvl.getArrivalDaySimple());
+        holder.tv_fromTime.setText(singleRequest.tvl.getDepartureTime());
+        holder.tv_toTime.setText(singleRequest.tvl.getArrivalTime());
+        holder.tv_airlineCode.setText(singleRequest.tvl.airline);
+        holder.tv_airlineNo.setText(singleRequest.tvl.flight_num);
+//
+//        holder.tv_item.setText(singleRequest.getShippingItemName());
+//        holder.tv_requester.setText(singleRequest.getRequesterName());
+
     }
 
     @Override
@@ -53,6 +57,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        // view holder for trip data
         public RelativeLayout relative_layout;
         public TextView tv_from;
         public TextView tv_to;
@@ -61,10 +66,12 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         public TextView tv_toTime;
         public TextView tv_dateFrom;
         public TextView tv_dateTo;
-        public TextView tv_item;
-        public TextView tv_requester;
         public TextView tv_airlineCode;
         public TextView tv_airlineNo;
+
+        // view holder for shipping request data
+        public TextView tv_item;
+        public TextView tv_requester;
 
         public Button bt_accept;
         public Button bt_decline;
