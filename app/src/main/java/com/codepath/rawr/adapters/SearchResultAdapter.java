@@ -30,7 +30,7 @@ import java.util.List;
  */
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 
-    String usingUserId = "5976c20e6e11f97eb93d8867";
+    // String usingUserId = "5976c20e6e11f97eb93d8867";
     private static int CODE_SENDER_FORM_ACTIVITY = 1;
 
     // declare variables
@@ -173,7 +173,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                             Intent i = new Intent(context, SenderFormActivity.class);
                             i.putExtra("action", 0);
                             i.putExtra("travel_notice_id", mTrips.get(pos).id);
-                            i.putExtra("ruid", usingUserId);
+                            i.putExtra("ruid", context.getString(R.string.temporary_user_id_new));
                             i.putExtra("tuid", mTrips.get(pos).tuid);
                             ((Activity) context).startActivityForResult(i, CODE_SENDER_FORM_ACTIVITY);
                             // context.startActivity(i);
@@ -185,7 +185,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                             Intent i = new Intent(context, ReceiverFormActivity.class);
                             i.putExtra("action", 1);
                             i.putExtra("travel_notice_id", mTrips.get(pos).id);
-                            i.putExtra("ruid", usingUserId);
+                            i.putExtra("ruid", context.getString(R.string.temporary_user_id_new));
                             i.putExtra("tuid", mTrips.get(pos).tuid);
                             // converts context into activity and starts the activity for result
                             ((Activity) context).startActivityForResult(i, CODE_SENDER_FORM_ACTIVITY);
