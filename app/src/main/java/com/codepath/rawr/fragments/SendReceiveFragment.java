@@ -46,7 +46,7 @@ public class SendReceiveFragment extends Fragment {
     private static final int CODE_SENDER_FORM_ACTIVITY = 1;
 
     // Temporary tuid
-    String traveler_id = "596d0b5626bffc280b32187e";
+    public String traveler_id;
 
 
     // Declaring variables for Pending Requests
@@ -68,6 +68,7 @@ public class SendReceiveFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
+        traveler_id = getResources().getString(R.string.temporary_user_id_new);
         getRequestsData();
     }
 
