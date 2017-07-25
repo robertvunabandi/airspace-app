@@ -418,7 +418,7 @@ public class TravelFragment extends Fragment {
     private void getRequestData(final JSONArray requestId) {
 
         // TODO - get rid of the sketchy empty brackets in index [0]
-        for (int i = 1; i < requestId.length(); i++) {
+        for (int i = 0; i < requestId.length(); i++) {
             // Set the request parameters
             RequestParams params = new RequestParams();
             try {
