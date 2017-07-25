@@ -127,4 +127,76 @@ public class ShippingRequest {
         params.put("pick_up_flexibility", this.pick_up_flexibility);
         return params;
     }
+
+    public String getRequesterName() {
+        // returns the name of the requester
+        if (this.isSending()) {
+            return this.deliverer.name;
+        } else {
+            return this.recipient.name;
+        }
+    }
+    public String getRequesterEmail() {
+        // returns the email of the requester
+        if (this.isSending()) {
+            return this.deliverer.email;
+        } else {
+            return this.recipient.email;
+        }
+    }
+
+    public String getShippingItemName() {
+        // returns a string, which is a list separated by commas of things that are needed to be shipped in this request
+        String name = "";
+        if (this.item_envelopes) {
+            if (name != null && !name.isEmpty()) {
+                name += ", envelope";
+            } else {
+                name += "envelope";
+            }
+        }
+        if (this.item_smbox) {
+            if (name != null && !name.isEmpty()) {
+                name += ", small box";
+            } else {
+                name += "small box";
+            }
+        }
+        if (this.item_lgbox) {
+            if (!name.isEmpty()) {
+                name += ", large box";
+            } else {
+                name += "large box";
+            }
+        }
+        if (this.item_clothing) {
+            if (!name.isEmpty()) {
+                name += ", clothing";
+            } else {
+                name += "clothing";
+            }
+        }
+        if (this.item_fragile) {
+            if (!name.isEmpty()) {
+                name += ", fragile";
+            } else {
+                name += "fragile";
+            }
+        }
+        if (this.item_liquid) {
+            if (!name.isEmpty()) {
+                name += ", liquid";
+            } else {
+                name += "liquid";
+            }
+        }
+        if (this.item_other){
+            if (!name.isEmpty()) {
+                name += ", other";
+            } else {
+                name += "other";
+            }
+        }
+        return name;
+    }
 }
