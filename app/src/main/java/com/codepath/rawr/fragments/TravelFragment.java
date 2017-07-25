@@ -373,7 +373,7 @@ public class TravelFragment extends Fragment {
     private void getRequestId() {
         // Set the request parameters
         RequestParams params = new RequestParams();
-        params.put("uid", getString(R.string.temporary_user_id_old));
+        params.put("uid", getString(R.string.temporary_user_id_new));
 
         client.get(DB_URLS[0] + "/request_get_to_me", params, new JsonHttpResponseHandler() {
             // implement endpoint here
@@ -417,18 +417,18 @@ public class TravelFragment extends Fragment {
     // method that gets request data
     private void getRequestData(final JSONArray requestId) {
 
-        for (int i = 0; i < requestId.length(); i++) {
+        // TODO - get rid of the sketchy empty brackets in index [0]
+        for (int i = 1; i < requestId.length(); i++) {
             // Set the request parameters
             RequestParams params = new RequestParams();
             try {
-                params.put("request_id", requestId.getString(i));
+                params.put("request_id", requestId.getJSONObject(i).getString("request_id"));
                 client.get(DB_URLS[0] + "/request_get", params, new JsonHttpResponseHandler() {
                     // implement endpoint here
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
                             final ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
-                            response.getJSONObject("request_id");
                             mRequests.add(sr);
                             travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
                             Toast.makeText(getContext(), String.format("%s", response), Toast.LENGTH_LONG).show();
