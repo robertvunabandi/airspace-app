@@ -36,7 +36,6 @@ public class ReceiverFormActivity extends AppCompatActivity {
 
     // to get the user and on activity result for where this comes from
     public User usingUser;
-    public String ruid;
     public Intent resultIntent;
     public int action;
 
@@ -53,7 +52,6 @@ public class ReceiverFormActivity extends AppCompatActivity {
         DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
         client = new AsyncHttpClient();
         action = getIntent().getIntExtra("action", 0);
-        ruid = getIntent().getExtras().getString("ruid");
         resultIntent = new Intent();
 
         cb_envelope = (CheckBox) findViewById(R.id.cb_envelope);
@@ -149,7 +147,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
     public RequestParams getParams() {
         RequestParams params = new RequestParams();
         params.put("travel_notice_id", getIntent().getExtras().getString("travel_notice_id"));
-        params.put("ruid", ruid);
+        params.put("ruid", RawrApp.getUsingUserId());
         params.put("action", action);
 
         params.put("item_envelopes", cb_envelope.isChecked());
@@ -261,7 +259,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
     public void getUsingUser() {
         // make a call to server to get the user and then create usingUser base on that json from the server
         RequestParams params = new RequestParams();
-        params.put("uid", ruid);
+        params.put("uid", RawrApp.getUsingUserId());
         client.get(DB_URLS[0] + "/user_get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
