@@ -230,7 +230,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
                         finish();
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        resultIntent.putExtra("message", "Error (1) in enpoint request_send");
+                        resultIntent.putExtra("message", "Error (1) in endpoint request_send");
                         setResult(RESULT_CANCELED, resultIntent);
                         finish();
                     }

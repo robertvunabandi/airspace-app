@@ -225,16 +225,23 @@ public class SenderFormActivity extends AppCompatActivity {
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
                     // if an error occurred, set result cancelled
-                    resultIntent.putExtra("message", "Error in endpoint request_send");
-                    setResult(RESULT_CANCELED, resultIntent);
-                    finish();
+                    try {
+                        resultIntent.putExtra("message", errorResponse.getString("message"));
+                        setResult(RESULT_CANCELED, resultIntent);
+                        finish();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        resultIntent.putExtra("message", "Error (1) in endpoint request_send");
+                        setResult(RESULT_CANCELED, resultIntent);
+                        finish();
+                    }
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                     Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
                     // if an error occurred, set result cancelled
-                    resultIntent.putExtra("message", "Error in endpoint request_send");
+                    resultIntent.putExtra("message", "Error (2) in endpoint request_send");
                     setResult(RESULT_CANCELED, resultIntent);
                     finish();
                 }
@@ -243,7 +250,7 @@ public class SenderFormActivity extends AppCompatActivity {
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Log.e(TAG, String.format("%s", responseString));
                     // if an error occurred, set result cancelled
-                    resultIntent.putExtra("message", "Error in endpoint request_send");
+                    resultIntent.putExtra("message", "Error (3) in endpoint request_send");
                     setResult(RESULT_CANCELED, resultIntent);
                     finish();
                 }
