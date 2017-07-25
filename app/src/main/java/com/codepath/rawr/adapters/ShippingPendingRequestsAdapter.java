@@ -120,6 +120,9 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         public Button btn_contact;
         public Button btn_cancel;
 
+        public RelativeLayout rlChecks;
+        public RelativeLayout rl_infoButton;
+        public TextView tv_infoTitle;
         final ImageView ivToggleInfo;
         final ExpandableRelativeLayout erl_info;
 
@@ -132,6 +135,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         public CheckBox cb_fragile;
         public CheckBox cb_liquids;
 
+        public RelativeLayout rl_flexibility;
         public TextView tv_dropoff;
         public TextView tv_pickup;
 
@@ -139,8 +143,8 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
             super(itemView);
 
             tv_from = (TextView) itemView.findViewById(R.id.tv_from);
-            tv_to = (TextView) itemView.findViewById(R.id.tv_to);
             tv_arrow = (TextView) itemView.findViewById(R.id.tv_arrow);
+            tv_to = (TextView) itemView.findViewById(R.id.tv_to);
             tv_fromTime = (TextView) itemView.findViewById(R.id.tv_fromTime);
             tv_toTime = (TextView) itemView.findViewById(R.id.tv_toTime);
             tv_dateFrom = (TextView) itemView.findViewById(R.id.tv_dateFrom);
@@ -148,11 +152,17 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
 
             tv_airlineCode = (TextView) itemView.findViewById(R.id.tv_airlineCode);
             tv_airlineNo = (TextView) itemView.findViewById(R.id.tv_airlineNo);
+            tv_itemTitle = (TextView) itemView.findViewById(R.id.tv_itemTitle);
             tv_item = (TextView) itemView.findViewById(R.id.tv_item);
+            tv_requestDateTitle = (TextView) itemView.findViewById(R.id.tv_requestDateTitle);
             tv_requested_date = (TextView) itemView.findViewById(R.id.tv_requested_date);
 
             btn_contact = (Button) itemView.findViewById(R.id.bt_contact);
             btn_cancel = (Button) itemView.findViewById(R.id.bt_cancel);
+
+            rlChecks = (RelativeLayout) itemView.findViewById(R.id.rlChecks);
+            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rl_infoButton);
+            tv_infoTitle = (TextView) itemView.findViewById(R.id.tv_infoTitle);
 
             ivToggleInfo = (ImageView) itemView.findViewById(R.id.iv_toggleInfo);
             erl_info = (ExpandableRelativeLayout) itemView.findViewById(R.id.erl_info);

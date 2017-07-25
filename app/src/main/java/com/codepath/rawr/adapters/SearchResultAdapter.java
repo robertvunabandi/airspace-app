@@ -70,6 +70,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.cb_smallBox_isr.setChecked(trip.item_smbox);
         holder.cb_clothing_isr.setChecked(trip.item_clothing);
         holder.cb_other_isr.setChecked(trip.item_other);
+        holder.cb_fragile_isr.setChecked(trip.item_fragile);
+        holder.cb_liquids_isr.setChecked(trip.item_liquid);
         holder.cb_envelope_isr.setEnabled(false);
         holder.cb_largeBox_isr.setEnabled(false);
         holder.cb_smallBox_isr.setEnabled(false);
