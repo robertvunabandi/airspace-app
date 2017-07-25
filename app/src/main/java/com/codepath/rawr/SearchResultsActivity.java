@@ -105,18 +105,34 @@ public class SearchResultsActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("CODE: %s ERROR(1): %s", statusCode, errorResponse));
                 Toast.makeText(getBaseContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
+                // quit the activity TODO - say that no result found or something
+                Intent data = new Intent();
+                try {
+                    data.putExtra("message", String.format("Error 1 occurred: %s", errorResponse.getString("message")));
+                } catch (JSONException e) {
+                    data.putExtra("message", String.format("Error 1 occurred"));
+                }
+                setResult(RESULT_CANCELED, data); //finish();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 Log.e(TAG, String.format("CODE: %s ERROR(2): %s", statusCode, errorResponse));
                 Toast.makeText(getBaseContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                // quit the activity TODO - say that no result found or something
+                Intent data = new Intent();
+                data.putExtra("message", String.format("Error 2 occurred: %s", errorResponse));
+                setResult(RESULT_CANCELED, data); //finish();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e(TAG, String.format("CODE: %s ERROR(3): %s", statusCode, responseString));
                 Toast.makeText(getBaseContext(), String.format("error 3 %s", responseString), Toast.LENGTH_SHORT).show();
+                // quit the activity TODO - say that no result found or something
+                Intent data = new Intent();
+                data.putExtra("message", String.format("Error 3 occurred: %s", responseString));
+                setResult(RESULT_CANCELED, data); //finish();
             }
         });
     }
@@ -125,10 +141,19 @@ public class SearchResultsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == CODE_SENDER_FORM_ACTIVITY) {
             // success, pass onto it the intent data, which should contain a "message" saying something
+            String s  = data.getStringExtra("message");
             setResult(RESULT_OK, data); finish();
         } else if (resultCode == RESULT_CANCELED && requestCode == CODE_SENDER_FORM_ACTIVITY) {
             // failure, pass onto it the intent data, which should contain a "message" saying something
+            String s  = data.getStringExtra("message");
             setResult(RESULT_CANCELED, data); finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent data = new Intent();
+        data.putExtra("message", String.format("Cancelled"));
+        setResult(RESULT_CANCELED, data); finish();
     }
 }

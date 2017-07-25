@@ -56,7 +56,7 @@ public class TravelFragment extends Fragment {
     public final static String APP_ID_PARAM = "appId";
 
     // code for on activity result
-    public static final int ADDITIONAL_DETAILS_CODE = 1;
+    public static final int ADDITIONAL_DETAILS_CODE = 0;
 
     // Declaring client
     AsyncHttpClient client;
@@ -219,7 +219,7 @@ public class TravelFragment extends Fragment {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button, so send response to database
 
-                String traveler_id = "596d0b5626bffc280b32187e"; // TODO - Make it so the traveler id is actually the id of the person using the app like "get res client"
+                String traveler_id = getString(R.string.temporary_user_id_new); // TODO - Make it so the traveler id is actually the id of the person using the app like "get res client"
                 // first, create the travelNotice, all surrounded by try catch
                 try {
                     // creates a travel notice
