@@ -103,11 +103,12 @@
         android:id="@+id/tv_airlineCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20sp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tv_dateFrom" />
+        android:layout_below="@+id/tv_dateFrom"
+        android:layout_marginLeft="10dp"
+        android:text="TextView"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tv_airlineNo"
@@ -124,12 +125,12 @@
         android:id="@+id/tv_itemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Item: "
-        android:layout_above="@+id/tv_toTime"
-        android:layout_toRightOf="@+id/tv_airlineNo"
-        android:layout_toEndOf="@+id/tv_airlineNo"
         android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp" />
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/tv_to"
+        android:layout_toRightOf="@+id/tv_to"
+        android:text="Item: " />
 
     <TextView
         android:id="@+id/tv_item"
@@ -168,6 +169,7 @@
         android:layout_alignLeft="@+id/tv_requestDateTitle"
         android:layout_alignStart="@+id/tv_requestDateTitle"
         android:layout_below="@+id/tv_requestDateTitle"
+        android:layout_marginTop="10dp"
         android:text="contact" />
 
     <Button
@@ -177,6 +179,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/bt_contact"
         android:layout_below="@+id/tv_requestDateTitle"
+        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/bt_contact"
         android:layout_toRightOf="@+id/bt_contact"
         android:text="cancel" />
@@ -201,10 +204,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:text="REQUEST + ADDITIONAL INFO"
+                android:text="additional info:"
                 android:textColor="@color/SXLight"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"/>
 
             <ImageView
                 android:id="@+id/iv_toggleInfo"
@@ -345,5 +349,4 @@
 
 
     </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-
 </RelativeLayout>

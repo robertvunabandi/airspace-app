@@ -58,7 +58,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
 
         holder.tv_airlineCode.setText(request.tvl.airline);
         holder.tv_airlineNo.setText(request.tvl.flight_num);
-        // holder.tv_item.setText(request.tvl.getArrivalTime());
+        holder.tv_item.setText(request.getShippingItemName());
         // holder.tv_requested_date.setText(request.tvl.getArrivalTime());
 
         holder.cb_envelope.setChecked(request.tvl.item_envelopes);
