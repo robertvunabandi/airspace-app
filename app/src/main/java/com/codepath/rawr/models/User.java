@@ -30,7 +30,18 @@ public class User {
         // returns the date of birth in a verbose format, e.g.: August 12, 2017
         return months[this.dobMonth - 1] + " " + Integer.toString(this.dobDay) + ", " + Integer.toString(this.dobYear);
     }
-    public User fromJSONServer(JSONObject response) throws JSONException {
+
+    public String getFullName(){
+        // returns the full name of this user object
+        return this.fName + " " + this.lName;
+    }
+
+    public String getFullNameFormal(){
+        // returns the full name of this user object
+        return this.lName + ", " + this.fName;
+    }
+
+    public static User fromJSONServer(JSONObject response) throws JSONException {
         User user = new User();
 
         // populate this new user
@@ -45,9 +56,9 @@ public class User {
             user.dobMonth = Integer.parseInt(date.substring(0,2));
             user.dobYear = Integer.parseInt(date.substring(6,10));
         } catch (Exception e) {
-            user.dobDay = Integer.parseInt(null);
-            user.dobMonth = Integer.parseInt(null);
-            user.dobYear = Integer.parseInt(null);
+            user.dobDay = Integer.MIN_VALUE;
+            user.dobMonth = Integer.MIN_VALUE;
+            user.dobYear = Integer.MIN_VALUE;
         }
 
         user.location = response.getString("location");

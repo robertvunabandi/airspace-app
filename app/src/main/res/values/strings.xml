@@ -7,6 +7,8 @@
     <string name="cancel">cancel</string>
     <string name="ok">ok</string>
     <string name="dialog_title">Is this your flight?</string>
+    <string name="temporary_user_id_new">5976c1889f84447e655cf4da</string>
+    <string name="temporary_user_id_old">596d0b5626bffc280b32187e</string>
 
 
     <!-- Add this to class:

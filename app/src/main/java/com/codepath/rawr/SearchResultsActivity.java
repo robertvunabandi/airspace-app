@@ -1,5 +1,6 @@
 package com.codepath.rawr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,34 +23,32 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class SearchResultsActivity extends AppCompatActivity {
+    // for debugging
+    public static final String TAG = "SearchResultsActivity";
 
+    // for results
+    private static int CODE_SENDER_FORM_ACTIVITY = 1;
 
-    // Database url
+    // Database url and server stuff
     public String[] DB_URLS;
-
-    // Declaring client
     AsyncHttpClient client;
-
-    RecyclerView rvSearchResults;
-    SearchResultAdapter searchResultAdapter;
-    ArrayList<TravelNotice> mSearchResults;
     String from;
     String to;
     int month_by;
     int day_by;
     int year_by;
 
-
+    RecyclerView rvSearchResults;
+    SearchResultAdapter searchResultAdapter;
+    ArrayList<TravelNotice> mSearchResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
 
-        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
-
+        DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
         client = new AsyncHttpClient();
-
 
         // get extras from intent
         from = getIntent().getExtras().getString("from");
@@ -65,35 +64,28 @@ public class SearchResultsActivity extends AppCompatActivity {
         rvSearchResults.setLayoutManager(new LinearLayoutManager(this));
         rvSearchResults.setAdapter(searchResultAdapter);
 
+        // make the search call
         getData();
-
     }
 
-
+    // populate the recycler view
     private void populateList(JSONArray travelNoticeList) {
         for (int i = 0; i < travelNoticeList.length(); i++) {
             try {
                 TravelNotice travelNotice = TravelNotice.fromJSONServer(travelNoticeList.getJSONObject(i));
                 mSearchResults.add(travelNotice);
                 searchResultAdapter.notifyItemInserted(mSearchResults.size() - 1);
-                // Toast.makeText(this, String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 Log.e("E", String.format("Error occured in JSON parsing"));
                 e.printStackTrace();
-                Toast.makeText(this, String.format("%s", e), Toast.LENGTH_LONG).show();
+                Intent data = new Intent();
+                data.putExtra("message", "Error while parsing JSON in populateList method");
+                setResult(RESULT_CANCELED, data); finish();
             }
         }
     }
 
-
-
-
-
     private void getData() {
-
-        // Temporary tuid
-        String traveler_id = "596d0b5626bffc280b32187e";
-
         // Set the request parameters
         RequestParams params = new RequestParams();
         params.put("to", to);
@@ -101,39 +93,45 @@ public class SearchResultsActivity extends AppCompatActivity {
         params.put("day_by", day_by);
         params.put("month_by", month_by);
         params.put("year_by", year_by);
-
-
         client.get(DB_URLS[0] + "/travels", params, new JsonHttpResponseHandler() {
-
-            // implement endpoint here
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 searchResultAdapter.clear();
-
                 try {
                     populateList(response.getJSONArray("data"));
-                    // Toast.makeText(getBaseContext(), String.format("%s", response), Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
+                    Log.e(TAG, String.format("CODE: %s ERROR(JSON): %s", statusCode, e));
                 }
             }
 
             @Override
-            public void onFailure ( int statusCode, Header[] headers, Throwable throwable, JSONObject
-                    errorResponse){
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e(TAG, String.format("CODE: %s ERROR(1): %s", statusCode, errorResponse));
                 Toast.makeText(getBaseContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
             }
 
             @Override
-            public void onFailure ( int statusCode, Header[] headers, Throwable throwable, JSONArray
-                    errorResponse){
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.e(TAG, String.format("CODE: %s ERROR(2): %s", statusCode, errorResponse));
                 Toast.makeText(getBaseContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure ( int statusCode, Header[] headers, String responseString, Throwable
-                    throwable){
-                Toast.makeText(getBaseContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e(TAG, String.format("CODE: %s ERROR(3): %s", statusCode, responseString));
+                Toast.makeText(getBaseContext(), String.format("error 3 %s", responseString), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == CODE_SENDER_FORM_ACTIVITY) {
+            // success, pass onto it the intent data, which should contain a "message" saying something
+            setResult(RESULT_OK, data); finish();
+        } else if (resultCode == RESULT_CANCELED && requestCode == CODE_SENDER_FORM_ACTIVITY) {
+            // failure, pass onto it the intent data, which should contain a "message" saying something
+            setResult(RESULT_CANCELED, data); finish();
+        }
     }
 }
