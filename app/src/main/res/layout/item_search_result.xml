@@ -186,6 +186,13 @@
                 android:text="large boxes" />
 
             <CheckBox
+                android:id="@+id/cb_fragile_isr"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cb_largeBox_isr"
+                android:text="fragile" />
+
+            <CheckBox
                 android:id="@+id/cb_smallBox_isr"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
@@ -199,6 +206,14 @@
                 android:layout_alignBaseline="@+id/cb_largeBox_isr"
                 android:layout_toRightOf="@+id/cb_largeBox_isr"
                 android:text="clothing items" />
+
+            <CheckBox
+                android:id="@+id/cb_liquids_isr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cb_clothing_isr"
+                android:layout_toRightOf="@+id/cb_fragile_isr"
+                android:text="liquids" />
 
             <CheckBox
                 android:id="@+id/cb_other_isr"
