@@ -25,8 +25,6 @@ import cz.msebera.android.httpclient.Header;
 public class SearchResultsActivity extends AppCompatActivity {
     // for debugging
     public static final String TAG = "SearchResultsActivity";
-    // for results
-    private static final int CODE_SENDER_FORM_ACTIVITY = 1;
     // Database url and server stuff
     public String[] DB_URLS;
     AsyncHttpClient client;

@@ -174,7 +174,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                             Intent i = new Intent(context, SenderFormActivity.class);
                             i.putExtra("action", 0);
                             i.putExtra("travel_notice_id", mTrips.get(pos).id);
-                            i.putExtra("ruid", context.getString(R.string.temporary_user_id_new));
+                            i.putExtra("ruid", RawrApp.getUsingUserId());
                             i.putExtra("tuid", mTrips.get(pos).tuid);
                             ((Activity) context).startActivityForResult(i, RawrApp.CODE_REQUESTER_FORMS_ACTIVITY);
                             // context.startActivity(i);
@@ -186,7 +186,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                             Intent i = new Intent(context, ReceiverFormActivity.class);
                             i.putExtra("action", 1);
                             i.putExtra("travel_notice_id", mTrips.get(pos).id);
-                            i.putExtra("ruid", context.getString(R.string.temporary_user_id_new));
+                            i.putExtra("ruid", RawrApp.getUsingUserId());
                             i.putExtra("tuid", mTrips.get(pos).tuid);
                             // converts context into activity and starts the activity for result
                             ((Activity) context).startActivityForResult(i, RawrApp.CODE_REQUESTER_FORMS_ACTIVITY);

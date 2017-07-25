@@ -46,10 +46,6 @@ public class SendReceiveFragment extends Fragment {
     // for results
     private static final int CODE_SENDER_FORM_ACTIVITY = 1;
 
-    // Temporary tuid
-    public String traveler_id;
-
-
     // Declaring variables for Pending Requests
     ShippingPendingRequestsAdapter shippingPendingRequestsAdapter;
     ArrayList<ShippingRequest> mPendingRqs;
@@ -69,7 +65,6 @@ public class SendReceiveFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
-        traveler_id = getResources().getString(R.string.temporary_user_id_new);
         getRequestsData();
     }
 
@@ -189,7 +184,7 @@ public class SendReceiveFragment extends Fragment {
 
         // Set the request parameters
         RequestParams params = new RequestParams();
-        params.put("uid", traveler_id);
+        params.put("uid", RawrApp.getUsingUserId());
 
         client.get(DB_URLS[0] + "/request_get_my", params, new JsonHttpResponseHandler() {
             // implement endpoint here
