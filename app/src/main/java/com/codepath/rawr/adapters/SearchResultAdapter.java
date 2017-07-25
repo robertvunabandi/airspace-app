@@ -143,15 +143,15 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             erl_info = (ExpandableRelativeLayout) itemView.findViewById(R.id.erl_info);
 
             rlCheckBoxes = (RelativeLayout) itemView.findViewById(R.id.rlCheckBoxes);
-            cb_envelope_isr = (CheckBox) itemView.findViewById(R.id.cb_envelope_isr);
-            cb_largeBox_isr = (CheckBox) itemView.findViewById(R.id.cb_largeBox_isr);
-            cb_smallBox_isr = (CheckBox) itemView.findViewById(R.id.cb_smallBox_isr);
-            cb_clothing_isr = (CheckBox) itemView.findViewById(R.id.cb_clothing_isr);
+            cb_envelope_isr = (CheckBox) itemView.findViewById(R.id.cb_envelope);
+            cb_largeBox_isr = (CheckBox) itemView.findViewById(R.id.cb_largeBox);
+            cb_smallBox_isr = (CheckBox) itemView.findViewById(R.id.cb_smallBox);
+            cb_clothing_isr = (CheckBox) itemView.findViewById(R.id.cb_clothing);
             cb_other_isr = (CheckBox) itemView.findViewById(R.id.cb_other_isr);
-            cb_fragile_isr = (CheckBox) itemView.findViewById(R.id.cb_fragile_isr);
+            cb_fragile_isr = (CheckBox) itemView.findViewById(R.id.cb_fragile);
             cb_liquids_isr = (CheckBox) itemView.findViewById(R.id.cb_liquids_isr);
 
-            tv_dropoff = (TextView) itemView.findViewById(R.id.tv_dropoff_isr);
+            tv_dropoff = (TextView) itemView.findViewById(R.id.tv_dropoff);
             tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup_isr);
 
             btn_request_isr = (Button) itemView.findViewById(R.id.btn_request_isr);

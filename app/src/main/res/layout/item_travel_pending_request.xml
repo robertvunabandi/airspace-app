@@ -139,7 +139,7 @@
         android:layout_toEndOf="@+id/tv_itemTitle" />
 
     <TextView
-        android:id="@+id/tv_requestTimeTitle"
+        android:id="@+id/tv_requestDateTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Requested by:"
@@ -152,8 +152,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_itemTitle"
-        android:layout_toEndOf="@+id/tv_requestTimeTitle"
-        android:layout_toRightOf="@+id/tv_requestTimeTitle"
+        android:layout_toEndOf="@+id/tv_requestDateTitle"
+        android:layout_toRightOf="@+id/tv_requestDateTitle"
         android:text="Jamie Oliver" />
 
     <Button
@@ -162,9 +162,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="accept"
-        android:layout_below="@+id/tv_requestTimeTitle"
-        android:layout_alignLeft="@+id/tv_requestTimeTitle"
-        android:layout_alignStart="@+id/tv_requestTimeTitle"
+        android:layout_below="@+id/tv_requestDateTitle"
+        android:layout_alignLeft="@+id/tv_requestDateTitle"
+        android:layout_alignStart="@+id/tv_requestDateTitle"
         android:layout_alignBottom="@+id/tv_airlineNo" />
 
     <Button
@@ -172,7 +172,7 @@
         style="@android:style/Widget.Holo.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_requestTimeTitle"
+        android:layout_below="@+id/tv_requestDateTitle"
         android:layout_toEndOf="@+id/bt_accept"
         android:layout_toRightOf="@+id/bt_accept"
         android:text="decline"
