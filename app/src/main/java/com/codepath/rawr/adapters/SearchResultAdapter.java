@@ -1,5 +1,6 @@
 package com.codepath.rawr.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,15 +28,14 @@ import java.util.List;
 /**
  * Created by rdicker on 7/21/17.
  */
-
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 
-    String usingUserId = "596d0b5626bffc280b32187e";
+    String usingUserId = "5976c20e6e11f97eb93d8867";
+    private static int CODE_SENDER_FORM_ACTIVITY = 1;
 
     // declare variables
     private List<TravelNotice> mTrips;
     Context context;
-
 
     public SearchResultAdapter(List<TravelNotice> trips){
         mTrips = trips;
@@ -46,46 +46,37 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
+
         View tripView = inflater.inflate(R.layout.item_search_result, parent, false);
         ViewHolder viewHolder = new ViewHolder(tripView) {
         };
         return viewHolder;
     }
 
-
-
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         TravelNotice trip = mTrips.get(position);
 
-
         holder.tvName.setText(trip.tuid + "'s Trip:");
-
         holder.tv_from_isr.setText(trip.dep_iata);
         holder.tv_to_isr.setText(trip.arr_iata);
-
         holder.tv_dateFrom_isr.setText(trip.getDepartureDaySimple());
         holder.tv_dateTo_isr.setText(trip.getArrivalDaySimple());
-
         holder.tv_fromTime_isr.setText(trip.getDepartureTime());
         holder.tv_toTime_isr.setText(trip.getArrivalTime());
-
         holder.cb_envelope_isr.setChecked(trip.item_envelopes);
         holder.cb_largeBox_isr.setChecked(trip.item_lgbox);
         holder.cb_smallBox_isr.setChecked(trip.item_smbox);
         holder.cb_clothing_isr.setChecked(trip.item_clothing);
         holder.cb_other_isr.setChecked(trip.item_other);
-
         holder.cb_envelope_isr.setEnabled(false);
         holder.cb_largeBox_isr.setEnabled(false);
         holder.cb_smallBox_isr.setEnabled(false);
         holder.cb_clothing_isr.setEnabled(false);
         holder.cb_other_isr.setEnabled(false);
-
         holder.tv_dropoff.setText(trip.drop_off_flexibility);
         holder.tv_pickup.setText(trip.pick_up_flexibility);
-
         holder.ivToggleInfo.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -99,17 +90,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         });
     }
 
-
-
     @Override
     public int getItemCount() {
         return mTrips.size();
     }
-
-
-
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -136,9 +120,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public TextView tv_pickup;
 
         public Button btn_request_isr;
-        public Button btn_askQ_isr;
-
-
 
 
         public ViewHolder(View itemView) {
@@ -167,14 +148,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup_isr);
 
             btn_request_isr = (Button) itemView.findViewById(R.id.btn_request_isr);
-            btn_askQ_isr = (Button) itemView.findViewById(R.id.btn_askQ_isr);
 
             btn_request_isr.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     final int pos = getAdapterPosition();
-                    // Intent i = new Intent(context, RequestActivity.class);
-                    // context.startActivity(i);
                     // 1. Instantiate an AlertDialog.Builder with its constructor
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage("Are you a sender or a receiver?")
@@ -188,7 +166,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                             i.putExtra("travel_notice_id", mTrips.get(pos).id);
                             i.putExtra("ruid", usingUserId);
                             i.putExtra("tuid", mTrips.get(pos).tuid);
-                            context.startActivity(i);
+                            ((Activity) context).startActivityForResult(i, CODE_SENDER_FORM_ACTIVITY);
+                            // context.startActivity(i);
                         }
                     });
                     builder.setNegativeButton("receiver", new DialogInterface.OnClickListener() {
@@ -199,25 +178,17 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                             i.putExtra("travel_notice_id", mTrips.get(pos).id);
                             i.putExtra("ruid", usingUserId);
                             i.putExtra("tuid", mTrips.get(pos).tuid);
-                            context.startActivity(i);
+                            // converts context into activity and starts the activity for result
+                            ((Activity) context).startActivityForResult(i, CODE_SENDER_FORM_ACTIVITY);
+                            // context.startActivity(i);
                         }
                     });
 
+                    // show the dialog
                     AlertDialog dialog = builder.create();
                     dialog.show();
-
                 }
             });
-
-            btn_askQ_isr.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    // Intent i = new Intent(context, NewConversationActivity.class);
-                    // context.startActivity(i);
-                }
-            });
-
         }
     }
 

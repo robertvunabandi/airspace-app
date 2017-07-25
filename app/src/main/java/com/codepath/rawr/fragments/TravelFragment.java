@@ -86,7 +86,7 @@ public class TravelFragment extends Fragment {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
         getTripsData();
-        getRequestsData();
+        getRequestId();
     }
 
     @Override
@@ -368,20 +368,21 @@ public class TravelFragment extends Fragment {
         });
     }
 
-    // get data for list of trips
-    private void getRequestsData() {
+    // get list of request IDs & call on method to get list of requests
+    private void getRequestId() {
         // Set the request parameters
         RequestParams params = new RequestParams();
 
         client.get(DB_URLS[0] + "/requests_get_to_me", params, new JsonHttpResponseHandler() {
             // implement endpoint here
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                travelPendingRequestsAdapter.clear();
-
                 try {
-                    populateList(response.getJSONArray("data"));
+                    getRequestData(response.getJSONArray("data"));
+
                 } catch (JSONException e) {
+
                 }
             }
 
@@ -403,5 +404,48 @@ public class TravelFragment extends Fragment {
                 Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    // method that gets request data
+    private void getRequestData(JSONArray requestId) {
+
+        for (int i = 0; i < requestId.length(); i++) {
+            // Set the request parameters
+            RequestParams params = new RequestParams();
+            try {
+                params.put("request_id", requestId.getString(i));
+                client.get(DB_URLS[0] + "/requests_get", params, new JsonHttpResponseHandler() {
+                    // implement endpoint here
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        try {
+                            response.getJSONObject("request_id");
+                        } catch (JSONException e) {
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
+                            errorResponse) {
+                        Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
+                            errorResponse) {
+                        Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
+                            throwable) {
+                        Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
