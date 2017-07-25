@@ -41,8 +41,6 @@ import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-
 
 public class TravelFragment extends Fragment {
 
@@ -67,6 +65,9 @@ public class TravelFragment extends Fragment {
     private int flightYear;
     private int flightMonth;
     private int flightDay;
+
+    // Tag for debugging
+    public final static String TAG = "TravelFragment";
 
     // Declaring variables for list of trips
     UpcomingTripAdapter upcomingTripAdapter;
@@ -287,6 +288,7 @@ public class TravelFragment extends Fragment {
 
     }
 
+    // Dialog asking for additional details
     public void addDetailsDialog(final String travelNoticeId, final String tuid) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage("Would you like to add details to your travel notice?")
@@ -340,8 +342,7 @@ public class TravelFragment extends Fragment {
             // implement endpoint here
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                upcomingTripAdapter.clear();
-
+//                upcomingTripAdapter.clear();
                 try {
                     populateList(response.getJSONArray("data"));
                 } catch (JSONException e) {
@@ -372,15 +373,17 @@ public class TravelFragment extends Fragment {
     private void getRequestId() {
         // Set the request parameters
         RequestParams params = new RequestParams();
+        params.put("uid", getString(R.string.temporary_user_id_old));
 
-        client.get(DB_URLS[0] + "/requests_get_to_me", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/request_get_to_me", params, new JsonHttpResponseHandler() {
             // implement endpoint here
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     getRequestData(response.getJSONArray("data"));
-
+                    Toast.makeText(getContext(), String.format("%s", response), Toast.LENGTH_LONG).show();
+                    Log.e(TAG, String.format("%s", response));
                 } catch (JSONException e) {
 
                 }
@@ -389,38 +392,49 @@ public class TravelFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
                     errorResponse) {
+                Log.e(TAG, String.format("%s", errorResponse));
                 Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
                     errorResponse) {
+                Log.e(TAG, String.format("%s", errorResponse));
+
                 Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
                     throwable) {
+                Log.e(TAG, String.format("%s", responseString));
+
                 Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     // method that gets request data
-    private void getRequestData(JSONArray requestId) {
+    private void getRequestData(final JSONArray requestId) {
 
         for (int i = 0; i < requestId.length(); i++) {
             // Set the request parameters
             RequestParams params = new RequestParams();
             try {
                 params.put("request_id", requestId.getString(i));
-                client.get(DB_URLS[0] + "/requests_get", params, new JsonHttpResponseHandler() {
+                client.get(DB_URLS[0] + "/request_get", params, new JsonHttpResponseHandler() {
                     // implement endpoint here
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
+                            final ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
                             response.getJSONObject("request_id");
+                            mRequests.add(sr);
+                            travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
+                            Toast.makeText(getContext(), String.format("%s", response), Toast.LENGTH_LONG).show();
+                            Log.e(TAG, String.format("%s", response));
                         } catch (JSONException e) {
+
                         }
                     }
 
