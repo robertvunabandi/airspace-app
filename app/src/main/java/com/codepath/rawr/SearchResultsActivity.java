@@ -27,7 +27,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     public static final String TAG = "SearchResultsActivity";
 
     // for results
-    private static int CODE_SENDER_FORM_ACTIVITY = 1;
+    private static final int CODE_SENDER_FORM_ACTIVITY = 1;
 
     // Database url and server stuff
     public String[] DB_URLS;
@@ -128,9 +128,11 @@ public class SearchResultsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == CODE_SENDER_FORM_ACTIVITY) {
             // success, pass onto it the intent data, which should contain a "message" saying something
+            Log.e(TAG, "Snackbar should be show in success SearchResultActivity");
             setResult(RESULT_OK, data); finish();
         } else if (resultCode == RESULT_CANCELED && requestCode == CODE_SENDER_FORM_ACTIVITY) {
             // failure, pass onto it the intent data, which should contain a "message" saying something
+            Log.e(TAG, "Snackbar should be show in error in SearchResultActivity");
             setResult(RESULT_CANCELED, data); finish();
         }
     }
