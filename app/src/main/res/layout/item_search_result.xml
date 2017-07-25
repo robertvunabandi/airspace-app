@@ -173,53 +173,53 @@
             android:layout_height="wrap_content">
 
             <CheckBox
-                android:id="@+id/cb_envelope_isr"
+                android:id="@+id/cb_envelope"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="envelopes" />
 
             <CheckBox
-                android:id="@+id/cb_largeBox_isr"
+                android:id="@+id/cb_largeBox"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cb_envelope_isr"
+                android:layout_below="@+id/cb_envelope"
                 android:text="large boxes" />
 
             <CheckBox
-                android:id="@+id/cb_fragile_isr"
+                android:id="@+id/cb_fragile"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cb_largeBox_isr"
+                android:layout_below="@+id/cb_largeBox"
                 android:text="fragile" />
 
             <CheckBox
-                android:id="@+id/cb_smallBox_isr"
+                android:id="@+id/cb_smallBox"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/cb_envelope_isr"
+                android:layout_toRightOf="@+id/cb_envelope"
                 android:text="small boxes" />
 
             <CheckBox
-                android:id="@+id/cb_clothing_isr"
+                android:id="@+id/cb_clothing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/cb_largeBox_isr"
-                android:layout_toRightOf="@+id/cb_largeBox_isr"
+                android:layout_alignBaseline="@+id/cb_largeBox"
+                android:layout_toRightOf="@+id/cb_largeBox"
                 android:text="clothing items" />
 
             <CheckBox
                 android:id="@+id/cb_liquids_isr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/cb_clothing_isr"
-                android:layout_toRightOf="@+id/cb_fragile_isr"
+                android:layout_below="@id/cb_clothing"
+                android:layout_toRightOf="@+id/cb_fragile"
                 android:text="liquids" />
 
             <CheckBox
                 android:id="@+id/cb_other_isr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/cb_smallBox_isr"
+                android:layout_toRightOf="@+id/cb_smallBox"
                 android:text="others" />
         </RelativeLayout>
 
@@ -232,7 +232,7 @@
 
             <!-- flexibility drop off -->
             <TextView
-                android:id="@+id/tv_dropoff_label_isr"
+                android:id="@+id/tv_dropoff_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -241,22 +241,22 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_dropoff_isr"
+                android:id="@+id/tv_dropoff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_dropoff_label_isr"
+                android:layout_below="@+id/tv_dropoff_label"
                 android:textSize="14sp" />
 
             <!-- flexibility pick up -->
             <TextView
-                android:id="@+id/tv_pickup_label_isr"
+                android:id="@+id/tv_pickup_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_dropoff_isr"
+                android:layout_below="@+id/tv_dropoff"
                 android:text="Pick-Up Flexibility"
                 android:textStyle="bold" />
 
@@ -266,7 +266,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_pickup_label_isr"
+                android:layout_below="@+id/tv_pickup_label"
                 android:textSize="14sp" />
 
         </RelativeLayout>
