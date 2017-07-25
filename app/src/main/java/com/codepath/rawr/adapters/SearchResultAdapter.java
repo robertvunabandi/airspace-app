@@ -75,6 +75,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.cb_smallBox_isr.setEnabled(false);
         holder.cb_clothing_isr.setEnabled(false);
         holder.cb_other_isr.setEnabled(false);
+        holder.cb_fragile_isr.setEnabled(false);
+        holder.cb_liquids_isr.setEnabled(false);
         holder.tv_dropoff.setText(trip.drop_off_flexibility);
         holder.tv_pickup.setText(trip.pick_up_flexibility);
         holder.ivToggleInfo.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +117,9 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public CheckBox cb_smallBox_isr;
         public CheckBox cb_clothing_isr;
         public CheckBox cb_other_isr;
+        public CheckBox cb_fragile_isr;
+        public CheckBox cb_liquids_isr;
+
 
         public TextView tv_dropoff;
         public TextView tv_pickup;
@@ -143,6 +148,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             cb_smallBox_isr = (CheckBox) itemView.findViewById(R.id.cb_smallBox_isr);
             cb_clothing_isr = (CheckBox) itemView.findViewById(R.id.cb_clothing_isr);
             cb_other_isr = (CheckBox) itemView.findViewById(R.id.cb_other_isr);
+            cb_fragile_isr = (CheckBox) itemView.findViewById(R.id.cb_fragile_isr);
+            cb_liquids_isr = (CheckBox) itemView.findViewById(R.id.cb_liquids_isr);
 
             tv_dropoff = (TextView) itemView.findViewById(R.id.tv_dropoff_isr);
             tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup_isr);

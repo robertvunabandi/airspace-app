@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.codepath.rawr.R;
 import com.codepath.rawr.SearchResultsActivity;
@@ -23,35 +25,29 @@ import com.codepath.rawr.adapters.ShippingPendingRequestsAdapter;
 import com.codepath.rawr.models.ShippingRequest;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import cz.msebera.android.httpclient.Header;
+
+import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+
 public class SendReceiveFragment extends Fragment {
 
-    // Database url
-    public final static String DB_HEROKU_URL = "http://mysterious-headland-54722.herokuapp.com";
-    public final static String DB_LOCAL_URL = "http://172.22.8.106:3000";
-    public final static String[] DB_URLS = {DB_HEROKU_URL, DB_LOCAL_URL};
-
-    // base URL for API
-    public final static String API_BASE_URL = "https://api.flightstats.com/flex/schedules/rest";
-    // parameter name for API key
-    public final static String APP_KEY_PARAM = "appKey";
-    public final static String APP_ID_PARAM = "appId";
-
-    // Declaring client
     AsyncHttpClient client;
+    public String[] DB_URLS;
 
     // Temporary tuid
     String traveler_id = "596d0b5626bffc280b32187e";
-
-
-
-
 
 
     // Declaring variables for Pending Requests
@@ -65,11 +61,6 @@ public class SendReceiveFragment extends Fragment {
     RecyclerView rv_acceptedRequests;
 
 
-
-
-
-
-
     public SendReceiveFragment() {
         // Required empty public constructor
     }
@@ -79,6 +70,8 @@ public class SendReceiveFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
+        DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
+
         getRequestsData();
     }
 
@@ -87,6 +80,7 @@ public class SendReceiveFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_send_receive, container, false);
 
+        // instantiate views in layout
         final EditText et_from = (EditText) v.findViewById(R.id.et_from);
         final EditText et_to = (EditText) v.findViewById(R.id.et_to);
         final EditText et_date = (EditText) v.findViewById(R.id.et_date);
@@ -162,18 +156,12 @@ public class SendReceiveFragment extends Fragment {
         });
 
 
-
-
-
         // Stuff for Pending Requests
         mPendingRqs = new ArrayList<>();
         shippingPendingRequestsAdapter = new ShippingPendingRequestsAdapter(mPendingRqs);
         rv_pendingRequests = (RecyclerView) v.findViewById(R.id.rv_pending_requests);
         rv_pendingRequests.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_pendingRequests.setAdapter(shippingPendingRequestsAdapter);
-
-
-
 
 
         // stuff for Accepted Requests
@@ -184,36 +172,21 @@ public class SendReceiveFragment extends Fragment {
         rv_acceptedRequests.setAdapter(shippingAcceptedRequestsAdapter);
 
 
-
-
-
-
-
-
-
-
         return v;
     }
 
 
-
-
-
-
-
-
-
-
-
     // get data for list of trips
     private void getRequestsData() {
+
+        client = new AsyncHttpClient();
+
         // Set the request parameters
         RequestParams params = new RequestParams();
         params.put("uid", traveler_id);
 
-        /*
 
-        client.get(DB_URLS[0] + "/requests_get_my", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/request_get_my", params, new JsonHttpResponseHandler() {
 
             // implement endpoint here
             @Override
@@ -244,25 +217,61 @@ public class SendReceiveFragment extends Fragment {
                     throwable) {
                 Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
             }
-        });   */
+        });
     }
 
-/*
-    private void populateList(JSONArray requestsList) {
+
+    private void populateList(final JSONArray requestsList) {
+
+
         for (int i = 0; i < requestsList.length(); i++) {
             try {
-                ShippingRequest shippingRequest = ShippingRequest.fromJSONServer(requestsList.getJSONObject(i), );
 
-                if (shippingRequest.isAccepted()) {
-                    mAcceptedRqs.add(shippingRequest);
-                    shippingAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRqs.size() - 1);
-                }
-                else {
-                    mPendingRqs.add(shippingRequest);
-                    shippingPendingRequestsAdapter.notifyItemInserted(mPendingRqs.size() - 1);
-                    shippingPendingRequestsAdapter.notifyItemInserted(mPendingRqs.size() - 1);
-                }
-                // Toast.makeText(getContext(), String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
+                // getting the travel notice ID
+                RequestParams params = new RequestParams();
+                params.put("travel_notice_id", requestsList.getJSONObject(i).getString("travel_notice_id"));
+                final int finalI = i;
+                client.get(DB_URLS[0] + "/travel_notice_get", params, new JsonHttpResponseHandler() {
+
+                    // implement endpoint here
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        try {
+                            ShippingRequest shippingRequest = ShippingRequest.fromJSONServer(requestsList.getJSONObject(finalI), response.getJSONObject("data"));
+
+                            if (shippingRequest.isAccepted()) {
+                                mAcceptedRqs.add(shippingRequest);
+                                shippingAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRqs.size() - 1);
+                            } else {
+                                mPendingRqs.add(shippingRequest);
+                                shippingPendingRequestsAdapter.notifyItemInserted(mPendingRqs.size() - 1);
+                            }
+                            // Toast.makeText(getContext(), String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
+
+                        } catch (JSONException e) {
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
+                            errorResponse) {
+                        Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
+                            errorResponse) {
+                        Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
+                            throwable) {
+                        Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+                    }
+
+                });
+
 
             } catch (JSONException e) {
                 Log.e(TAG, String.format("Error occurred in JSON parsing"));
@@ -270,5 +279,5 @@ public class SendReceiveFragment extends Fragment {
                 Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
             }
         }
-    }*/
+    }
 }
