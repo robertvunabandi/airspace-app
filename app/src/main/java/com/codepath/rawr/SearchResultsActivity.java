@@ -25,10 +25,8 @@ import cz.msebera.android.httpclient.Header;
 public class SearchResultsActivity extends AppCompatActivity {
     // for debugging
     public static final String TAG = "SearchResultsActivity";
-
     // for results
-    private static int CODE_SENDER_FORM_ACTIVITY = 1;
-
+    private static final int CODE_SENDER_FORM_ACTIVITY = 1;
     // Database url and server stuff
     public String[] DB_URLS;
     AsyncHttpClient client;
@@ -37,7 +35,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     int month_by;
     int day_by;
     int year_by;
-
+    // recycler view stuffs
     RecyclerView rvSearchResults;
     SearchResultAdapter searchResultAdapter;
     ArrayList<TravelNotice> mSearchResults;
@@ -46,29 +44,26 @@ public class SearchResultsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
-
+        // initialize DB variables
         DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
         client = new AsyncHttpClient();
-
         // get extras from intent
         from = getIntent().getExtras().getString("from");
         to = getIntent().getExtras().getString("to");
         month_by = getIntent().getExtras().getInt("month");
         day_by = getIntent().getExtras().getInt("dayOfMonth");
         year_by = getIntent().getExtras().getInt("year");
-
         // find the RecyclerView
         mSearchResults = new ArrayList<>();
         searchResultAdapter = new SearchResultAdapter(mSearchResults);
         rvSearchResults = (RecyclerView) findViewById(R.id.rvSearchResults);
         rvSearchResults.setLayoutManager(new LinearLayoutManager(this));
         rvSearchResults.setAdapter(searchResultAdapter);
-
         // make the search call
         getData();
     }
 
-    // populate the recycler view
+    // populates the recycler view
     private void populateList(JSONArray travelNoticeList) {
         for (int i = 0; i < travelNoticeList.length(); i++) {
             try {
@@ -93,11 +88,13 @@ public class SearchResultsActivity extends AppCompatActivity {
         params.put("day_by", day_by);
         params.put("month_by", month_by);
         params.put("year_by", year_by);
+        // make a call to Server to return a list of travels that matches the search
         client.get(DB_URLS[0] + "/travels", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 searchResultAdapter.clear();
                 try {
+                    // on result, populate the recyclerview with this list of datas
                     populateList(response.getJSONArray("data"));
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("CODE: %s ERROR(JSON): %s", statusCode, e));

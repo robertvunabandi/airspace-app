@@ -44,9 +44,8 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         holder.tv_toTime.setText(singleRequest.tvl.getArrivalTime());
         holder.tv_airlineCode.setText(singleRequest.tvl.airline);
         holder.tv_airlineNo.setText(singleRequest.tvl.flight_num);
-//
-//        holder.tv_item.setText(singleRequest.getShippingItemName());
-//        holder.tv_requester.setText(singleRequest.getRequesterName());
+        holder.tv_item.setText(singleRequest.getShippingItemName());
+        holder.tv_requester.setText(singleRequest.getRequesterName());
 
     }
 

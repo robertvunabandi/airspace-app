@@ -10,14 +10,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.codepath.rawr.adapters.MainPagerAdapter;
+import com.codepath.rawr.fragments.SendReceiveFragment;
 
 public class MainActivity extends AppCompatActivity {
+    // setting up the vire pager for fragments
     public ViewPager vpPager;
     public MainPagerAdapter pagerAdapter;
     public CoordinatorLayout parentLayout;
     Context context;
 
-    private static int CODE_SENDER_FORM_ACTIVITY = 1;
+    private static final String TAG = "MainActivity";
+    private static final int CODE_SENDER_FORM_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO - set the images of the fragments
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_android);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_android);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_android);
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -48,11 +55,13 @@ public class MainActivity extends AppCompatActivity {
             // success snackbar
             Snackbar.make(parentLayout, "Your request has been sent.", Snackbar.LENGTH_LONG).show();
             // TODO - uncomment the line below and implement "clearViews()" and "refreshPending()" methods
-            // ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).clearViews();
-            // ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).refreshPending();
+            ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).clearViews();
+            ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).refreshRequests();
         } else if (resultCode == RESULT_CANCELED && requestCode == CODE_SENDER_FORM_ACTIVITY) {
             // failure snackbar
-            Snackbar.make(parentLayout, String.format("THE FOLLOWING ERROR OCCURRED: %s", data.getStringExtra("message")), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(parentLayout, String.format("THE FOLLOWING ERROR OCCURRED: %s", data.getStringExtra("message")), Snackbar.LENGTH_INDEFINITE).show();
+            // clear the texts so that we're back to nothing
+            ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).clearViews();
         }
     }
 }
