@@ -80,7 +80,7 @@ public class TravelFragment extends Fragment {
     // Declaring variables for list of pending requests
     TravelPendingRequestsAdapter travelPendingRequestsAdapter;
     ArrayList<ShippingRequest> mRequests;
-    RecyclerView rv_requests;
+    RecyclerView rv_pending_requests;
 
     // Declaring variables for list of accepted requests
     TravelAcceptedRequestsAdapter travelAcceptedRequestsAdapter;
@@ -126,6 +126,7 @@ public class TravelFragment extends Fragment {
             @Override
             public void onRefresh() {
                 getTripsData();
+//                getRequestId();
             }
         });
 
@@ -218,10 +219,16 @@ public class TravelFragment extends Fragment {
         // setting up RecyclerView for list of pending requests
         mRequests = new ArrayList<>();
         travelPendingRequestsAdapter = new TravelPendingRequestsAdapter(mRequests);
-        rv_requests = (RecyclerView) v.findViewById(R.id.rv_requests);
-        rv_requests.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv_requests.setAdapter(travelPendingRequestsAdapter);
+        rv_pending_requests = (RecyclerView) v.findViewById(R.id.rv_pending_requests);
+        rv_pending_requests.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_pending_requests.setAdapter(travelPendingRequestsAdapter);
 
+        // setting up RecyclerView for list of pending requests
+        mAcceptedRequests = new ArrayList<>();
+        travelAcceptedRequestsAdapter = new TravelAcceptedRequestsAdapter(mAcceptedRequests);
+        rv_accepted_requests = (RecyclerView) v.findViewById(R.id.rv_accepted_requests);
+        rv_accepted_requests.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_accepted_requests.setAdapter(travelAcceptedRequestsAdapter);
 
         return v;
     }
@@ -412,6 +419,7 @@ public class TravelFragment extends Fragment {
                 } catch (JSONException e) {
 
                 }
+//                swipeContainer.setRefreshing(false);
             }
 
             @Override
@@ -461,6 +469,8 @@ public class TravelFragment extends Fragment {
                         } catch (JSONException e) {
                             Log.e(TAG, String.format("JSON Exception at request_get request_id: %s", e));
                         }
+//                        swipeContainer.setRefreshing(false);
+
                     }
 
                     @Override
