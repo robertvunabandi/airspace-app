@@ -8,20 +8,35 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.rawr.R;
+import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.models.ShippingRequest;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPendingRequestsAdapter.ViewHolder> {
 
     // declare variables
     static private List<ShippingRequest> mRequests;
     Context context;
+    AsyncHttpClient client;
+    public String[] DB_URLS;
 
     public TravelPendingRequestsAdapter(List<ShippingRequest> requests) {
         mRequests = requests;
+        client = new AsyncHttpClient();
+        RawrApp.getUsingUserId();
     }
 
     @Override
@@ -30,6 +45,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         LayoutInflater inflater = LayoutInflater.from(context);
         View requestsView = inflater.inflate(R.layout.item_travel_pending_request, parent, false);
         ViewHolder viewHolder = new ViewHolder(requestsView);
+        DB_URLS = new String[]{context.getString(R.string.DB_HEROKU_URL), context.getString(R.string.DB_LOCAL_URL)};
         return viewHolder;
     }
 
@@ -94,6 +110,92 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
 
             bt_accept = (Button) itemView.findViewById(R.id.bt_accept);
             bt_decline = (Button) itemView.findViewById(R.id.bt_decline);
+
+
+
+
+            // ACCEPT the request click listener
+            bt_accept.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    final int pos = getAdapterPosition();
+
+                    RequestParams params = new RequestParams();
+                    params.put("travel_notice_id", mRequests.get(pos).tvl.id);
+                    params.put("request_id",  mRequests.get(pos).id);
+                    params.put("traveler_id",  mRequests.get(pos).tvl.tuid);
+
+                    client.post(DB_URLS[0] + "/request_accept", params, new JsonHttpResponseHandler() {
+                        // implement endpoint here
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                            try {
+                                mRequests.set(pos, ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice")));
+                                Toast.makeText(context, String.format("%s", response), Toast.LENGTH_SHORT).show();
+                                notifyDataSetChanged();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                            Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }
+            });
+
+            // DECLINE the request click listener
+            bt_decline.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    final int pos = getAdapterPosition();
+
+                    RequestParams params = new RequestParams();
+                    params.put("travel_notice_id", mRequests.get(pos).tvl.id);
+                    params.put("request_id",  mRequests.get(pos).id);
+                    params.put("traveler_id",  mRequests.get(pos).tvl.tuid);
+
+                    client.post(DB_URLS[0] + "/request_decline", params, new JsonHttpResponseHandler() {
+                        // implement endpoint here
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            mRequests.remove(pos);
+                            Toast.makeText(context, String.format("%s", "DECLINED!"), Toast.LENGTH_SHORT).show();
+                            notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                            Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+
         }
     }
 
