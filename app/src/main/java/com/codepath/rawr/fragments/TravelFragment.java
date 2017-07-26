@@ -126,7 +126,7 @@ public class TravelFragment extends Fragment {
             @Override
             public void onRefresh() {
                 getTripsData();
-//                getRequestId();
+                getRequestId();
             }
         });
 
@@ -419,7 +419,7 @@ public class TravelFragment extends Fragment {
                 } catch (JSONException e) {
 
                 }
-//                swipeContainer.setRefreshing(false);
+                swipeContainer.setRefreshing(false);
             }
 
             @Override
@@ -469,7 +469,7 @@ public class TravelFragment extends Fragment {
                         } catch (JSONException e) {
                             Log.e(TAG, String.format("JSON Exception at request_get request_id: %s", e));
                         }
-//                        swipeContainer.setRefreshing(false);
+                        swipeContainer.setRefreshing(false);
 
                     }
 
