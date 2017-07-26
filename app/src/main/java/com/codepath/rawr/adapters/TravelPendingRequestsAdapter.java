@@ -131,8 +131,9 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                             try {
-                                mRequests.set(pos, ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice")));
-                                Toast.makeText(context, String.format("%s", response), Toast.LENGTH_SHORT).show();
+                                ShippingRequest newRequest = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
+                                mRequests.set(pos, newRequest);
+                                Toast.makeText(context, String.format("%s", "STATUS = " + newRequest.status + "    " + response), Toast.LENGTH_SHORT).show();
                                 notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -173,8 +174,9 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                         // implement endpoint here
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            int status = mRequests.get(pos).status;
                             mRequests.remove(pos);
-                            Toast.makeText(context, String.format("%s", "DECLINED!"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, String.format("%s", "DECLINED! Status = " + status), Toast.LENGTH_SHORT).show();
                             notifyDataSetChanged();
                         }
 
