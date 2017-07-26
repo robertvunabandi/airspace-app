@@ -62,13 +62,13 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
         holder.tv_item.setText(request.getShippingItemName());
         // holder.tv_requested_date.setText(request.tvl.getArrivalTime());
 
-        holder.cb_envelope.setChecked(request.tvl.item_envelopes);
-        holder.cb_largeBox.setChecked(request.tvl.item_lgbox);
-        holder.cb_smallBox.setChecked(request.tvl.item_smbox);
-        holder.cb_clothing.setChecked(request.tvl.item_clothing);
-        holder.cb_other.setChecked(request.tvl.item_other);
-        holder.cb_fragile.setChecked(request.tvl.item_fragile);
-        holder.cb_liquids.setChecked(request.tvl.item_liquid);
+        holder.cb_envelope.setChecked(request.item_envelopes);
+        holder.cb_largeBox.setChecked(request.item_lgbox);
+        holder.cb_smallBox.setChecked(request.item_smbox);
+        holder.cb_clothing.setChecked(request.item_clothing);
+        holder.cb_other.setChecked(request.item_other);
+        holder.cb_fragile.setChecked(request.item_fragile);
+        holder.cb_liquids.setChecked(request.item_liquid);
         holder.cb_envelope.setEnabled(false);
         holder.cb_largeBox.setEnabled(false);
         holder.cb_smallBox.setEnabled(false);
