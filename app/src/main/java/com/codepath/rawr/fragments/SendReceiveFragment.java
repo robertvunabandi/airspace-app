@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -51,6 +52,8 @@ public class SendReceiveFragment extends Fragment {
     ArrayList<ShippingRequest> mPendingRqs;
     RecyclerView rv_pendingRequests;
 
+    SwipeRefreshLayout swipeContainer;
+
     // Declaring variables for Accepted Requests
     ShippingAcceptedRequestsAdapter shippingAcceptedRequestsAdapter;
     ArrayList<ShippingRequest> mAcceptedRqs;
@@ -70,8 +73,21 @@ public class SendReceiveFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_send_receive, container, false);
+
+        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                getRequestsData();
+            }
+        });
 
         // instantiate views in layout
         final EditText et_from = (EditText) v.findViewById(R.id.et_from);
@@ -81,6 +97,7 @@ public class SendReceiveFragment extends Fragment {
         TextInputLayout dateWrapper = (TextInputLayout) v.findViewById(R.id.dateWrapper);
         final TextInputLayout til_from = (TextInputLayout) v.findViewById(R.id.til_from);
         TextInputLayout til_to = (TextInputLayout) v.findViewById(R.id.til_to);
+
 
         /*
         // Everything that follow in this comment is for the filters, which may be done as a stretch
@@ -197,6 +214,7 @@ public class SendReceiveFragment extends Fragment {
                 } catch (JSONException e) {
                     Toast.makeText(getContext(), "An error occurred while parsing the JSON Array", Toast.LENGTH_LONG).show();
                 }
+                swipeContainer.setRefreshing(false);
             }
 
             @Override
