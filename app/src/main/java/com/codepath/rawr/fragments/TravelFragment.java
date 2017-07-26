@@ -126,7 +126,7 @@ public class TravelFragment extends Fragment {
             @Override
             public void onRefresh() {
                 getTripsData();
-                getRequestId();
+//                getRequestId();
             }
         });
 
@@ -419,7 +419,7 @@ public class TravelFragment extends Fragment {
                 } catch (JSONException e) {
 
                 }
-                swipeContainer.setRefreshing(false);
+                //swipeContainer.setRefreshing(false);
             }
 
             @Override
@@ -462,10 +462,10 @@ public class TravelFragment extends Fragment {
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
                              ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
-//                            if (sr.isPending()) {
+                            if (sr.isPending()) {
                                 mRequests.add(sr);
                                 travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
-//                            }
+                            }
                         } catch (JSONException e) {
                             Log.e(TAG, String.format("JSON Exception at request_get request_id: %s", e));
                         }
