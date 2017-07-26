@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.codepath.rawr.AdditionalDetailsActivity;
 import com.codepath.rawr.R;
+import com.codepath.rawr.adapters.TravelAcceptedRequestsAdapter;
 import com.codepath.rawr.adapters.TravelPendingRequestsAdapter;
 import com.codepath.rawr.adapters.UpcomingTripAdapter;
 import com.codepath.rawr.models.Flight;
@@ -50,19 +51,20 @@ public class TravelFragment extends Fragment {
     public final static String DB_LOCAL_URL = "http://172.22.8.106:3000";
     public final static String[] DB_URLS = {DB_HEROKU_URL, DB_LOCAL_URL};
 
-    // base URL for API
+    // Base URL for API
     public final static String API_BASE_URL = "https://api.flightstats.com/flex/schedules/rest";
     // parameter name for API key
     public final static String APP_KEY_PARAM = "appKey";
     public final static String APP_ID_PARAM = "appId";
 
-    // code for on activity result
+    // Code for on activity result
     public static final int ADDITIONAL_DETAILS_CODE = 0;
 
     // Declaring client
     AsyncHttpClient client;
     Flight flight;
 
+    // Declaring variables for adding a trip
     private int flightYear;
     private int flightMonth;
     private int flightDay;
@@ -79,6 +81,11 @@ public class TravelFragment extends Fragment {
     TravelPendingRequestsAdapter travelPendingRequestsAdapter;
     ArrayList<ShippingRequest> mRequests;
     RecyclerView rv_requests;
+
+    // Declaring variables for list of accepted requests
+    TravelAcceptedRequestsAdapter travelAcceptedRequestsAdapter;
+    ArrayList<ShippingRequest> mAcceptedRequests;
+    RecyclerView rv_accepted_requests;
 
     SwipeRefreshLayout swipeContainer;
 
@@ -118,9 +125,6 @@ public class TravelFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
                 getTripsData();
             }
         });
@@ -389,6 +393,9 @@ public class TravelFragment extends Fragment {
 
     // get list of request IDs & call on method to get list of requests
     private void getRequestId() {
+
+        client = new AsyncHttpClient();
+
         // Set the request parameters
         RequestParams params = new RequestParams();
         params.put("uid", getString(R.string.temporary_user_id_new));
@@ -398,6 +405,7 @@ public class TravelFragment extends Fragment {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                travelPendingRequestsAdapter.clear();
                 try {
                     getRequestData(response.getJSONArray("data"));
                     Log.e(TAG, String.format("%s", response));
@@ -431,21 +439,21 @@ public class TravelFragment extends Fragment {
         });
     }
 
-    // method that gets request data
+    // method that gets data for pending requests
     private void getRequestData(final JSONArray requestId) {
 
         // TODO - get rid of the sketchy empty brackets in index [0]
         for (int i = 0; i < requestId.length(); i++) {
-            // Set the request parameters
-            RequestParams params = new RequestParams();
             try {
+                // Set the request parameters
+                RequestParams params = new RequestParams();
                 params.put("request_id", requestId.getJSONObject(i).getString("request_id"));
                 client.get(DB_URLS[0] + "/request_get", params, new JsonHttpResponseHandler() {
                     // implement endpoint here
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
-                            final ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
+                             ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
 //                            if (sr.isPending()) {
                                 mRequests.add(sr);
                                 travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
