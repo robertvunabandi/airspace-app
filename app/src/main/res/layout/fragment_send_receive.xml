@@ -1,10 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/SXXDark"
-    tools:context="com.codepath.rawr.fragments.SendReceiveFragment">
+    tools:context="com.codepath.rawr.fragments.SendReceiveFragment"
+    android:id="@+id/swipeContainer">
 
     <!-- TODO - Add a Progress Bar when making calls to the internet -->
 
@@ -266,4 +267,4 @@
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
-</RelativeLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
