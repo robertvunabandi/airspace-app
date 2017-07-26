@@ -31,4 +31,11 @@ public class RawrApp extends Application {
         return tempIdNew;
         // return usingUserId; // this may be empty/null
     }
+
+    public void setUsingUserId(String id) throws Exception {
+        // sets the id of the using user
+        if (id.length() > 20) {
+            usingUserId = id;
+        } else throw new Exception("Invalid id for replacement");
+    }
 }
