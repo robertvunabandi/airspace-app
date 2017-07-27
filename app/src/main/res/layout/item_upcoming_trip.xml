@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:id="@+id/relative_layout"
     android:weightSum="1">
 
     <TextView
         android:id="@+id/tv_from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:text="SEA"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/tv_arrow"
@@ -35,14 +36,14 @@
         android:id="@+id/tv_to"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp"
+        android:layout_toEndOf="@+id/tv_arrow"
+        android:layout_toRightOf="@+id/tv_arrow"
         android:text="JFK"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tv_arrow"
-        android:layout_toEndOf="@+id/tv_arrow"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp" />
+        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/tv_fromTime"
@@ -96,45 +97,212 @@
         android:textAlignment="center"
         android:textSize="12sp" />
 
-    <Button
-        android:id="@+id/bt_edit"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="edit"
-        android:layout_below="@+id/tv_dateFrom" />
 
-    <Button
-        android:id="@+id/bt_delete"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rlChecks"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="del"
-        android:layout_below="@+id/tv_dateTo"
-        android:layout_toRightOf="@+id/bt_edit"
-        android:layout_alignRight="@+id/tv_dateTo"
-        android:layout_alignEnd="@+id/tv_dateTo" />
+        android:layout_below="@+id/tv_dateFrom">
 
-    <TextView
-        android:id="@+id/tv_requestsTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirmed Requests"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_above="@+id/tv_pendingTitle"
-        android:layout_alignRight="@+id/tv_pendingTitle"
-        android:layout_alignEnd="@+id/tv_pendingTitle" />
 
-    <TextView
-        android:id="@+id/tv_pendingTitle"
-        android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_infoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_infoTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:text="additional info:"
+                android:textColor="@color/SXLight"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_toggleInfo"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:gravity="center_vertical"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_collapsed"
+                android:tint="@color/PLight" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/erl_info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pending Requests"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@android:color/holo_red_dark"
-        android:layout_below="@+id/tv_toTime"
-        android:layout_alignRight="@+id/bt_detail"
-        android:layout_alignEnd="@+id/bt_detail" />
+        android:layout_below="@+id/rlChecks"
+        app:ael_interpolator="bounce"
+        app:ael_orientation="vertical">
+        <!---->
+        <!--&gt;-->
+        <!-- TODO - ADD FILTERS HERE -->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textSize="16dp"-->
+        <!--android:text="Sample Text just for now "/>-->
+        <RelativeLayout
+            android:id="@+id/rlCheckBoxes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/cb_envelope"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:text="envelopes" />
+
+            <CheckBox
+                android:id="@+id/cb_largeBox"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cb_envelope"
+                android:text="large boxes" />
+
+            <CheckBox
+                android:id="@+id/cb_fragile"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cb_largeBox"
+                android:text="fragile" />
+
+            <CheckBox
+                android:id="@+id/cb_smallBox"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/cb_envelope"
+                android:text="small boxes" />
+
+            <CheckBox
+                android:id="@+id/cb_clothing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/cb_largeBox"
+                android:layout_toRightOf="@+id/cb_largeBox"
+                android:text="clothing items" />
+
+            <CheckBox
+                android:id="@+id/cb_liquids"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cb_clothing"
+                android:layout_toRightOf="@+id/cb_fragile"
+                android:text="liquids" />
+
+            <CheckBox
+                android:id="@+id/cb_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/cb_smallBox"
+                android:text="others" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_flexibility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlCheckBoxes">
+
+            <!-- flexibility drop off -->
+            <TextView
+                android:id="@+id/tv_dropoff_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="Drop-Off Flexibility"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dropoff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_dropoff_label"
+                android:textSize="14sp" />
+
+            <!-- flexibility pick up -->
+            <TextView
+                android:id="@+id/tv_pickup_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_dropoff"
+                android:text="Pick-Up Flexibility"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_pickup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_pickup_label"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rl_flexibility"
+            android:id="@+id/btns">
+
+
+        <Button
+            android:id="@+id/bt_edit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="5dp"
+            android:text="edit" />
+
+
+        <Button
+            android:id="@+id/bt_delete"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="del"
+            android:layout_alignBottom="@+id/bt_edit"
+            android:layout_toRightOf="@+id/bt_edit"
+            android:layout_toEndOf="@+id/bt_edit" />
+
+        <Button
+            android:id="@+id/bt_rquester_details"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/bt_delete"
+            android:layout_toEndOf="@+id/bt_delete"
+            android:layout_toRightOf="@+id/bt_delete"
+            android:text="requesters" />
+
+        </RelativeLayout>
+
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
 
     <TextView
         android:id="@+id/tv_requestNo"
@@ -142,8 +310,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/tv_toTime"
         android:layout_alignBottom="@+id/tv_toTime"
-        android:layout_toLeftOf="@+id/tv_requestsTitle"
-        android:layout_toStartOf="@+id/tv_requestsTitle"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/tv_toTime"
         android:text="2"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
@@ -151,34 +320,45 @@
         android:id="@+id/tv_pendingNo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tv_pendingTitle"
-        android:layout_alignBottom="@+id/tv_pendingTitle"
-        android:layout_alignLeft="@+id/tv_requestNo"
-        android:layout_alignStart="@+id/tv_requestNo"
+        android:layout_alignBaseline="@+id/tv_dateTo"
+        android:layout_alignBottom="@+id/tv_dateTo"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/tv_dateTo"
         android:text="5"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@android:color/holo_red_dark" />
 
-    <Button
-        android:id="@+id/bt_detail"
-        style="@style/Widget.AppCompat.Button.Colored"
+    <TextView
+        android:id="@+id/tv_requestsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="view more details"
-        android:layout_alignBaseline="@+id/bt_delete"
-        android:layout_alignBottom="@+id/bt_delete"
-        android:layout_toRightOf="@+id/bt_delete"
-        android:layout_toEndOf="@+id/bt_delete" />
+        android:layout_alignBaseline="@id/tv_requestNo"
+        android:layout_toRightOf="@+id/tv_requestNo"
+        android:text="Confirmed Requests"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/tv_pendingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_toTime"
+        android:layout_toRightOf="@id/tv_pendingNo"
+        android:text="Pending Requests"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/holo_red_dark" />
 
     <TextView
         android:id="@+id/tv_airlineCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textSize="20sp"
-        android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/tv_requestNo"
-        android:layout_alignStart="@+id/tv_requestNo" />
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/tv_requestNo"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tv_airlineNo"

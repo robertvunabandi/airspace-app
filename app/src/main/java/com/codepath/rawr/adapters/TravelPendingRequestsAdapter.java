@@ -125,6 +125,8 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                     params.put("request_id",  mRequests.get(pos).id);
                     params.put("traveler_id",  mRequests.get(pos).tvl.tuid);
 
+                    // client was declared and instantiated in constructor for TravelPendingRequestsAdapter, not ViewHolder
+
                     client.post(DB_URLS[0] + "/request_accept", params, new JsonHttpResponseHandler() {
                         // implement endpoint here
                         @Override

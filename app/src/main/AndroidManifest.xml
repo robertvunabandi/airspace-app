@@ -26,7 +26,8 @@
         <activity android:name=".ReceiverFormActivity" />
         <activity android:name=".LogoutActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".UpdateAdditionalDetailsActivity"></activity>
     </application>
 
 </manifest>

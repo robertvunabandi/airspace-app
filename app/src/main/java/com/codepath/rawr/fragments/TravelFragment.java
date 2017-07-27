@@ -368,7 +368,7 @@ public class TravelFragment extends Fragment {
             // implement endpoint here
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                upcomingTripAdapter.clear();
+                upcomingTripAdapter.clear();
                 try {
                     populateList(response.getJSONArray("data"));
                 } catch (JSONException e) {
