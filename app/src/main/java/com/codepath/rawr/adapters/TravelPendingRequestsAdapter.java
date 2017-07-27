@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.R;
-import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.models.ShippingRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -36,7 +35,6 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
     public TravelPendingRequestsAdapter(List<ShippingRequest> requests) {
         mRequests = requests;
         client = new AsyncHttpClient();
-        RawrApp.getUsingUserId();
     }
 
     @Override
