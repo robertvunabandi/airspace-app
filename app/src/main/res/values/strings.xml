@@ -6,6 +6,9 @@
     <string name="no">no</string>
     <string name="cancel">cancel</string>
     <string name="ok">ok</string>
+    <string name="travel">travel</string>
+    <string name="send_receive">send/receive</string>
+    <string name="chats">chats</string>
     <string name="dialog_title">Is this your flight?</string>
     <!-- sp stands for shared preferences -->
     <string name="sp_file_key">com.codepath.rawr.PREFERENCE_FILE_KEY</string>
