@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true"
+    android:background="@drawable/gradient_background_primary_color"
+    tools:context="com.codepath.rawr.LogoutActivity">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutInitLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/ActivityLogoutInitRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp">
+
+            <RelativeLayout
+                android:id="@+id/rl_logo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/iv_logoImg"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="24dp"
+                    android:src="@drawable/ic_android" />
+
+                <TextView
+                    android:id="@+id/tv_appName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_logoImg"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/app_name"
+                    android:textColor="@color/PLight"
+                    android:textSize="24sp"
+                    android:textStyle="italic" />
+            </RelativeLayout>
+
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_logo"
+                android:layout_gravity="center"
+                android:layout_marginTop="24dp"
+                android:background="@null"
+                android:gravity="center"
+                android:hint="Your email"
+                android:textColor="@color/White"
+                android:textColorHint="@color/SLight"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/bt_login"
+                style="@android:style/Widget.Material.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_email"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/ripple_2"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textColor="@color/PLight"
+                android:textSize="24sp"
+
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBarLoginActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/White"
+            android:foregroundTint="@color/White"
+            android:indeterminateTint="@color/White"
+            android:progressBackgroundTint="@color/White"
+            android:progressTint="@color/White"
+            android:secondaryProgressTint="@color/White"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

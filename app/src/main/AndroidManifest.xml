@@ -23,7 +23,10 @@
         <activity android:name=".TravelFormActivity" />
         <activity android:name=".AdditionalDetailsActivity" />
         <activity android:name=".SenderFormActivity" />
-        <activity android:name=".ReceiverFormActivity"></activity>
+        <activity android:name=".ReceiverFormActivity" />
+        <activity android:name=".LogoutActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SignupActivity"></activity>
     </application>
 
 </manifest>

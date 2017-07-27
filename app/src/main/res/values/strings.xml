@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rawr</string>
+    <string name="app_name">Rawr App</string>
     <string name="DB_HEROKU_URL">http://mysterious-headland-54722.herokuapp.com</string>
     <string name="DB_LOCAL_URL">http://172.22.11.86:3000</string>
     <string name="yes">yes</string>
@@ -9,6 +9,9 @@
     <string name="dialog_title">Is this your flight?</string>
     <string name="temporary_user_id_new">5977a6ca44f8d217b87f7819</string>
     <string name="temporary_user_id_old">5977a6de44f8d217b87f781a</string>
+    <!-- sp stands for shared preferences -->
+    <string name="sp_file_key">com.codepath.rawr.PREFERENCE_FILE_KEY</string>
+    <string name="sp_string_user_id_key">user_id</string>
 
 
     <!-- Add this to class:

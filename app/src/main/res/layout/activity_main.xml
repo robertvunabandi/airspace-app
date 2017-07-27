@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linearLayoutMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,25 +17,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/optionsButton"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
+            <RelativeLayout
+                android:id="@+id/rl_optionsButton"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:adjustViewBounds="false"
-                android:cropToPadding="false"
-                android:src="@drawable/ic_android" />
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_alignBaseline="@+id/sliding_tabs">
+                <ImageView
+                    android:id="@+id/optionsButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:adjustViewBounds="false"
+                    android:cropToPadding="false"
+                    android:background="@color/PLight"
+                    android:src="@drawable/ic_android" />
+            </RelativeLayout>
+
+
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/sliding_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/optionsButton"
-                android:layout_toRightOf="@+id/optionsButton"
+                android:layout_toEndOf="@+id/rl_optionsButton"
+                android:layout_toRightOf="@+id/rl_optionsButton"
                 app:tabBackground="@drawable/ripple_effect"
                 app:tabIndicatorColor="@color/White"
                 app:tabIndicatorHeight="5dp"
@@ -48,9 +58,25 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="0px"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/relativeLayoutMain"
             android:layout_weight="1"
             android:background="@android:color/white" />
 
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressBarMainActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/PLight"
+            android:foregroundTint="@color/PLight"
+            android:indeterminateTint="@color/PLight"
+            android:progressBackgroundTint="@color/PLight"
+            android:progressTint="@color/PLight"
+            android:secondaryProgressTint="@color/PLight"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 </android.support.design.widget.CoordinatorLayout>

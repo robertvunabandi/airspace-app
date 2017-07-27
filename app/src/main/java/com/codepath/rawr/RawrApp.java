@@ -28,11 +28,10 @@ public class RawrApp extends Application {
 
     public static String getUsingUserId() {
         // TODO - make this actually get the person who is using the app or return null through shared preferences
-        return tempIdNew;
-        // return usingUserId; // this may be empty/null
+         return usingUserId; // this may be empty/null
     }
 
-    public void setUsingUserId(String id) throws Exception {
+    public static void setUsingUserId(String id) throws Exception {
         // sets the id of the using user
         if (id.length() > 20) {
             usingUserId = id;

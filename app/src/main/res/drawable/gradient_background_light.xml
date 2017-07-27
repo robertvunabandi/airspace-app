@@ -6,9 +6,10 @@
     <item>
         <shape android:shape="rectangle">
             <gradient android:angle="45"
-                android:startColor="@color/SRegular"
-                android:endColor="@color/SXXDark"
-                android:centerColor="@color/SDark"
+                android:useLevel="true"
+                android:startColor="@color/White"
+                android:endColor="@color/White"
+                android:centerColor="@color/SXLight"
                 android:type="linear" />
         </shape>
     </item>

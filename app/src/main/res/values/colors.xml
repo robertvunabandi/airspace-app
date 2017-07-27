@@ -29,4 +29,6 @@
     <color name="suitcaseColorYellow">#f1c40f</color> <!-- 6 -->
     <color name="suitcaseColorOrange">#e67e22</color> <!-- 7 -->
     <color name="suitcaseColorGrey">#7f8c8d</color> <!-- 8 -->
+    <!-- TRANSPARENT -->
+    <color name="colorTransparent">#00000000</color>
 </resources>
