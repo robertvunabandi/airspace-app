@@ -22,10 +22,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAllCaps="true"
-                android:text="Add a trip"
+                android:textStyle="bold"
+                android:text="  Add a trip"
+                android:textSize="16sp"
                 android:textColor="@color/White"
                 android:textAlignment="textStart"
                 android:paddingLeft="10sp"
+                android:drawableLeft="@drawable/ic_flight"
                 android:background="@drawable/gradient_background_primary_color" />
 
 
@@ -174,6 +177,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pending Requests"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <android.support.v7.widget.RecyclerView
@@ -200,6 +206,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Accepted Requests"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <android.support.v7.widget.RecyclerView
@@ -226,6 +235,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Trips"
+                android:textSize="16sp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <android.support.v7.widget.RecyclerView

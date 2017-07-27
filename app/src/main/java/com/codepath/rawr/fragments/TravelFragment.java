@@ -118,7 +118,6 @@ public class TravelFragment extends Fragment {
         Button btnSubmit = (Button) v.findViewById(R.id.bt_submit);
 
         // setting up the expandable layout for adding a trip
-//        final ExpandableRelativeLayout erl_info;
         final ExpandableRelativeLayout erl_info = (ExpandableRelativeLayout) v.findViewById(R.id.erl_info);
         final Button bt_expand = (Button) v.findViewById(R.id.bt_expand);
         final ImageButton ib_expand = (ImageButton) v.findViewById(R.id.ib_expand);
