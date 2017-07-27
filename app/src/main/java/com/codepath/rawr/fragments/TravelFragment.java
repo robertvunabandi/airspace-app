@@ -388,6 +388,7 @@ public class TravelFragment extends Fragment {
         // Set the request parameters
         RequestParams params = new RequestParams();
 
+        // TODO - FIX this to only show the users' travel notice
         client.get(DB_URLS[0] + "/travel_notice_all", params, new JsonHttpResponseHandler() {
 
             // implement endpoint here
