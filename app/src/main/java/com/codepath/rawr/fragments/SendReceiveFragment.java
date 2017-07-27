@@ -2,7 +2,9 @@ package com.codepath.rawr.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.codepath.rawr.R;
@@ -23,6 +26,7 @@ import com.codepath.rawr.SearchResultsActivity;
 import com.codepath.rawr.adapters.ShippingAcceptedRequestsAdapter;
 import com.codepath.rawr.adapters.ShippingPendingRequestsAdapter;
 import com.codepath.rawr.models.ShippingRequest;
+import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -86,6 +90,32 @@ public class SendReceiveFragment extends Fragment {
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
                 getRequestsData();
+            }
+        });
+
+        // setting up the expandable layout for adding a trip
+        final ExpandableRelativeLayout erl_info = (ExpandableRelativeLayout) v.findViewById(R.id.erl_info);
+        final Button bt_expand = (Button) v.findViewById(R.id.bt_expand);
+        final ImageButton ib_expand = (ImageButton) v.findViewById(R.id.ib_expand);
+
+        bt_expand.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                // Toggle the expandable view
+                erl_info.toggle();
+                bt_expand.setVisibility(v.GONE);
+            }
+        });
+
+        ib_expand.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                // Toggle the expandable view
+                erl_info.toggle();
+                bt_expand.setVisibility(v.VISIBLE);
+
             }
         });
 

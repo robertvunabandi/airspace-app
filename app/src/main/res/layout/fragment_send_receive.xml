@@ -1,11 +1,11 @@
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/SXXDark"
-    tools:context="com.codepath.rawr.fragments.SendReceiveFragment"
-    android:id="@+id/swipeContainer">
+    tools:context="com.codepath.rawr.fragments.SendReceiveFragment">
 
     <!-- TODO - Add a Progress Bar when making calls to the internet -->
 
@@ -17,6 +17,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <Button
+                android:id="@+id/bt_expand"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_background_primary_color"
+                android:paddingLeft="10sp"
+                android:text="  Search for travellers"
+                android:drawableLeft="@drawable/ic_suitcase"
+                android:textAlignment="textStart"
+                android:textAllCaps="true"
+                android:textColor="@color/White"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/erl_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bt_expand"
+                app:ael_orientation="vertical">
+
             <RelativeLayout
                 android:id="@+id/rlShipInfoBar"
                 android:layout_width="match_parent"
@@ -24,21 +46,17 @@
                 android:layout_centerHorizontal="true"
                 android:background="@color/SXDark">
 
-                <TextView
-                    android:id="@+id/tv_SearchTitle"
+                <ImageButton
+                    android:id="@+id/ib_expand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="SEARCH FOR TRAVELLERS"
-                    android:textColor="@color/White"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:background="@color/SXDark"
+                    android:src="@drawable/ic_expand_less_white" />
 
                 <RelativeLayout
                     android:id="@+id/rl_from"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_SearchTitle"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:layout_marginTop="6dp">
@@ -65,7 +83,7 @@
                             android:textColorHighlight="@color/White"
                             android:textColorHint="@color/SXLight"
                             android:textColorLink="@color/PLight"
-                            android:textSize="24sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
@@ -99,7 +117,7 @@
                             android:textColorHighlight="@color/White"
                             android:textColorHint="@color/SXLight"
                             android:textColorLink="@color/PLight"
-                            android:textSize="24sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
@@ -137,10 +155,11 @@
                             android:textColorHighlight="@color/White"
                             android:textColorHint="@color/SXLight"
                             android:textColorLink="@color/PLight"
-                            android:textSize="24sp"
+                            android:textSize="18sp"
                             android:textStyle="bold" />
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
+
                 <!-- TODO AS STRETCH: Add filters, with the expandable layout and logic below
                 <RelativeLayout
                     android:id="@+id/rl_filtersButton"
@@ -215,11 +234,14 @@
                     android:textStyle="bold" />
             </RelativeLayout>
 
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
             <RelativeLayout
                 android:id="@+id/rlPendingRqs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlShipInfoBar">
+                android:layout_below="@+id/erl_info">
 
                 <TextView
                     android:id="@+id/tv_pendingTitle"
