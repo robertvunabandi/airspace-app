@@ -196,7 +196,6 @@ public class SendReceiveFragment extends Fragment {
 
     // get data for list of trips
     private void getRequestsData() {
-
         client = new AsyncHttpClient();
 
         // Set the request parameters
@@ -204,7 +203,6 @@ public class SendReceiveFragment extends Fragment {
         params.put("uid", RawrApp.getUsingUserId());
 
         client.get(DB_URLS[0] + "/request_get_my", params, new JsonHttpResponseHandler() {
-            // implement endpoint here
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 shippingPendingRequestsAdapter.clear();

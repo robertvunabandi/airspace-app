@@ -44,27 +44,36 @@
                     android:textStyle="italic" />
             </RelativeLayout>
 
-            <EditText
-                android:id="@+id/et_email"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/til_email"
+                android:textColorHint="@color/SLight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_logo"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:background="@null"
-                android:gravity="center"
-                android:hint="Your email"
-                android:textColor="@color/White"
-                android:textColorHint="@color/SLight"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                android:layout_marginTop="24dp">
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="@color/White"
+                    android:textColorHint="@color/SLight"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/bt_login"
                 style="@android:style/Widget.Material.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/et_email"
+                android:layout_below="@+id/til_email"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="24dp"
@@ -77,6 +86,7 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </RelativeLayout>
+
         <ProgressBar
             android:id="@+id/progressBarLoginActivity"
             android:layout_width="wrap_content"

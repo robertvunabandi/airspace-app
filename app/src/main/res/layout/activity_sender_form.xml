@@ -5,7 +5,6 @@
     android:id="@+id/senderFormParentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp"
     tools:context="com.codepath.rawr.SenderFormActivity">
 
     <ScrollView
@@ -14,8 +13,10 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
+            android:id="@+id/relativeLayoutInitSenderForm"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/tv_itemTitle"
@@ -158,6 +159,7 @@
                         android:layout_toEndOf="@+id/cb_other"
                         android:layout_toRightOf="@+id/cb_other"
                         android:backgroundTint="@color/SXLight"
+                        android:maxLines="1"
                         android:textColor="@color/PRegular"
                         android:textColorHighlight="@color/PRegular"
                         android:textColorHint="@color/SXLight"
@@ -257,6 +259,7 @@
                     android:layout_alignParentStart="true"
                     android:backgroundTint="@color/SXLight"
                     android:hint="Stacy Ann"
+                    android:maxLines="1"
                     android:textColor="@color/PRegular"
                     android:textColorHighlight="@color/PRegular"
                     android:textColorHint="@color/SXLight"
@@ -271,6 +274,8 @@
                     android:layout_below="@id/et_name"
                     android:backgroundTint="@color/SXLight"
                     android:hint="stacy89@gmail.com"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
                     android:textColor="@color/PRegular"
                     android:textColorHighlight="@color/PRegular"
                     android:textColorHint="@color/SXLight"
@@ -286,6 +291,7 @@
                     android:backgroundTint="@color/SXLight"
                     android:hint="xxx-xxx-xxx"
                     android:inputType="number"
+                    android:maxLines="1"
                     android:textColor="@color/PRegular"
                     android:textColorHighlight="@color/PRegular"
                     android:textColorHint="@color/SXLight"
@@ -358,11 +364,18 @@
 
             <Button
                 android:id="@+id/bt_confirm"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@android:style/Widget.Material.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_additionalDetails"
-                android:text="CONFIRM" />
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/ripple_effect"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:text="Send request"
+                android:textAllCaps="false"
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </RelativeLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

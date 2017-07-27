@@ -3,10 +3,12 @@ package com.codepath.rawr;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,7 +30,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
     // setting up the views pager for fragments
-    public ViewPager vpPager; public MainPagerAdapter pagerAdapter; public CoordinatorLayout parentLayout;
+    public ViewPager vpPager; public MainPagerAdapter pagerAdapter; public CoordinatorLayout parentLayout; public TabLayout tabLayout;
     Context context;
     // other views
     ProgressBar pb;
@@ -69,13 +71,12 @@ public class MainActivity extends AppCompatActivity {
         // set the adapter for the pager
         vpPager.setAdapter(pagerAdapter);
         // setup the TabLayout to use the view pager
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         tabLayout.setupWithViewPager(vpPager);
 
-        // TODO - set the images of the fragments
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_android);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_android);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_android);
+        // sets the tab icons
+        setTabIcons();
+
 
         // TODO - Make option button actually do what it's supposed to do, include logout inside of it
         optionsButton.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +85,50 @@ public class MainActivity extends AppCompatActivity {
                 logoutUser();
             }
         });
+    }
+
+    public void setTabIcons() {
+        /* this makes images bigger but causes some issues */
+        View ic_flight = getLayoutInflater().inflate(R.layout.customtab, null);
+        ic_flight.findViewById(R.id.iv_tab_icon).setBackgroundResource(R.drawable.ic_flight);
+        tabLayout.getTabAt(0).setCustomView(ic_flight);
+        View ic_suitcase = getLayoutInflater().inflate(R.layout.customtab, null);
+        ic_suitcase.findViewById(R.id.iv_tab_icon).setBackgroundResource(R.drawable.ic_suitcase);
+        tabLayout.getTabAt(1).setCustomView(ic_suitcase);
+        View ic_chats = getLayoutInflater().inflate(R.layout.customtab, null);
+        ic_chats.findViewById(R.id.iv_tab_icon).setBackgroundResource(R.drawable.ic_chats);
+        tabLayout.getTabAt(2).setCustomView(ic_chats);
+        /**/
+        //tabLayout.getTabAt(0).setIcon(R.drawable.ic_flight);
+        //tabLayout.getTabAt(1).setIcon(R.drawable.ic_suitcase);
+        //tabLayout.getTabAt(2).setIcon(R.drawable.ic_chats);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpPager){
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                super.onTabSelected(tab);
+                int tabIconColor = ContextCompat.getColor(context, R.color.White);
+                ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                //tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                super.onTabUnselected(tab);
+                int tabIconColor = ContextCompat.getColor(context, R.color.SXDark);
+                ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                //tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                super.onTabReselected(tab);
+                int tabIconColor = ContextCompat.getColor(context, R.color.White);
+                ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                //tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+            }
+        });
+        vpPager.setCurrentItem(1);
     }
 
     public void checkIfUserLogged() {
@@ -115,25 +160,37 @@ public class MainActivity extends AppCompatActivity {
         pb.setVisibility(View.GONE);
     }
 
-    // on activity result for various things
+    public void snackbarCall(String message, int length){
+        Snackbar.make(parentLayout, String.format("%s", message), length).show();
+    }
+    public void snackbarCallIndefinite(String message){
+        snackbarCall(message, Snackbar.LENGTH_INDEFINITE);
+    }
+    public void snackbarCallLong(String message){
+        snackbarCall(message, Snackbar.LENGTH_LONG);
+    }
+    public void snackbarCallShort(String message){
+        snackbarCall(message, Snackbar.LENGTH_SHORT);
+    }
+
+    /** on activity result for various things */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == RawrApp.ADDITIONAL_DETAILS_CODE) {
             // success snackbar
-            Snackbar.make(parentLayout, "Your travel notice has been saved.", Snackbar.LENGTH_LONG).show();
+            snackbarCallLong("Your travel notice has been saved.");
         } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.ADDITIONAL_DETAILS_CODE) {
             // failure snackbar
-            Snackbar.make(parentLayout, String.format("The following error occurred: %s", data.getStringExtra("message")), Snackbar.LENGTH_INDEFINITE).show();
+            snackbarCallIndefinite(data.getStringExtra("message"));
         } else if (resultCode == RESULT_OK && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // success snackbar
-            Snackbar.make(parentLayout, "Your request has been sent.", Snackbar.LENGTH_LONG).show();
+            snackbarCallLong("Your request has been sent.");
+            // clear the fragment texts and refresh requests
             ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).clearViews();
             ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).refreshRequests();
         } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // failure snackbar
-            Snackbar.make(parentLayout, String.format("The following error occurred: %s", data.getStringExtra("message")), Snackbar.LENGTH_INDEFINITE).show();
-            // clear the texts so that we're back to nothing
-            ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).clearViews();
+            snackbarCallIndefinite(data.getStringExtra("message"));
         }
     }
 

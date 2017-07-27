@@ -2,11 +2,12 @@ package com.codepath.rawr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import com.codepath.rawr.adapters.SearchResultAdapter;
 import com.codepath.rawr.models.TravelNotice;
@@ -37,7 +38,8 @@ public class SearchResultsActivity extends AppCompatActivity {
     RecyclerView rvSearchResults;
     SearchResultAdapter searchResultAdapter;
     ArrayList<TravelNotice> mSearchResults;
-
+    // views
+    RelativeLayout parentLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,8 @@ public class SearchResultsActivity extends AppCompatActivity {
         // initialize DB variables
         DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
         client = new AsyncHttpClient();
+        // get the views
+         parentLayout = (RelativeLayout) findViewById(R.id.relativeLayoutSearchResultsActivity);
         // get extras from intent
         from = getIntent().getExtras().getString("from");
         to = getIntent().getExtras().getString("to");
@@ -61,10 +65,24 @@ public class SearchResultsActivity extends AppCompatActivity {
         getData();
     }
 
+    public void snackbarCall(String message, int length){
+        Snackbar.make(parentLayout, String.format("%s", message), length).show();
+    }
+    public void snackbarCallIndefinite(String message){
+        snackbarCall(message, Snackbar.LENGTH_INDEFINITE);
+    }
+    public void snackbarCallLong(String message){
+        snackbarCall(message, Snackbar.LENGTH_LONG);
+    }
+    public void snackbarCallShort(String message){
+        snackbarCall(message, Snackbar.LENGTH_SHORT);
+    }
+
     // populates the recycler view
     private void populateList(JSONArray travelNoticeList) {
         for (int i = 0; i < travelNoticeList.length(); i++) {
             try {
+                // gets the travel notice form the response in the server and populates it into the adapter
                 TravelNotice travelNotice = TravelNotice.fromJSONServer(travelNoticeList.getJSONObject(i));
                 mSearchResults.add(travelNotice);
                 searchResultAdapter.notifyItemInserted(mSearchResults.size() - 1);
@@ -81,6 +99,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void getData() {
         // Set the request parameters
         RequestParams params = new RequestParams();
+        params.put("uid", RawrApp.getUsingUserId()); // we need to identify the user that's using the app so that we don't return his travel notices
         params.put("to", to);
         params.put("from", from);
         params.put("day_by", day_by);
@@ -95,41 +114,36 @@ public class SearchResultsActivity extends AppCompatActivity {
                     // on result, populate the recyclerview with this list of datas
                     populateList(response.getJSONArray("data"));
                 } catch (JSONException e) {
-                    Log.e(TAG, String.format("CODE: %s ERROR(JSON): %s", statusCode, e));
+                    Log.e(TAG, String.format("CODE: %s, ERROR(JSON): %s", statusCode, e));
+                    Intent data = new Intent();
+                    data.putExtra("message", String.format("JSON Exception occurred in /travels call: %s", e));
+                    setResult(RESULT_CANCELED, data); finish();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("CODE: %s ERROR(1): %s", statusCode, errorResponse));
-                Toast.makeText(getBaseContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
-                // quit the activity TODO - say that no result found or something
                 Intent data = new Intent();
                 try {
-                    data.putExtra("message", String.format("Error 1 occurred: %s", errorResponse.getString("message")));
+                    data.putExtra("message", String.format("Error occurred (1): %s", errorResponse.getString("message")));
+                    // make a snackbar call
+                    snackbarCallIndefinite(String.format("%s", errorResponse.getString("message")));
                 } catch (JSONException e) {
-                    data.putExtra("message", String.format("Error 1 occurred"));
+                    data.putExtra("message", String.format("Error occurred (1)"));
+                    // make a snackbar call
+                    snackbarCallIndefinite("No results were found.");
                 }
-                setResult(RESULT_CANCELED, data); //finish();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.e(TAG, String.format("CODE: %s ERROR(2): %s", statusCode, errorResponse));
-                Toast.makeText(getBaseContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
-                // quit the activity TODO - say that no result found or something
-                Intent data = new Intent();
-                data.putExtra("message", String.format("Error 2 occurred: %s", errorResponse));
                 setResult(RESULT_CANCELED, data); //finish();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e(TAG, String.format("CODE: %s ERROR(3): %s", statusCode, responseString));
-                Toast.makeText(getBaseContext(), String.format("error 3 %s", responseString), Toast.LENGTH_SHORT).show();
-                // quit the activity TODO - say that no result found or something
                 Intent data = new Intent();
-                data.putExtra("message", String.format("Error 3 occurred: %s", responseString));
+                data.putExtra("message", String.format("Error occurred (3): %s", responseString));
+                // make a snackbar call
+                snackbarCallIndefinite(String.format("ERROR (3): %s. No results were found.", responseString));
                 setResult(RESULT_CANCELED, data); //finish();
             }
         });
@@ -139,12 +153,12 @@ public class SearchResultsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // success, pass onto it the intent data, which should contain a "message" saying something
-            String s  = data.getStringExtra("message");
+            String s = data.getStringExtra("message");
             setResult(RESULT_OK, data); finish();
         } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // failure, pass onto it the intent data, which should contain a "message" saying something
-            String s  = data.getStringExtra("message");
-            setResult(RESULT_CANCELED, data); finish();
+            String s = data.getStringExtra("message");
+            snackbarCallShort(s);
         }
     }
 
