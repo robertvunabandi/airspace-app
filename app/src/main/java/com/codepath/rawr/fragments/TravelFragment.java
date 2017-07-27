@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -112,9 +111,6 @@ public class TravelFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_travel, container, false);
 
         // Setting up view for adding trips
-        TextInputLayout airlinecodeWrapper = (TextInputLayout) v.findViewById(R.id.airlinecodeWrapper);
-        TextInputLayout flightnumberWrapper = (TextInputLayout) v.findViewById(R.id.flightnumberWrapper);
-        TextInputLayout dateWrapper = (TextInputLayout) v.findViewById(R.id.dateWrapper);
         Button btnSubmit = (Button) v.findViewById(R.id.bt_submit);
 
         // setting up the expandable layout for adding a trip
@@ -148,11 +144,6 @@ public class TravelFragment extends Fragment {
 
         final EditText airlineCode = (EditText) v.findViewById(R.id.til_airlineCode);
         final EditText flightNumber = (EditText) v.findViewById(R.id.til_flightNumber);
-
-        // Adding hints for add trips feature
-        airlinecodeWrapper.setHint("Airline code");
-        flightnumberWrapper.setHint("Flight number");
-        dateWrapper.setHint("Date of departure");
 
         swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
 
