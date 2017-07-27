@@ -27,7 +27,7 @@ import cz.msebera.android.httpclient.Header;
 public class AdditionalDetailsActivity extends AppCompatActivity {
 
     // views, TODO - Add the views for displaying the original travel notice
-    public CheckBox cb_envelope, cb_smallBox, cb_largeBox, cb_clothing, cb_other;
+    public CheckBox cb_envelope, cb_smallBox, cb_largeBox, cb_clothing, cb_other, cb_fragile, cb_liquids;
     public Button addDetailsSubmit;
     public EditText dropoffFlexibility, pickupFlexibility;
 
@@ -62,8 +62,8 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
         cb_smallBox = (CheckBox) findViewById(R.id.cb_smallBox);
         cb_largeBox = (CheckBox) findViewById(R.id.cb_largeBox);
         cb_clothing = (CheckBox) findViewById(R.id.cb_clothing);
-        cb_clothing = (CheckBox) findViewById(R.id.cb_fragile);
-        cb_clothing = (CheckBox) findViewById(R.id.cb_liquids);
+        cb_fragile = (CheckBox) findViewById(R.id.cb_fragile);
+        cb_liquids = (CheckBox) findViewById(R.id.cb_liquids);
         cb_other = (CheckBox) findViewById(R.id.cb_other);
         addDetailsSubmit = (Button) findViewById(R.id.bt_addDetailsSubmit);
         dropoffFlexibility = (EditText) findViewById(R.id.et_pickup);

@@ -1,33 +1,33 @@
 package com.codepath.rawr;
 
         import android.os.Bundle;
-        import android.support.design.widget.Snackbar;
-        import android.support.v7.app.AppCompatActivity;
-        import android.text.Editable;
-        import android.text.TextWatcher;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.CheckBox;
-        import android.widget.EditText;
-        import android.widget.RelativeLayout;
-        import android.widget.TextView;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-        import com.codepath.rawr.models.TravelNotice;
-        import com.loopj.android.http.AsyncHttpClient;
-        import com.loopj.android.http.JsonHttpResponseHandler;
-        import com.loopj.android.http.RequestParams;
+import com.codepath.rawr.models.TravelNotice;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-        import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.Header;
 
 public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
 
     // views, TODO - Add the views for displaying the original travel notice
-    public CheckBox cb_envelope, cb_smallBox, cb_largeBox, cb_clothing, cb_other;
+    public CheckBox cb_envelope, cb_smallBox, cb_largeBox, cb_clothing, cb_other, cb_fragile, cb_liquids;
     public Button addDetailsSubmit;
     public EditText dropoffFlexibility, pickupFlexibility;
 
@@ -62,8 +62,8 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
         cb_smallBox = (CheckBox) findViewById(R.id.cb_smallBox);
         cb_largeBox = (CheckBox) findViewById(R.id.cb_largeBox);
         cb_clothing = (CheckBox) findViewById(R.id.cb_clothing);
-        cb_clothing = (CheckBox) findViewById(R.id.cb_fragile);
-        cb_clothing = (CheckBox) findViewById(R.id.cb_liquids);
+        cb_fragile = (CheckBox) findViewById(R.id.cb_fragile);
+        cb_liquids = (CheckBox) findViewById(R.id.cb_liquids);
         cb_other = (CheckBox) findViewById(R.id.cb_other);
         addDetailsSubmit = (Button) findViewById(R.id.bt_addDetailsSubmit);
         dropoffFlexibility = (EditText) findViewById(R.id.et_pickup);
@@ -185,11 +185,24 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
         TITimeArrival.setText(tvl.getArrivalTime());
         TIDate.setText(tvl.getDepartureDayVerbose());
         TIAirline.setText(tvl.airline);
+
         if (tvl.isOvernight()) {
             TITTimeOvernightIndicator.setVisibility(View.VISIBLE);
         } else {
             TITTimeOvernightIndicator.setVisibility(View.GONE);
         }
+
+        cb_envelope.setChecked(tvl.item_envelopes);
+        cb_largeBox.setChecked(tvl.item_lgbox);
+        cb_smallBox.setChecked(tvl.item_smbox);
+        cb_clothing.setChecked(tvl.item_clothing);
+        cb_other.setChecked(tvl.item_other);
+        cb_fragile.setChecked(tvl.item_fragile);
+        cb_liquids.setChecked(tvl.item_liquid);
+
+        dropoffFlexibility.setText(tvl.drop_off_flexibility);
+        pickupFlexibility.setText(tvl.pick_up_flexibility);
+
     }
 
     public void getTravelNotice(String travelNoticeId_, String tuid_) {
@@ -201,7 +214,7 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     tvl = TravelNotice.fromJSONServer(response.getJSONObject("data"));
-                    tvl.setAllFalse();
+                    // tvl.setAllFalse();
                     populateTravelNoticeViews();
                     Log.w(TAG, String.format("%s", response)); // debugging
                 } catch (JSONException e) {
