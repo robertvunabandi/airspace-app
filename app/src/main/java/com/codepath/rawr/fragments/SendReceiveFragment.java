@@ -251,7 +251,7 @@ public class SendReceiveFragment extends Fragment {
                             if (shippingRequest.isAccepted()) {
                                 mAcceptedRqs.add(shippingRequest);
                                 shippingAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRqs.size() - 1);
-                            } else {
+                            } else if (shippingRequest.isPending()){
                                 mPendingRqs.add(shippingRequest);
                                 shippingPendingRequestsAdapter.notifyItemInserted(mPendingRqs.size() - 1);
                             }

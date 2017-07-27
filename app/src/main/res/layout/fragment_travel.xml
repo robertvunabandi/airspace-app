@@ -149,7 +149,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_requests"
+                android:id="@+id/rv_pending_requests"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_pending_requests_title"
@@ -159,12 +159,38 @@
 
         </RelativeLayout>
 
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/rl_accepted_requests"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/rl_pending_requests"
+                tools:context="com.codepath.rawr.fragments.TravelFragment">
+
+                <TextView
+                    android:id="@+id/tv_accepted_requests_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accepted Requests"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_accepted_requests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_accepted_requests_title"
+                    android:visibility="visible">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </RelativeLayout>
+
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/rl_trips"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/rl_pending_requests"
+            android:layout_below="@id/rl_accepted_requests"
             tools:context="com.codepath.rawr.fragments.TravelFragment">
 
             <TextView
