@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.codepath.rawr.AdditionalDetailsActivity;
 import com.codepath.rawr.R;
+import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.adapters.TravelAcceptedRequestsAdapter;
 import com.codepath.rawr.adapters.TravelPendingRequestsAdapter;
 import com.codepath.rawr.adapters.UpcomingTripAdapter;
@@ -246,11 +247,10 @@ public class TravelFragment extends Fragment {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button, so send response to database
 
-                String traveler_id = getString(R.string.temporary_user_id_new); // TODO - Make it so the traveler id is actually the id of the person using the app like "get res client"
                 // first, create the travelNotice, all surrounded by try catch
                 try {
                     // creates a travel notice
-                    final TravelNotice tvl = TravelNotice.fromJSON(response, traveler_id, null, null);
+                    final TravelNotice tvl = TravelNotice.fromJSON(response, RawrApp.getUsingUserId(), null, null);
                     // get parameters from the method createParams() in TravelNotice, see that method
                     RequestParams params = tvl.createParams();
                     // Send a request to the database with endpoint /travel_notice_add
@@ -401,11 +401,9 @@ public class TravelFragment extends Fragment {
     // get list of request IDs & call on method to get list of requests
     private void getRequestId() {
 
-        client = new AsyncHttpClient();
-
         // Set the request parameters
         RequestParams params = new RequestParams();
-        params.put("uid", getString(R.string.temporary_user_id_new));
+        params.put("uid", RawrApp.getUsingUserId());
 
         client.get(DB_URLS[0] + "/request_get_to_me", params, new JsonHttpResponseHandler() {
             // implement endpoint here
@@ -450,7 +448,6 @@ public class TravelFragment extends Fragment {
     // method that gets data for pending requests
     private void getRequestData(final JSONArray requestId) {
 
-        // TODO - get rid of the sketchy empty brackets in index [0]
         for (int i = 0; i < requestId.length(); i++) {
             try {
                 // Set the request parameters
@@ -465,12 +462,15 @@ public class TravelFragment extends Fragment {
                             if (sr.isPending()) {
                                 mRequests.add(sr);
                                 travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
+                                Log.e(TAG, String.format("%s", sr ));
+                            } else if (sr.isAccepted()) {
+                                mAcceptedRequests.add(sr);
+                                travelAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRequests.size() - 1);
                             }
                         } catch (JSONException e) {
                             Log.e(TAG, String.format("JSON Exception at request_get request_id: %s", e));
                         }
 //                        swipeContainer.setRefreshing(false);
-
                     }
 
                     @Override
@@ -497,7 +497,6 @@ public class TravelFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }
