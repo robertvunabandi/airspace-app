@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ScrollView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.codepath.rawr.models.User;
@@ -32,7 +32,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
 
     // for debugging and snackbar
     public final static String TAG = "S:ReceiverFormActivity";
-    public ScrollView parentLayout;
+    public RelativeLayout parentLayout;
 
     // to get the user and on activity result for where this comes from
     public User usingUser;
@@ -72,7 +72,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
         bt_confirm = (Button) findViewById(R.id.bt_confirm);
 
         // get the parent layout
-        parentLayout = (ScrollView) findViewById(R.id.scrollViewReceiverForm);
+        parentLayout = (RelativeLayout) findViewById(R.id.relativeLayoutInitReceiverForm);
 
         // make the button deactivated until we get the user using the app
         bt_confirm.setEnabled(false);
@@ -310,5 +310,12 @@ public class ReceiverFormActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent data = new Intent();
+        data.putExtra("message", String.format("Cancelled"));
+        setResult(RESULT_CANCELED, data); finish();
     }
 }

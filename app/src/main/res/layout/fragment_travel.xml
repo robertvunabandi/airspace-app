@@ -16,21 +16,49 @@
             android:layout_height="match_parent"
             tools:context="com.codepath.rawr.fragments.TravelFragment">
 
+            <Button
+                android:id="@+id/bt_expand"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:text="  Add a trip"
+                android:textSize="16sp"
+                android:textColor="@color/White"
+                android:textAlignment="textStart"
+                android:paddingLeft="10sp"
+                android:drawableLeft="@drawable/ic_flight"
+                android:background="@drawable/gradient_background_primary_color" />
+
+
+            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                android:id="@+id/erl_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bt_expand"
+                app:ael_orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:id="@+id/rl_add_trip"
                 android:background="@color/SXDark"
-                android:padding="16dp">
+                android:padding="8dp">
+
+                <ImageButton
+                    android:id="@+id/ib_expand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/SXDark"
+                    android:src="@drawable/ic_expand_less_white" />
 
                 <RelativeLayout
                     android:id="@+id/rl_airlineCode"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center">
+                    android:layout_marginTop="8dp">
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/airlinecodeWrapper"
@@ -48,7 +76,7 @@
                             android:textColorHighlight="@color/White"
                             android:textColorHint="@color/SXLight"
                             android:textColorLink="@color/PLight"
-                            android:textSize="24sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"/>
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
@@ -60,7 +88,7 @@
                     android:layout_below="@+id/rl_airlineCode"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="8dp">
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/flightnumberWrapper"
@@ -78,7 +106,7 @@
                             android:textColorHighlight="@color/White"
                             android:textColorHint="@color/SXLight"
                             android:textColorLink="@color/PLight"
-                            android:textSize="24sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"/>
 
                     </android.support.design.widget.TextInputLayout>
@@ -91,7 +119,7 @@
                     android:layout_below="@+id/rl_flightNumber"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="8dp">
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/dateWrapper"
@@ -112,7 +140,7 @@
                             android:textColorHighlight="@color/White"
                             android:textColorHint="@color/SXLight"
                             android:textColorLink="@color/PLight"
-                            android:textSize="24sp"
+                            android:textSize="18sp"
                             android:textStyle="bold"/>
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
@@ -127,18 +155,21 @@
                     android:background="@drawable/ripple_effect"
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp"
-                    android:text="Add my travel"
+                    android:text="Add trip"
                     android:textColor="@color/White"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/rl_pending_requests"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/rl_add_trip"
+            android:layout_below="@id/erl_info"
             tools:context="com.codepath.rawr.fragments.TravelFragment">
 
             <TextView
@@ -146,6 +177,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pending Requests"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <android.support.v7.widget.RecyclerView
@@ -172,6 +206,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Accepted Requests"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
                 <android.support.v7.widget.RecyclerView
@@ -198,6 +235,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="My Trips"
+                android:textSize="16sp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <android.support.v7.widget.RecyclerView

@@ -31,9 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     public String[] DB_URLS;
     public User usingUser;
     // for login and shared preferences
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor spEditor;
-    String user_id;
+    SharedPreferences sharedPref; SharedPreferences.Editor spEditor; String user_id;
     // views
     ProgressBar pb;
     RelativeLayout parentView; // for snackbar
