@@ -48,9 +48,7 @@ import cz.msebera.android.httpclient.Header;
 public class TravelFragment extends Fragment {
 
     // Database url
-    public final static String DB_HEROKU_URL = "http://mysterious-headland-54722.herokuapp.com";
-    public final static String DB_LOCAL_URL = "http://172.22.8.106:3000";
-    public final static String[] DB_URLS = {DB_HEROKU_URL, DB_LOCAL_URL};
+    public static String[] DB_URLS;
 
     // Base URL for API
     public final static String API_BASE_URL = "https://api.flightstats.com/flex/schedules/rest";
@@ -98,6 +96,7 @@ public class TravelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
+        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
         getTripsData();
         getRequestId();
     }
