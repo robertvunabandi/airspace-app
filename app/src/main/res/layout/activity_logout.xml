@@ -34,48 +34,58 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_logoImg"
                 android:layout_centerHorizontal="true"
-                android:text="App Name"
-                android:textColor="@color/PDark"
+                android:text="@string/app_name"
+                android:textColor="@color/PLight"
                 android:textSize="24sp"
                 android:textStyle="italic" />
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/bt_login"
-            style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_login"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_logo"
-            android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ripple_2"
-            android:elevation="8dp"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:text="Login"
-            android:textAllCaps="false"
-            android:textColor="@color/PDark"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="8dp">
 
-        <Button
-            android:id="@+id/bt_signup"
-            style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/bt_login"
+                style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/ripple_pdark"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:text="Login"
+                android:textAllCaps="false"
+                android:textColor="@color/PDark"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_signup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/bt_login"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/ripple_2"
-            android:elevation="8dp"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:text="Sign up"
-            android:textAllCaps="false"
-            android:textColor="@color/PDark"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_below="@+id/rl_login"
+            android:layout_marginBottom="8dp">
+
+            <Button
+                android:id="@+id/bt_signup"
+                style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/ripple_pdark"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:text="Sign up"
+                android:textAllCaps="false"
+                android:textColor="@color/PRegular"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
     </RelativeLayout>
 
 

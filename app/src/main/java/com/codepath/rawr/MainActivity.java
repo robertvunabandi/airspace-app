@@ -28,21 +28,16 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
     // setting up the views pager for fragments
-    public ViewPager vpPager;
-    public MainPagerAdapter pagerAdapter;
-    public CoordinatorLayout parentLayout;
+    public ViewPager vpPager; public MainPagerAdapter pagerAdapter; public CoordinatorLayout parentLayout;
     Context context;
     // other views
     ProgressBar pb;
     ImageView optionsButton;
     // db
-    AsyncHttpClient client;
-    public String[] DB_URLS;
+    AsyncHttpClient client; public String[] DB_URLS;
     public User usingUser;
     // for login and shared preferences
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor spEditor;
-    String user_id;
+    SharedPreferences sharedPref; SharedPreferences.Editor spEditor; String user_id;
     // debugging
     private static final String TAG = "MainActivity";
 
@@ -55,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
         parentLayout = (CoordinatorLayout) findViewById(R.id.parentLayout);
 
         // get server stuffs
-        client = new AsyncHttpClient();
-        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
+        client = new AsyncHttpClient(); DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
 
         // get the views
         pb = (ProgressBar) findViewById(R.id.progressBarMainActivity);
@@ -169,14 +163,12 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, String.format("Error while parsing JSON in sign in user."));
                 }
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("%s", errorResponse));
                 // fallback is to lauch logout activity (in case signing in doesn't work)
                 launchLogoutActivity("It appears that your credentials are invalid. Please login or sign up.");
             }
-
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e(TAG, String.format("%s", responseString));

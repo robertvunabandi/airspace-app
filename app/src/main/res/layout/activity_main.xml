@@ -19,10 +19,11 @@
 
             <RelativeLayout
                 android:id="@+id/rl_optionsButton"
-                android:layout_centerVertical="true"
-                android:layout_width="45dp"
-                android:layout_height="match_parent"
-                android:layout_alignBaseline="@+id/sliding_tabs">
+                android:background="@color/PLight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
+
                 <ImageView
                     android:id="@+id/optionsButton"
                     android:layout_width="35dp"
@@ -34,24 +35,22 @@
                     android:layout_marginRight="8dp"
                     android:adjustViewBounds="false"
                     android:cropToPadding="false"
-                    android:background="@color/PLight"
-                    android:src="@drawable/ic_android" />
+                    android:background="@drawable/ripple_white"
+                    android:tint="@color/SDark"
+                    android:src="@drawable/ic_menu" />
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/sliding_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/optionsButton"
+                    android:layout_toRightOf="@+id/optionsButton"
+                    app:tabBackground="@drawable/ripple_white"
+                    app:tabIndicatorColor="@color/White"
+                    app:tabIndicatorHeight="5dp"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/White"
+                    app:tabTextColor="@color/SXDark" />
             </RelativeLayout>
-
-
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/sliding_tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/rl_optionsButton"
-                android:layout_toRightOf="@+id/rl_optionsButton"
-                app:tabBackground="@drawable/ripple_effect"
-                app:tabIndicatorColor="@color/White"
-                app:tabIndicatorHeight="5dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/White"
-                app:tabTextColor="@color/SXDark" />
         </RelativeLayout>
 
 

@@ -113,7 +113,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/ripple_2"
+            android:background="@drawable/ripple_pdark"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"
             android:text="Sign up"

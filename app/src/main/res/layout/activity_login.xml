@@ -44,7 +44,6 @@
                     android:textStyle="italic" />
             </RelativeLayout>
 
-
             <EditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
@@ -57,7 +56,7 @@
                 android:hint="Your email"
                 android:textColor="@color/White"
                 android:textColorHint="@color/SLight"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <Button
@@ -69,17 +68,15 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="24dp"
-                android:background="@drawable/ripple_2"
+                android:background="@drawable/ripple_pdark"
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:text="Login"
                 android:textAllCaps="false"
                 android:textColor="@color/PLight"
                 android:textSize="24sp"
-
                 android:textStyle="bold" />
         </RelativeLayout>
-
         <ProgressBar
             android:id="@+id/progressBarLoginActivity"
             android:layout_width="wrap_content"
@@ -94,6 +91,7 @@
             android:progressTint="@color/White"
             android:secondaryProgressTint="@color/White"
             android:visibility="gone" />
+
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
