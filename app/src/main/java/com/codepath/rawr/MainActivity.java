@@ -3,7 +3,7 @@ package com.codepath.rawr;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.codepath.rawr.adapters.MainPagerAdapter;
 import com.codepath.rawr.fragments.SendReceiveFragment;
@@ -30,16 +31,22 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
     // setting up the views pager for fragments
-    public ViewPager vpPager; public MainPagerAdapter pagerAdapter; public CoordinatorLayout parentLayout; public TabLayout tabLayout;
+    public ViewPager vpPager;
+    public MainPagerAdapter pagerAdapter;
+    public CoordinatorLayout parentLayout;
+    public TabLayout tabLayout;
     Context context;
     // other views
     ProgressBar pb;
     ImageView optionsButton;
     // db
-    AsyncHttpClient client; public String[] DB_URLS;
+    AsyncHttpClient client;
+    public String[] DB_URLS;
     public User usingUser;
     // for login and shared preferences
-    SharedPreferences sharedPref; SharedPreferences.Editor spEditor; String user_id;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor spEditor;
+    String user_id;
     // debugging
     private static final String TAG = "MainActivity";
 
@@ -52,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         parentLayout = (CoordinatorLayout) findViewById(R.id.parentLayout);
 
         // get server stuffs
-        client = new AsyncHttpClient(); DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
+        client = new AsyncHttpClient();
+        DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
 
         // get the views
         pb = (ProgressBar) findViewById(R.id.progressBarMainActivity);
@@ -90,42 +98,67 @@ public class MainActivity extends AppCompatActivity {
     public void setTabIcons() {
         /* this makes images bigger but causes some issues */
         View ic_flight = getLayoutInflater().inflate(R.layout.customtab, null);
-        ic_flight.findViewById(R.id.iv_tab_icon).setBackgroundResource(R.drawable.ic_flight);
+        ((ImageView) ic_flight.findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_flight);
+        ((TextView) ic_flight.findViewById(R.id.tv_text_icon)).setText(getString(R.string.travel));
         tabLayout.getTabAt(0).setCustomView(ic_flight);
         View ic_suitcase = getLayoutInflater().inflate(R.layout.customtab, null);
-        ic_suitcase.findViewById(R.id.iv_tab_icon).setBackgroundResource(R.drawable.ic_suitcase);
+        ((ImageView) ic_suitcase.findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_suitcase);
+        ((TextView) ic_suitcase.findViewById(R.id.tv_text_icon)).setText(getString(R.string.send_receive));
         tabLayout.getTabAt(1).setCustomView(ic_suitcase);
         View ic_chats = getLayoutInflater().inflate(R.layout.customtab, null);
-        ic_chats.findViewById(R.id.iv_tab_icon).setBackgroundResource(R.drawable.ic_chats);
+        ((ImageView) ic_chats.findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_chats);
+        ((TextView) ic_chats.findViewById(R.id.tv_text_icon)).setText(getString(R.string.chats));
         tabLayout.getTabAt(2).setCustomView(ic_chats);
-        /**/
-        //tabLayout.getTabAt(0).setIcon(R.drawable.ic_flight);
-        //tabLayout.getTabAt(1).setIcon(R.drawable.ic_suitcase);
-        //tabLayout.getTabAt(2).setIcon(R.drawable.ic_chats);
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpPager){
+        tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpPager) {
+            public void changeColorTab(TabLayout.Tab tab, int color) {
+                // color 0: dark, 1: white
+                int white = ContextCompat.getColor(context, R.color.White);
+                int dark = ContextCompat.getColor(context, R.color.SXDark);
+
+                // ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setColorFilter(color, PorterDuff.Mode.SRC_IN);
+                // logic to change the background to white or black
+                Drawable bkg = tab.getCustomView().findViewById(R.id.iv_tab_icon).getBackground();
+                if (color == 1) {
+                    if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_flight).getConstantState())) {
+                        ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_flight_white);
+                    } else if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_suitcase).getConstantState())) {
+                        ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_suitcase_white);
+                    } else if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_chats).getConstantState())) {
+                        ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_chats_white);
+                    }
+                    ((TextView) tab.getCustomView().findViewById(R.id.tv_text_icon)).setTextColor(white);
+                } else {
+                    if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_flight_white).getConstantState())) {
+                        ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_flight);
+                    } else if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_suitcase_white).getConstantState())) {
+                        ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_suitcase);
+                    } else if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_chats_white).getConstantState())) {
+                        ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_chats);
+                    }
+                    ((TextView) tab.getCustomView().findViewById(R.id.tv_text_icon)).setTextColor(dark);
+                }
+            }
+
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 super.onTabSelected(tab);
                 int tabIconColor = ContextCompat.getColor(context, R.color.White);
-                ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
-                //tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                changeColorTab(tab, 1);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 super.onTabUnselected(tab);
                 int tabIconColor = ContextCompat.getColor(context, R.color.SXDark);
-                ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
-                //tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                changeColorTab(tab, 0);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 super.onTabReselected(tab);
                 int tabIconColor = ContextCompat.getColor(context, R.color.White);
-                ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
-                //tab.getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
+                changeColorTab(tab, 0);
             }
         });
         vpPager.setCurrentItem(1);
@@ -156,24 +189,30 @@ public class MainActivity extends AppCompatActivity {
     public void setProgressVisible() {
         pb.setVisibility(View.VISIBLE);
     }
+
     public void setProgressDead() {
         pb.setVisibility(View.GONE);
     }
 
-    public void snackbarCall(String message, int length){
+    public void snackbarCall(String message, int length) {
         Snackbar.make(parentLayout, String.format("%s", message), length).show();
     }
-    public void snackbarCallIndefinite(String message){
+
+    public void snackbarCallIndefinite(String message) {
         snackbarCall(message, Snackbar.LENGTH_INDEFINITE);
     }
-    public void snackbarCallLong(String message){
+
+    public void snackbarCallLong(String message) {
         snackbarCall(message, Snackbar.LENGTH_LONG);
     }
-    public void snackbarCallShort(String message){
+
+    public void snackbarCallShort(String message) {
         snackbarCall(message, Snackbar.LENGTH_SHORT);
     }
 
-    /** on activity result for various things */
+    /**
+     * on activity result for various things
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == RawrApp.ADDITIONAL_DETAILS_CODE) {
@@ -196,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * All of the following are login logics
-     * */
+     */
     public void launchLogoutActivity(String message) {
         setProgressDead();
         Intent logoutActivity = new Intent(MainActivity.this, LogoutActivity.class);
@@ -220,12 +259,14 @@ public class MainActivity extends AppCompatActivity {
                     Log.e(TAG, String.format("Error while parsing JSON in sign in user."));
                 }
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("%s", errorResponse));
                 // fallback is to lauch logout activity (in case signing in doesn't work)
                 launchLogoutActivity("It appears that your credentials are invalid. Please login or sign up.");
             }
+
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e(TAG, String.format("%s", responseString));
@@ -268,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void updateUsingUserAndLauchMainActivity(){
+    public void updateUsingUserAndLauchMainActivity() {
         try {
             setProgressVisible();
             // create the editor for shared preferences (this will be done in login or sign up activity, currently just for testing)

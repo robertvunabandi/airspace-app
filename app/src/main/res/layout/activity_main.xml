@@ -41,7 +41,7 @@
                 <android.support.design.widget.TabLayout
                     android:id="@+id/sliding_tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_toEndOf="@+id/optionsButton"
                     android:layout_toRightOf="@+id/optionsButton"
                     app:tabBackground="@drawable/ripple_white"
