@@ -27,7 +27,9 @@
         <activity android:name=".LogoutActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".UpdateAdditionalDetailsActivity"></activity>
+        <activity android:name=".UpdateAdditionalDetailsActivity" />
+        <activity android:name=".TravelAcceptedRequestsActivity" />
+        <activity android:name=".TravelPendingRequestsActivity"></activity>
     </application>
 
 </manifest>

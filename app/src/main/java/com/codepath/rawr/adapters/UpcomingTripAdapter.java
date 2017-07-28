@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
+import com.codepath.rawr.TravelAcceptedRequestsActivity;
+import com.codepath.rawr.TravelPendingRequestsActivity;
 import com.codepath.rawr.UpdateAdditionalDetailsActivity;
 import com.codepath.rawr.models.TravelNotice;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
@@ -96,6 +98,23 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
             }
         });
 
+        // setting up button to view pending requests
+        holder.bt_pending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, TravelPendingRequestsActivity.class);
+                ((Activity) context).startActivityForResult(i, RawrApp.TRAVEL_PENDING_REQUESTS_CODE);
+            }
+        });
+
+        // setting up button to view accepted requests
+        holder.bt_accepted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, TravelAcceptedRequestsActivity.class);
+                ((Activity) context).startActivityForResult(i, RawrApp.TRAVEL_ACCEPTED_REQUESTS_CODE);
+            }
+        });
 
 
         // edit button
@@ -164,21 +183,6 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         });
 
 
-
-
-        // requester details button
-        holder.bt_rquester_details.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View v) {
-                // Toggle the expandable view
-                // Intent i = new Intent(this, RequestDetailsActivity.class);
-
-                // TODO - create a RequestDetailsActivity java class and send the appropriate intent extras to be able to view the requesters for each future trip and be able to message them
-                // TODO - ^^^ this ^^^ could maybe just be a dialog box with a list of travelers and what they're bringing and a button to take you to a message conversation with them
-            }
-        });
-
     }
 
     @Override
@@ -201,7 +205,6 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         public TextView tv_airlineCode;
         public TextView tv_airlineNo;
         public Button bt_edit;
-        public Button bt_rquester_details;
         public Button bt_delete;
 
         final ImageView ivToggleInfo;
@@ -238,7 +241,6 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
             tv_airlineNo = (TextView) itemView.findViewById(R.id.tv_airlineNo);
             bt_edit = (Button) itemView.findViewById(R.id.bt_edit);
             bt_delete = (Button) itemView.findViewById(R.id.bt_delete);
-            bt_rquester_details = (Button) itemView.findViewById(R.id.bt_rquester_details);
 
             ivToggleInfo = (ImageView) itemView.findViewById(R.id.iv_toggleInfo);
             erl_info = (ExpandableRelativeLayout) itemView.findViewById(R.id.erl_info);
