@@ -194,18 +194,16 @@ public class MainActivity extends AppCompatActivity {
         pb.setVisibility(View.GONE);
     }
 
+    // Snackbar calls
     public void snackbarCall(String message, int length) {
         Snackbar.make(parentLayout, String.format("%s", message), length).show();
     }
-
     public void snackbarCallIndefinite(String message) {
         snackbarCall(message, Snackbar.LENGTH_INDEFINITE);
     }
-
     public void snackbarCallLong(String message) {
         snackbarCall(message, Snackbar.LENGTH_LONG);
     }
-
     public void snackbarCallShort(String message) {
         snackbarCall(message, Snackbar.LENGTH_SHORT);
     }
