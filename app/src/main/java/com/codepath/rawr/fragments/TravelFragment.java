@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -21,9 +20,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.AdditionalDetailsActivity;
+import com.codepath.rawr.MainActivity;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.adapters.TravelAcceptedRequestsAdapter;
@@ -112,9 +113,6 @@ public class TravelFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_travel, container, false);
 
         // Setting up view for adding trips
-        TextInputLayout airlinecodeWrapper = (TextInputLayout) v.findViewById(R.id.airlinecodeWrapper);
-        TextInputLayout flightnumberWrapper = (TextInputLayout) v.findViewById(R.id.flightnumberWrapper);
-        TextInputLayout dateWrapper = (TextInputLayout) v.findViewById(R.id.dateWrapper);
         Button btnSubmit = (Button) v.findViewById(R.id.bt_submit);
 
         // setting up the expandable layout for adding a trip
@@ -148,11 +146,6 @@ public class TravelFragment extends Fragment {
 
         final EditText airlineCode = (EditText) v.findViewById(R.id.til_airlineCode);
         final EditText flightNumber = (EditText) v.findViewById(R.id.til_flightNumber);
-
-        // Adding hints for add trips feature
-        airlinecodeWrapper.setHint("Airline code");
-        flightnumberWrapper.setHint("Flight number");
-        dateWrapper.setHint("Date of departure");
 
         swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
 
@@ -264,7 +257,26 @@ public class TravelFragment extends Fragment {
         rv_accepted_requests.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_accepted_requests.setAdapter(travelAcceptedRequestsAdapter);
 
+        // clear view button
+        final TextView tv_clear_content = (TextView) v.findViewById(R.id.tv_clear_content);
+        tv_clear_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearViews();
+            }
+        });
+
         return v;
+    }
+
+    public void clearViews() {
+        // cv stands for clear views
+        EditText til_airlineCode = (EditText) getView().findViewById(R.id.til_airlineCode);
+        EditText til_flightNumber = (EditText) getView().findViewById(R.id.til_flightNumber);
+        EditText et_date = (EditText) getView().findViewById(R.id.et_date);
+        til_airlineCode.setText("");
+        til_flightNumber.setText("");
+        et_date.setText("");
     }
 
     // Process response for adding a trip
@@ -396,8 +408,8 @@ public class TravelFragment extends Fragment {
     private void getTripsData() {
         // Set the request parameters
         RequestParams params = new RequestParams();
-
-        client.get(DB_URLS[0] + "/travel_notice_all", params, new JsonHttpResponseHandler() {
+        params.put("uid", RawrApp.getUsingUserId());
+        client.get(DB_URLS[0] + "/travel_notice_get_mine", params, new JsonHttpResponseHandler() {
 
             // implement endpoint here
             @Override
@@ -415,18 +427,23 @@ public class TravelFragment extends Fragment {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
                     errorResponse) {
                 Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
-                    errorResponse) {
-                Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                String errorSnack;
+                boolean idError = false;
+                try {
+                    errorSnack = String.format("Server error (code %s): %s", statusCode, errorResponse.getString("message"));
+                    if (statusCode == 403) idError = true;
+                } catch (JSONException e) {
+                    errorSnack = "Error (1) occurred from Server.";
+                }
+                ((MainActivity) getActivity()).snackbarCallLong(errorSnack);
+                if (idError) ((MainActivity) getActivity()).launchLogoutActivity("It appears that you are not logged in. Please log in or sign up.");
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
                     throwable) {
-                Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+                String errorSnack = String.format("Server error (3) (code %s): %s", statusCode, responseString);;
+                ((MainActivity) getActivity()).snackbarCallIndefinite(errorSnack);
             }
         });
     }
@@ -458,14 +475,6 @@ public class TravelFragment extends Fragment {
                     errorResponse) {
                 Log.e(TAG, String.format("%s", errorResponse));
                 Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
-                    errorResponse) {
-                Log.e(TAG, String.format("%s", errorResponse));
-
-                Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
             }
 
             @Override

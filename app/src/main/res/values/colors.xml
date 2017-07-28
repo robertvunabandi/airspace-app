@@ -13,6 +13,7 @@
     <color name="SDark">#33474b</color>
     <color name="SXDark">#253437</color>
     <color name="SXXDark">#151d1e</color>
+    <color name="SXXXDark">#0b0f0f</color>
     <!-- WHITE COLOR FOR TEXTS -->
     <color name="White">#fff</color>
     <!-- POTENTIAL FOR ACCENTS -->
@@ -31,4 +32,8 @@
     <color name="suitcaseColorGrey">#7f8c8d</color> <!-- 8 -->
     <!-- TRANSPARENT -->
     <color name="colorTransparent">#00000000</color>
+    <color name="colorTransparentWhite">#23FFFFFF</color>
+    <color name="colorTransparentSXDark">#99253437</color>
+    <color name="colorTransparentSXXDark">#77151d1e</color>
+    <color name="colorTransparentSXXXDark">#770b0f0f</color>
 </resources>

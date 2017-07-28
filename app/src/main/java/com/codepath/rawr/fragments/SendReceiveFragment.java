@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.R;
@@ -96,7 +96,9 @@ public class SendReceiveFragment extends Fragment {
         // setting up the expandable layout for adding a trip
         final ExpandableRelativeLayout erl_info = (ExpandableRelativeLayout) v.findViewById(R.id.erl_info);
         final Button bt_expand = (Button) v.findViewById(R.id.bt_expand);
-        final ImageButton ib_expand = (ImageButton) v.findViewById(R.id.ib_expand);
+
+        // button to collapse everything
+        final ImageButton ib_collapse = (ImageButton) v.findViewById(R.id.ib_expand);
 
         bt_expand.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -108,7 +110,7 @@ public class SendReceiveFragment extends Fragment {
             }
         });
 
-        ib_expand.setOnClickListener(new View.OnClickListener() {
+        ib_collapse.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
@@ -123,10 +125,6 @@ public class SendReceiveFragment extends Fragment {
         final EditText et_from = (EditText) v.findViewById(R.id.et_from);
         final EditText et_to = (EditText) v.findViewById(R.id.et_to);
         final EditText et_date = (EditText) v.findViewById(R.id.et_date);
-        // text input layouts, not used but may be used...
-        TextInputLayout dateWrapper = (TextInputLayout) v.findViewById(R.id.dateWrapper);
-        final TextInputLayout til_from = (TextInputLayout) v.findViewById(R.id.til_from);
-        TextInputLayout til_to = (TextInputLayout) v.findViewById(R.id.til_to);
 
 
         /*
@@ -206,6 +204,15 @@ public class SendReceiveFragment extends Fragment {
         rv_acceptedRequests = (RecyclerView) v.findViewById(R.id.rv_accepted_requests);
         rv_acceptedRequests.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_acceptedRequests.setAdapter(shippingAcceptedRequestsAdapter);
+
+        // clear view button
+        final TextView tv_clear_content = (TextView) v.findViewById(R.id.tv_clear_content);
+        tv_clear_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearViews();
+            }
+        });
 
         return v;
     }

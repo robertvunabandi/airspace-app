@@ -1,6 +1,7 @@
 package com.codepath.rawr;
 
-        import android.os.Bundle;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -299,5 +300,12 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
                 Snackbar.make(parentLayout, String.format("Error (3) occurred, However, your travel has been saved without additional details."), Snackbar.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent data = new Intent();
+        data.putExtra("message", "Cancelled");
+        setResult(RESULT_CANCELED, data); finish();
     }
 }

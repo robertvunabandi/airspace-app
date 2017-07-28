@@ -14,14 +14,25 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.UpdateAdditionalDetailsActivity;
 import com.codepath.rawr.models.TravelNotice;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.codepath.rawr.fragments.TravelFragment.DB_URLS;
 
 public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapter.ViewHolder> {
 
@@ -100,6 +111,50 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
 
                 ((Activity) context).startActivityForResult(i, RawrApp.ADDITIONAL_DETAILS_CODE);
 
+                notifyDataSetChanged();
+
+            }
+        });
+
+
+        // delete button
+        holder.bt_delete.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+
+                AsyncHttpClient client = new AsyncHttpClient();
+                RequestParams params = new RequestParams();
+
+                params.put("travel_notice_id", mTrips.get(position).id);
+                params.put("tuid", mTrips.get(position).tuid);
+
+                client.post(DB_URLS[0] + "/travel_notice_delete", params, new JsonHttpResponseHandler() {
+                    // implement endpoint here
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                        mTrips.remove(position);
+                        Toast.makeText(context, String.format("%s", "Travel Notice deleted!"), Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+
+                        // TODO - maybe notify the shipper that the traveller cancelled the trip
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                        Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                        Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 
