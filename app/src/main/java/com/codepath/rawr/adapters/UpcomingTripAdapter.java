@@ -104,12 +104,17 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
             @Override
             public void onClick(View v) {
 
+                AsyncHttpClient client = new AsyncHttpClient();
 
                 Intent i = new Intent(context, UpdateAdditionalDetailsActivity.class);
                 i.putExtra("travel_notice_id", mTrips.get(position).id);
                 i.putExtra("tuid", mTrips.get(position).tuid);
 
                 ((Activity) context).startActivityForResult(i, RawrApp.ADDITIONAL_DETAILS_CODE);
+
+                // TODO - GET THE NEW TRIP FROM THE RESPONSE AND REPLACE IT HERE TO FIX THE REFRESH PROBLEM THING
+
+
 
                 notifyDataSetChanged();
 
@@ -136,8 +141,6 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                         mTrips.remove(position);
                         Toast.makeText(context, String.format("%s", "Travel Notice deleted!"), Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
-
-                        // TODO - GET THE NEW TRIP FROM THE RESPONSE AND REPLACE IT HERE TO FIX THE REFRESH PROBLEM THING
 
 
                         // TODO - maybe notify the shipper that the traveller cancelled the trip
