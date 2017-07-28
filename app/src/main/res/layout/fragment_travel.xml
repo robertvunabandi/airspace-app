@@ -4,6 +4,7 @@
     android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background_primary_color"
     tools:context="com.codepath.rawr.fragments.TravelFragment">
 
     <ScrollView
@@ -21,11 +22,12 @@
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/gradient_background_primary_color"
-                android:drawableLeft="@drawable/ic_flight"
-                android:paddingLeft="10sp"
-                android:text="  Add a trip"
-                android:textAlignment="textStart"
+                android:background="@drawable/transparent_sxxdark"
+                android:drawableLeft="@drawable/ic_add"
+                android:paddingLeft="16sp"
+                android:paddingRight="16sp"
+                android:text="Add a trip"
+                android:textAlignment="textEnd"
                 android:textAllCaps="true"
                 android:textColor="@color/White"
                 android:textSize="16sp"
@@ -43,7 +45,7 @@
                     android:id="@+id/rl_add_trip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/gradient_background_primary_color">
+                    android:background="@drawable/transparent_sxxdark" >
 
                     <RelativeLayout
                         android:id="@+id/rl_collapse"
@@ -135,6 +137,7 @@
                             android:gravity="center"
                             android:hint="Flight number"
                             android:paddingBottom="10dp"
+                            android:inputType="number"
                             android:paddingTop="10dp"
                             android:shadowColor="@color/SXLight"
                             android:textColor="@color/White"
@@ -216,9 +219,11 @@
                     android:id="@+id/tv_pending_requests_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="Pending Requests"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/White"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -245,9 +250,11 @@
                     android:id="@+id/tv_accepted_requests_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="Accepted Requests"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/White"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -274,9 +281,11 @@
                     android:id="@+id/tv_trips_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="My Trips"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/White"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
