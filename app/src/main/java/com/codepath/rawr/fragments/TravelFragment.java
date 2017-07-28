@@ -95,6 +95,8 @@ public class TravelFragment extends Fragment {
 
 
     public TravelFragment() {
+        // Required empty public constructor
+
     }
 
     @Override
@@ -102,8 +104,8 @@ public class TravelFragment extends Fragment {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
         DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
-        getTripsData();
         getRequestId();
+        getTripsData();
     }
 
     @Override
@@ -369,11 +371,19 @@ public class TravelFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 additionalDetailsActivityLaunch(travelNoticeId, tuid);
+
+                upcomingTripAdapter.notifyDataSetChanged();
+                getTripsData();
+
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // TODO - Take the user to the upcoming section, which should be updated with all of this user's travel notices
+
+                upcomingTripAdapter.notifyDataSetChanged();
+                getTripsData();
+
             }
         });
         AlertDialog dialog = builder.create();
@@ -387,7 +397,7 @@ public class TravelFragment extends Fragment {
         getActivity().startActivityForResult(AdditionalDetailsActivity, ADDITIONAL_DETAILS_CODE);
     }
 
-    // populate list of trips
+    // populate list of trips from JSON
     private void populateList(JSONArray travelNoticeList) {
         for (int i = 0; i < travelNoticeList.length(); i++) {
             try {
@@ -403,6 +413,17 @@ public class TravelFragment extends Fragment {
             }
         }
     }
+
+
+//    // populate list of trips from just an ArrayList for autorefreshing
+//    private void populateList(ArrayList<TravelNotice> travelNoticeList) {
+//        for (int i = 0; i < travelNoticeList.size(); i++) {
+//            mTrips.add(travelNoticeList.get(i));
+//            upcomingTripAdapter.notifyItemInserted(mTrips.size() - 1);
+//            // Toast.makeText(getContext(), String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
+//
+//        }
+//    }
 
     // get data for list of trips
     private void getTripsData() {
