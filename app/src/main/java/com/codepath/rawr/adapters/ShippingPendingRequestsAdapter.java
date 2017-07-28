@@ -50,10 +50,8 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         context = parent.getContext();
         client = new AsyncHttpClient();
         LayoutInflater inflater = LayoutInflater.from(context);
-
         View requestView = inflater.inflate(R.layout.item_shipping_pending_request, parent, false);
-        ViewHolder viewHolder = new ViewHolder(requestView) {
-        };
+        ViewHolder viewHolder = new ViewHolder(requestView);
         return viewHolder;
     }
 
