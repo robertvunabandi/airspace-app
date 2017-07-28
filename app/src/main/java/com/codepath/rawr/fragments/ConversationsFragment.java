@@ -16,6 +16,11 @@ public class ConversationsFragment extends Fragment {
     public String[] DB_URLS;
     AsyncHttpClient client;
 
+    // Declaring variables for messages
+//    ConversationListAdapter conversationListAdapter;
+//    ArrayList(Messages) mMessages;
+//    RecyclerView rv_convos;
+
     public ConversationsFragment() {
         // Required empty public constructor
     }
@@ -35,6 +40,13 @@ public class ConversationsFragment extends Fragment {
         // get the variables for all the texts. Needed: Name, time,
 
         // populate the recycler view of messages with messages from the server
+
+//        mMessages = new ArrayList<>();
+//        conversationListAdapter = new ConversationListAdapter(mMessages);
+//        rv_convos = (RecyclerView) v.findViewById(rv_convos);
+//        rv_convos.setLayoutManager(new LinearLayoutManager(getContext()));
+//        rv_convos.setAdapter(conversationListAdapter);
+
 
         return v;
     }

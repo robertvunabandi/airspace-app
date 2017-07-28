@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_profile"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentLeft="true"
@@ -13,4 +13,32 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/gradient_background_primary_color"
         app:srcCompat="@drawable/ic_flight_white" />
+
+    <TextView
+        android:id="@+id/tv_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/iv_profile"
+        android:layout_toRightOf="@+id/iv_profile"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_user"
+        android:layout_toEndOf="@+id/iv_profile"
+        android:layout_toRightOf="@+id/iv_profile"
+        android:text="TextView"
+        android:layout_alignBottom="@+id/iv_profile" />
 </RelativeLayout>
