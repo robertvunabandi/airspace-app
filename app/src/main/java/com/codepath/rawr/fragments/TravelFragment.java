@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.AdditionalDetailsActivity;
+import com.codepath.rawr.MainActivity;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.adapters.TravelAcceptedRequestsAdapter;
@@ -407,9 +408,8 @@ public class TravelFragment extends Fragment {
     private void getTripsData() {
         // Set the request parameters
         RequestParams params = new RequestParams();
-
-        // TODO - FIX this to only show the users' travel notice
-        client.get(DB_URLS[0] + "/travel_notice_all", params, new JsonHttpResponseHandler() {
+        params.put("uid", RawrApp.getUsingUserId());
+        client.get(DB_URLS[0] + "/travel_notice_get_mine", params, new JsonHttpResponseHandler() {
 
             // implement endpoint here
             @Override
@@ -427,18 +427,23 @@ public class TravelFragment extends Fragment {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
                     errorResponse) {
                 Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
-                    errorResponse) {
-                Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                String errorSnack;
+                boolean idError = false;
+                try {
+                    errorSnack = String.format("Server error (code %s): %s", statusCode, errorResponse.getString("message"));
+                    if (statusCode == 403) idError = true;
+                } catch (JSONException e) {
+                    errorSnack = "Error (1) occurred from Server.";
+                }
+                ((MainActivity) getActivity()).snackbarCallLong(errorSnack);
+                if (idError) ((MainActivity) getActivity()).launchLogoutActivity("It appears that you are not logged in. Please log in or sign up.");
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
                     throwable) {
-                Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+                String errorSnack = String.format("Server error (3) (code %s): %s", statusCode, responseString);;
+                ((MainActivity) getActivity()).snackbarCallIndefinite(errorSnack);
             }
         });
     }
@@ -470,14 +475,6 @@ public class TravelFragment extends Fragment {
                     errorResponse) {
                 Log.e(TAG, String.format("%s", errorResponse));
                 Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
-                    errorResponse) {
-                Log.e(TAG, String.format("%s", errorResponse));
-
-                Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
             }
 
             @Override
