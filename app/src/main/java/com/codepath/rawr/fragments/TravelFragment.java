@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.AdditionalDetailsActivity;
@@ -255,7 +256,26 @@ public class TravelFragment extends Fragment {
         rv_accepted_requests.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_accepted_requests.setAdapter(travelAcceptedRequestsAdapter);
 
+        // clear view button
+        final TextView tv_clear_content = (TextView) v.findViewById(R.id.tv_clear_content);
+        tv_clear_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearViews();
+            }
+        });
+
         return v;
+    }
+
+    public void clearViews() {
+        // cv stands for clear views
+        EditText til_airlineCode = (EditText) getView().findViewById(R.id.til_airlineCode);
+        EditText til_flightNumber = (EditText) getView().findViewById(R.id.til_flightNumber);
+        EditText et_date = (EditText) getView().findViewById(R.id.et_date);
+        til_airlineCode.setText("");
+        til_flightNumber.setText("");
+        et_date.setText("");
     }
 
     // Process response for adding a trip

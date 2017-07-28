@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.R;
@@ -203,6 +204,15 @@ public class SendReceiveFragment extends Fragment {
         rv_acceptedRequests = (RecyclerView) v.findViewById(R.id.rv_accepted_requests);
         rv_acceptedRequests.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_acceptedRequests.setAdapter(shippingAcceptedRequestsAdapter);
+
+        // clear view button
+        final TextView tv_clear_content = (TextView) v.findViewById(R.id.tv_clear_content);
+        tv_clear_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearViews();
+            }
+        });
 
         return v;
     }

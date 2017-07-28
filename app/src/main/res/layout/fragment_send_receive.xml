@@ -16,14 +16,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <Button
                 android:id="@+id/bt_expand"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/transparent_sxxdark"
-                android:drawableTintMode="src_in"
-                android:foregroundTint="@color/White"
                 android:drawableLeft="@drawable/ic_search"
                 android:paddingLeft="16sp"
                 android:paddingRight="16sp"
