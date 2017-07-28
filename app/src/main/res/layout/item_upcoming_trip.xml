@@ -136,6 +136,7 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/tv_to"
             android:text="pending requests"
+            android:onClick="true"
             android:layout_marginLeft="20dp"
             android:textSize="12sp" />
 
@@ -146,6 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/bt_pending"
             android:layout_alignStart="@+id/bt_pending"
+            android:onClick="true"
             android:layout_below="@+id/bt_pending"
             android:text="accepted requests"
             android:textSize="12sp" />
@@ -202,7 +204,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlChecks"
-        app:ael_interpolator="bounce"
         app:ael_orientation="vertical">
         <!---->
         <!--&gt;-->
@@ -329,7 +330,6 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="5dp"
             android:text="edit" />
 
@@ -343,16 +343,6 @@
             android:layout_alignBottom="@+id/bt_edit"
             android:layout_toRightOf="@+id/bt_edit"
             android:layout_toEndOf="@+id/bt_edit" />
-
-        <Button
-            android:id="@+id/bt_rquester_details"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/bt_delete"
-            android:layout_toEndOf="@+id/bt_delete"
-            android:layout_toRightOf="@+id/bt_delete"
-            android:text="requesters" />
 
         </RelativeLayout>
 
