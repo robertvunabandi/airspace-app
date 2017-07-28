@@ -105,6 +105,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
             public void onClick(View v) {
 
 
+
                 Intent i = new Intent(context, UpdateAdditionalDetailsActivity.class);
                 i.putExtra("travel_notice_id", mTrips.get(position).id);
                 i.putExtra("tuid", mTrips.get(position).tuid);
@@ -112,6 +113,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                 ((Activity) context).startActivityForResult(i, RawrApp.ADDITIONAL_DETAILS_CODE);
 
                 // TODO - GET THE NEW TRIP FROM THE RESPONSE AND REPLACE IT HERE TO FIX THE REFRESH PROBLEM THING
+
 
                 notifyDataSetChanged();
 
