@@ -191,10 +191,8 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         public TextView tv_toTime;
         public TextView tv_dateFrom;
         public TextView tv_dateTo;
-        public TextView tv_requestsTitle;
-        public TextView tv_pendingTitle;
-        public TextView tv_requestsNo;
-        public TextView tv_pendingNo;
+        public Button bt_pending;
+        public Button bt_accepted;
         public TextView tv_airlineCode;
         public TextView tv_airlineNo;
         public Button bt_edit;
@@ -212,7 +210,6 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         public CheckBox cb_other;
         public CheckBox cb_fragile;
         public CheckBox cb_liquids;
-//        public Button bt_detail;
         public TextView tv_dropoff;
         public TextView tv_pickup;
 
@@ -227,10 +224,11 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
             tv_toTime = (TextView) itemView.findViewById(R.id.tv_toTime);
             tv_dateFrom = (TextView) itemView.findViewById(R.id.tv_dateFrom);
             tv_dateTo = (TextView) itemView.findViewById(R.id.tv_dateTo);
-            tv_requestsTitle = (TextView) itemView.findViewById(R.id.tv_requestsTitle);
-            tv_pendingTitle = (TextView) itemView.findViewById(R.id.tv_pendingTitle);
-            tv_requestsNo = (TextView) itemView.findViewById(R.id.tv_requestNo);
-            tv_pendingNo = (TextView) itemView.findViewById(R.id.tv_pendingNo);
+
+            bt_pending = (Button) itemView.findViewById(R.id.bt_pending);
+            bt_accepted = (Button) itemView.findViewById(R.id.bt_accepted);
+
+
             tv_airlineCode = (TextView) itemView.findViewById(R.id.tv_airlineCode);
             tv_airlineNo = (TextView) itemView.findViewById(R.id.tv_airlineNo);
             bt_edit = (Button) itemView.findViewById(R.id.bt_edit);
