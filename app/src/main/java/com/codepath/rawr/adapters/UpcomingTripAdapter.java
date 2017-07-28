@@ -137,6 +137,9 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                         Toast.makeText(context, String.format("%s", "Travel Notice deleted!"), Toast.LENGTH_SHORT).show();
                         notifyDataSetChanged();
 
+                        // TODO - GET THE NEW TRIP FROM THE RESPONSE AND REPLACE IT HERE TO FIX THE REFRESH PROBLEM THING
+
+
                         // TODO - maybe notify the shipper that the traveller cancelled the trip
                     }
 
