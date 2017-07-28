@@ -8,11 +8,13 @@
     <string name="ok">ok</string>
     <string name="travel">travel</string>
     <string name="send_receive">send/receive</string>
-    <string name="chats">chats</string>
+    <string name="chats">notifications</string> <!-- TODO Rename back to chats when we add chatting -->
     <string name="dialog_title">Is this your flight?</string>
     <!-- sp stands for shared preferences -->
     <string name="sp_file_key">com.codepath.rawr.PREFERENCE_FILE_KEY</string>
     <string name="sp_string_user_id_key">user_id</string>
+    <string name="notification_temporary_long">You just received this amazing notification that you should really read because it will tell you something important about one of your travel notices, one of your requests, or one request that you sent to someone. Potentially, there could be more in the future!</string>
+    <string name="notification_temporary_short">You just received this amazing notification that you should really read.</string>
 
 
     <!-- Add this to class:
@@ -20,7 +22,7 @@
     Then on createView, do this:
     DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
     -->
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
