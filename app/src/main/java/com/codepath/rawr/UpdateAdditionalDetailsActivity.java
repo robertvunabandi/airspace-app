@@ -133,6 +133,7 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // see method below, which is supposed to start a new activity and take one to upcoming
                 updateFlight();
+                populateTravelNoticeViews();
             }
         });
     }
@@ -221,8 +222,8 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Snackbar.make(parentLayout, String.format("An error occured while parsing the JSON response to get the travel notice from server."), Snackbar.LENGTH_LONG).show();
-                    setResult(RESULT_CANCELED);
-                    finish();
+                    Intent data = new Intent(); data.putExtra("message", "Error JSON"); // TODO - change error msg
+                    setResult(RESULT_CANCELED, data); finish();
                 }
             }
 
@@ -259,14 +260,27 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
 
     public void updateFlight() {
         RequestParams params = tvl.createParams();
+
+        params.put("travel_notice_uid", travelNoticeId);
+        params.put("tuid", tuid);
+
+
         client.post(DB_URLS[0] + "/travel_notice_update", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // take the person to upcoming with this result
-                setResult(RESULT_OK);
-                finish();
-                Snackbar.make(parentLayout, String.format("Your travel notice has been updated successfully!"), Snackbar.LENGTH_LONG).show();
+                try {
+                    tvl = TravelNotice.fromJSONServer(response.getJSONObject("data"));
 
+                    Intent data = new Intent();
+                    data.putExtra("message", "Edited!");
+
+                    setResult(RESULT_OK, data); finish();
+                    Snackbar.make(parentLayout, String.format("Your travel notice has been updated successfully!"), Snackbar.LENGTH_LONG).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 // TODO - SOMEHOW NOTIFY REQUESTERS IF THE TRAVELER CANT TAKE THEIR STUFF ANYMORE, OR IF THINGS CONFLICT OR CONTRADICT IN ANY WAY
             }
@@ -279,24 +293,23 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("Error (1) occured %s", errorResponse));
-                setResult(RESULT_CANCELED);
-                finish();
+                setResult(RESULT_CANCELED); finish();
                 Snackbar.make(parentLayout, String.format("Error (1) occurred, However, your travel has been saved without additional details."), Snackbar.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                 Log.e(TAG, String.format("Error (2) occured %s", errorResponse));
-                setResult(RESULT_CANCELED);
-                finish();
+                setResult(RESULT_CANCELED); finish();
                 Snackbar.make(parentLayout, String.format("Error (2) occurred, However, your travel has been saved without additional details."), Snackbar.LENGTH_LONG).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e(TAG, String.format("Error (3) occured %s", responseString));
-                setResult(RESULT_CANCELED);
-                finish();
+                Intent data = new Intent();
+                data.putExtra("message", "Error");
+                setResult(RESULT_CANCELED, data); finish();
                 Snackbar.make(parentLayout, String.format("Error (3) occurred, However, your travel has been saved without additional details."), Snackbar.LENGTH_LONG).show();
             }
         });
