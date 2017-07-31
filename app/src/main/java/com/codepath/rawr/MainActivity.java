@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
         // make a https request for getting the user with this id
         RequestParams params = new RequestParams();
         params.put("uid", id);
-        client.get(DB_URLS[0] + "/user_get", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/user/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
     public void loginUser() {
         RequestParams params = new RequestParams();
         params.put("email", usingUser.email);
-        client.get(DB_URLS[0] + "/login", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/user/login", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
