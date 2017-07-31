@@ -15,6 +15,7 @@ public class RawrApp extends Application {
     public static final int CODE_REQUESTER_FORMS_ACTIVITY = 1;
     public static final int TRAVEL_PENDING_REQUESTS_CODE = 2;
     public static final int TRAVEL_ACCEPTED_REQUESTS_CODE = 3;
+    public static final String DB_URL = "http://mysterious-headland-54722.herokuapp.com";
 
     @Override
     public void onCreate() {
