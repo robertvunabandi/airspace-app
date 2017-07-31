@@ -133,6 +133,9 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // see method below, which is supposed to start a new activity and take one to upcoming
                 updateFlight();
+
+                getTravelNotice(travelNoticeId, tuid);
+
                 populateTravelNoticeViews();
             }
         });

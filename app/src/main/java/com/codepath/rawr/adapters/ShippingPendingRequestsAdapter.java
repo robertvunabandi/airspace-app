@@ -193,18 +193,17 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
 
 
 
-            // CANCEL the request click listener, but still using the /request_decline endpoint because it kind of does the same thing
+            // CANCEL the request click listener
             btn_cancel.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     final int pos = getAdapterPosition();
 
                     RequestParams params = new RequestParams();
-                    params.put("travel_notice_id", mRequests.get(pos).tvl.id);
+                    params.put("uid",  mRequests.get(pos).requesterId);
                     params.put("request_id",  mRequests.get(pos).id);
-                    params.put("traveler_id",  mRequests.get(pos).tvl.tuid);
 
-                    client.post(DB_URLS[0] + "/request_decline", params, new JsonHttpResponseHandler() {
+                    client.post(DB_URLS[0] + "/request_delete", params, new JsonHttpResponseHandler() {
                         // implement endpoint here
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -213,7 +212,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
                             Toast.makeText(context, String.format("%s", "CANCELLED! Status = " + status), Toast.LENGTH_SHORT).show();
                             notifyDataSetChanged();
 
-                            // TODO - maybe notify the traveller that the shipper cancelled the request
+                            // TODO - notify the traveller that the shipper cancelled the request, but maybe not because if it's just pending it doesn't really matter?
                         }
 
                         @Override
