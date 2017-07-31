@@ -12,12 +12,23 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.rawr.R;
 import com.codepath.rawr.models.ShippingRequest;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.codepath.rawr.fragments.TravelFragment.DB_URLS;
 
 /**
  * Created by rdicker on 7/24/17.
@@ -27,6 +38,7 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
 
     public List<ShippingRequest> mRequests;
     Context context;
+    AsyncHttpClient client;
 
     public ShippingAcceptedRequestsAdapter(List<ShippingRequest> requests){
         mRequests = requests;
@@ -36,6 +48,7 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
+        client = new AsyncHttpClient();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         View requestView = inflater.inflate(R.layout.item_shipping_accepted_request, parent, false);
@@ -78,14 +91,22 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
         holder.cb_liquids.setEnabled(false);
         holder.tv_dropoff.setText(request.tvl.drop_off_flexibility);
         holder.tv_pickup.setText(request.tvl.pick_up_flexibility);
-        holder.ivToggleInfo.setOnClickListener(new View.OnClickListener() {
+        holder.rl_infoButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
+
                 // Toggle the expandable view
                 holder.erl_info.toggle();
 
-                // TODO - Change the drawable to either expanded or collapsed
+                // Rotates the toggle button to indicate when the expandableLayout is either expanded or collapsed
+                if (holder.erl_info.isExpanded()) {
+                    holder.ivToggleInfo.setRotation(0);
+                }
+                else {
+                    holder.ivToggleInfo.setRotation(-90);
+                }
+
                 // TODO - Add filters in XML
             }
         });
@@ -182,6 +203,50 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
 
             tv_dropoff = (TextView) itemView.findViewById(R.id.tv_dropoff);
             tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup);
+
+
+
+
+            // CANCEL the request click listener
+            btn_cancel.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    final int pos = getAdapterPosition();
+
+                    RequestParams params = new RequestParams();
+                    params.put("uid",  mRequests.get(pos).requesterId);
+                    params.put("request_id",  mRequests.get(pos).id);
+
+                    client.post(DB_URLS[0] + "/request_delete", params, new JsonHttpResponseHandler() {
+                        // implement endpoint here
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            int status = mRequests.get(pos).status;
+                            mRequests.remove(pos);
+                            Toast.makeText(context, String.format("%s", "CANCELLED! Status = " + status), Toast.LENGTH_SHORT).show();
+                            notifyDataSetChanged();
+
+                            // TODO - notify the traveller that the shipper cancelled the request!!!!
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                            Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                            Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+
         }
 
     }

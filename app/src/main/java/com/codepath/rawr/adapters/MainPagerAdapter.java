@@ -14,7 +14,7 @@ import com.codepath.rawr.fragments.TravelFragment;
  */
 
 public class MainPagerAdapter extends FragmentStatePagerAdapter {
-    private String tabTitles[] = new String[]{ "", "", ""};
+    private String tabTitles[] = new String[]{"", "", ""};
     private Context context;
 
     public TravelFragment travelFragment;

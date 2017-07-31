@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:orientation="vertical"
+    android:padding="4dp">
+
+    <RelativeLayout
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:background="@drawable/transparent_white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rl_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textAllCaps="true"
+                android:textColor="@color/SDark"
+                android:text="Date received"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_notification_message"
+            android:layout_below="@+id/rl_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:maxLines="4"
+            android:textSize="16sp"
+            android:ellipsize="end"
+            android:textColor="@color/SDark"
+            android:text="@string/notification_temporary_short" />
+
+        <!-- <RelativeLayout
+            android:id="@+id/rl_bottomSeparator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/tv_message"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/SXXLight">
+        </RelativeLayout> -->
+    </RelativeLayout>
+</RelativeLayout>

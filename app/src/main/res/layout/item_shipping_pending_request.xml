@@ -232,7 +232,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlChecks"
-        app:ael_interpolator="bounce"
         app:ael_orientation="vertical">
         <!---->
         <!--&gt;-->

@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 // logic to change the background to white or black
                 Drawable bkg = tab.getCustomView().findViewById(R.id.iv_tab_icon).getBackground();
                 if (color == 1) {
+                    // ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).getDrawable().setTint(white);
                     if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_flight).getConstantState())) {
                         ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_flight_white);
                     } else if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_suitcase).getConstantState())) {
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReselected(TabLayout.Tab tab) {
                 super.onTabReselected(tab);
                 int tabIconColor = ContextCompat.getColor(context, R.color.White);
-                changeColorTab(tab, 0);
+                changeColorTab(tab, 1);
             }
         });
         vpPager.setCurrentItem(1);

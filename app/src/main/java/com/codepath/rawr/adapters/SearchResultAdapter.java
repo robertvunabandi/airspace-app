@@ -82,14 +82,24 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.cb_liquids_isr.setEnabled(false);
         holder.tv_dropoff.setText(trip.drop_off_flexibility);
         holder.tv_pickup.setText(trip.pick_up_flexibility);
-        holder.ivToggleInfo.setOnClickListener(new View.OnClickListener() {
+
+
+        holder.rl_infoButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
+
                 // Toggle the expandable view
                 holder.erl_info.toggle();
 
-                // TODO - Change the drawable to either expanded or collapsed
+                // Rotates the toggle button to indicate when the expandableLayout is either expanded or collapsed
+                if (holder.erl_info.isExpanded()) {
+                    holder.ivToggleInfo.setRotation(0);
+                }
+                else {
+                    holder.ivToggleInfo.setRotation(-90);
+                }
+
                 // TODO - Add filters in XML
             }
         });
@@ -110,6 +120,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public TextView tv_toTime_isr;
         public TextView tv_dateFrom_isr;
         public TextView tv_dateTo_isr;
+
+        public RelativeLayout rl_infoButton;
 
         final ImageView ivToggleInfo;
         final ExpandableRelativeLayout erl_info;
@@ -141,6 +153,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             tv_toTime_isr = (TextView) itemView.findViewById(R.id.tv_toTime_isr);
             tv_dateFrom_isr = (TextView) itemView.findViewById(R.id.tv_dateFrom_isr);
             tv_dateTo_isr = (TextView) itemView.findViewById(R.id.tv_dateTo_isr);
+
+            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rl_infoButton);
 
             ivToggleInfo = (ImageView) itemView.findViewById(R.id.iv_toggleInfo);
             erl_info = (ExpandableRelativeLayout) itemView.findViewById(R.id.erl_info);
