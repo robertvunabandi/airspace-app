@@ -143,27 +143,27 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tv_to"
             android:background="@color/PLight"
             android:onClick="true"
-            android:text="pending requests"
+            android:text="pending"
             android:textSize="12sp"
-            android:layout_marginStart="18dp"
-            android:layout_toRightOf="@+id/tv_airlineNo" />
+            android:layout_alignBottom="@+id/tv_airlineNo" />
 
         <Button
             android:id="@+id/bt_accepted"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/bt_pending"
-            android:layout_alignStart="@+id/bt_pending"
             android:background="@color/PLight"
             android:onClick="true"
-            android:text="accepted requests"
+            android:text="accepted"
             android:textSize="12sp"
-            android:layout_below="@+id/tv_to"
-            android:layout_alignBottom="@+id/tv_dateTo" />
+            android:layout_above="@+id/tv_dateTo"
+            android:layout_alignLeft="@+id/bt_pending"
+            android:layout_alignStart="@+id/bt_pending" />
 
     </RelativeLayout>
 
@@ -343,7 +343,6 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:text="edit" />
 
@@ -353,7 +352,6 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:text="del"
             android:layout_alignBottom="@+id/bt_edit"
             android:layout_toRightOf="@+id/bt_edit"

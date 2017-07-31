@@ -211,7 +211,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
                     params.put("uid",  mRequests.get(pos).requesterId);
                     params.put("request_id",  mRequests.get(pos).id);
 
-                    client.post(DB_URLS[0] + "/request_delete", params, new JsonHttpResponseHandler() {
+                    client.post(DB_URLS[0] + "/request/delete", params, new JsonHttpResponseHandler() {
                         // implement endpoint here
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
