@@ -1,351 +1,364 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/relative_layout"
-    android:weightSum="1">
-
-
-    <TextView
-        android:id="@+id/tv_from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SEA"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/tv_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tv_from"
-        android:layout_alignBottom="@+id/tv_from"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_toEndOf="@+id/tv_from"
-        android:layout_toRightOf="@+id/tv_from"
-        android:text="➝"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/tv_to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="JFK"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tv_arrow"
-        android:layout_toEndOf="@+id/tv_arrow"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp" />
-
-    <TextView
-        android:id="@+id/tv_fromTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_from"
-        android:layout_alignStart="@+id/tv_from"
-        android:layout_below="@+id/tv_from"
-        android:layout_toLeftOf="@+id/tv_arrow"
-        android:layout_toStartOf="@+id/tv_arrow"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_toTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tv_to"
-        android:layout_alignLeft="@+id/tv_to"
-        android:layout_alignRight="@+id/tv_to"
-        android:layout_alignStart="@+id/tv_to"
-        android:layout_below="@+id/tv_to"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_dateFrom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tv_fromTime"
-        android:layout_alignLeft="@+id/tv_fromTime"
-        android:layout_alignRight="@+id/tv_fromTime"
-        android:layout_alignStart="@+id/tv_fromTime"
-        android:layout_below="@+id/tv_fromTime"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_dateTo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tv_toTime"
-        android:layout_alignLeft="@+id/tv_toTime"
-        android:layout_alignRight="@+id/tv_toTime"
-        android:layout_alignStart="@+id/tv_toTime"
-        android:layout_below="@+id/tv_toTime"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_airlineCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tv_dateFrom"
-        android:layout_marginLeft="10dp"
-        android:text="TextView"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/tv_airlineNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tv_airlineCode"
-        android:layout_alignBottom="@+id/tv_airlineCode"
-        android:layout_toEndOf="@+id/tv_airlineCode"
-        android:layout_toRightOf="@+id/tv_airlineCode"
-        android:text="TextView"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/tv_itemTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/tv_to"
-        android:layout_toRightOf="@+id/tv_to"
-        android:text="Item: " />
-
-    <TextView
-        android:id="@+id/tv_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Small package"
-        android:layout_alignBaseline="@+id/tv_itemTitle"
-        android:layout_alignBottom="@+id/tv_itemTitle"
-        android:layout_toRightOf="@+id/tv_itemTitle"
-        android:layout_toEndOf="@+id/tv_itemTitle" />
-
-    <TextView
-        android:id="@+id/tv_requestDateTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Requested on "
-        android:layout_below="@+id/tv_itemTitle"
-        android:layout_alignLeft="@+id/tv_itemTitle"
-        android:layout_alignStart="@+id/tv_itemTitle" />
-
-    <TextView
-        android:id="@+id/tv_requested_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_itemTitle"
-        android:layout_toEndOf="@+id/tv_requestDateTitle"
-        android:layout_toRightOf="@+id/tv_requestDateTitle"
-        android:text="7/25/17" />
-
-    <Button
-        android:id="@+id/bt_contact"
-        style="@android:style/Widget.Holo.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tv_airlineNo"
-        android:layout_alignLeft="@+id/tv_requestDateTitle"
-        android:layout_alignStart="@+id/tv_requestDateTitle"
-        android:layout_below="@+id/tv_requestDateTitle"
-        android:layout_marginTop="10dp"
-        android:text="contact" />
-
-    <Button
-        android:id="@+id/bt_cancel"
-        style="@android:style/Widget.Holo.Button.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/bt_contact"
-        android:layout_below="@+id/tv_requestDateTitle"
-        android:layout_marginTop="10dp"
-        android:layout_toEndOf="@+id/bt_contact"
-        android:layout_toRightOf="@+id/bt_contact"
-        android:text="cancel" />
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    app:cardBackgroundColor="@color/colorTransparentWhite"
+    app:cardElevation="0dp"
+    app:cardPreventCornerOverlap="true">
 
 
     <RelativeLayout
-        android:id="@+id/rlChecks"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_airlineCode">
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="SEA"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tv_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_from"
+            android:layout_alignBottom="@+id/tv_from"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_toEndOf="@+id/tv_from"
+            android:layout_toRightOf="@+id/tv_from"
+            android:text="➝"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tv_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="11dp"
+            android:layout_marginStart="11dp"
+            android:layout_toEndOf="@+id/tv_arrow"
+            android:layout_toRightOf="@+id/tv_arrow"
+            android:text="JFK"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/tv_fromTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_from"
+            android:layout_alignStart="@+id/tv_from"
+            android:layout_below="@+id/tv_from"
+            android:layout_toLeftOf="@+id/tv_arrow"
+            android:layout_toStartOf="@+id/tv_arrow"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_toTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tv_to"
+            android:layout_alignLeft="@+id/tv_to"
+            android:layout_alignRight="@+id/tv_to"
+            android:layout_alignStart="@+id/tv_to"
+            android:layout_below="@+id/tv_to"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_dateFrom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tv_fromTime"
+            android:layout_alignLeft="@+id/tv_fromTime"
+            android:layout_alignRight="@+id/tv_fromTime"
+            android:layout_alignStart="@+id/tv_fromTime"
+            android:layout_below="@+id/tv_fromTime"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_dateTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tv_toTime"
+            android:layout_alignLeft="@+id/tv_toTime"
+            android:layout_alignRight="@+id/tv_toTime"
+            android:layout_alignStart="@+id/tv_toTime"
+            android:layout_below="@+id/tv_toTime"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_airlineCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tv_dateFrom"
+            android:layout_marginLeft="2dp"
+            android:text="TextView"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_airlineNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_airlineCode"
+            android:layout_alignBottom="@+id/tv_airlineCode"
+            android:layout_toEndOf="@+id/tv_airlineCode"
+            android:layout_toRightOf="@+id/tv_airlineCode"
+            android:text="TextView"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_itemTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/tv_to"
+            android:layout_toRightOf="@+id/tv_to"
+            android:text="Item: " />
+
+        <TextView
+            android:id="@+id/tv_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_itemTitle"
+            android:layout_alignBottom="@+id/tv_itemTitle"
+            android:layout_toEndOf="@+id/tv_itemTitle"
+            android:layout_toRightOf="@+id/tv_itemTitle"
+            android:text="Small package" />
+
+        <TextView
+            android:id="@+id/tv_requestDateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_itemTitle"
+            android:layout_alignStart="@+id/tv_itemTitle"
+            android:layout_below="@+id/tv_itemTitle"
+            android:text="Requested on "
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_requested_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_itemTitle"
+            android:layout_toEndOf="@+id/tv_requestDateTitle"
+            android:layout_toRightOf="@+id/tv_requestDateTitle"
+            android:text="7/25/17"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/bt_contact"
+            style="@android:style/Widget.Holo.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_airlineNo"
+            android:layout_alignLeft="@+id/tv_requestDateTitle"
+            android:layout_alignStart="@+id/tv_requestDateTitle"
+            android:layout_below="@+id/tv_requestDateTitle"
+            android:layout_marginTop="10dp"
+            android:text="contact" />
+
+        <Button
+            android:id="@+id/bt_cancel"
+            style="@android:style/Widget.Holo.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/bt_contact"
+            android:layout_below="@+id/tv_requestDateTitle"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/bt_contact"
+            android:layout_toRightOf="@+id/bt_contact"
+            android:text="cancel" />
 
 
         <RelativeLayout
-            android:id="@+id/rl_infoButton"
+            android:id="@+id/rlChecks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp">
+            android:layout_below="@+id/tv_airlineCode">
 
-            <TextView
-                android:id="@+id/tv_infoTitle"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:id="@+id/rl_infoButton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
-                android:text="additional info:"
-                android:textColor="@color/SXLight"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="5dp"/>
+                android:layout_marginTop="16dp">
 
-            <ImageView
-                android:id="@+id/iv_toggleInfo"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:adjustViewBounds="true"
-                android:cropToPadding="true"
-                android:gravity="center_vertical"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_collapsed"
-                android:tint="@color/PLight" />
+                <TextView
+                    android:id="@+id/tv_infoTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:text="additional info:"
+                    android:textColor="@color/SXLight"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/iv_toggleInfo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_collapsed"
+                    android:tint="@color/PLight" />
+            </RelativeLayout>
+
+
         </RelativeLayout>
 
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/erl_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlChecks"
+            app:ael_orientation="vertical">
+            <!---->
+            <!--&gt;-->
+            <!-- TODO - ADD FILTERS HERE -->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="16dp"-->
+            <!--android:text="Sample Text just for now "/>-->
+            <RelativeLayout
+                android:id="@+id/rlCheckBoxes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/cb_envelope"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:text="envelopes" />
+
+                <CheckBox
+                    android:id="@+id/cb_largeBox"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cb_envelope"
+                    android:text="large boxes" />
+
+                <CheckBox
+                    android:id="@+id/cb_fragile"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cb_largeBox"
+                    android:text="fragile" />
+
+                <CheckBox
+                    android:id="@+id/cb_smallBox"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/cb_envelope"
+                    android:text="small boxes" />
+
+                <CheckBox
+                    android:id="@+id/cb_clothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/cb_largeBox"
+                    android:layout_toRightOf="@+id/cb_largeBox"
+                    android:text="clothing items" />
+
+                <CheckBox
+                    android:id="@+id/cb_liquids"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cb_clothing"
+                    android:layout_toRightOf="@+id/cb_fragile"
+                    android:text="liquids" />
+
+                <CheckBox
+                    android:id="@+id/cb_other"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/cb_smallBox"
+                    android:text="others" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_flexibility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlCheckBoxes">
+
+                <!-- flexibility drop off -->
+                <TextView
+                    android:id="@+id/tv_dropoff_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="Drop-Off Flexibility"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_dropoff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tv_dropoff_label"
+                    android:textSize="14sp" />
+
+                <!-- flexibility pick up -->
+                <TextView
+                    android:id="@+id/tv_pickup_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tv_dropoff"
+                    android:text="Pick-Up Flexibility"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_pickup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tv_pickup_label"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
     </RelativeLayout>
 
-    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-        android:id="@+id/erl_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlChecks"
-        app:ael_orientation="vertical">
-        <!---->
-        <!--&gt;-->
-        <!-- TODO - ADD FILTERS HERE -->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="16dp"-->
-        <!--android:text="Sample Text just for now "/>-->
-        <RelativeLayout
-            android:id="@+id/rlCheckBoxes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <CheckBox
-                android:id="@+id/cb_envelope"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:text="envelopes" />
-
-            <CheckBox
-                android:id="@+id/cb_largeBox"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cb_envelope"
-                android:text="large boxes" />
-
-            <CheckBox
-                android:id="@+id/cb_fragile"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cb_largeBox"
-                android:text="fragile" />
-
-            <CheckBox
-                android:id="@+id/cb_smallBox"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/cb_envelope"
-                android:text="small boxes" />
-
-            <CheckBox
-                android:id="@+id/cb_clothing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/cb_largeBox"
-                android:layout_toRightOf="@+id/cb_largeBox"
-                android:text="clothing items" />
-
-            <CheckBox
-                android:id="@+id/cb_liquids"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/cb_clothing"
-                android:layout_toRightOf="@+id/cb_fragile"
-                android:text="liquids" />
-
-            <CheckBox
-                android:id="@+id/cb_other"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/cb_smallBox"
-                android:text="others" />
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/rl_flexibility"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rlCheckBoxes">
-
-            <!-- flexibility drop off -->
-            <TextView
-                android:id="@+id/tv_dropoff_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:text="Drop-Off Flexibility"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_dropoff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_dropoff_label"
-                android:textSize="14sp" />
-
-            <!-- flexibility pick up -->
-            <TextView
-                android:id="@+id/tv_pickup_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_dropoff"
-                android:text="Pick-Up Flexibility"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_pickup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_pickup_label"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
-
-
-    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-</RelativeLayout>
+</android.support.v7.widget.CardView>
