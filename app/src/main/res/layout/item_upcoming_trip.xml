@@ -149,7 +149,6 @@
             android:text="pending requests"
             android:textSize="12sp"
             android:layout_marginStart="18dp"
-            android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/tv_airlineNo" />
 
         <Button
@@ -344,6 +343,7 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:text="edit" />
 
@@ -353,6 +353,7 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="del"
             android:layout_alignBottom="@+id/bt_edit"
             android:layout_toRightOf="@+id/bt_edit"

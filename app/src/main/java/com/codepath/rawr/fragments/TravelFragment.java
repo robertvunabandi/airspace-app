@@ -293,7 +293,7 @@ public class TravelFragment extends Fragment {
                     // get parameters from the method createParams() in TravelNotice, see that method
                     RequestParams params = tvl.createParams();
                     // Send a request to the database with endpoint /travel_notice_add
-                    client.post(DB_URLS[0] + "/travel_notice_add", params, new JsonHttpResponseHandler() {
+                    client.post(DB_URLS[0] + "/travel_notice/add", params, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             try {
@@ -422,7 +422,7 @@ public class TravelFragment extends Fragment {
         // Set the request parameters
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
-        client.get(DB_URLS[0] + "/travel_notice_get_mine", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/travel_notice/get_mine", params, new JsonHttpResponseHandler() {
 
             // implement endpoint here
             @Override

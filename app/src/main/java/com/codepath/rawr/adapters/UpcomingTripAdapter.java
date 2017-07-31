@@ -160,7 +160,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                 params.put("travel_notice_id", mTrips.get(position).id);
                 params.put("tuid", mTrips.get(position).tuid);
 
-                client.post(DB_URLS[0] + "/travel_notice_delete", params, new JsonHttpResponseHandler() {
+                client.post(DB_URLS[0] + "/travel_notice/delete", params, new JsonHttpResponseHandler() {
                     // implement endpoint here
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
