@@ -91,14 +91,22 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
         holder.cb_liquids.setEnabled(false);
         holder.tv_dropoff.setText(request.tvl.drop_off_flexibility);
         holder.tv_pickup.setText(request.tvl.pick_up_flexibility);
-        holder.ivToggleInfo.setOnClickListener(new View.OnClickListener() {
+        holder.rl_infoButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
+
                 // Toggle the expandable view
                 holder.erl_info.toggle();
 
-                // TODO - Change the drawable to either expanded or collapsed
+                // Rotates the toggle button to indicate when the expandableLayout is either expanded or collapsed
+                if (holder.erl_info.isExpanded()) {
+                    holder.ivToggleInfo.setRotation(0);
+                }
+                else {
+                    holder.ivToggleInfo.setRotation(-90);
+                }
+
                 // TODO - Add filters in XML
             }
         });
