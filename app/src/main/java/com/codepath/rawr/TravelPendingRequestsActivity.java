@@ -59,7 +59,7 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put("travel_notice_id", travelNoticeId_);
 
-        client.get(DB_URLS[0] + "/request_get_from_travel_notice", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/request/get_from_travel_notice", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e(TAG, String.format("%s", response));

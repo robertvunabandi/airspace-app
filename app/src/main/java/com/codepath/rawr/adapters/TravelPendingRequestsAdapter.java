@@ -108,7 +108,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
 
                     // client was declared and instantiated in constructor for TravelPendingRequestsAdapter, not ViewHolder
 
-                    client.post(DB_URLS[0] + "/request_accept", params, new JsonHttpResponseHandler() {
+                    client.post(DB_URLS[0] + "/request/accept", params, new JsonHttpResponseHandler() {
                         // implement endpoint here
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -153,7 +153,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                     params.put("request_id",  mRequests.get(pos).id);
                     params.put("traveler_id",  mRequests.get(pos).tvl.tuid);
 
-                    client.post(DB_URLS[0] + "/request_decline", params, new JsonHttpResponseHandler() {
+                    client.post(DB_URLS[0] + "/request/decline", params, new JsonHttpResponseHandler() {
                         // implement endpoint here
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
