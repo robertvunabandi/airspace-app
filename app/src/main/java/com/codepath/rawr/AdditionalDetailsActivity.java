@@ -196,7 +196,7 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put("travel_notice_id", travelNoticeId_);
         params.put("tuid", tuid_);
-        client.get(DB_URLS[0] + "/travel_notice_get", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/travel_notice/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -245,7 +245,7 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
 
     public void updateFlight() {
         RequestParams params = tvl.createParams();
-        client.post(DB_URLS[0] + "/travel_notice_update", params, new JsonHttpResponseHandler() {
+        client.post(DB_URLS[0] + "/travel_notice/update", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // take the person to upcoming with this result
