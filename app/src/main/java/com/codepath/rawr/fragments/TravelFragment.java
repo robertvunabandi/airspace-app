@@ -78,11 +78,6 @@ public class TravelFragment extends Fragment {
     ArrayList<TravelNotice> mTrips;
     RecyclerView rv_trips;
 
-    // Declaring variables for list of pending requests
-//    TravelPendingRequestsAdapter travelPendingRequestsAdapter;
-//    ArrayList<ShippingRequest> mRequests;
-//    RecyclerView rv_pending_requests;
-
     // Declaring variables for list of accepted requests
 //    TravelAcceptedRequestsAdapter travelAcceptedRequestsAdapter;
 //    ArrayList<ShippingRequest> mAcceptedRequests;
