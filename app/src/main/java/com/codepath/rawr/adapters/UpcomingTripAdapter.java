@@ -57,7 +57,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
 
     @Override
     public void onBindViewHolder(final UpcomingTripAdapter.ViewHolder holder, final int position) {
-        TravelNotice trips = mTrips.get(position);
+        final TravelNotice trips = mTrips.get(position);
         holder.tv_from.setText(trips.dep_iata);
         holder.tv_to.setText(trips.arr_iata);
         holder.tv_dateFrom.setText(trips.getDepartureDaySimple());
@@ -85,15 +85,22 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         holder.tv_pickup.setText(trips.pick_up_flexibility);
 
 
-        // toggle button
-        holder.ivToggleInfo.setOnClickListener(new View.OnClickListener() {
+        holder.rl_infoButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
+
                 // Toggle the expandable view
                 holder.erl_info.toggle();
 
-                // TODO - Change the drawable to either expanded or collapsed
+                // Rotates the toggle button to indicate when the expandableLayout is either expanded or collapsed
+                if (holder.erl_info.isExpanded()) {
+                    holder.ivToggleInfo.setRotation(0);
+                }
+                else {
+                    holder.ivToggleInfo.setRotation(-90);
+                }
+
                 // TODO - Add filters in XML
             }
         });
@@ -103,6 +110,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, TravelPendingRequestsActivity.class);
+                i.putExtra("travel_notice_id", trips.id);
                 ((Activity) context).startActivityForResult(i, RawrApp.TRAVEL_PENDING_REQUESTS_CODE);
             }
         });
@@ -219,9 +227,12 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         public TextView tv_dropoff;
         public TextView tv_pickup;
 
+        public RelativeLayout rl_infoButton;
+
         public ViewHolder(View itemView) {
             super(itemView);
 
+            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rl_infoButton);
             relative_layout = (RelativeLayout) itemView.findViewById(R.id.relative_layout);
             tv_from = (TextView) itemView.findViewById(R.id.tv_from);
             tv_to = (TextView) itemView.findViewById(R.id.tv_to);

@@ -223,12 +223,19 @@ public class SenderFormActivity extends AppCompatActivity {
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
                     // if an error occurred, set result cancelled
-                    try {
-                        resultIntent.putExtra("message", errorResponse.getString("message"));
-                        setResult(RESULT_CANCELED, resultIntent);
-                        finish();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (errorResponse != null) {
+                        try {
+                            String msg = errorResponse.getString("message");
+                            resultIntent.putExtra("message", msg);
+                            setResult(RESULT_CANCELED, resultIntent);
+                            finish();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            resultIntent.putExtra("message", "Error (1) in endpoint request_send");
+                            setResult(RESULT_CANCELED, resultIntent);
+                            finish();
+                        }
+                    } else {
                         resultIntent.putExtra("message", "Error (1) in endpoint request_send");
                         setResult(RESULT_CANCELED, resultIntent);
                         finish();
@@ -316,6 +323,7 @@ public class SenderFormActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent data = new Intent();
         data.putExtra("message", String.format("Cancelled"));
-        setResult(RESULT_CANCELED, data); finish();
+        setResult(RESULT_CANCELED, data);
+        finish();
     }
 }

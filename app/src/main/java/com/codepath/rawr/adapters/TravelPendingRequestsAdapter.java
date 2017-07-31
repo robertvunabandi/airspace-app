@@ -5,8 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,29 +36,31 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         client = new AsyncHttpClient();
     }
 
+//    @Override
+//    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//        context = parent.getContext();
+//        LayoutInflater inflater = LayoutInflater.from(context);
+//        View requestsView = inflater.inflate(R.layout.item_travel_pending_request, parent, false);
+//        ViewHolder viewHolder = new ViewHolder(requestsView);
+//        DB_URLS = new String[]{context.getString(R.string.DB_HEROKU_URL), context.getString(R.string.DB_LOCAL_URL)};
+//        return viewHolder;
+//    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View requestsView = inflater.inflate(R.layout.item_travel_pending_request, parent, false);
-        ViewHolder viewHolder = new ViewHolder(requestsView);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_travel_pending_request, parent, false);
         DB_URLS = new String[]{context.getString(R.string.DB_HEROKU_URL), context.getString(R.string.DB_LOCAL_URL)};
-        return viewHolder;
+        return new ViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(TravelPendingRequestsAdapter.ViewHolder holder, int position) {
-        ShippingRequest singleRequest = mRequests.get(position);
-        holder.tv_from.setText(singleRequest.tvl.dep_iata);
-        holder.tv_to.setText(singleRequest.tvl.arr_iata);
-        holder.tv_dateFrom.setText(singleRequest.tvl.getDepartureDaySimple());
-        holder.tv_dateTo.setText(singleRequest.tvl.getArrivalDaySimple());
-        holder.tv_fromTime.setText(singleRequest.tvl.getDepartureTime());
-        holder.tv_toTime.setText(singleRequest.tvl.getArrivalTime());
-        holder.tv_airlineCode.setText(singleRequest.tvl.airline);
-        holder.tv_airlineNo.setText(singleRequest.tvl.flight_num);
-        holder.tv_item.setText(singleRequest.getShippingItemName());
-        holder.tv_requester.setText(singleRequest.getRequesterName());
+        ShippingRequest request = mRequests.get(position);
+
+        holder.tv_item.setText(request.getShippingItemName());
+        holder.tv_requester.setText(request.getRequesterName());
+//        holder.tv_date.setText(request.);
 
     }
 
@@ -70,50 +71,32 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        // view holder for trip data
-        public RelativeLayout relative_layout;
-        public TextView tv_from;
-        public TextView tv_to;
-        public TextView tv_arrow;
-        public TextView tv_fromTime;
-        public TextView tv_toTime;
-        public TextView tv_dateFrom;
-        public TextView tv_dateTo;
-        public TextView tv_airlineCode;
-        public TextView tv_airlineNo;
 
         // view holder for shipping request data
+        public TextView tv_item_title;
+        public TextView tv_requester_title;
+        public TextView tv_request_date;
         public TextView tv_item;
         public TextView tv_requester;
+        public TextView tv_date;
 
-        public Button bt_accept;
-        public Button bt_decline;
+        public ImageButton ib_accept;
+        public ImageButton ib_decline;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            relative_layout = (RelativeLayout) itemView.findViewById(R.id.relative_layout);
-            tv_from = (TextView) itemView.findViewById(R.id.tv_from);
-            tv_to = (TextView) itemView.findViewById(R.id.tv_to);
-            tv_arrow = (TextView) itemView.findViewById(R.id.tv_arrow);
-            tv_fromTime = (TextView) itemView.findViewById(R.id.tv_fromTime);
-            tv_toTime = (TextView) itemView.findViewById(R.id.tv_toTime);
-            tv_dateFrom = (TextView) itemView.findViewById(R.id.tv_dateFrom);
-            tv_dateTo = (TextView) itemView.findViewById(R.id.tv_dateTo);
-
+            tv_item_title = (TextView) itemView.findViewById(R.id.tv_item_title);
+            tv_requester_title = (TextView) itemView.findViewById(R.id.tv_requester_title);
+            tv_request_date = (TextView) itemView.findViewById(R.id.tv_request_date);
             tv_item = (TextView) itemView.findViewById(R.id.tv_item);
             tv_requester = (TextView) itemView.findViewById(R.id.tv_requester);
-            tv_airlineCode = (TextView) itemView.findViewById(R.id.tv_airlineCode);
-            tv_airlineNo = (TextView) itemView.findViewById(R.id.tv_airlineNo);
-
-            bt_accept = (Button) itemView.findViewById(R.id.bt_accept);
-            bt_decline = (Button) itemView.findViewById(R.id.bt_decline);
-
-
-
+            tv_date = (TextView) itemView.findViewById(R.id.tv_date);
+            ib_accept = (ImageButton) itemView.findViewById(R.id.ib_accept);
+            ib_decline = (ImageButton) itemView.findViewById(R.id.ib_decline);
 
             // ACCEPT the request click listener
-            bt_accept.setOnClickListener(new View.OnClickListener(){
+            ib_accept.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     final int pos = getAdapterPosition();
@@ -159,8 +142,8 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                 }
             });
 
-            // DECLINE the request click listener
-            bt_decline.setOnClickListener(new View.OnClickListener(){
+//            // DECLINE the request click listener
+            ib_decline.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
                     final int pos = getAdapterPosition();
