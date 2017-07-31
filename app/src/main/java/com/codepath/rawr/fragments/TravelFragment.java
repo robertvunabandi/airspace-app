@@ -27,11 +27,8 @@ import com.codepath.rawr.AdditionalDetailsActivity;
 import com.codepath.rawr.MainActivity;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
-import com.codepath.rawr.adapters.TravelAcceptedRequestsAdapter;
-import com.codepath.rawr.adapters.TravelPendingRequestsAdapter;
 import com.codepath.rawr.adapters.UpcomingTripAdapter;
 import com.codepath.rawr.models.Flight;
-import com.codepath.rawr.models.ShippingRequest;
 import com.codepath.rawr.models.TravelNotice;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.loopj.android.http.AsyncHttpClient;
@@ -82,19 +79,21 @@ public class TravelFragment extends Fragment {
     RecyclerView rv_trips;
 
     // Declaring variables for list of pending requests
-    TravelPendingRequestsAdapter travelPendingRequestsAdapter;
-    ArrayList<ShippingRequest> mRequests;
-    RecyclerView rv_pending_requests;
+//    TravelPendingRequestsAdapter travelPendingRequestsAdapter;
+//    ArrayList<ShippingRequest> mRequests;
+//    RecyclerView rv_pending_requests;
 
     // Declaring variables for list of accepted requests
-    TravelAcceptedRequestsAdapter travelAcceptedRequestsAdapter;
-    ArrayList<ShippingRequest> mAcceptedRequests;
-    RecyclerView rv_accepted_requests;
+//    TravelAcceptedRequestsAdapter travelAcceptedRequestsAdapter;
+//    ArrayList<ShippingRequest> mAcceptedRequests;
+//    RecyclerView rv_accepted_requests;
 
     SwipeRefreshLayout swipeContainer;
 
 
     public TravelFragment() {
+        // Required empty public constructor
+
     }
 
     @Override
@@ -102,8 +101,8 @@ public class TravelFragment extends Fragment {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
         DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
+//        getRequestId();
         getTripsData();
-        getRequestId();
     }
 
     @Override
@@ -244,18 +243,18 @@ public class TravelFragment extends Fragment {
         rv_trips.setAdapter(upcomingTripAdapter);
 
         // setting up RecyclerView for list of pending requests
-        mRequests = new ArrayList<>();
-        travelPendingRequestsAdapter = new TravelPendingRequestsAdapter(mRequests);
-        rv_pending_requests = (RecyclerView) v.findViewById(R.id.rv_pending_requests);
-        rv_pending_requests.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv_pending_requests.setAdapter(travelPendingRequestsAdapter);
+//        mRequests = new ArrayList<>();
+//        travelPendingRequestsAdapter = new TravelPendingRequestsAdapter(mRequests);
+//        rv_pending_requests = (RecyclerView) v.findViewById(rv_pending_requests);
+//        rv_pending_requests.setLayoutManager(new LinearLayoutManager(getContext()));
+//        rv_pending_requests.setAdapter(travelPendingRequestsAdapter);
 
         // setting up RecyclerView for list of pending requests
-        mAcceptedRequests = new ArrayList<>();
-        travelAcceptedRequestsAdapter = new TravelAcceptedRequestsAdapter(mAcceptedRequests);
-        rv_accepted_requests = (RecyclerView) v.findViewById(R.id.rv_accepted_requests);
-        rv_accepted_requests.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv_accepted_requests.setAdapter(travelAcceptedRequestsAdapter);
+//        mAcceptedRequests = new ArrayList<>();
+//        travelAcceptedRequestsAdapter = new TravelAcceptedRequestsAdapter(mAcceptedRequests);
+//        rv_accepted_requests = (RecyclerView) v.findViewById(rv_accepted_requests);
+//        rv_accepted_requests.setLayoutManager(new LinearLayoutManager(getContext()));
+//        rv_accepted_requests.setAdapter(travelAcceptedRequestsAdapter);
 
         // clear view button
         final TextView tv_clear_content = (TextView) v.findViewById(R.id.tv_clear_content);
@@ -369,11 +368,19 @@ public class TravelFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 additionalDetailsActivityLaunch(travelNoticeId, tuid);
+
+                upcomingTripAdapter.notifyDataSetChanged();
+                getTripsData();
+
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // TODO - Take the user to the upcoming section, which should be updated with all of this user's travel notices
+
+                upcomingTripAdapter.notifyDataSetChanged();
+                getTripsData();
+
             }
         });
         AlertDialog dialog = builder.create();
@@ -387,7 +394,7 @@ public class TravelFragment extends Fragment {
         getActivity().startActivityForResult(AdditionalDetailsActivity, ADDITIONAL_DETAILS_CODE);
     }
 
-    // populate list of trips
+    // populate list of trips from JSON
     private void populateList(JSONArray travelNoticeList) {
         for (int i = 0; i < travelNoticeList.length(); i++) {
             try {
@@ -403,6 +410,17 @@ public class TravelFragment extends Fragment {
             }
         }
     }
+
+
+//    // populate list of trips from just an ArrayList for autorefreshing
+//    private void populateList(ArrayList<TravelNotice> travelNoticeList) {
+//        for (int i = 0; i < travelNoticeList.size(); i++) {
+//            mTrips.add(travelNoticeList.get(i));
+//            upcomingTripAdapter.notifyItemInserted(mTrips.size() - 1);
+//            // Toast.makeText(getContext(), String.format("%s", travelNotice), Toast.LENGTH_LONG).show();
+//
+//        }
+//    }
 
     // get data for list of trips
     private void getTripsData() {
@@ -449,96 +467,96 @@ public class TravelFragment extends Fragment {
     }
 
     // get list of request IDs & call on method to get list of requests
-    private void getRequestId() {
-
-        // Set the request parameters
-        RequestParams params = new RequestParams();
-        params.put("uid", RawrApp.getUsingUserId());
-
-        client.get(DB_URLS[0] + "/request_get_to_me", params, new JsonHttpResponseHandler() {
-            // implement endpoint here
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                travelPendingRequestsAdapter.clear();
-                try {
-                    getRequestData(response.getJSONArray("data"));
-                    Log.e(TAG, String.format("%s", response));
-                } catch (JSONException e) {
-
-                }
-                //swipeContainer.setRefreshing(false);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
-                    errorResponse) {
-                Log.e(TAG, String.format("%s", errorResponse));
-                Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
-                    throwable) {
-                Log.e(TAG, String.format("%s", responseString));
-
-                Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void getRequestId() {
+//
+//        // Set the request parameters
+//        RequestParams params = new RequestParams();
+//        params.put("uid", RawrApp.getUsingUserId());
+//
+//        client.get(DB_URLS[0] + "/request_get_to_me", params, new JsonHttpResponseHandler() {
+//            // implement endpoint here
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                travelPendingRequestsAdapter.clear();
+//                try {
+//                    getRequestData(response.getJSONArray("data"));
+//                    Log.e(TAG, String.format("%s", response));
+//                } catch (JSONException e) {
+//
+//                }
+//                //swipeContainer.setRefreshing(false);
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
+//                    errorResponse) {
+//                Log.e(TAG, String.format("%s", errorResponse));
+//                Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
+//                    throwable) {
+//                Log.e(TAG, String.format("%s", responseString));
+//
+//                Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     // method that gets data for pending requests
-    private void getRequestData(final JSONArray requestId) {
-
-        for (int i = 0; i < requestId.length(); i++) {
-            try {
-                // Set the request parameters
-                RequestParams params = new RequestParams();
-                params.put("request_id", requestId.getJSONObject(i).getString("request_id"));
-                client.get(DB_URLS[0] + "/request_get", params, new JsonHttpResponseHandler() {
-                    // implement endpoint here
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        try {
-                             ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
-                            if (sr.isPending()) {
-                                mRequests.add(sr);
-                                travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
-                                Log.e(TAG, String.format("%s", sr ));
-                            } else if (sr.isAccepted()) {
-                                mAcceptedRequests.add(sr);
-                                travelAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRequests.size() - 1);
-                            }
-                        } catch (JSONException e) {
-                            Log.e(TAG, String.format("JSON Exception at request_get request_id: %s", e));
-                        }
-//                        swipeContainer.setRefreshing(false);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
-                            errorResponse) {
-                        Log.e(TAG, String.format("Error 1 %s", errorResponse));
-                        Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
-                            errorResponse) {
-                        Log.e(TAG, String.format("Error 2 %s", errorResponse));
-                        Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
-                            throwable) {
-                        Log.e(TAG, String.format("Error 3 %s", responseString));
-                        Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    private void getRequestData(final JSONArray requestId) {
+//
+//        for (int i = 0; i < requestId.length(); i++) {
+//            try {
+//                // Set the request parameters
+//                RequestParams params = new RequestParams();
+//                params.put("request_id", requestId.getJSONObject(i).getString("request_id"));
+//                client.get(DB_URLS[0] + "/request_get", params, new JsonHttpResponseHandler() {
+//                    // implement endpoint here
+//                    @Override
+//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                        try {
+//                             ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
+//                            if (sr.isPending()) {
+//                                mRequests.add(sr);
+//                                travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
+//                                Log.e(TAG, String.format("%s", sr ));
+//                            } else if (sr.isAccepted()) {
+//                                mAcceptedRequests.add(sr);
+//                                travelAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRequests.size() - 1);
+//                            }
+//                        } catch (JSONException e) {
+//                            Log.e(TAG, String.format("JSON Exception at request_get request_id: %s", e));
+//                        }
+////                        swipeContainer.setRefreshing(false);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
+//                            errorResponse) {
+//                        Log.e(TAG, String.format("Error 1 %s", errorResponse));
+//                        Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
+//                            errorResponse) {
+//                        Log.e(TAG, String.format("Error 2 %s", errorResponse));
+//                        Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
+//                            throwable) {
+//                        Log.e(TAG, String.format("Error 3 %s", responseString));
+//                        Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }
