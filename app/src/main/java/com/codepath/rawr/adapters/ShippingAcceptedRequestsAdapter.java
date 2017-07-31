@@ -73,7 +73,7 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
         holder.tv_airlineCode.setText(request.tvl.airline);
         holder.tv_airlineNo.setText(request.tvl.flight_num);
         holder.tv_item.setText(request.getShippingItemName());
-        // holder.tv_requested_date.setText(request.tvl.getArrivalTime());
+        // TODO holder.tv_requested_date.setText(request.tvl.getDepartureDaySimple());
 
         holder.cb_envelope.setChecked(request.item_envelopes);
         holder.cb_largeBox.setChecked(request.item_lgbox);
