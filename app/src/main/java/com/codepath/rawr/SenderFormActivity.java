@@ -267,7 +267,7 @@ public class SenderFormActivity extends AppCompatActivity {
         // make a call to server to get the user and then create usingUser base on that json from the server
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
-        client.get(DB_URLS[0] + "/user_get", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/user/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
