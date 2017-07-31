@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:elevation="0dp"
+    android:background="@color/SXLight">
 
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -13,12 +15,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         card_view:cardCornerRadius="10dp"
-        card_view:cardBackgroundColor="@color/colorTransparentSXDark">
+        card_view:cardBackgroundColor="@color/colorTransparentSXXXDark"
+        android:elevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:elevation="0dp">
 
             <TextView
                 android:id="@+id/tvName_isr"
