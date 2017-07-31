@@ -4,15 +4,18 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/colorTransparentWhite"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
-    android:layout_marginBottom="4dp"
-    >
+    app:cardBackgroundColor="@color/colorTransparentWhite"
+    app:cardElevation="0dp"
+
+    app:cardPreventCornerOverlap="true"
+    android:layout_marginBottom="4dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -140,12 +143,14 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/tv_to"
-            android:text="pending requests"
+            android:layout_marginLeft="18dp"
+            android:background="@color/PLight"
             android:onClick="true"
-            android:layout_marginLeft="20dp"
-            android:textSize="12sp" />
+            android:text="pending requests"
+            android:textSize="12sp"
+            android:layout_marginStart="18dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/tv_airlineNo" />
 
         <Button
             android:id="@+id/bt_accepted"
@@ -154,10 +159,12 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/bt_pending"
             android:layout_alignStart="@+id/bt_pending"
+            android:background="@color/PLight"
             android:onClick="true"
-            android:layout_below="@+id/bt_pending"
             android:text="accepted requests"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:layout_below="@+id/tv_to"
+            android:layout_alignBottom="@+id/tv_dateTo" />
 
     </RelativeLayout>
 
