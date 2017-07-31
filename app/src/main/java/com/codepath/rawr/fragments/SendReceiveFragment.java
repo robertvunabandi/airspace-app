@@ -239,7 +239,7 @@ public class SendReceiveFragment extends Fragment {
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
 
-        client.get(DB_URLS[0] + "/request_get_my", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/request/get_my", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 shippingPendingRequestsAdapter.clear();
@@ -277,7 +277,7 @@ public class SendReceiveFragment extends Fragment {
                 RequestParams params = new RequestParams();
                 params.put("travel_notice_id", requestsList.getJSONObject(i).getString("travel_notice_id"));
                 final int finalI = i;
-                client.get(DB_URLS[0] + "/travel_notice_get", params, new JsonHttpResponseHandler() {
+                client.get(DB_URLS[0] + "/travel_notice/get", params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
