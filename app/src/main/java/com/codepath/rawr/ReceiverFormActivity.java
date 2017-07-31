@@ -207,7 +207,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
             // checks if the recipient's informations is filled up because the server will also throw an error if it's not
             Snackbar.make(parentLayout, "You must fill up all of the recipient's details.", Snackbar.LENGTH_LONG).show();
         } else {
-            client.post(DB_URLS[0] + "/request_send", params, new JsonHttpResponseHandler() {
+            client.post(DB_URLS[0] + "/request/send", params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // if request sent successfully, set the result ok
