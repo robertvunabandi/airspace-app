@@ -87,7 +87,7 @@ public class ConversationsFragment extends Fragment {
         // gets the notifications from the server and then makes a call to populate them in the recycler view
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
-        client.get(DB_URLS[0] + "/notifications_get", params, new JsonHttpResponseHandler() {
+        client.get(DB_URLS[0] + "/notifications/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
