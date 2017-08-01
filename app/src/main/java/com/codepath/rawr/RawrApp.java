@@ -33,4 +33,8 @@ public class RawrApp extends Application {
             usingUserId = id;
         } else throw new Exception("Invalid id for replacement");
     }
+
+    public static boolean isStringEmpty(String s) {
+        return !(s != null && !s.equals(""));
+    }
 }
