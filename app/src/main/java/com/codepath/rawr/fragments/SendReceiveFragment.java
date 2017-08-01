@@ -262,6 +262,8 @@ public class SendReceiveFragment extends Fragment {
                     msg = "Error (1) occurred while acquiring the requests sent to user";
                 }
                 // make a snackbar because of the error
+                // TODO - This sometimes causes error, it says "java.lang.NullPointerException: Attempt to invoke virtual method 'void com.codepath.rawr.MainActivity.snackbarCallLong(java.lang.String)' on a null object"
+                // TODO - Fix this error (next line that says: (MainActivity) getActivity()).snackbarCallLong(msg);
                 ((MainActivity) getActivity()).snackbarCallLong(msg);
             }
 

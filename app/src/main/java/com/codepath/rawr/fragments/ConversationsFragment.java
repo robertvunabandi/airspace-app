@@ -30,7 +30,6 @@ import cz.msebera.android.httpclient.Header;
 public class ConversationsFragment extends Fragment {
     public static final String TAG = "ConversationsFragment";
     // variables for HTTP calls
-    public String[] DB_URLS;
     AsyncHttpClient client;
 
     /* Declaring variables for messages TODO - Add these stuffs when we add messages
@@ -52,7 +51,6 @@ public class ConversationsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
-        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
         // call to get the notifications after the stuff has been created
         getNotifications();
     }
