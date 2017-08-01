@@ -4,362 +4,420 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    app:cardBackgroundColor="@color/colorTransparentWhite"
+    android:layout_marginBottom="6dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    app:cardBackgroundColor="@color/colorTransparentWhiteMore"
     app:cardElevation="0dp"
-
-    app:cardPreventCornerOverlap="true"
-    android:layout_marginBottom="4dp">
+    app:cardPreventCornerOverlap="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/rl_item_view"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:id="@+id/tv_airlineCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:text="TextView"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tv_airlineNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tv_airlineCode"
-            android:layout_alignBottom="@+id/tv_airlineCode"
-            android:layout_toEndOf="@+id/tv_airlineCode"
-            android:layout_toRightOf="@+id/tv_airlineCode"
-            android:text="TextView"
-            android:textSize="20sp" />
-
-
-        <TextView
-        android:id="@+id/tv_from"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/tv_airlineCode"
-        android:text="SEA"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/tv_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tv_from"
-        android:layout_alignBottom="@+id/tv_from"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_toEndOf="@+id/tv_from"
-        android:layout_toRightOf="@+id/tv_from"
-        android:layout_below="@id/tv_airlineCode"
-
-        android:text="➝"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/tv_to"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:layout_toEndOf="@+id/tv_arrow"
-        android:layout_toRightOf="@+id/tv_arrow"
-        android:layout_below="@id/tv_airlineCode"
-
-        android:text="JFK"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="30sp" />
-
-    <TextView
-        android:id="@+id/tv_fromTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_from"
-        android:layout_alignStart="@+id/tv_from"
-        android:layout_below="@+id/tv_from"
-        android:layout_toLeftOf="@+id/tv_arrow"
-        android:layout_toStartOf="@+id/tv_arrow"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_toTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tv_to"
-        android:layout_alignLeft="@+id/tv_to"
-        android:layout_alignRight="@+id/tv_to"
-        android:layout_alignStart="@+id/tv_to"
-        android:layout_below="@+id/tv_to"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_dateFrom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tv_fromTime"
-        android:layout_alignLeft="@+id/tv_fromTime"
-        android:layout_alignRight="@+id/tv_fromTime"
-        android:layout_alignStart="@+id/tv_fromTime"
-        android:layout_below="@+id/tv_fromTime"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_dateTo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/tv_toTime"
-        android:layout_alignLeft="@+id/tv_toTime"
-        android:layout_alignRight="@+id/tv_toTime"
-        android:layout_alignStart="@+id/tv_toTime"
-        android:layout_below="@+id/tv_toTime"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/bt_pending"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/tv_to"
-            android:background="@color/PLight"
-            android:onClick="true"
-            android:text="pending"
-            android:textSize="12sp"
-            android:layout_alignBottom="@+id/tv_airlineNo" />
-
-        <Button
-            android:id="@+id/bt_accepted"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/PLight"
-            android:onClick="true"
-            android:text="accepted"
-            android:textSize="12sp"
-            android:layout_above="@+id/tv_dateTo"
-            android:layout_alignLeft="@+id/bt_pending"
-            android:layout_alignStart="@+id/bt_pending" />
-
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:id="@+id/rlChecks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_item_view">
-
+        android:padding="10dp">
 
         <RelativeLayout
-            android:id="@+id/rl_infoButton"
-            android:layout_width="match_parent"
+            android:id="@+id/rl_item_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp">
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true">
 
-            <TextView
-                android:id="@+id/tv_infoTitle"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:gravity="center_vertical"
-                android:text="additional info:"
-                android:textColor="@color/SXLight"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_alignParentLeft="true">
 
-            <ImageView
-                android:id="@+id/iv_toggleInfo"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                <RelativeLayout
+                    android:id="@+id/rl_airlineFlightCodes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="4dp">
+
+                    <TextView
+                        android:id="@+id/tv_airlineCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="XX"
+                        android:textColor="@color/SXXDark"
+                        android:textSize="20sp"
+                        android:textStyle="italic" />
+
+                    <TextView
+                        android:id="@+id/tv_airlineNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/tv_airlineCode"
+                        android:layout_alignBottom="@+id/tv_airlineCode"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toEndOf="@+id/tv_airlineCode"
+                        android:layout_toRightOf="@+id/tv_airlineCode"
+                        android:text="DDD"
+                        android:textColor="@color/SXDark"
+                        android:textSize="20sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_airlineIATAs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rl_airlineFlightCodes">
+
+                    <RelativeLayout
+                        android:id="@+id/rl_block_departure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_from"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="SEA"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="@color/SXXDark"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_fromTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_from"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:text="TIME_FROM"
+                            android:textAlignment="center"
+                            android:textColor="@color/SXDark"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_dateFrom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_fromTime"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:text="DATE_FROM"
+                            android:textAlignment="center"
+                            android:textColor="@color/SXDark"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/rl_block_departure"
+                        android:layout_toRightOf="@+id/rl_block_departure"
+                        android:gravity="center"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="➝"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/SXXDark"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_block_arrival"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/tv_arrow"
+                        android:layout_toRightOf="@+id/tv_arrow">
+
+                        <TextView
+                            android:id="@+id/tv_to"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="JFK"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="@color/SXXDark"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_toTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_to"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:text="TIME_TO"
+                            android:textAlignment="center"
+                            android:textColor="@color/SXDark"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_dateTo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_toTime"
+                            android:layout_centerHorizontal="true"
+                            android:gravity="center"
+                            android:text="DATE_TO"
+                            android:textAlignment="center"
+                            android:textColor="@color/SXDark"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_buttons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:adjustViewBounds="true"
-                android:cropToPadding="true"
-                android:gravity="center_vertical"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_collapsed"
-                android:tint="@color/PLight" />
-        </RelativeLayout>
+                android:layout_centerVertical="true">
 
+                <Button
+                    android:id="@+id/bt_pending"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@drawable/ripple_effect"
+                    android:onClick="true"
+                    android:text="pending"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-    </RelativeLayout>
-
-    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-        android:id="@+id/erl_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlChecks"
-        app:ael_orientation="vertical">
-        <!---->
-        <!--&gt;-->
-        <!-- TODO - ADD FILTERS HERE -->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="16dp"-->
-        <!--android:text="Sample Text just for now "/>-->
-        <RelativeLayout
-            android:id="@+id/rlCheckBoxes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <CheckBox
-                android:id="@+id/cb_envelope"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:text="envelopes" />
-
-            <CheckBox
-                android:id="@+id/cb_largeBox"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cb_envelope"
-                android:text="large boxes" />
-
-            <CheckBox
-                android:id="@+id/cb_fragile"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cb_largeBox"
-                android:text="fragile" />
-
-            <CheckBox
-                android:id="@+id/cb_smallBox"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/cb_envelope"
-                android:text="small boxes" />
-
-            <CheckBox
-                android:id="@+id/cb_clothing"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/cb_largeBox"
-                android:layout_toRightOf="@+id/cb_largeBox"
-                android:text="clothing items" />
-
-            <CheckBox
-                android:id="@+id/cb_liquids"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/cb_clothing"
-                android:layout_toRightOf="@+id/cb_fragile"
-                android:text="liquids" />
-
-            <CheckBox
-                android:id="@+id/cb_other"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/cb_smallBox"
-                android:text="others" />
+                <Button
+                    android:id="@+id/bt_accepted"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/bt_pending"
+                    android:background="@drawable/ripple_effect"
+                    android:onClick="true"
+                    android:text="accepted"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
         </RelativeLayout>
 
 
         <RelativeLayout
-            android:id="@+id/rl_flexibility"
+            android:id="@+id/rlChecks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rlCheckBoxes">
+            android:layout_below="@+id/rl_item_view"
+            android:background="@drawable/ripple_sxdark">
 
-            <!-- flexibility drop off -->
-            <TextView
-                android:id="@+id/tv_dropoff_label"
+
+            <RelativeLayout
+                android:id="@+id/rl_infoButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:text="Drop-Off Flexibility"
-                android:textStyle="bold" />
+                android:background="@drawable/ripple_sxdark"
+                android:padding="4dp">
 
-            <TextView
-                android:id="@+id/tv_dropoff"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_dropoff_label"
-                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tv_infoTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:padding="2dp"
+                    android:text="additional info"
+                    android:textColor="@color/PDark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-            <!-- flexibility pick up -->
-            <TextView
-                android:id="@+id/tv_pickup_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_dropoff"
-                android:text="Pick-Up Flexibility"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/iv_toggleInfo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_collapsed"
+                    android:tint="@color/PDark" />
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_pickup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_pickup_label"
-                android:textSize="14sp" />
 
         </RelativeLayout>
 
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+            android:id="@+id/erl_info"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_flexibility"
-            android:id="@+id/btns">
+            android:layout_below="@+id/rlChecks"
+            app:ael_orientation="vertical">
+            <!---->
+            <!--&gt;-->
+            <!-- TODO - ADD FILTERS HERE -->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="16dp"-->
+            <!--android:text="Sample Text just for now "/>-->
+            <RelativeLayout
+                android:id="@+id/rlCheckBoxes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <CheckBox
+                            android:id="@+id/cb_envelope"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:text="envelopes" />
+
+                        <CheckBox
+                            android:id="@+id/cb_largeBox"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/cb_envelope"
+                            android:text="large boxes" />
+                        <CheckBox
+                            android:id="@+id/cb_smallBox"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/cb_largeBox"
+                            android:text="small boxes" />
+                        <CheckBox
+                            android:id="@+id/cb_fragile"
+                            android:layout_width="110dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/cb_smallBox"
+                            android:text="fragile" />
 
 
-        <Button
-            android:id="@+id/bt_edit"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="edit" />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content">
+                        <CheckBox
+                            android:id="@+id/cb_clothing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="clothing items" />
+
+                        <CheckBox
+                            android:id="@+id/cb_liquids"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/cb_clothing"
+                            android:text="liquids" />
+
+                        <CheckBox
+                            android:id="@+id/cb_other"
+                            android:layout_below="@+id/cb_liquids"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="others" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_flexibility"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlCheckBoxes">
+
+                <!-- flexibility drop off -->
+                <TextView
+                    android:id="@+id/tv_dropoff_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="Drop-Off Flexibility"
+                    android:textColor="@color/SXXDark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_dropoff"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textColor="@color/SXDark"
+                    android:layout_below="@+id/tv_dropoff_label"
+                    android:textSize="16sp" />
+
+                <!-- flexibility pick up -->
+                <TextView
+                    android:id="@+id/tv_pickup_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tv_dropoff"
+                    android:text="Pick-Up Flexibility"
+                    android:textColor="@color/SXXDark"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_pickup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/tv_pickup_label"
+                    android:textColor="@color/SXDark"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
 
 
-        <Button
-            android:id="@+id/bt_delete"
-            style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="del"
-            android:layout_alignBottom="@+id/bt_edit"
-            android:layout_toRightOf="@+id/bt_edit"
-            android:layout_toEndOf="@+id/bt_edit" />
+            <RelativeLayout
+                android:id="@+id/btns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_flexibility">
 
-        </RelativeLayout>
 
-    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+                <Button
+                    android:id="@+id/bt_edit"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="edit" />
+
+
+                <Button
+                    android:id="@+id/bt_delete"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/bt_edit"
+                    android:layout_toEndOf="@+id/bt_edit"
+                    android:layout_toRightOf="@+id/bt_edit"
+                    android:text="del" />
+
+            </RelativeLayout>
+
+        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
     </RelativeLayout>
-
 </android.support.v7.widget.CardView>
