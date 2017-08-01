@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.adapters.TravelPendingRequestsAdapter;
@@ -29,6 +30,8 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
     public String[] DB_URLS;
     public String travelNoticeId;
 
+    public TextView pending_count;
+
     // Declaring variables for list of pending requests
     TravelPendingRequestsAdapter travelPendingRequestsAdapter;
     ArrayList<ShippingRequest> mRequests;
@@ -51,7 +54,10 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
         rv_pending_requests.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         rv_pending_requests.setAdapter(travelPendingRequestsAdapter);
 
-        populateList(travelNoticeId);
+        pending_count = (TextView) findViewById(R.id.tv_pending_count);
+
+
+                populateList(travelNoticeId);
 //        getRequestsData(travelNoticeId);
     }
 
@@ -103,6 +109,8 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
                 if(shippingRequest.isPending()) {
                     mRequests.add(shippingRequest);
                     travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
+                    pending_count.setText("You have " + mRequests.size() + " pending requests");
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

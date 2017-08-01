@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.adapters.TravelAcceptedRequestsAdapter;
@@ -28,6 +29,8 @@ public class TravelAcceptedRequestsActivity extends AppCompatActivity {
     public String[] DB_URLS;
     public String travelNoticeId;
 
+    public TextView request_count;
+
     // Declaring variables for list of pending requests
     TravelAcceptedRequestsAdapter travelAcceptedRequestsAdapter;
     ArrayList<ShippingRequest> mAcceptedRequests;
@@ -50,7 +53,10 @@ public class TravelAcceptedRequestsActivity extends AppCompatActivity {
         rv_accepted_requests.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         rv_accepted_requests.setAdapter(travelAcceptedRequestsAdapter);
 
+        request_count = (TextView) findViewById(R.id.tv_accepted_count);
+
         populateList(travelNoticeId);
+
     }
 
     private void populateList(String travelNoticeId_) {
@@ -101,6 +107,7 @@ public class TravelAcceptedRequestsActivity extends AppCompatActivity {
                 if (shippingRequest.isAccepted()) {
                     mAcceptedRequests.add(shippingRequest);
                     travelAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRequests.size() - 1);
+                    request_count.setText("You have accepted " + mAcceptedRequests.size() + " requests");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
