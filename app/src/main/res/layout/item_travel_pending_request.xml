@@ -8,7 +8,7 @@
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/colorTransparentWhite"
+    app:cardBackgroundColor="@color/colorTransparentWhiteMore"
     >
 
     <RelativeLayout
@@ -31,6 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:paddingLeft="8dp"
             android:layout_toEndOf="@+id/iv_requester"
             android:layout_toRightOf="@+id/iv_requester"
             android:text="Item: " />
@@ -47,6 +48,7 @@
         <TextView
             android:id="@+id/tv_requester_title"
             android:layout_width="wrap_content"
+            android:paddingLeft="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_item_title"
             android:layout_toEndOf="@+id/iv_requester"
@@ -58,13 +60,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_item"
-            android:layout_toEndOf="@+id/tv_item"
-            android:layout_toRightOf="@+id/tv_item"
+            android:layout_toRightOf="@id/tv_requester_title"
+            android:paddingLeft="3dp"
             android:text="Mr. Potato" />
 
         <TextView
             android:id="@+id/tv_request_date"
             android:layout_width="wrap_content"
+            android:paddingLeft="8dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_requester"
             android:layout_toEndOf="@+id/iv_requester"
@@ -75,30 +78,30 @@
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_requester"
-            android:layout_alignStart="@+id/tv_requester"
             android:layout_below="@+id/tv_requester"
+            android:layout_toRightOf="@id/tv_request_date"
+            android:paddingLeft="3dp"
             android:text="09/10/17" />
 
         <ImageButton
             android:id="@+id/ib_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:layout_toEndOf="@+id/tv_requester"
-            android:layout_toRightOf="@+id/tv_requester"
-            app:srcCompat="@android:drawable/checkbox_on_background" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/transparent_white"
+            app:srcCompat="@drawable/ic_accept"
+            android:layout_alignTop="@+id/ib_decline"
+            android:layout_toLeftOf="@+id/ib_decline"
+            android:layout_toStartOf="@+id/ib_decline" />
 
         <ImageButton
             android:id="@+id/ib_decline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ib_accept"
-            android:layout_toEndOf="@+id/ib_accept"
-            android:layout_toRightOf="@+id/ib_accept"
-            app:srcCompat="@android:drawable/btn_dialog" />
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/transparent_white"
+            app:srcCompat="@drawable/ic_decline"
+            android:layout_alignTop="@+id/tv_requester"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
