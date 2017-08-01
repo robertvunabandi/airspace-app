@@ -186,7 +186,7 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
             btn_cancel = (Button) itemView.findViewById(R.id.bt_cancel);
 
             rlChecks = (RelativeLayout) itemView.findViewById(R.id.rlChecks);
-            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rl_infoButton);
+            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rlCard);
             tv_infoTitle = (TextView) itemView.findViewById(R.id.tv_infoTitle);
 
             ivToggleInfo = (ImageView) itemView.findViewById(R.id.iv_toggleInfo);
