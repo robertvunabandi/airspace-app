@@ -1,6 +1,7 @@
 package com.codepath.rawr.adapters;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +74,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         public Button ib_accept;
         public Button ib_decline;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
 
             tv_item_title = (TextView) itemView.findViewById(R.id.tv_item_title);
@@ -106,7 +107,18 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                             try {
                                 ShippingRequest newRequest = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
                                 mRequests.set(pos, newRequest);
-                                Toast.makeText(context, String.format("%s", "STATUS = " + newRequest.status + "    " + response), Toast.LENGTH_SHORT).show();
+                                mRequests.remove(pos);
+
+                                Snackbar bar = Snackbar.make(itemView, "Accepted request from " + newRequest.getRequesterName(), Snackbar.LENGTH_LONG)
+                                        .setAction("Dismiss", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                // Handle user action
+                                            }
+                                        });
+
+                                bar.show();
+
                                 notifyDataSetChanged();
                             } catch (JSONException e) {
                                 e.printStackTrace();
