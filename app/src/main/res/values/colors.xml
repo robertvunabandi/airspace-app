@@ -20,6 +20,7 @@
     <!-- POTENTIAL FOR ACCENTS -->
     <color name="Red">#ff2528</color>
     <color name="RedTransparent">#AAff2528</color>
+    <color name="RedDark">#a82439</color>
     <color name="PotentialAccent">#00e676</color>
     <!-- COLORS FOR SUITCASE -->
     <color name="suitcaseColorBlack">#202020</color> <!-- 0 -->
@@ -37,5 +38,6 @@
     <color name="colorTransparentWhiteMore">#DDFFFFFF</color>
     <color name="colorTransparentSXDark">#99253437</color>
     <color name="colorTransparentSXXDark">#77151d1e</color>
+    <color name="colorTransparentSXXDarkMore">#20151d1e</color>
     <color name="colorTransparentSXXXDark">#770b0f0f</color>
 </resources>

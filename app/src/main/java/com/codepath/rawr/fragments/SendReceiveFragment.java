@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.rawr.MainActivity;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.SearchResultsActivity;
@@ -45,9 +46,10 @@ import cz.msebera.android.httpclient.Header;
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 public class SendReceiveFragment extends Fragment {
+    // TODO - Remove all the toast, and if necessary, replace with snackbars
+    // TODO - FOR SNAKCBARS DO THIS: ((MainActivity) getActivity()).snackbarCallLong(<message>); // message is a STRING
     // for database, we need client and urls
     AsyncHttpClient client;
-    public String[] DB_URLS;
     // for results
     private static final int CODE_SENDER_FORM_ACTIVITY = 1;
 
@@ -71,7 +73,7 @@ public class SendReceiveFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
+        client = new AsyncHttpClient();
         getRequestsData();
     }
 
@@ -80,9 +82,7 @@ public class SendReceiveFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_send_receive, container, false);
-
         swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
-
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -171,7 +171,6 @@ public class SendReceiveFragment extends Fragment {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                // TODO Auto-generated method stub
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -185,7 +184,6 @@ public class SendReceiveFragment extends Fragment {
         et_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 new DatePickerDialog(getContext(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -233,13 +231,12 @@ public class SendReceiveFragment extends Fragment {
 
     // get data for list of trips
     private void getRequestsData() {
-        client = new AsyncHttpClient();
 
         // Set the request parameters
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
 
-        client.get(DB_URLS[0] + "/request/get_my", params, new JsonHttpResponseHandler() {
+        client.get(RawrApp.DB_URL + "/request/get_my", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 shippingPendingRequestsAdapter.clear();
@@ -254,17 +251,22 @@ public class SendReceiveFragment extends Fragment {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, String.format("[sr/get_my] CODE: %s ERROR(1): %s", statusCode, errorResponse));
+                String msg;
+                try {
+                    msg = errorResponse.getString("message");
+                } catch (Exception e) {
+                    Log.e(TAG, String.format("BAD ERROR IN TRY CATCH tn/get: %s", e));
+                    msg = "Error (1) occurred while acquiring the requests sent to user";
+                }
+                // make a snackbar because of the error
+                ((MainActivity) getActivity()).snackbarCallLong(msg);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+                ((MainActivity) getActivity()).snackbarCallLong(String.format("Error(3) occurred %s", responseString));
             }
         });
     }
@@ -277,7 +279,7 @@ public class SendReceiveFragment extends Fragment {
                 RequestParams params = new RequestParams();
                 params.put("travel_notice_id", requestsList.getJSONObject(i).getString("travel_notice_id"));
                 final int finalI = i;
-                client.get(DB_URLS[0] + "/travel_notice/get", params, new JsonHttpResponseHandler() {
+                client.get(RawrApp.DB_URL + "/travel_notice/get", params, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
@@ -296,23 +298,27 @@ public class SendReceiveFragment extends Fragment {
                     }
                     @Override
                     public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        Log.e(TAG, String.format("CODE: %s ERROR(1): %s", statusCode, errorResponse));
-                        Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-                    }
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                        Log.e(TAG, String.format("CODE: %s ERROR(2): %s", statusCode, errorResponse));
-                        Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, String.format("[tn/get] CODE: %s ERROR(1): %s", statusCode, errorResponse));
+                        String msg;
+                        try {
+                            msg = errorResponse.getString("message");
+                        } catch (Exception e) {
+                            Log.e(TAG, String.format("BAD ERROR IN TRY CATCH tn/get: %s", e));
+                            msg = "Error (1) occurred while acquiring the requests sent to user";
+                        }
+                        // make a snackbar because of the error
+                        ((MainActivity) getActivity()).snackbarCallLong(msg);
                     }
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Log.e(TAG, String.format("CODE: %s ERROR(3): %s", statusCode, responseString));
-                        Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, String.format("[tn/get] CODE: %s ERROR(3): %s", statusCode, responseString));
+                        ((MainActivity) getActivity()).snackbarCallLong(String.format("Error(3) occurred %s", responseString));
                     }
                 });
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e(TAG, String.format("Error occurred in JSON parsing for the whole try catch"));
+                Log.e(TAG, String.format("JSON Exception occurred in populateList at index %s: %s", i, e));
+                ((MainActivity) getActivity()).snackbarCallLong(String.format("JSON Exception occurred in populateList at index %s: %s", i, e));
                 Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
             }
         }
