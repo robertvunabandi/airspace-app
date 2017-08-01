@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.codepath.rawr.adapters.MainPagerAdapter;
 import com.codepath.rawr.fragments.SendReceiveFragment;
+import com.codepath.rawr.fragments.TravelFragment;
 import com.codepath.rawr.models.User;
 import com.loopj.android.http.AsyncHttpClient;
 
@@ -205,6 +206,10 @@ public class MainActivity extends AppCompatActivity {
             ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).refreshRequests();
         } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // failure snackbar
+            snackbarCallIndefinite(data.getStringExtra("message"));
+        } else if (resultCode == RESULT_OK && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
+            ((TravelFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getTripsData();
+        } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             snackbarCallIndefinite(data.getStringExtra("message"));
         }
     }
