@@ -1,5 +1,6 @@
 package com.codepath.rawr.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -383,6 +385,9 @@ public class TravelFragment extends Fragment {
                 upcomingTripAdapter.notifyDataSetChanged();
                 getTripsData();
 
+                // hideKeyboard method is at the end of this class, method take from https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
+                hideKeyboard(getActivity());
+
             }
         });
         AlertDialog dialog = builder.create();
@@ -466,6 +471,17 @@ public class TravelFragment extends Fragment {
                 ((MainActivity) getActivity()).snackbarCallIndefinite(errorSnack);
             }
         });
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     // get list of request IDs & call on method to get list of requests
