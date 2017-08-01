@@ -4,25 +4,18 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="3dp"
-    app:cardElevation="3dp"
+    app:cardElevation="0dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/colorTransparentWhite"
+    app:cardBackgroundColor="@color/colorTransparentWhiteMore"
     >
-    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="vertical"-->
-    <!--android:id="@+id/relative_layout"-->
-    <!--android:weightSum="1">-->
-
 
     <RelativeLayout
         android:id="@+id/relative_layout"
         android:layout_width="match_parent"
-        android:padding="8dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/iv_requester"
@@ -40,7 +33,11 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/iv_requester"
             android:layout_toRightOf="@+id/iv_requester"
-            android:text="Item: " />
+            android:paddingLeft="8dp"
+            android:text="Item: "
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_item"
@@ -49,7 +46,10 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/tv_item_title"
             android:layout_toRightOf="@+id/tv_item_title"
-            android:text="Potatoes" />
+            android:text="Potatoes"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/tv_requester_title"
@@ -58,16 +58,23 @@
             android:layout_below="@+id/tv_item_title"
             android:layout_toEndOf="@+id/iv_requester"
             android:layout_toRightOf="@+id/iv_requester"
-            android:text="Requested by:" />
+            android:paddingLeft="8dp"
+            android:text="Requester:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_requester"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_item"
-            android:layout_toEndOf="@+id/tv_item"
-            android:layout_toRightOf="@+id/tv_item"
-            android:text="Mr. Potato" />
+            android:layout_toRightOf="@id/tv_requester_title"
+            android:paddingLeft="3dp"
+            android:text="Mr. Potato"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/tv_request_date"
@@ -76,36 +83,73 @@
             android:layout_below="@+id/tv_requester"
             android:layout_toEndOf="@+id/iv_requester"
             android:layout_toRightOf="@+id/iv_requester"
-            android:text="Requested on:" />
+            android:paddingLeft="8dp"
+            android:text="Requested on:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_requester"
-            android:layout_alignStart="@+id/tv_requester"
             android:layout_below="@+id/tv_requester"
-            android:text="09/10/17" />
+            android:layout_toRightOf="@id/tv_request_date"
+            android:paddingLeft="3dp"
+            android:text="09/10/17"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
-        <ImageButton
-            android:id="@+id/ib_accept"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/btns"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp"
-            android:layout_toEndOf="@+id/tv_requester"
-            android:layout_toRightOf="@+id/tv_requester"
-            app:srcCompat="@android:drawable/checkbox_on_background" />
+            android:layout_below="@+id/rl_flexibility"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/ib_decline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ib_accept"
-            android:layout_toEndOf="@+id/ib_accept"
-            android:layout_toRightOf="@+id/ib_accept"
-            app:srcCompat="@android:drawable/btn_dialog" />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/ib_accept"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="125dp"
+                    android:layout_height="25dp"
+                    android:background="@color/SXDark"
+                    android:text="ACCEPT"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="70dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/ib_decline"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="125dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="70dp"
+                    android:background="@android:color/holo_red_dark"
+                    android:text="decline"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
 
