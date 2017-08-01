@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.codepath.rawr.R;
@@ -50,11 +51,20 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         // create public views here to be populated in next Viewholder
         public TextView dateReceived;
         public TextView notificationMessage;
+        public RelativeLayout parentItemNotification;
         public ViewHolder(View itemView){
             super(itemView);
             // get view by id
             dateReceived = (TextView) itemView.findViewById(R.id.tv_time);
             notificationMessage = (TextView) itemView.findViewById(R.id.tv_notification_message);
+            parentItemNotification = (RelativeLayout) itemView.findViewById(R.id.rl_notificationItemInit);
+
+            parentItemNotification.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO - implement notification actions
+                }
+            });
 
             /*
             TODO - Implement to get a notification detailed view
