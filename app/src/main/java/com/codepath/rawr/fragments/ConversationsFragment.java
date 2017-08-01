@@ -70,6 +70,7 @@ public class ConversationsFragment extends Fragment {
         notificationsAdapter = new NotificationsAdapter(mNotifications);
         rv_notifications.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_notifications.setAdapter(notificationsAdapter);
+        rv_notifications.setNestedScrollingEnabled(false);
 
         /* TODO - If we add messages, we need this
         // populate the recycler view of messages with messages from the server
@@ -78,6 +79,7 @@ public class ConversationsFragment extends Fragment {
         conversationListAdapter = new ConversationListAdapter(mMessages);
         rv_convos.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_convos.setAdapter(conversationListAdapter);
+        rv_convos.setNestedScrollingEnabled(false);
         */
 
         return v;
@@ -87,9 +89,10 @@ public class ConversationsFragment extends Fragment {
         // gets the notifications from the server and then makes a call to populate them in the recycler view
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
-        client.get(DB_URLS[0] + "/notifications/get", params, new JsonHttpResponseHandler() {
+        client.get(RawrApp.DB_URL + "/notifications/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.e(TAG, String.format("%s", response));
                 try {
                     notificationsArray = response.getJSONArray("data");
                     populateNotifications(notificationsArray);
@@ -102,9 +105,12 @@ public class ConversationsFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 String msg;
+                Log.e(TAG, String.format("%s", errorResponse));
                 try {
                     msg = errorResponse.getString("message");
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, String.format("%s", e));
                     msg = "Error (1) occurred in getNotifications.";
                 }
                 Log.e(TAG, msg);

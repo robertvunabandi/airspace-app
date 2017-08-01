@@ -242,6 +242,7 @@ public class TravelFragment extends Fragment {
         rv_trips = (RecyclerView) v.findViewById(R.id.rv_trips);
         rv_trips.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_trips.setAdapter(upcomingTripAdapter);
+        rv_trips.setNestedScrollingEnabled(false);
 
         // clear view button
         final TextView tv_clear_content = (TextView) v.findViewById(R.id.tv_clear_content);

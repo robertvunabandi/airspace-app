@@ -61,6 +61,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         rvSearchResults = (RecyclerView) findViewById(R.id.rvSearchResults);
         rvSearchResults.setLayoutManager(new LinearLayoutManager(this));
         rvSearchResults.setAdapter(searchResultAdapter);
+        rvSearchResults.setNestedScrollingEnabled(false);
         // make the search call
         getData();
     }
