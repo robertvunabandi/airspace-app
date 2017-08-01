@@ -303,7 +303,7 @@
                             android:id="@+id/cb_fragile"
                             android:layout_width="110dp"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/cb_fragile"
+                            android:layout_below="@id/cb_smallBox"
                             android:text="fragile" />
 
 
