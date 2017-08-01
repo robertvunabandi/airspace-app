@@ -170,7 +170,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                         notifyDataSetChanged();
 
 
-                        // TODO - maybe notify the shipper that the traveller cancelled the trip
+                        // TODO - maybe notify the shipper that the traveller cancelled the trip (unless this is already done in the database)
                     }
 
                     @Override
