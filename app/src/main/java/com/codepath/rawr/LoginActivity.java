@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
         if (user_id == null) {
             setProgressDead();
             // the only way to get here is from logoutActivity, so it will send us back there
-            finish();
+            launchLogoutActivity(null);
         } else {
             // otherwise sign user in
             signInUser(user_id);
@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e(TAG, String.format("Error while parsing JSON in sign in user: %s", response));
                     setProgressDead();
                     // send back to logout
-                    finish();
+                    launchLogoutActivity(null);
                 }
             }
 
@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                 // remove progress bar because this means that the user is not signed in
                 setProgressDead();
                 // send back to logout
-                finish();
+                launchLogoutActivity(null);
             }
 
             @Override
@@ -155,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
                 // remove progress bar because this means that the user is not signed in
                 setProgressDead();
                 // send back to logout
-                finish();
+                launchLogoutActivity(null);
             }
         });
     }
@@ -175,7 +175,8 @@ public class LoginActivity extends AppCompatActivity {
                     launchMainActivity();
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Error while parsing JSON in sign in user: %s", response));
-                    setProgressDead();
+                    String msg = "Error while parsing JSON in sign in user";
+                    launchLogoutActivity(msg);
                 }
             }
 
@@ -184,7 +185,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, String.format("%s", errorResponse));
                 // remove the progress bar because this means there is an error, snackbar the error
                 setProgressDead();
-                snackbarCall("It seems as though your credentials are incorrect. Please try again.");
+                String msg = "It seems as though your credentials are incorrect. Please try again.";
+                launchLogoutActivity(msg);
             }
 
             @Override
@@ -192,7 +194,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, String.format("%s", responseString));
                 // remove the progress bar because this means there is an error, snackbar the error
                 setProgressDead();
-                snackbarCall("It seems as though your credentials are incorrect. Please try again.");
+                String msg = "It seems as though your credentials are incorrect. Please try again.";
+                launchLogoutActivity(msg);
             }
         });
     }
@@ -203,5 +206,13 @@ public class LoginActivity extends AppCompatActivity {
         Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(mainActivity);
         LoginActivity.this.finishAffinity();
+    }
+
+    public void launchLogoutActivity(String message) {
+        setProgressDead();
+        // launch the main activity if all goes right
+        Intent logoutActivity = new Intent(LoginActivity.this, LogoutActivity.class);
+        logoutActivity.putExtra("message", message);
+        startActivity(logoutActivity);
     }
 }
