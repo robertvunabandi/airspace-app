@@ -237,20 +237,6 @@ public class TravelFragment extends Fragment {
         rv_trips.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_trips.setAdapter(upcomingTripAdapter);
 
-        // setting up RecyclerView for list of pending requests
-//        mRequests = new ArrayList<>();
-//        travelPendingRequestsAdapter = new TravelPendingRequestsAdapter(mRequests);
-//        rv_pending_requests = (RecyclerView) v.findViewById(rv_pending_requests);
-//        rv_pending_requests.setLayoutManager(new LinearLayoutManager(getContext()));
-//        rv_pending_requests.setAdapter(travelPendingRequestsAdapter);
-
-        // setting up RecyclerView for list of pending requests
-//        mAcceptedRequests = new ArrayList<>();
-//        travelAcceptedRequestsAdapter = new TravelAcceptedRequestsAdapter(mAcceptedRequests);
-//        rv_accepted_requests = (RecyclerView) v.findViewById(rv_accepted_requests);
-//        rv_accepted_requests.setLayoutManager(new LinearLayoutManager(getContext()));
-//        rv_accepted_requests.setAdapter(travelAcceptedRequestsAdapter);
-
         // clear view button
         final TextView tv_clear_content = (TextView) v.findViewById(R.id.tv_clear_content);
         tv_clear_content.setOnClickListener(new View.OnClickListener() {

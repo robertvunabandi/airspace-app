@@ -4,20 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/SDark"
     tools:context="com.codepath.rawr.TravelAcceptedRequestsActivity">
 
     <TextView
         android:id="@+id/tv_pending_requests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pending Requests"
+        android:text="PENDING REQUESTS"
+        android:padding="8dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/White"
         tools:layout_editor_absoluteX="-2dp"
         tools:layout_editor_absoluteY="3dp" />
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/rv_pending_requests">
+            android:id="@+id/rv_pending_requests"
+            android:layout_below="@+id/tv_pending_requests">
 
         </android.support.v7.widget.RecyclerView>
 
