@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- PRIMARY COLORS -->
+    <color name="PXXXLight">#f1f3fe</color>
     <color name="PXXLight">#d1d5fa</color>
     <color name="PXLight">#bac1f8</color>
     <color name="PLight">#8e99f3</color>

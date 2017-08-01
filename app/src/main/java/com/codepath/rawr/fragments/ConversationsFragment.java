@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +31,6 @@ import cz.msebera.android.httpclient.Header;
 public class ConversationsFragment extends Fragment {
     public static final String TAG = "ConversationsFragment";
     // variables for HTTP calls
-    public String[] DB_URLS;
     AsyncHttpClient client;
 
     /* Declaring variables for messages TODO - Add these stuffs when we add messages
@@ -43,6 +43,8 @@ public class ConversationsFragment extends Fragment {
     ArrayList<RawrNotification> mNotifications;
     RecyclerView rv_notifications;
     JSONArray notificationsArray;
+    ItemTouchHelper.SimpleCallback swipeDeleteItemNotificationCallback;
+    ItemTouchHelper itemTouchHelperNotification;
 
     public ConversationsFragment() {
         // Required empty public constructor
@@ -52,7 +54,6 @@ public class ConversationsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
-        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
         // call to get the notifications after the stuff has been created
         getNotifications();
     }
@@ -71,6 +72,25 @@ public class ConversationsFragment extends Fragment {
         rv_notifications.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_notifications.setAdapter(notificationsAdapter);
         rv_notifications.setNestedScrollingEnabled(false);
+
+        swipeDeleteItemNotificationCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                // remove swiped item from list and notify the Recycler view
+                int position = viewHolder.getAdapterPosition();
+                RawrNotification nf = mNotifications.get(position);
+                removeNotification(nf);
+                mNotifications.remove(position);
+                notificationsAdapter.notifyDataSetChanged();
+            }
+        };
+        itemTouchHelperNotification = new ItemTouchHelper(swipeDeleteItemNotificationCallback);
+        itemTouchHelperNotification.attachToRecyclerView(rv_notifications);
 
         /* TODO - If we add messages, we need this
         // populate the recycler view of messages with messages from the server
@@ -119,6 +139,28 @@ public class ConversationsFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 ((MainActivity) getActivity()).snackbarCallLong(String.format("Error (3) in getNotifications: %s", responseString));
+            }
+        });
+    }
+
+    public void removeNotification(RawrNotification notification) {
+        // removes a notification
+        RequestParams params = new RequestParams();
+        params.put("_id", notification.id);
+        client.post(RawrApp.DB_URL + "/notifications/delete_one", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                Log.w(TAG, String.format("%s", response));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e(TAG, String.format("%s", errorResponse));
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e(TAG, String.format("%s", responseString));
             }
         });
     }

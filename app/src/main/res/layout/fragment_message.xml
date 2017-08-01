@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="4dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +20,8 @@
             android:textAllCaps="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_notification_notice"
@@ -28,7 +29,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_notification_title"
             android:fontFamily="sans-serif"
-            android:text="You have no notifications"
+            android:text="You are all caught up!"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:paddingTop="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="16sp"
             android:textStyle="italic" />

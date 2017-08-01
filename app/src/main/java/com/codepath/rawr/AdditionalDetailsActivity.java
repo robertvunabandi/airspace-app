@@ -80,6 +80,7 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
         // item XML for debugging
         parentLayout = findViewById(R.id.rootAdditionalDetails);
 
+
         // update tvl dropoff flex when user changes that text
         dropoffFlexibility.addTextChangedListener(new TextWatcher() {
             @Override
