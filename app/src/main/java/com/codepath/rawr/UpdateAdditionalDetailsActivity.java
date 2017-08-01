@@ -41,6 +41,7 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
     public String[] DB_URLS;
     public String travelNoticeId, tuid;
     public TravelNotice tvl;
+    int position;
 
     // Tag for debugging, A stands for activity and parent layout for snackbar
     public final static String TAG = "A:AdditionalDetails";
@@ -53,6 +54,8 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
         // get the travel notice stuffs to make a call to the database
         travelNoticeId = getIntent().getStringExtra("travel_notice_id");
         tuid = getIntent().getStringExtra("tuid");
+
+
         DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
 
         client = new AsyncHttpClient();
@@ -239,24 +242,17 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("Error (1) occured %s", errorResponse));
                 Snackbar.make(parentLayout, String.format("Error (1) occurred"), Snackbar.LENGTH_LONG).show();
-                setResult(RESULT_CANCELED);
-                finish();
+                Intent data = new Intent(); data.putExtra("message", "Error 1 occured in getTravelNotice");
+                setResult(RESULT_CANCELED, data); finish();
             }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.e(TAG, String.format("Error (2) occured %s", errorResponse));
-                Snackbar.make(parentLayout, String.format("Error (2) occurred"), Snackbar.LENGTH_LONG).show();
-                setResult(RESULT_CANCELED);
-                finish();
-            }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e(TAG, String.format("Error (3) occured %s", responseString));
                 Snackbar.make(parentLayout, String.format("Error (3) occurred"), Snackbar.LENGTH_LONG).show();
-                setResult(RESULT_CANCELED);
-                finish();
+                Intent data = new Intent(); data.putExtra("message", "Error 3 occured in getTravelNotice");
+                setResult(RESULT_CANCELED, data); finish();
             }
         });
     }
@@ -277,6 +273,9 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
 
                     Intent data = new Intent();
                     data.putExtra("message", "Edited!");
+                    data.putExtra("travel_notice_id", tvl.id);
+                    data.putExtra("pos", position);
+
 
                     setResult(RESULT_OK, data); finish();
                     Snackbar.make(parentLayout, String.format("Your travel notice has been updated successfully!"), Snackbar.LENGTH_LONG).show();
@@ -324,4 +323,5 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
         data.putExtra("message", "Cancelled");
         setResult(RESULT_CANCELED, data); finish();
     }
+
 }

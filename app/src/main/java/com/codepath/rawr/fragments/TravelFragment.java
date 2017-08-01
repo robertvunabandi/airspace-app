@@ -418,7 +418,7 @@ public class TravelFragment extends Fragment {
 //    }
 
     // get data for list of trips
-    private void getTripsData() {
+    public void getTripsData() {
         // Set the request parameters
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
@@ -565,4 +565,5 @@ public class TravelFragment extends Fragment {
 //            }
 //        }
 //    }
+
 }

@@ -138,12 +138,10 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                 i.putExtra("travel_notice_id", mTrips.get(position).id);
                 i.putExtra("tuid", mTrips.get(position).tuid);
 
-                ((Activity) context).startActivityForResult(i, RawrApp.ADDITIONAL_DETAILS_CODE);
+                ((Activity) context).startActivityForResult(i, RawrApp.UPDATE_ADDITIONAL_DETAILS_CODE);
 
                 // TODO - GET THE NEW TRIP FROM THE RESPONSE AND REPLACE IT HERE TO FIX THE REFRESH PROBLEM THING
-
-
-                notifyDataSetChanged();
+                // ^^ It does this in Main Activity by calling getTripsData from Travel Fragment!!!! :D
 
             }
         });
