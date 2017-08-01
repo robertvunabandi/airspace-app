@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,8 +80,8 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         public TextView tv_requester;
         public TextView tv_date;
 
-        public ImageButton ib_accept;
-        public ImageButton ib_decline;
+        public Button ib_accept;
+        public Button ib_decline;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -92,8 +92,8 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
             tv_item = (TextView) itemView.findViewById(R.id.tv_item);
             tv_requester = (TextView) itemView.findViewById(R.id.tv_requester);
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
-            ib_accept = (ImageButton) itemView.findViewById(R.id.ib_accept);
-            ib_decline = (ImageButton) itemView.findViewById(R.id.ib_decline);
+            ib_accept = (Button) itemView.findViewById(R.id.ib_accept);
+            ib_decline = (Button) itemView.findViewById(R.id.ib_decline);
 
             // ACCEPT the request click listener
             ib_accept.setOnClickListener(new View.OnClickListener(){
