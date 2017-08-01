@@ -242,6 +242,7 @@ public class TravelFragment extends Fragment {
         rv_trips = (RecyclerView) v.findViewById(R.id.rv_trips);
         rv_trips.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_trips.setAdapter(upcomingTripAdapter);
+        rv_trips.setNestedScrollingEnabled(false);
 
         // setting up RecyclerView for list of pending requests
 //        mRequests = new ArrayList<>();
