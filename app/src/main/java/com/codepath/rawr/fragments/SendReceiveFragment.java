@@ -196,12 +196,14 @@ public class SendReceiveFragment extends Fragment {
         rv_pendingRequests = (RecyclerView) v.findViewById(R.id.rv_pending_requests);
         rv_pendingRequests.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_pendingRequests.setAdapter(shippingPendingRequestsAdapter);
+        rv_pendingRequests.setNestedScrollingEnabled(false);
         // stuff for Accepted Requests
         mAcceptedRqs = new ArrayList<>();
         shippingAcceptedRequestsAdapter = new ShippingAcceptedRequestsAdapter(mAcceptedRqs);
         rv_acceptedRequests = (RecyclerView) v.findViewById(R.id.rv_accepted_requests);
         rv_acceptedRequests.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_acceptedRequests.setAdapter(shippingAcceptedRequestsAdapter);
+        rv_acceptedRequests.setNestedScrollingEnabled(false);
 
         // clear view button
         final TextView tv_clear_content = (TextView) v.findViewById(R.id.tv_clear_content);
