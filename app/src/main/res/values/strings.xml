@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rawr App</string>
+    <string name="app_name">Air Space</string>
     <string name="DB_HEROKU_URL">http://mysterious-headland-54722.herokuapp.com</string>
     <string name="DB_LOCAL_URL">http://172.22.11.86:3000</string>
     <string name="yes">yes</string>

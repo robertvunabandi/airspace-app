@@ -11,81 +11,122 @@
     <RelativeLayout
         android:id="@+id/ActivityLogoutInitRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="70dp">
+        android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/rl_logo"
+            android:layout_centerVertical="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv_logoImg"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="24dp"
-                android:src="@drawable/ic_android" />
-
-            <TextView
-                android:id="@+id/tv_appName"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_logo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_logoImg"
-                android:layout_centerHorizontal="true"
-                android:text="@string/app_name"
-                android:textColor="@color/PLight"
-                android:textSize="24sp"
-                android:textStyle="italic" />
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/iv_logoImg"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="24dp"
+                    android:src="@drawable/ic_android" />
+
+                <TextView
+                    android:id="@+id/tv_appName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_logoImg"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/app_name"
+                    android:textColor="@color/PLight"
+                    android:textSize="24sp"
+                    android:textStyle="italic" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_logo"
+                android:layout_marginBottom="32dp"
+                android:layout_marginTop="8dp">
+
+
+                <EditText
+                    android:id="@+id/et_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="24dp"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:textColor="@color/SXXDark"
+                    android:textColorHint="@color/SXXDarkTransparent"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/bt_login"
+                    style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/et_email"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ripple_effect"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:text="Login with email"
+                    android:textAllCaps="false"
+                    android:textColor="@color/White"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_login"
+                android:layout_marginBottom="8dp">
+
+                <Button
+                    android:id="@+id/bt_signup"
+                    style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/ripple_pdark"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:text="Sign up"
+                    android:textAllCaps="false"
+                    android:textColor="@color/PRegular"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_login"
-            android:layout_width="match_parent"
+        <ProgressBar
+            android:id="@+id/progressBarLogoutActivity"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_logo"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp">
-
-            <Button
-                android:id="@+id/bt_login"
-                style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/ripple_pdark"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:text="Login"
-                android:textAllCaps="false"
-                android:textColor="@color/PDark"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_signup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_login"
-            android:layout_marginBottom="8dp">
-
-            <Button
-                android:id="@+id/bt_signup"
-                style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/ripple_pdark"
-                android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:text="Sign up"
-                android:textAllCaps="false"
-                android:textColor="@color/PRegular"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:backgroundTint="@color/PDark"
+            android:foregroundTint="@color/PDark"
+            android:indeterminateTint="@color/PDark"
+            android:progressBackgroundTint="@color/PDark"
+            android:progressTint="@color/PDark"
+            android:secondaryProgressTint="@color/PDark"
+            android:visibility="gone" />
     </RelativeLayout>
 
 

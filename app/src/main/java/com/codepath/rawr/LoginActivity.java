@@ -8,10 +8,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.codepath.rawr.models.User;
 import com.loopj.android.http.AsyncHttpClient;
@@ -28,15 +29,13 @@ public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
     // db
     AsyncHttpClient client;
-    public String[] DB_URLS;
     public User usingUser;
     // for login and shared preferences
     SharedPreferences sharedPref; SharedPreferences.Editor spEditor; String user_id;
     // views
     ProgressBar pb;
     RelativeLayout parentView; // for snackbar
-    EditText et_email;
-    Button bt_login;
+    TextView loginYouIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,28 +43,56 @@ public class LoginActivity extends AppCompatActivity {
 
         // get server stuffs
         client = new AsyncHttpClient();
-        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
 
         // get the views
         parentView = (RelativeLayout) findViewById(R.id.relativeLayoutInitLogin);
         pb = (ProgressBar) findViewById(R.id.progressBarLoginActivity);
-        et_email = (EditText) findViewById(R.id.et_email);
-        bt_login = (Button) findViewById(R.id.bt_login);
+        loginYouIn = (TextView) findViewById(R.id.tv_loginYouIn);
 
         // make progress visible because we're doing internet stuffs, disables submit button
         setProgressVisible();
+        animateText();
 
         // check if the user is logged in with the SharedPreferences, first get shared pref
         sharedPref = this.getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE);
         checkIfUserLogged();
+    }
 
-        bt_login.setOnClickListener(new View.OnClickListener() {
+    public void animateText() {
+        // creates a fadeIn fadeOut animation with the text as it logs one in
+        final AlphaAnimation a_go = new AlphaAnimation(0.1f, 1.0f);
+        final AlphaAnimation a_back = new AlphaAnimation(1.0f, 0.1f);
+        a_go.setDuration(1500); a_back.setDuration(1500);
+        a_go.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onClick(View v) {
-                // login the user via the email in the edit text
-                loginUser(et_email.getText().toString());
+            public void onAnimationStart(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                loginYouIn.startAnimation(a_back);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
             }
         });
+
+        a_back.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                loginYouIn.startAnimation(a_go);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        loginYouIn.startAnimation(a_go);
     }
 
     // make snackbars more quickly
@@ -79,6 +106,8 @@ public class LoginActivity extends AppCompatActivity {
         // if the user is empty, then we launch the logout activity because we know he's not logged in
         if (user_id == null) {
             setProgressDead();
+            // the only way to get here is from logoutActivity, so it will send us back there
+            finish();
         } else {
             // otherwise sign user in
             signInUser(user_id);
@@ -86,11 +115,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setProgressVisible() {
-        bt_login.setEnabled(false);
         pb.setVisibility(View.VISIBLE);
     }
     public void setProgressDead() {
-        bt_login.setEnabled(true);
         pb.setVisibility(View.GONE);
     }
 
@@ -98,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
         // make a https request for getting the user with this id
         RequestParams params = new RequestParams();
         params.put("uid", id);
-        client.get(DB_URLS[0] + "/user/get", params, new JsonHttpResponseHandler() {
+        client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -108,6 +135,8 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Error while parsing JSON in sign in user: %s", response));
                     setProgressDead();
+                    // send back to logout
+                    finish();
                 }
             }
 
@@ -116,6 +145,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, String.format("%s", errorResponse));
                 // remove progress bar because this means that the user is not signed in
                 setProgressDead();
+                // send back to logout
+                finish();
             }
 
             @Override
@@ -123,6 +154,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG, String.format("%s", responseString));
                 // remove progress bar because this means that the user is not signed in
                 setProgressDead();
+                // send back to logout
+                finish();
             }
         });
     }
@@ -132,13 +165,14 @@ public class LoginActivity extends AppCompatActivity {
         setProgressVisible(); // make the progress bar visible
         RequestParams params = new RequestParams();
         params.put("email", email);
-        client.get(DB_URLS[0] + "/user/login", params, new JsonHttpResponseHandler() {
+        client.get(RawrApp.DB_URL + "/user/login", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
                     //
                     usingUser = User.fromJSONServer(response.getJSONObject("data"));
-                    updateUsingUserAndLauchMainActivity();
+                    // launch main activity, which confirms that the user is logged in
+                    launchMainActivity();
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Error while parsing JSON in sign in user: %s", response));
                     setProgressDead();
@@ -163,28 +197,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void updateUsingUserAndLauchMainActivity(){
-        try {
-            // create the editor for shared preferences (this will be done in login or sign up activity, currently just for testing)
-            spEditor = sharedPref.edit();
-            spEditor.putString(getString(R.string.sp_string_user_id_key), usingUser.id);
-            spEditor.commit();
-            user_id = sharedPref.getString(getString(R.string.sp_string_user_id_key), null);
-            Log.e(TAG, String.format("THIS: %s", user_id));
-            RawrApp.setUsingUserId(usingUser.id);
-            // launch main activity
-            setProgressDead();
-            launchMainActivity();
-            LoginActivity.this.finishAffinity(); // finish this activity so that we don't go back to it
-        } catch (Exception e) {
-            e.printStackTrace();
-            snackbarCall("JSON exception occurred while logging you in at updateUsingUserAndLauchMainActivity. It's not your fault.");
-        }
-    }
-
     public void launchMainActivity() {
+        setProgressDead();
         // launch the main activity if all goes right
         Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(mainActivity);
+        LoginActivity.this.finishAffinity();
     }
 }
