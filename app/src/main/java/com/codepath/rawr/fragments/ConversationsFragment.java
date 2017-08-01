@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.view.animation.AlphaAnimation;
 
 import com.codepath.rawr.MainActivity;
 import com.codepath.rawr.R;
@@ -40,7 +40,7 @@ public class ConversationsFragment extends Fragment {
 
     // variables for notifications
     NotificationsAdapter notificationsAdapter;
-    ArrayList<RawrNotification> mNotifications;
+    public ArrayList<RawrNotification> mNotifications;
     RecyclerView rv_notifications;
     JSONArray notificationsArray;
     ItemTouchHelper.SimpleCallback swipeDeleteItemNotificationCallback;
@@ -62,8 +62,6 @@ public class ConversationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_message, container, false);
-
-        final TextView tv_notification_notice = (TextView) v.findViewById(R.id.tv_notification_notice);
 
         // populate the recycler view of notifcation with notifications from the server
         rv_notifications = (RecyclerView) v.findViewById(R.id.rv_notifications);
@@ -143,6 +141,14 @@ public class ConversationsFragment extends Fragment {
         });
     }
 
+    public void animateText() {
+        // creates a fadeIn fadeOut animation with the text as it logs one in
+        final AlphaAnimation a_go = new AlphaAnimation(0.0f, 1.0f);
+        a_go.setDuration(1000);
+        getView().findViewById(R.id.tv_notification_notice).setAlpha(0.0f);
+        getView().findViewById(R.id.tv_notification_notice).startAnimation(a_go);
+    }
+
     public void removeNotification(RawrNotification notification) {
         // removes a notification
         RequestParams params = new RequestParams();
@@ -187,6 +193,8 @@ public class ConversationsFragment extends Fragment {
         if (mNotifications.size() > 0) {
             // removes that view from being visiblie that says that the person has no notifications
             getView().findViewById(R.id.tv_notification_notice).setVisibility(View.GONE);
+        } else {
+            animateText();
         }
     }
     public JSONArray getMessagesFromServer(){
