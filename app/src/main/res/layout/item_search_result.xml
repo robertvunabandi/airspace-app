@@ -121,14 +121,15 @@
             android:id="@+id/rlChecks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_toTime_isr">
+            android:layout_below="@+id/tv_dateFrom_isr">
 
 
             <RelativeLayout
                 android:id="@+id/rl_infoButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="3dp"
+                android:background="@drawable/ripple_white">
 
                 <TextView
                     android:id="@+id/tv_infoTitle"

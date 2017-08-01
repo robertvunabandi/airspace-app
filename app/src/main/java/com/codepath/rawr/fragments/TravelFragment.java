@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +85,7 @@ public class TravelFragment extends Fragment {
 //    RecyclerView rv_accepted_requests;
 
     SwipeRefreshLayout swipeContainer;
+    ScrollView scrollView;
 
 
     public TravelFragment() {
@@ -105,6 +107,10 @@ public class TravelFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_travel, container, false);
+
+        scrollView = (ScrollView) v.findViewById(R.id.scrollMePls);
+        scrollView.setFocusableInTouchMode(true);
+        scrollView.setDescendantFocusability(ViewGroup.FOCUS_BEFORE_DESCENDANTS);
 
         // Setting up view for adding trips
         Button btnSubmit = (Button) v.findViewById(R.id.bt_submit);
