@@ -56,6 +56,7 @@ public class TravelAcceptedRequestsActivity extends AppCompatActivity {
         request_count = (TextView) findViewById(R.id.tv_accepted_count);
 
         populateList(travelNoticeId);
+
     }
 
     private void populateList(String travelNoticeId_) {
@@ -106,6 +107,7 @@ public class TravelAcceptedRequestsActivity extends AppCompatActivity {
                 if (shippingRequest.isAccepted()) {
                     mAcceptedRequests.add(shippingRequest);
                     travelAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRequests.size() - 1);
+                    request_count.setText("You have accepted " + mAcceptedRequests.size() + " requests");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

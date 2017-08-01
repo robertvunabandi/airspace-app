@@ -42,6 +42,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         context = parent.getContext();
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_travel_pending_request, parent, false);
         DB_URLS = new String[]{context.getString(R.string.DB_HEROKU_URL), context.getString(R.string.DB_LOCAL_URL)};
+
         return new ViewHolder(itemView);
     }
 
