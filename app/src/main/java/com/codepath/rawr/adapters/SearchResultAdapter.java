@@ -59,7 +59,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
         TravelNotice trip = mTrips.get(position);
 
-        holder.tvName.setText(trip.tuid + "'s Trip:");
+        int num = position + 1;
+        int total = mTrips.size();
+
+        holder.tvName.setText("Result " + num + " of " + total);
         holder.tv_from_isr.setText(trip.dep_iata);
         holder.tv_to_isr.setText(trip.arr_iata);
         holder.tv_dateFrom_isr.setText(trip.getDepartureDaySimple());
@@ -82,6 +85,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.cb_liquids_isr.setEnabled(false);
         holder.tv_dropoff.setText(trip.drop_off_flexibility);
         holder.tv_pickup.setText(trip.pick_up_flexibility);
+
 
 
         holder.rl_infoButton.setOnClickListener(new View.OnClickListener() {

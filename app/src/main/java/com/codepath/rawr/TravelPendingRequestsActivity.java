@@ -99,9 +99,11 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
         for (int i = 0; i < requests.length(); i++) {
             ShippingRequest shippingRequest = null;
             try {
-                shippingRequest = ShippingRequest.fromJSONServer(requests.getJSONObject(i),travelNotice);
-                mRequests.add(shippingRequest);
-                travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
+                    shippingRequest = ShippingRequest.fromJSONServer(requests.getJSONObject(i), travelNotice);
+                if(shippingRequest.isPending()) {
+                    mRequests.add(shippingRequest);
+                    travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
