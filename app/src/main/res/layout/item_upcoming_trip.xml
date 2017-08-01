@@ -215,14 +215,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rl_item_view"
-            android:background="@drawable/ripple_sxxdark">
+            android:background="@drawable/ripple_sxdark">
 
 
             <RelativeLayout
                 android:id="@+id/rl_infoButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ripple_sxxdark"
+                android:background="@drawable/ripple_sxdark"
                 android:padding="4dp">
 
                 <TextView
