@@ -120,6 +120,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, TravelAcceptedRequestsActivity.class);
+                i.putExtra("travel_notice_id", trips.id);
                 ((Activity) context).startActivityForResult(i, RawrApp.TRAVEL_ACCEPTED_REQUESTS_CODE);
             }
         });
