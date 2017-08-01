@@ -30,7 +30,9 @@
                 android:text="ADDITIONAL DETAILS"
                 android:textColor="@color/PDark"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 
             <RelativeLayout
                 android:id="@+id/separator_tv_title"

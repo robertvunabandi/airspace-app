@@ -1,6 +1,5 @@
 package com.codepath.rawr;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -137,10 +135,6 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
                 updateFlight();
             }
         });
-
-        // TODO - MAKE THE HIDE KEYBOARD WORK. IT WORKS IN TRAVEL FRAGMENT???
-        // hideKeyboard method is at the end of this class, method take from https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
-        hideKeyboard();
     }
 
     public void onCheckboxClicked(View view) {
@@ -290,16 +284,5 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
                 Snackbar.make(parentLayout, String.format("Error (3) occurred, However, your travel has been saved without additional details."), Snackbar.LENGTH_LONG).show();
             }
         });
-    }
-
-    public void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(this);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
