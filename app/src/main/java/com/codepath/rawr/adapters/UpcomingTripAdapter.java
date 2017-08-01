@@ -235,7 +235,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         public ViewHolder(View itemView) {
             super(itemView);
 
-            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rl_infoButton);
+            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rlCard);
             relative_layout = (RelativeLayout) itemView.findViewById(R.id.relative_layout);
             tv_from = (TextView) itemView.findViewById(R.id.tv_from);
             tv_to = (TextView) itemView.findViewById(R.id.tv_to);

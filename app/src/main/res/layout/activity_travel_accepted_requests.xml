@@ -13,16 +13,31 @@
         android:layout_height="wrap_content"
         android:text="ACCEPTED REQUESTS"
         android:padding="8dp"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/White"
         tools:layout_editor_absoluteX="-2dp"
         tools:layout_editor_absoluteY="3dp" />
 
+    <TextView
+        android:id="@+id/tv_accepted_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You have 0 accepted requests"
+        android:padding="8dp"
+        android:textSize="13sp"
+        android:textStyle="italic"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/White"
+        android:layout_marginTop="22dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/tv_accepted_requests"
+        android:layout_below="@id/tv_accepted_count"
         android:id="@+id/rv_accepted_requests">
 
     </android.support.v7.widget.RecyclerView>
