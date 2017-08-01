@@ -233,6 +233,7 @@
                     android:gravity="center_vertical"
                     android:padding="2dp"
                     android:text="additional info"
+                    android:textAllCaps="true"
                     android:textColor="@color/PDark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -255,6 +256,7 @@
 
         </RelativeLayout>
 
+        <!--com.github.aakira.expandablelayout.ExpandableRelativeLayout-->
         <com.github.aakira.expandablelayout.ExpandableRelativeLayout
             android:id="@+id/erl_info"
             android:layout_width="match_parent"
@@ -273,73 +275,177 @@
                 android:id="@+id/rlCheckBoxes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <RelativeLayout
+
+                    <LinearLayout
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content">
-                        <CheckBox
-                            android:id="@+id/cb_envelope"
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:text="envelopes" />
+                        android:orientation="vertical">
 
-                        <CheckBox
-                            android:id="@+id/cb_largeBox"
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/cb_envelope"
-                            android:text="large boxes" />
-                        <CheckBox
-                            android:id="@+id/cb_smallBox"
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/cb_largeBox"
-                            android:text="small boxes" />
-                        <CheckBox
-                            android:id="@+id/cb_fragile"
-                            android:layout_width="110dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/cb_smallBox"
-                            android:text="fragile" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
+                            <CheckBox
+                                android:id="@+id/cb_envelope"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true" />
 
-                    </RelativeLayout>
-                    <RelativeLayout
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/cb_envelope"
+                                android:layout_toRightOf="@+id/cb_envelope"
+                                android:text="envelopes"
+                                android:textColor="@color/SXXDark"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:id="@+id/cb_largeBox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/cb_largeBox"
+                                android:layout_toRightOf="@+id/cb_largeBox"
+                                android:text="large boxes"
+                                android:textColor="@color/SXXDark"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:id="@+id/cb_smallBox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/cb_smallBox"
+                                android:layout_toRightOf="@+id/cb_smallBox"
+                                android:text="small boxes"
+                                android:textColor="@color/SXXDark"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:id="@+id/cb_fragile"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/cb_fragile"
+                                android:layout_toRightOf="@+id/cb_fragile"
+                                android:text="fragile"
+                                android:textColor="@color/SXXDark"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content">
-                        <CheckBox
-                            android:id="@+id/cb_clothing"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="clothing items" />
+                        android:orientation="vertical">
 
-                        <CheckBox
-                            android:id="@+id/cb_liquids"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/cb_clothing"
-                            android:text="liquids" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <CheckBox
-                            android:id="@+id/cb_other"
-                            android:layout_below="@+id/cb_liquids"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="others" />
-                    </RelativeLayout>
+                            <CheckBox
+                                android:id="@+id/cb_clothing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/cb_clothing"
+                                android:layout_toRightOf="@+id/cb_clothing"
+                                android:text="clothing items"
+                                android:textColor="@color/SXXDark"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:id="@+id/cb_liquids"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/cb_liquids"
+                                android:layout_toRightOf="@+id/cb_liquids"
+                                android:text="liquids"
+                                android:textColor="@color/SXXDark"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <CheckBox
+                                android:id="@+id/cb_other"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_toEndOf="@+id/cb_other"
+                                android:layout_toRightOf="@+id/cb_other"
+                                android:text="others"
+                                android:textColor="@color/SXXDark"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rl_flexibility"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rlCheckBoxes">
+                android:layout_below="@+id/rlCheckBoxes"
+                android:orientation="vertical">
 
                 <!-- flexibility drop off -->
                 <TextView
@@ -352,15 +458,20 @@
                     android:textColor="@color/SXXDark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_dropoff_label"
+                    android:background="@color/SXXDark"></RelativeLayout>
                 <TextView
                     android:id="@+id/tv_dropoff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:textColor="@color/SXDark"
+                    android:padding="4dp"
                     android:layout_below="@+id/tv_dropoff_label"
+                    android:textColor="@color/SXDark"
                     android:textSize="16sp" />
 
                 <!-- flexibility pick up -->
@@ -375,6 +486,11 @@
                     android:textColor="@color/SXXDark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tv_dropoff_label"
+                    android:background="@color/SXXDark"></RelativeLayout>
 
                 <TextView
                     android:id="@+id/tv_pickup"
@@ -386,36 +502,54 @@
                     android:textColor="@color/SXDark"
                     android:textSize="16sp" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/btns"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_flexibility">
+                android:layout_below="@+id/rl_flexibility"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-
-                <Button
-                    android:id="@+id/bt_edit"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="edit" />
+                    android:layout_weight="1">
 
+                    <Button
+                        android:id="@+id/bt_edit"
+                        style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ripple_light"
+                        android:text="Edit"
+                        android:textAllCaps="false"
+                        android:textColor="@color/SXXDark"
+                        android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/bt_delete"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="wrap_content"
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/bt_edit"
-                    android:layout_toEndOf="@+id/bt_edit"
-                    android:layout_toRightOf="@+id/bt_edit"
-                    android:text="del" />
+                    android:layout_weight="1">
 
-            </RelativeLayout>
+                    <Button
+                        android:id="@+id/bt_delete"
+                        style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ripple_red"
+                        android:text="Delete"
+                        android:textAllCaps="false"
+                        android:textColor="@color/White"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
