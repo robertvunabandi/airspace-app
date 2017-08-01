@@ -26,7 +26,9 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="18sp"
                 tools:layout_editor_absoluteX="-1dp"
-                tools:layout_editor_absoluteY="2dp" />
+                tools:layout_editor_absoluteY="2dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
 
             <RelativeLayout
                 android:id="@+id/rl_checkboxes"

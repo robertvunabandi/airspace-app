@@ -361,6 +361,8 @@ public class TravelFragment extends Fragment {
 
                 upcomingTripAdapter.notifyDataSetChanged();
                 getTripsData();
+                hideKeyboard(getActivity());
+
 
             }
         });
