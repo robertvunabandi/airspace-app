@@ -36,16 +36,6 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         client = new AsyncHttpClient();
     }
 
-//    @Override
-//    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        context = parent.getContext();
-//        LayoutInflater inflater = LayoutInflater.from(context);
-//        View requestsView = inflater.inflate(R.layout.item_travel_pending_request, parent, false);
-//        ViewHolder viewHolder = new ViewHolder(requestsView);
-//        DB_URLS = new String[]{context.getString(R.string.DB_HEROKU_URL), context.getString(R.string.DB_LOCAL_URL)};
-//        return viewHolder;
-//    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
