@@ -33,6 +33,7 @@
     <!-- TRANSPARENT -->
     <color name="colorTransparent">#00000000</color>
     <color name="colorTransparentWhite">#23FFFFFF</color>
+    <color name="colorTransparentWhiteMore">#DDFFFFFF</color>
     <color name="colorTransparentSXDark">#99253437</color>
     <color name="colorTransparentSXXDark">#77151d1e</color>
     <color name="colorTransparentSXXXDark">#770b0f0f</color>
