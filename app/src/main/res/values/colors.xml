@@ -13,6 +13,7 @@
     <color name="SDark">#33474b</color>
     <color name="SXDark">#253437</color>
     <color name="SXXDark">#151d1e</color>
+    <color name="SXXDarkTransparent">#55151d1e</color>
     <color name="SXXXDark">#0b0f0f</color>
     <!-- WHITE COLOR FOR TEXTS -->
     <color name="White">#fff</color>

@@ -217,7 +217,7 @@ public class SignupActivity extends AppCompatActivity {
             RawrApp.setUsingUserId(usingUser.id);
             // launch main activity
             setProgressDead();
-            launchMainActivity();
+            launchLoginActivity();
             SignupActivity.this.finishAffinity(); // finish this activity so that we don't go back to it
         } catch (Exception e) {
             e.printStackTrace();
@@ -234,9 +234,9 @@ public class SignupActivity extends AppCompatActivity {
         spEditor.apply();
     }
 
-    public void launchMainActivity() {
+    public void launchLoginActivity() {
         // launch the main activity if all goes right
-        Intent mainActivity = new Intent(SignupActivity.this, MainActivity.class);
+        Intent mainActivity = new Intent(SignupActivity.this, LoginActivity.class);
         startActivity(mainActivity);
     }
 }
