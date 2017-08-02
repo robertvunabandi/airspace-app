@@ -270,16 +270,11 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
                 // take the person to upcoming with this result
                 try {
                     tvl = TravelNotice.fromJSONServer(response.getJSONObject("data"));
-
                     Intent data = new Intent();
-                    data.putExtra("message", "Edited!");
+                    data.putExtra("message", "Travel notice has been updated successfully!");
                     data.putExtra("travel_notice_id", tvl.id);
                     data.putExtra("pos", position);
-
-
                     setResult(RESULT_OK, data); finish();
-                    Snackbar.make(parentLayout, String.format("Your travel notice has been updated successfully!"), Snackbar.LENGTH_LONG).show();
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
