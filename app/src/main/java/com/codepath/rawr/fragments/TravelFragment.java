@@ -155,6 +155,7 @@ public class TravelFragment extends Fragment {
             @Override
             public void onRefresh() {
                 getTripsData();
+                // Snackbar.make(getView(), String.format("Trips refreshed"), Snackbar.LENGTH_LONG).show();
 //                getRequestId();
             }
         });
@@ -362,8 +363,9 @@ public class TravelFragment extends Fragment {
                 upcomingTripAdapter.notifyDataSetChanged();
                 getTripsData();
                 hideKeyboard(getActivity());
-
-
+                Snackbar.make(getView(), String.format("Travel notice added!"), Snackbar.LENGTH_LONG).show();
+                scrollView.setSmoothScrollingEnabled(true);
+                scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -372,10 +374,18 @@ public class TravelFragment extends Fragment {
 
                 upcomingTripAdapter.notifyDataSetChanged();
                 getTripsData();
-
                 // hideKeyboard method is at the end of this class, method take from https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
                 hideKeyboard(getActivity());
 
+                Snackbar mySnackbar = Snackbar.make(getView(), String.format("Your trip was added!"), Snackbar.LENGTH_INDEFINITE);
+                mySnackbar.setAction("ADD DETAILS", new AddDetailsListener(travelNoticeId, tuid));
+                mySnackbar.setActionTextColor(getResources().getColor(R.color.PLight));
+                mySnackbar.show();
+
+
+
+                scrollView.setSmoothScrollingEnabled(true);
+                scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
         AlertDialog dialog = builder.create();
@@ -387,6 +397,13 @@ public class TravelFragment extends Fragment {
         AdditionalDetailsActivity.putExtra("tuid", tuid);
         AdditionalDetailsActivity.putExtra("travel_notice_id", travelNoticeId);
         getActivity().startActivityForResult(AdditionalDetailsActivity, ADDITIONAL_DETAILS_CODE);
+    }
+
+    public void updateAdditionalDetailsActivityLaunch(String travelNoticeId, String tuid) {
+        Intent AdditionalDetailsActivity = new Intent(getContext(), AdditionalDetailsActivity.class);
+        AdditionalDetailsActivity.putExtra("tuid", tuid);
+        AdditionalDetailsActivity.putExtra("travel_notice_id", travelNoticeId);
+        getActivity().startActivityForResult(AdditionalDetailsActivity, RawrApp.UPDATE_ADDITIONAL_DETAILS_CODE);
     }
 
     // populate list of trips from JSON
@@ -566,4 +583,23 @@ public class TravelFragment extends Fragment {
 //        }
 //    }
 
+
+    // This is called from the snackbar after a user adds a travel notice but decides not to add additional details, but then presses "ADD DETAILS" inside of that initial snackbar
+    public class AddDetailsListener implements View.OnClickListener{
+
+        String tvlID;
+        String tvlrID;
+
+        public AddDetailsListener(String travelNoticeId, String tuid) {
+            tvlID = travelNoticeId;
+            tvlrID = tuid;
+        }
+
+        @Override
+        public void onClick(View v) {
+            // Code to send the user to  UpdateAdditionalDetailsActivity
+            updateAdditionalDetailsActivityLaunch(tvlID, tvlrID);
+            Snackbar.make(getView(), String.format("Travel notice updated!"), Snackbar.LENGTH_LONG).show();
+        }
+    }
 }
