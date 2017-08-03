@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -151,17 +152,20 @@ public class SendReceiveFragment extends Fragment {
                 /* inside of SearchResultsActivity we will call the database using the
                 *from* *to* and *by* parameters typed in here, and there in SRA we will get
                 back an array of TravelNotices to put into the recycler view */
-                i.putExtra("from", et_from.getText().toString());
-                i.putExtra("to", et_to.getText().toString());
-                // get month day and year and send through intent
-                int month = Integer.parseInt(et_date.getText().toString().substring(0, 2));
-                int dayOfMonth = Integer.parseInt(et_date.getText().toString().substring(3, 5));
-                int year = Integer.parseInt(et_date.getText().toString().substring(6, 8)) + 2000;
-                i.putExtra("month", month);
-                i.putExtra("dayOfMonth", dayOfMonth);
-                i.putExtra("year", year);
-                // start activity for result for displaying snackbars for UX
-                getActivity().startActivityForResult(i, RawrApp.CODE_REQUESTER_FORMS_ACTIVITY);
+                if (et_date.length() != 0 && et_from.length() != 0 && et_to.length() != 0) {
+                    i.putExtra("from", et_from.getText().toString());
+                    i.putExtra("to", et_to.getText().toString());
+                    // get month day and year and send through intent
+                    int month = Integer.parseInt(et_date.getText().toString().substring(0, 2));
+                    int dayOfMonth = Integer.parseInt(et_date.getText().toString().substring(3, 5));
+                    int year = Integer.parseInt(et_date.getText().toString().substring(6, 8)) + 2000;
+                    i.putExtra("month", month);
+                    i.putExtra("dayOfMonth", dayOfMonth);
+                    i.putExtra("year", year);
+                    // start activity for result for displaying snackbars for UX
+                    getActivity().startActivityForResult(i, RawrApp.CODE_REQUESTER_FORMS_ACTIVITY);
+                }
+                else {Snackbar.make(getView(), String.format("Please make sure you've entered all the required information"), Snackbar.LENGTH_LONG).show();}
             }
         });
 
