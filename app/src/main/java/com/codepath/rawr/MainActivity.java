@@ -5,14 +5,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,16 +27,29 @@ import com.codepath.rawr.fragments.SendReceiveFragment;
 import com.codepath.rawr.models.User;
 import com.loopj.android.http.AsyncHttpClient;
 
+import static com.codepath.rawr.R.id.drawerLayout;
+
 public class MainActivity extends AppCompatActivity {
+
+    // set up for navigation drawer
+    private String[] mDrawerTitles;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ArrayAdapter<String> mAdapter;
+    private NavigationView navigationView;
+
+
     // setting up the views pager for fragments
     public ViewPager vpPager;
     public MainPagerAdapter pagerAdapter;
-    public CoordinatorLayout parentLayout;
+    public LinearLayout parentLayout;
     public TabLayout tabLayout;
     Context context;
     // other views
     ProgressBar pb;
     ImageView optionsButton;
+
+    TextView text1;
     // db
     AsyncHttpClient client;
     public String[] DB_URLS;
@@ -47,8 +66,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // setting up navigation drawer
+        mDrawerLayout = (DrawerLayout) findViewById(drawerLayout);
+
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
         context = this;
-        parentLayout = (CoordinatorLayout) findViewById(R.id.parentLayout);
+        parentLayout = (LinearLayout) findViewById(R.id.parentLayout);
 
         // get server stuffs
         client = new AsyncHttpClient();
@@ -79,7 +103,40 @@ public class MainActivity extends AppCompatActivity {
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                logoutUser();
+                mDrawerLayout.openDrawer(Gravity.START);
+//                logoutUser();
+            }
+        });
+
+        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            // This method will trigger on item Click of navigation menu
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                //Checking if the item is in checked state or not, if not make it in checked state
+                if (menuItem.isChecked()) menuItem.setChecked(false);
+                else menuItem.setChecked(true);
+
+                //Closing drawer on item click
+                mDrawerLayout.closeDrawers();
+
+                //Check to see which item was being clicked and perform appropriate action
+                switch (menuItem.getItemId()) {
+                    //Replacing the main content with ContentFragment
+                    case R.id.first:
+                        Intent i = new Intent(MainActivity.this, ProfileActivity.class);
+                        startActivity(i);
+                        break;
+                    case R.id.second:
+                        Intent j = new Intent(MainActivity.this, SettingsActivity.class);
+                        startActivity(j);
+                        break;
+                    case R.id.third:
+                        logoutUser();
+                }
+                return false;
             }
         });
     }
