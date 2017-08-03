@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
     public String travelNoticeId;
 
     public TextView pending_count;
+    public ImageView iv_item;
 
     // Declaring variables for list of pending requests
     TravelPendingRequestsAdapter travelPendingRequestsAdapter;
