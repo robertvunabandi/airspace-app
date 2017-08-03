@@ -315,7 +315,7 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent data = new Intent();
-        data.putExtra("message", "Cancelled");
+        data.putExtra("message", "Changes to travel notice were not saved");
         setResult(RESULT_CANCELED, data); finish();
     }
 

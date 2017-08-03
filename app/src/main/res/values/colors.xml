@@ -41,4 +41,5 @@
     <color name="colorTransparentSXXDark">#77151d1e</color>
     <color name="colorTransparentSXXDarkMore">#20151d1e</color>
     <color name="colorTransparentSXXXDark">#770b0f0f</color>
+    <color name="dark_blue">#0a0f2a</color>
 </resources>
