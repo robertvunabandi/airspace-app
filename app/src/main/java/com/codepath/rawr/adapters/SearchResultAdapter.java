@@ -158,7 +158,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             tv_dateFrom_isr = (TextView) itemView.findViewById(R.id.tv_dateFrom_isr);
             tv_dateTo_isr = (TextView) itemView.findViewById(R.id.tv_dateTo_isr);
 
-            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rl_infoButton);
+            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rlCard);
 
             ivToggleInfo = (ImageView) itemView.findViewById(R.id.iv_toggleInfo);
             erl_info = (ExpandableRelativeLayout) itemView.findViewById(R.id.erl_info);
