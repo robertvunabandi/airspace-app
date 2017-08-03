@@ -1,7 +1,9 @@
 package com.codepath.rawr;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,7 +14,13 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.codepath.rawr.models.RawrImages;
 import com.codepath.rawr.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -28,7 +36,7 @@ public class SenderFormActivity extends AppCompatActivity {
     public CheckBox cb_envelope, cb_smallBox, cb_largeBox, cb_clothing, cb_other, cb_liquid, cb_fragile;
     public boolean item_envelope, item_smallBox, item_largeBox, item_clothing, item_other, item_liquid, item_fragile = false;
     public EditText et_dropoff, et_pickup, et_name, et_other, et_phone, et_email, et_payment, et_details;
-    public Button bt_confirm;
+    public Button bt_confirm, bt_photo_upload;
 
     // for debugging and snackbar
     public final static String TAG = "S:SenderFormActivity";
@@ -70,6 +78,7 @@ public class SenderFormActivity extends AppCompatActivity {
         et_payment = (EditText) findViewById(R.id.et_payment);
         et_details = (EditText) findViewById(R.id.et_details);
         bt_confirm = (Button) findViewById(R.id.bt_confirm);
+        bt_photo_upload = (Button) findViewById(R.id.bt_photo_upload);
 
         // get the parent layout
         parentLayout = (RelativeLayout) findViewById(R.id.relativeLayoutInitSenderForm);
@@ -84,6 +93,21 @@ public class SenderFormActivity extends AppCompatActivity {
         });
         // get the user using the app, which activates the button
         getUsingUser();
+
+
+        bt_photo_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                // starts an intent for
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, 0 /* CODE */);
+
+            }
+        });
+
     }
 
 
@@ -325,5 +349,47 @@ public class SenderFormActivity extends AppCompatActivity {
         data.putExtra("message", String.format("Cancelled"));
         setResult(RESULT_CANCELED, data);
         finish();
+    }
+
+
+
+    public void saveItemImageToFirebase(Bitmap image) {
+        // create the string of the image, which is based on this person's id
+        String imageTitleDatabase = String.format("%.png", "requestFrom" + RawrApp.getUsingUserId());
+        // convert the image first to byte array
+        byte[] imageByte = RawrImages.convertImageToByteArray(image);
+        // store image to firebase storage by first getting the reference to that image based on the user id
+        final StorageReference ref = FirebaseStorage.getInstance().getReference(imageTitleDatabase);
+        ref.putBytes(imageByte).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                    // when completed, get the image url and save it to DB
+                    ref.getDownloadUrl();
+                    RequestParams params = RawrImages.getParamsSaveProfileImage(RawrApp.getUsingUserId(), ref.getDownloadUrl().toString());
+                    client.post(RawrApp.DB_URL + "/image/request", params, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Log.e(TAG, String.format("%s", response));
+                            // TODO - then, populate wherever the image was supposed to go on success
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.e(TAG, String.format("Error in saving image url to DB: %s", errorResponse));
+                        }
+                    });
+
+                } else {
+                    // TODO - Snackbar that it failed
+                }
+            }
+
+        });
+
+        /* public void testFirebase (Bitmap image){ // OLD FIREBASE STUFF
+            // StorageReference ref = FirebaseStorage.getInstance().getReference().child("image_test.png");
+            FirebaseDatabase firebaseDB = FirebaseDatabase.getInstance(); DatabaseReference images = firebaseDB.getReference("images"); images.setValue(imageEncoded); FirebaseStorage storageRef = FirebaseStorage.getInstance("gs://air-space-images.appspot.com"); storageRef.getReference("image_test.png");
+        } */
     }
 }
