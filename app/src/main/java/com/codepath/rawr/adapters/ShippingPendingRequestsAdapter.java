@@ -1,8 +1,11 @@
 package com.codepath.rawr.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,9 +60,9 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
 
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        ShippingRequest request = mRequests.get(position);
+        final ShippingRequest request = mRequests.get(position);
 
         holder.tv_from.setText(request.tvl.dep_iata);
         holder.tv_to.setText(request.tvl.arr_iata);
@@ -109,8 +112,58 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
             }
         });
 
+        // CANCEL the request click listener
+        holder.btn_cancel.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(final View v) {
 
+                // They have to confirm that they want to cancel the request
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Are you sure you want to cancel this request?");
 
+                // Add the buttons
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked "YES" button, so send response to database
+
+                        RequestParams params = new RequestParams();
+                        params.put("uid",  request.requesterId);
+                        params.put("request_id",  request.id);
+                        client.post(DB_URLS[0] + "/request/delete", params, new JsonHttpResponseHandler() {
+                            // implement endpoint here
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                int status = request.status;
+                                mRequests.remove(position);
+                                Snackbar.make(v, String.format("Request cancelled"), Snackbar.LENGTH_LONG).show();
+                                notifyDataSetChanged();
+
+                                // TODO - notify the traveller that the shipper cancelled the request!!!! (if not done in the database already)
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     @Override
@@ -198,51 +251,8 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
 
             tv_dropoff = (TextView) itemView.findViewById(R.id.tv_dropoff);
             tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup);
-
-
-
-            // CANCEL the request click listener
-            btn_cancel.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    final int pos = getAdapterPosition();
-
-                    RequestParams params = new RequestParams();
-                    params.put("uid",  mRequests.get(pos).requesterId);
-                    params.put("request_id",  mRequests.get(pos).id);
-
-                    client.post(DB_URLS[0] + "/request/delete", params, new JsonHttpResponseHandler() {
-                        // implement endpoint here
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            int status = mRequests.get(pos).status;
-                            mRequests.remove(pos);
-                            Toast.makeText(context, String.format("%s", "CANCELLED! Status = " + status), Toast.LENGTH_SHORT).show();
-                            notifyDataSetChanged();
-
-                            // TODO - notify the traveller that the shipper cancelled the request, but maybe not because if it's just pending it doesn't really matter?
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                            Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            });
         }
     }
-
 
 
     public void clear() {

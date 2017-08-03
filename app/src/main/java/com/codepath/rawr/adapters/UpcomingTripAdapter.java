@@ -2,9 +2,12 @@ package com.codepath.rawr.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,8 +99,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                 // Rotates the toggle button to indicate when the expandableLayout is either expanded or collapsed
                 if (holder.erl_info.isExpanded()) {
                     holder.ivToggleInfo.setRotation(0);
-                }
-                else {
+                } else {
                     holder.ivToggleInfo.setRotation(-90);
                 }
 
@@ -133,7 +135,6 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
             public void onClick(View v) {
 
 
-
                 Intent i = new Intent(context, UpdateAdditionalDetailsActivity.class);
                 i.putExtra("travel_notice_id", mTrips.get(position).id);
                 i.putExtra("tuid", mTrips.get(position).tuid);
@@ -151,41 +152,61 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         holder.bt_delete.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public void onClick(View v) {
-
-                AsyncHttpClient client = new AsyncHttpClient();
-                RequestParams params = new RequestParams();
-
-                params.put("travel_notice_id", mTrips.get(position).id);
-                params.put("tuid", mTrips.get(position).tuid);
-
-                client.post(DB_URLS[0] + "/travel_notice/delete", params, new JsonHttpResponseHandler() {
-                    // implement endpoint here
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                        mTrips.remove(position);
-                        Toast.makeText(context, String.format("%s", "Travel Notice deleted!"), Toast.LENGTH_SHORT).show();
-                        notifyDataSetChanged();
+            public void onClick(final View v) {
 
 
-                        // TODO - maybe notify the shipper that the traveller cancelled the trip (unless this is already done in the database)
-                    }
+                // They have to confirm that they want to delete the travel notice
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                        Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-                    }
+                builder.setMessage("Are you sure you want to delete this trip?").setTitle(trips.dep_iata + " ➝ " + trips.arr_iata + " on " +
+                        trips.getDepartureDaySimple());
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                        Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
-                    }
+                // Add the buttons
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked "YES" button, so send response to database
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        RequestParams params = new RequestParams();
+
+                        params.put("travel_notice_id", mTrips.get(position).id);
+                        params.put("user_id", mTrips.get(position).tuid);
+
+                        client.post(DB_URLS[0] + "/travel_notice/delete", params, new JsonHttpResponseHandler() {
+                            // implement endpoint here
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                                mTrips.remove(position);
+                                Snackbar.make(v, String.format("Travel notice deleted"), Snackbar.LENGTH_LONG).show();
+                                notifyDataSetChanged();
+
+                                // TODO - maybe notify the shipper that the traveller cancelled the trip (unless this is already done in the database)
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                                Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                                Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                                Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 

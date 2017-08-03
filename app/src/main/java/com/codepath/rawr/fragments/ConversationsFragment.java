@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.ImageView;
 
 import com.codepath.rawr.MainActivity;
 import com.codepath.rawr.R;
@@ -100,19 +99,6 @@ public class ConversationsFragment extends Fragment {
         rv_convos.setAdapter(conversationListAdapter);
         rv_convos.setNestedScrollingEnabled(false);
         */
-
-        final ImageView temporary_addProfileImageButton = (ImageView) v.findViewById(R.id.temporary_addProfileImageButton);
-        temporary_addProfileImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // see main activity for this function
-                ((MainActivity) getActivity()).getImageFromAlbum();
-
-                /* FirebaseDatabase firebaseDB = FirebaseDatabase.getInstance();
-                DatabaseReference images = firebaseDB.getReference("images");
-                images.setValue("Hello, world"); */
-            }
-        });
 
         return v;
     }

@@ -214,7 +214,7 @@ public class TravelFragment extends Fragment {
                             // Log.d(TAG, String.format("%s", response)); // debugging to see response
                             processResponse(response);
                         } catch (JSONException e) {
-                            Snackbar.make(getView(), String.format("An error occurred while parsing the JSON response from the flight API. "), Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(getView(), String.format("Sorry, we couldn't find your flight. Please double check the information you entered"), Snackbar.LENGTH_LONG).show();
                         }
                     }
 
@@ -233,7 +233,7 @@ public class TravelFragment extends Fragment {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         Log.e(TAG, String.format("error 3: %s", responseString));
-                        Snackbar.make(getView(), String.format("An error (3) occurred"), Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(getView(), String.format("Make sure to include all of the required flight information!"), Snackbar.LENGTH_LONG).show();
                     }
                 });
             }
@@ -582,7 +582,6 @@ public class TravelFragment extends Fragment {
 //            }
 //        }
 //    }
-
 
     // This is called from the snackbar after a user adds a travel notice but decides not to add additional details, but then presses "ADD DETAILS" inside of that initial snackbar
     public class AddDetailsListener implements View.OnClickListener{
