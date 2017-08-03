@@ -2,8 +2,9 @@ package com.codepath.rawr;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,16 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.codepath.rawr.models.RawrImages;
 import com.codepath.rawr.models.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -28,6 +25,9 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -37,6 +37,7 @@ public class SenderFormActivity extends AppCompatActivity {
     public boolean item_envelope, item_smallBox, item_largeBox, item_clothing, item_other, item_liquid, item_fragile = false;
     public EditText et_dropoff, et_pickup, et_name, et_other, et_phone, et_email, et_payment, et_details;
     public Button bt_confirm, bt_photo_upload;
+    public ImageView iv_item;
 
     // for debugging and snackbar
     public final static String TAG = "S:SenderFormActivity";
@@ -79,6 +80,7 @@ public class SenderFormActivity extends AppCompatActivity {
         et_details = (EditText) findViewById(R.id.et_details);
         bt_confirm = (Button) findViewById(R.id.bt_confirm);
         bt_photo_upload = (Button) findViewById(R.id.bt_photo_upload);
+        iv_item = (ImageView) findViewById(R.id.iv_item);
 
         // get the parent layout
         parentLayout = (RelativeLayout) findViewById(R.id.relativeLayoutInitSenderForm);
@@ -98,7 +100,6 @@ public class SenderFormActivity extends AppCompatActivity {
         bt_photo_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 // starts an intent for
                 Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
@@ -351,45 +352,72 @@ public class SenderFormActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == RawrApp.CODE_LOAD_PROFILE_IMAGE) {
+            // for loading images, this ma
+            try {
+                // get the image from the cellphone
+                Uri imageUri = data.getData();
+                InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                Bitmap selectedImage = BitmapFactory.decodeStream(imageStream); // Bitmaps are the ones to be placed/replaced in imageViews
+                // convert image to bytes
+                byte[] imageByte = RawrImages.convertImageToByteArray(selectedImage);
+                iv_item.setImageBitmap(selectedImage);
+                iv_item.setVisibility(View.VISIBLE);
+                // convert image back to bitmap
+                // this replaces the image
+                // ConversationsFragment convoFragment = (ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem());
+                // ((ImageView) convoFragment.getView().findViewById(R.id.temporary_addProfileImageButton)).setImageBitmap(testImg);
+                // once we get the image, we send the image with the enpoint
 
-
-    public void saveItemImageToFirebase(Bitmap image) {
-        // create the string of the image, which is based on this person's id
-        String imageTitleDatabase = String.format("%.png", "requestFrom" + RawrApp.getUsingUserId());
-        // convert the image first to byte array
-        byte[] imageByte = RawrImages.convertImageToByteArray(image);
-        // store image to firebase storage by first getting the reference to that image based on the user id
-        final StorageReference ref = FirebaseStorage.getInstance().getReference(imageTitleDatabase);
-        ref.putBytes(imageByte).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if (task.isSuccessful()) {
-                    // when completed, get the image url and save it to DB
-                    ref.getDownloadUrl();
-                    RequestParams params = RawrImages.getParamsSaveProfileImage(RawrApp.getUsingUserId(), ref.getDownloadUrl().toString());
-                    client.post(RawrApp.DB_URL + "/image/request", params, new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Log.e(TAG, String.format("%s", response));
-                            // TODO - then, populate wherever the image was supposed to go on success
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            Log.e(TAG, String.format("Error in saving image url to DB: %s", errorResponse));
-                        }
-                    });
-
-                } else {
-                    // TODO - Snackbar that it failed
-                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Log.e(TAG, String.format("Bitmap error! %s", e));
             }
+        } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_LOAD_PROFILE_IMAGE) {
+            Snackbar.make(parentLayout, "Cancelled loading profile image", Snackbar.LENGTH_LONG).show();
+        }
 
-        });
 
-        /* public void testFirebase (Bitmap image){ // OLD FIREBASE STUFF
-            // StorageReference ref = FirebaseStorage.getInstance().getReference().child("image_test.png");
-            FirebaseDatabase firebaseDB = FirebaseDatabase.getInstance(); DatabaseReference images = firebaseDB.getReference("images"); images.setValue(imageEncoded); FirebaseStorage storageRef = FirebaseStorage.getInstance("gs://air-space-images.appspot.com"); storageRef.getReference("image_test.png");
-        } */
+//    public void saveItemImageToFirebase(Bitmap image) {
+//        // create the string of the image, which is based on this person's id
+//        String imageTitleDatabase = String.format("%.png", "requestFrom" + RawrApp.getUsingUserId());
+//        // convert the image first to byte array
+//        byte[] imageByte = RawrImages.convertImageToByteArray(image);
+//        // store image to firebase storage by first getting the reference to that image based on the user id
+//        final StorageReference ref = FirebaseStorage.getInstance().getReference(imageTitleDatabase);
+//        ref.putBytes(imageByte).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    // when completed, get the image url and save it to DB
+//                    ref.getDownloadUrl();
+//                    RequestParams params = RawrImages.getParamsSaveProfileImage(RawrApp.getUsingUserId(), ref.getDownloadUrl().toString());
+//                    client.post(RawrApp.DB_URL + "/image/request", params, new JsonHttpResponseHandler() {
+//                        @Override
+//                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                            Log.e(TAG, String.format("%s", response));
+//                            // TODO - then, populate wherever the image was supposed to go on success
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                            Log.e(TAG, String.format("Error in saving image url to DB: %s", errorResponse));
+//                        }
+//                    });
+//
+//                } else {
+//                    // TODO - Snackbar that it failed
+//                }
+//            }
+//
+//        });
+//
+//        /* public void testFirebase (Bitmap image){ // OLD FIREBASE STUFF
+//            // StorageReference ref = FirebaseStorage.getInstance().getReference().child("image_test.png");
+//            FirebaseDatabase firebaseDB = FirebaseDatabase.getInstance(); DatabaseReference images = firebaseDB.getReference("images"); images.setValue(imageEncoded); FirebaseStorage storageRef = FirebaseStorage.getInstance("gs://air-space-images.appspot.com"); storageRef.getReference("image_test.png");
+//        } */
+//    }
     }
 }
