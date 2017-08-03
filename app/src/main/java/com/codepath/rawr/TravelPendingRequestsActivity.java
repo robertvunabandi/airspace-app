@@ -25,9 +25,8 @@ import cz.msebera.android.httpclient.Header;
 public class TravelPendingRequestsActivity extends AppCompatActivity {
 
 
-    public static String TAG = "Pending Req";
+    public static String TAG = "TvlPendingRequestsAct";
     AsyncHttpClient client;
-    public String[] DB_URLS;
     public String travelNoticeId;
 
     public TextView pending_count;
@@ -42,7 +41,6 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel_pending_requests);
 
-        DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
         client = new AsyncHttpClient();
 
         // getting travel notice info to call the database
@@ -57,56 +55,50 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
         pending_count = (TextView) findViewById(R.id.tv_pending_count);
 
 
-                populateList(travelNoticeId);
-//        getRequestsData(travelNoticeId);
+        populateList(travelNoticeId);
     }
 
     private void populateList(String travelNoticeId_) {
         RequestParams params = new RequestParams();
         params.put("travel_notice_id", travelNoticeId_);
 
-        client.get(DB_URLS[0] + "/request/get_from_travel_notice", params, new JsonHttpResponseHandler() {
+        client.get(RawrApp.DB_URL + "/request/get_from_travel_notice", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Log.e(TAG, String.format("%s", response));
-                    try {
-                        JSONObject travelNotice = response.getJSONObject("travel_notice");
-                        JSONArray requests = response.getJSONArray("request");
-                        processResponse(travelNotice, requests);
-                        Toast.makeText(getBaseContext(), String.format("%s", response), Toast.LENGTH_LONG);
-                    } catch (JSONException e) {
-                        Toast.makeText(getBaseContext(), String.format("JSON error in parsing JSON in travel notice get: %s", e), Toast.LENGTH_LONG).show();
-                    }
+                try {
+                    JSONObject travelNotice = response.getJSONObject("travel_notice");
+                    JSONObject userJson = response.getJSONObject("user");
+                    JSONArray requests = response.getJSONArray("request");
+                    processResponse(userJson, travelNotice, requests);
+                    Toast.makeText(getBaseContext(), String.format("%s", response), Toast.LENGTH_LONG);
+                } catch (JSONException e) {
+                    Toast.makeText(getBaseContext(), String.format("JSON error in parsing JSON in travel notice get: %s", e), Toast.LENGTH_LONG).show();
+                }
 
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                        Log.e(TAG, String.format("CODE: %s ERROR(1): %s", statusCode, errorResponse));
+                Log.e(TAG, String.format("CODE: %s ERROR(1): %s", statusCode, errorResponse));
                 Toast.makeText(getBaseContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                        Log.e(TAG, String.format("CODE: %s ERROR(2): %s", statusCode, errorResponse));
-                Toast.makeText(getBaseContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                        Log.e(TAG, String.format("CODE: %s ERROR(3): %s", statusCode, responseString));
+                Log.e(TAG, String.format("CODE: %s ERROR(3): %s", statusCode, responseString));
                 Toast.makeText(getBaseContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void processResponse (JSONObject travelNotice, JSONArray requests) {
+    private void processResponse(JSONObject userJson, JSONObject travelNoticeJson, JSONArray requests) {
         // add requests to recylcer view
         for (int i = 0; i < requests.length(); i++) {
             ShippingRequest shippingRequest = null;
             try {
-                    shippingRequest = ShippingRequest.fromJSONServer(requests.getJSONObject(i), travelNotice);
-                if(shippingRequest.isPending()) {
+                shippingRequest = ShippingRequest.fromJSONServer(requests.getJSONObject(i), travelNoticeJson, userJson);
+                if (shippingRequest.isPending()) {
                     mRequests.add(shippingRequest);
                     travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
                     pending_count.setText("You have " + mRequests.size() + " pending requests");
@@ -116,85 +108,6 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-}
+    }
 
-// get data for requests
-//    private void getRequestsData(final String travelNoticeId_) {
-//        client = new AsyncHttpClient();
-//
-//        // Set the request parameters
-//        RequestParams params = new RequestParams();
-//        params.put("travel_notice_id", travelNoticeId_);
-//
-//        client.get(DB_URLS[0] + "/request_get_from_travel_notice", params, new JsonHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                travelPendingRequestsAdapter.clear();
-//                try {
-////                    populateList(travelNoticeId_, response.getJSONArray("data"));
-//                    Toast.makeText(getBaseContext(), String.format("%s", response), Toast.LENGTH_LONG);
-//                    Log.e(TAG, String.format("%s", response));
-//
-//                } catch (JSONException e) {
-//                    Toast.makeText(getBaseContext(), "An error occurred while parsing the JSON Array", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                Toast.makeText(getBaseContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                Toast.makeText(getBaseContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                Toast.makeText(getBaseContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-
-//    private void populateList(String travelNoticeId_, final JSONArray requestsList) throws JSONException {
-//
-//        for (int i = 0; i < requestsList.length(); i++) {
-//            final int finalI = i;
-//            RequestParams params = new RequestParams();
-//            params.put("travel_notice_id", travelNoticeId_);
-//
-//            client.get(DB_URLS[0] + "/request_get_from_travel_notice", params, new JsonHttpResponseHandler() {
-//                @Override
-//                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                    try {
-//                            ShippingRequest shippingRequest = ShippingRequest.fromJSONServer(requestsList.getJSONObject(finalI), response.getJSONObject("request_id"));
-//                            mRequests.add(shippingRequest);
-//                            travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
-//                            Toast.makeText(getBaseContext(), String.format("%s", response), Toast.LENGTH_LONG);
-//                    } catch (JSONException e) {
-//                        Toast.makeText(getBaseContext(), String.format("JSON error in parsing JSON in travel notice get: %s", e), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-////                        Log.e(TAG, String.format("CODE: %s ERROR(1): %s", statusCode, errorResponse));
-//                    Toast.makeText(getBaseContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-//                }
-//
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-////                        Log.e(TAG, String.format("CODE: %s ERROR(2): %s", statusCode, errorResponse));
-//                    Toast.makeText(getBaseContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
-//                }
-//
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-////                        Log.e(TAG, String.format("CODE: %s ERROR(3): %s", statusCode, responseString));
-//                    Toast.makeText(getBaseContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-//    }
 }

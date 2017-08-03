@@ -17,6 +17,8 @@ public class ShippingRequest {
     public boolean item_envelopes, item_smbox, item_lgbox, item_clothing, item_fragile, item_liquid, item_other;
 
     public TravelNotice tvl;
+    public User tvlUser;
+    public RawrDate dateCreated;
 
     /**
      * HERE
@@ -46,7 +48,7 @@ public class ShippingRequest {
         return this.status == 2;
     }
 
-    public static ShippingRequest fromJSONServer(JSONObject response, JSONObject travelNoticeJSON) throws JSONException {
+    public static ShippingRequest fromJSONServer(JSONObject response, JSONObject travelNoticeJSON, JSONObject userJSON) throws JSONException {
         ShippingRequest sr = new ShippingRequest();
         sr.id = response.getString("_id");
         sr.travelNoticeId = response.getString("travel_notice_id");
@@ -70,7 +72,10 @@ public class ShippingRequest {
 
         sr.recipient = Recipient.fromJSONServer(response.getJSONObject("recipient"));
         sr.deliverer = Deliverer.fromJSONServer(response.getJSONObject("deliverer"));
+
         sr.tvl = TravelNotice.fromJSONServer(travelNoticeJSON);
+        sr.tvlUser = User.fromJSONServer(userJSON);
+        sr.dateCreated = RawrDate.fromJSONServer(response.getJSONObject("date_created"));
 
         // if the flexibilities are put, update flexibilities
         try {
@@ -198,5 +203,11 @@ public class ShippingRequest {
             }
         }
         return name;
+    }
+
+    public RequestParams getParamsForRequestPhotoUrl() {
+        RequestParams params = new RequestParams();
+        params.put("request_id", this.id);
+        return params;
     }
 }
