@@ -46,6 +46,8 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
     public final static String TAG = "A:AdditionalDetails";
     public View parentLayout;
 
+    int position;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
