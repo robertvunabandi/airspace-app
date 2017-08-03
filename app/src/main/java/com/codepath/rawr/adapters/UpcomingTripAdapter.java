@@ -138,12 +138,10 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                 i.putExtra("travel_notice_id", mTrips.get(position).id);
                 i.putExtra("tuid", mTrips.get(position).tuid);
 
-                ((Activity) context).startActivityForResult(i, RawrApp.ADDITIONAL_DETAILS_CODE);
+                ((Activity) context).startActivityForResult(i, RawrApp.UPDATE_ADDITIONAL_DETAILS_CODE);
 
                 // TODO - GET THE NEW TRIP FROM THE RESPONSE AND REPLACE IT HERE TO FIX THE REFRESH PROBLEM THING
-
-
-                notifyDataSetChanged();
+                // ^^ It does this in Main Activity by calling getTripsData from Travel Fragment!!!! :D
 
             }
         });
@@ -170,7 +168,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                         notifyDataSetChanged();
 
 
-                        // TODO - maybe notify the shipper that the traveller cancelled the trip
+                        // TODO - maybe notify the shipper that the traveller cancelled the trip (unless this is already done in the database)
                     }
 
                     @Override
@@ -235,7 +233,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         public ViewHolder(View itemView) {
             super(itemView);
 
-            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rl_infoButton);
+            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rlCard);
             relative_layout = (RelativeLayout) itemView.findViewById(R.id.relative_layout);
             tv_from = (TextView) itemView.findViewById(R.id.tv_from);
             tv_to = (TextView) itemView.findViewById(R.id.tv_to);

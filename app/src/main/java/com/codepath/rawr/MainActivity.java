@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import com.codepath.rawr.adapters.MainPagerAdapter;
 import com.codepath.rawr.fragments.SendReceiveFragment;
+import com.codepath.rawr.fragments.TravelFragment;
 import com.codepath.rawr.models.User;
 import com.loopj.android.http.AsyncHttpClient;
 
@@ -176,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     ((TextView) tab.getCustomView().findViewById(R.id.tv_text_icon)).setTextColor(white);
                 } else {
+                    // ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).getDrawable().setTint(dark);
                     if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_flight_white).getConstantState())) {
                         ((ImageView) tab.getCustomView().findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_flight);
                     } else if (bkg.getConstantState().equals(getResources().getDrawable(R.drawable.ic_suitcase_white).getConstantState())) {
@@ -262,6 +265,18 @@ public class MainActivity extends AppCompatActivity {
             ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).refreshRequests();
         } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // failure snackbar
+            snackbarCallIndefinite(data.getStringExtra("message"));
+        } else if (resultCode == RESULT_OK && requestCode == RawrApp.UPDATE_ADDITIONAL_DETAILS_CODE) {
+            String msg;
+            try {
+                msg = data.getExtras().getString("message");
+            } catch (Exception e) {
+                msg = "Message not received from activity in MainActivity.onActivityResult from UPDATE_ADDITIONAL_DETAILS_CODE";
+                Log.e(TAG, msg);
+            }
+            snackbarCallLong(msg);
+            ((TravelFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getTripsData();
+        } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.UPDATE_ADDITIONAL_DETAILS_CODE) {
             snackbarCallIndefinite(data.getStringExtra("message"));
         }
     }

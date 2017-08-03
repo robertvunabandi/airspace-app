@@ -155,6 +155,7 @@ public class TravelFragment extends Fragment {
             @Override
             public void onRefresh() {
                 getTripsData();
+                // Snackbar.make(getView(), String.format("Trips refreshed"), Snackbar.LENGTH_LONG).show();
 //                getRequestId();
             }
         });
@@ -362,8 +363,9 @@ public class TravelFragment extends Fragment {
                 upcomingTripAdapter.notifyDataSetChanged();
                 getTripsData();
                 hideKeyboard(getActivity());
-
-
+                Snackbar.make(getView(), String.format("Travel notice added!"), Snackbar.LENGTH_LONG).show();
+                scrollView.setSmoothScrollingEnabled(true);
+                scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
         builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -372,10 +374,18 @@ public class TravelFragment extends Fragment {
 
                 upcomingTripAdapter.notifyDataSetChanged();
                 getTripsData();
-
                 // hideKeyboard method is at the end of this class, method take from https://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard
                 hideKeyboard(getActivity());
 
+                Snackbar mySnackbar = Snackbar.make(getView(), String.format("Your trip was added!"), Snackbar.LENGTH_INDEFINITE);
+                mySnackbar.setAction("ADD DETAILS", new AddDetailsListener(travelNoticeId, tuid));
+                mySnackbar.setActionTextColor(getResources().getColor(R.color.PLight));
+                mySnackbar.show();
+
+
+
+                scrollView.setSmoothScrollingEnabled(true);
+                scrollView.fullScroll(View.FOCUS_DOWN);
             }
         });
         AlertDialog dialog = builder.create();
@@ -387,6 +397,13 @@ public class TravelFragment extends Fragment {
         AdditionalDetailsActivity.putExtra("tuid", tuid);
         AdditionalDetailsActivity.putExtra("travel_notice_id", travelNoticeId);
         getActivity().startActivityForResult(AdditionalDetailsActivity, ADDITIONAL_DETAILS_CODE);
+    }
+
+    public void updateAdditionalDetailsActivityLaunch(String travelNoticeId, String tuid) {
+        Intent AdditionalDetailsActivity = new Intent(getContext(), AdditionalDetailsActivity.class);
+        AdditionalDetailsActivity.putExtra("tuid", tuid);
+        AdditionalDetailsActivity.putExtra("travel_notice_id", travelNoticeId);
+        getActivity().startActivityForResult(AdditionalDetailsActivity, RawrApp.UPDATE_ADDITIONAL_DETAILS_CODE);
     }
 
     // populate list of trips from JSON
@@ -418,7 +435,7 @@ public class TravelFragment extends Fragment {
 //    }
 
     // get data for list of trips
-    private void getTripsData() {
+    public void getTripsData() {
         // Set the request parameters
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
@@ -472,4 +489,117 @@ public class TravelFragment extends Fragment {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    // get list of request IDs & call on method to get list of requests
+//    private void getRequestId() {
+//
+//        // Set the request parameters
+//        RequestParams params = new RequestParams();
+//        params.put("uid", RawrApp.getUsingUserId());
+//
+//        client.get(DB_URLS[0] + "/request_get_to_me", params, new JsonHttpResponseHandler() {
+//            // implement endpoint here
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                travelPendingRequestsAdapter.clear();
+//                try {
+//                    getRequestData(response.getJSONArray("data"));
+//                    Log.e(TAG, String.format("%s", response));
+//                } catch (JSONException e) {
+//
+//                }
+//                //swipeContainer.setRefreshing(false);
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
+//                    errorResponse) {
+//                Log.e(TAG, String.format("%s", errorResponse));
+//                Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
+//                    throwable) {
+//                Log.e(TAG, String.format("%s", responseString));
+//
+//                Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
+    // method that gets data for pending requests
+//    private void getRequestData(final JSONArray requestId) {
+//
+//        for (int i = 0; i < requestId.length(); i++) {
+//            try {
+//                // Set the request parameters
+//                RequestParams params = new RequestParams();
+//                params.put("request_id", requestId.getJSONObject(i).getString("request_id"));
+//                client.get(DB_URLS[0] + "/request_get", params, new JsonHttpResponseHandler() {
+//                    // implement endpoint here
+//                    @Override
+//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                        try {
+//                             ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
+//                            if (sr.isPending()) {
+//                                mRequests.add(sr);
+//                                travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
+//                                Log.e(TAG, String.format("%s", sr ));
+//                            } else if (sr.isAccepted()) {
+//                                mAcceptedRequests.add(sr);
+//                                travelAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRequests.size() - 1);
+//                            }
+//                        } catch (JSONException e) {
+//                            Log.e(TAG, String.format("JSON Exception at request_get request_id: %s", e));
+//                        }
+////                        swipeContainer.setRefreshing(false);
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
+//                            errorResponse) {
+//                        Log.e(TAG, String.format("Error 1 %s", errorResponse));
+//                        Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
+//                            errorResponse) {
+//                        Log.e(TAG, String.format("Error 2 %s", errorResponse));
+//                        Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
+//                            throwable) {
+//                        Log.e(TAG, String.format("Error 3 %s", responseString));
+//                        Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+
+
+    // This is called from the snackbar after a user adds a travel notice but decides not to add additional details, but then presses "ADD DETAILS" inside of that initial snackbar
+    public class AddDetailsListener implements View.OnClickListener{
+
+        String tvlID;
+        String tvlrID;
+
+        public AddDetailsListener(String travelNoticeId, String tuid) {
+            tvlID = travelNoticeId;
+            tvlrID = tuid;
+        }
+
+        @Override
+        public void onClick(View v) {
+            // Code to send the user to  UpdateAdditionalDetailsActivity
+            updateAdditionalDetailsActivityLaunch(tvlID, tvlrID);
+            Snackbar.make(getView(), String.format("Travel notice updated!"), Snackbar.LENGTH_LONG).show();
+        }
+    }
 }

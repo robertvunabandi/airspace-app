@@ -12,8 +12,10 @@
     app:cardPreventCornerOverlap="true">
 
     <RelativeLayout
+        android:id="@+id/rlCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/ripple_white"
         android:padding="10dp">
 
         <RelativeLayout
@@ -107,8 +109,6 @@
                             android:textColor="@color/SXDark"
                             android:textSize="12sp"
                             android:textStyle="bold" />
-
-
                     </RelativeLayout>
 
                     <TextView
@@ -214,15 +214,12 @@
             android:id="@+id/rlChecks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_item_view"
-            android:background="@drawable/ripple_sxdark">
-
+            android:layout_below="@+id/rl_item_view">
 
             <RelativeLayout
                 android:id="@+id/rl_infoButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ripple_sxdark"
                 android:padding="4dp">
 
                 <TextView
@@ -281,6 +278,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
+                    <!-- LINEAR LAY LEFT CHECKBOXES -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -353,7 +351,7 @@
                             android:layout_height="wrap_content">
 
                             <CheckBox
-                                android:id="@+id/cb_fragile"
+                                android:id="@+id/cb_other"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -361,14 +359,16 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:layout_toEndOf="@+id/cb_fragile"
-                                android:layout_toRightOf="@+id/cb_fragile"
-                                android:text="fragile"
+                                android:layout_toEndOf="@+id/cb_other"
+                                android:layout_toRightOf="@+id/cb_other"
+                                android:text="others"
                                 android:textColor="@color/SXXDark"
                                 android:textStyle="bold" />
                         </RelativeLayout>
+
                     </LinearLayout>
 
+                    <!-- LINEAR LAY RIGHT CHECKBOXES -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -420,7 +420,7 @@
                             android:layout_height="wrap_content">
 
                             <CheckBox
-                                android:id="@+id/cb_other"
+                                android:id="@+id/cb_fragile"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
@@ -428,14 +428,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:layout_toEndOf="@+id/cb_other"
-                                android:layout_toRightOf="@+id/cb_other"
-                                android:text="others"
+                                android:layout_toEndOf="@+id/cb_fragile"
+                                android:layout_toRightOf="@+id/cb_fragile"
+                                android:text="fragile"
                                 android:textColor="@color/SXXDark"
                                 android:textStyle="bold" />
                         </RelativeLayout>
-
-
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -452,25 +450,23 @@
                     android:id="@+id/tv_dropoff_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
                     android:text="Drop-Off Flexibility"
                     android:textColor="@color/SXXDark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+
                 <RelativeLayout
+                    android:id="@+id/dropoffLine"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/tv_dropoff_label"
-                    android:background="@color/SXXDark"></RelativeLayout>
+                    android:background="@color/SXXDark" />
+
                 <TextView
                     android:id="@+id/tv_dropoff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
                     android:padding="4dp"
-                    android:layout_below="@+id/tv_dropoff_label"
                     android:textColor="@color/SXDark"
                     android:textSize="16sp" />
 
@@ -479,26 +475,22 @@
                     android:id="@+id/tv_pickup_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/tv_dropoff"
                     android:text="Pick-Up Flexibility"
                     android:textColor="@color/SXXDark"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+
                 <RelativeLayout
+                    android:id="@+id/pickupLine"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/tv_dropoff_label"
-                    android:background="@color/SXXDark"></RelativeLayout>
+                    android:background="@color/SXXDark" />
 
                 <TextView
                     android:id="@+id/tv_pickup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/tv_pickup_label"
+                    android:padding="4dp"
                     android:textColor="@color/SXDark"
                     android:textSize="16sp" />
 
@@ -516,6 +508,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="2dp"
                     android:layout_weight="1">
 
                     <Button
@@ -534,6 +527,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
                     android:layout_weight="1">
 
                     <Button
@@ -541,7 +535,7 @@
                         style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:background="@drawable/ripple_red"
+                        android:background="@drawable/ripple_cancel"
                         android:text="Delete"
                         android:textAllCaps="false"
                         android:textColor="@color/White"
