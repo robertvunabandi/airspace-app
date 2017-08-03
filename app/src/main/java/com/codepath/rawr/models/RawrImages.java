@@ -53,6 +53,12 @@ public class RawrImages {
         params.put("url", url);
         return params;
     }
+    public static RequestParams getParamsSaveRequestImage(String request_id, String url) {
+        RequestParams params = new RequestParams();
+        params.put("user_id", request_id);
+        params.put("url", url);
+        return params;
+    }
 
     public static RequestParams getParamsGetProfileImage(String user_id) {
         RequestParams params = new RequestParams();

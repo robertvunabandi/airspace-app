@@ -38,7 +38,6 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
 
     // to get the travel notice from the database
     AsyncHttpClient client;
-    public String[] DB_URLS;
     public String travelNoticeId, tuid;
     public TravelNotice tvl;
 
@@ -55,7 +54,6 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
         // get the travel notice stuffs to make a call to the database
         travelNoticeId = getIntent().getStringExtra("travel_notice_id");
         tuid = getIntent().getStringExtra("tuid");
-        DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
 
         client = new AsyncHttpClient();
         getTravelNotice(travelNoticeId, tuid); // this will update the variable tvl, so populating the travel notice stuffs should be inside of that method
@@ -200,7 +198,7 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put("travel_notice_id", travelNoticeId_);
         params.put("tuid", tuid_);
-        client.get(DB_URLS[0] + "/travel_notice/get", params, new JsonHttpResponseHandler() {
+        client.get(RawrApp.DB_URL + "/travel_notice/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -249,7 +247,7 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
 
     public void updateFlight() {
         RequestParams params = tvl.createParams();
-        client.post(DB_URLS[0] + "/travel_notice/update", params, new JsonHttpResponseHandler() {
+        client.post(RawrApp.DB_URL + "/travel_notice/update", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // take the person to upcoming with this result

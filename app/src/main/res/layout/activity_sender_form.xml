@@ -223,7 +223,7 @@
                 android:layout_below="@+id/bt_photo_upload"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="10dp"
-                android:visibility="gone"
+                android:visibility="invisible"
                 app:srcCompat="@drawable/ripple_notification_white" />
 
             <TextView

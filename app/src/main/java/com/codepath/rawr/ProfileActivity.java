@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,11 +14,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.codepath.rawr.models.RawrImages;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
+import cz.msebera.android.httpclient.Header;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -87,44 +99,39 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-//    public void saveProfileImageToFirebase(Bitmap image) {
-//        // create the string of the image, which is based on this person's id
-//        String imageTitleDatabase = String.format("%.png", RawrApp.getUsingUserId());
-//        // convert the image first to byte array
-//        byte[] imageByte = RawrImages.convertImageToByteArray(image);
-//        // store image to firebase storage by first getting the reference to that image based on the user id
-//        final StorageReference ref = FirebaseStorage.getInstance().getReference(imageTitleDatabase);
-//        ref.putBytes(imageByte).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    // when completed, get the image url and save it to DB
-//                    ref.getDownloadUrl();
-//                    RequestParams params = RawrImages.getParamsSaveProfileImage(RawrApp.getUsingUserId(), ref.getDownloadUrl().toString());
-//                    client.post(RawrApp.DB_URL + "/image/profile_update", params, new JsonHttpResponseHandler() {
-//                        @Override
-//                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                            Log.e(TAG, String.format("%s", response));
-//                            // TODO - then, populate wherever the image was supposed to go on success
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                            Log.e(TAG, String.format("Error in saving image url to DB: %s", errorResponse));
-//                        }
-//                    });
-//
-//                } else {
-//                    // TODO - Snackbar that it failed
-//                }
-//            }
-//
-//        });
+    public void saveProfileImageToFirebase(Bitmap image) {
+        // create the string of the image, which is based on this person's id
+        String imageTitleDatabase = String.format("%.png", RawrApp.getUsingUserId());
+        // convert the image first to byte array
+        byte[] imageByte = RawrImages.convertImageToByteArray(image);
+        // store image to firebase storage by first getting the reference to that image based on the user id
+        final StorageReference ref = FirebaseStorage.getInstance().getReference(imageTitleDatabase);
+        ref.putBytes(imageByte).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                    // when completed, get the image url and save it to DB
+                    ref.getDownloadUrl();
+                    RequestParams params = RawrImages.getParamsSaveProfileImage(RawrApp.getUsingUserId(), ref.getDownloadUrl().toString());
+                    client.post(RawrApp.DB_URL + "/image/profile_update", params, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Log.e(TAG, String.format("%s", response));
+                            // TODO - then, populate wherever the image was supposed to go on success
+                        }
 
-        /* public void testFirebase (Bitmap image){ // OLD FIREBASE STUFF
-            // StorageReference ref = FirebaseStorage.getInstance().getReference().child("image_test.png");
-            FirebaseDatabase firebaseDB = FirebaseDatabase.getInstance(); DatabaseReference images = firebaseDB.getReference("images"); images.setValue(imageEncoded); FirebaseStorage storageRef = FirebaseStorage.getInstance("gs://air-space-images.appspot.com"); storageRef.getReference("image_test.png");
-        } */
-//    }
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.e(TAG, String.format("Error in saving image url to DB: %s", errorResponse));
+                        }
+                    });
+
+                } else {
+                    // TODO - Snackbar that it failed
+                }
+            }
+
+        });
+    }
 
 }
