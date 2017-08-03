@@ -16,6 +16,7 @@ public class RawrApp extends Application {
     public static final int TRAVEL_PENDING_REQUESTS_CODE = 2;
     public static final int TRAVEL_ACCEPTED_REQUESTS_CODE = 3;
     public static final int UPDATE_ADDITIONAL_DETAILS_CODE = 4;
+    public static final int CODE_LOAD_PROFILE_IMAGE = 5;
     public static final String DB_URL = "http://mysterious-headland-54722.herokuapp.com";
 
     @Override

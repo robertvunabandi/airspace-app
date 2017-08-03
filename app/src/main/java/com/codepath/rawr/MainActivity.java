@@ -3,8 +3,13 @@ package com.codepath.rawr;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -27,7 +32,19 @@ import com.codepath.rawr.adapters.MainPagerAdapter;
 import com.codepath.rawr.fragments.SendReceiveFragment;
 import com.codepath.rawr.fragments.TravelFragment;
 import com.codepath.rawr.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.Base64;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import static com.codepath.rawr.R.id.drawerLayout;
 
@@ -54,14 +71,14 @@ public class MainActivity extends AppCompatActivity {
     TextView text1;
     // db
     AsyncHttpClient client;
-    public String[] DB_URLS;
+    public FirebaseAuth mAuth;
     public User usingUser;
     // for login and shared preferences
     SharedPreferences sharedPref;
     SharedPreferences.Editor spEditor;
     String user_id;
     // debugging
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "MainActivityTAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
         // setting up navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(drawerLayout);
-
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         context = this;
@@ -78,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
 
         // get server stuffs
         client = new AsyncHttpClient();
-        DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
 
         // get the views
         pb = (ProgressBar) findViewById(R.id.progressBarMainActivity);
@@ -99,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         // sets the tab icons
         setTabIcons();
+        logFirebaseImageSaver();
 
 
         // TODO - Make option button actually do what it's supposed to do, include logout inside of it
@@ -142,6 +158,66 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * LOGIC FOR IMAGES TESTING
+     */
+
+    public void getImageFromAlbum() {
+        // starts an intent for
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, RawrApp.CODE_LOAD_PROFILE_IMAGE);
+    }
+
+    public void logFirebaseImageSaver() {
+        mAuth = FirebaseAuth.getInstance();
+        mAuth.signInWithEmailAndPassword(getString(R.string.firebase_email), getString(R.string.firebase_password)).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    Log.e(TAG, "********* Firebase image saver is good *********");
+                    // not sure with this
+                    // FirebaseUser user = mAuth.getCurrentUser(); updateUI(user);
+                } else {
+                    Log.e(TAG, "********* Firebase image saver is not good :( *********");
+                }
+            }
+        });
+    }
+
+    public void saveImageToFirebase(Bitmap image, String imageTitle) {
+        /* Image title needs to be the id of either user or travel notice (VERY IMPORTANT, DO NOT HARDCODE imageTitles) */
+        // add the png extension
+        String imageTitleDatabase = String.format("%.png", imageTitle);
+        // convert the image first to byte array
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        // convert the image to base64 string
+        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        // store image to firebase storage
+        StorageReference ref = FirebaseStorage.getInstance().getReference(imageTitleDatabase);
+        ref.putBytes(baos.toByteArray()).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                    // do something if the task is successful
+                } else {
+                    // do something if the task fails
+                }
+            }
+
+        });
+
+        /* public void testFirebase (Bitmap image){ // OLD FIREBASE STUFF
+            // StorageReference ref = FirebaseStorage.getInstance().getReference().child("image_test.png");
+            FirebaseDatabase firebaseDB = FirebaseDatabase.getInstance(); DatabaseReference images = firebaseDB.getReference("images"); images.setValue(imageEncoded); FirebaseStorage storageRef = FirebaseStorage.getInstance("gs://air-space-images.appspot.com"); storageRef.getReference("image_test.png");
+        } */
+    }
+
+    /**
+     * LOGIC FOR SETTING TAB ICONS
+     */
 
     public void setTabIcons() {
         /* this makes images bigger but causes some issues */
@@ -236,12 +312,15 @@ public class MainActivity extends AppCompatActivity {
     public void snackbarCall(String message, int length) {
         Snackbar.make(parentLayout, String.format("%s", message), length).show();
     }
+
     public void snackbarCallIndefinite(String message) {
         snackbarCall(message, Snackbar.LENGTH_INDEFINITE);
     }
+
     public void snackbarCallLong(String message) {
         snackbarCall(message, Snackbar.LENGTH_LONG);
     }
+
     public void snackbarCallShort(String message) {
         snackbarCall(message, Snackbar.LENGTH_SHORT);
     }
@@ -278,6 +357,30 @@ public class MainActivity extends AppCompatActivity {
             ((TravelFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getTripsData();
         } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.UPDATE_ADDITIONAL_DETAILS_CODE) {
             snackbarCallIndefinite(data.getStringExtra("message"));
+        } else if (resultCode == RESULT_OK && requestCode == RawrApp.CODE_LOAD_PROFILE_IMAGE) {
+            // for loading images, this ma
+            try {
+                // get the image from the cellphone
+                Uri imageUri = data.getData();
+                InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                // convert image to bytes
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                selectedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] imageByte = stream.toByteArray();
+                // convert image back to bitmap
+                Bitmap testImg = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                // this replaces the image
+                // ConversationsFragment convoFragment = (ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem());
+                // ((ImageView) convoFragment.getView().findViewById(R.id.temporary_addProfileImageButton)).setImageBitmap(testImg);
+                // once we get the image, we send the image with the enpoint
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Log.e(TAG, String.format("Bitmap error! %s", e));
+            }
+        } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_LOAD_PROFILE_IMAGE) {
+            snackbarCallLong("Cancelled loading profile image");
         }
     }
 

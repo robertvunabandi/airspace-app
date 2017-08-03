@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         // check if the user is logged in with the SharedPreferences, first get shared pref
         sharedPref = this.getSharedPreferences(getString(R.string.sp_file_key), Context.MODE_PRIVATE);
         checkIfUserLogged();
+
     }
 
     public void animateText() {

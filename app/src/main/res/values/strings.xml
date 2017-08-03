@@ -15,7 +15,9 @@
     <string name="sp_string_user_id_key">user_id</string>
     <string name="notification_temporary_long">You just received this amazing notification that you should really read because it will tell you something important about one of your travel notices, one of your requests, or one request that you sent to someone. Potentially, there could be more in the future!</string>
     <string name="notification_temporary_short">You just received this amazing notification that you should really read.</string>
-
+    <!-- Firebase stuff -->
+    <string name="firebase_email">image-saver@airspace.io</string>
+    <string name="firebase_password">saveimages494</string>
 
     <!-- Add this to class:
     public String[] DB_URLS;
