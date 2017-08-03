@@ -583,7 +583,6 @@ public class TravelFragment extends Fragment {
 //        }
 //    }
 
-
     // This is called from the snackbar after a user adds a travel notice but decides not to add additional details, but then presses "ADD DETAILS" inside of that initial snackbar
     public class AddDetailsListener implements View.OnClickListener{
 

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -151,14 +152,14 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         holder.bt_delete.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
 
                 // They have to confirm that they want to delete the travel notice
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setMessage("Are you sure you want to delete your trip from " + trips.dep_iata + " to " + trips.arr_iata + " on " +
-                        trips.getDepartureDaySimple() + " ?");
+                builder.setMessage("Are you sure you want to delete this trip?").setTitle(trips.dep_iata + " ➝ " + trips.arr_iata + " on " +
+                        trips.getDepartureDaySimple());
 
                 // Add the buttons
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -176,9 +177,8 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                                 mTrips.remove(position);
-                                Toast.makeText(context, String.format("%s", "Travel Notice deleted!"), Toast.LENGTH_SHORT).show();
+                                Snackbar.make(v, String.format("Travel notice deleted"), Snackbar.LENGTH_LONG).show();
                                 notifyDataSetChanged();
-
 
                                 // TODO - maybe notify the shipper that the traveller cancelled the trip (unless this is already done in the database)
                             }
