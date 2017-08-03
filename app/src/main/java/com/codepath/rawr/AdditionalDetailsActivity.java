@@ -45,7 +45,6 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
     public final static String TAG = "A:AdditionalDetails";
     public View parentLayout;
 
-    int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -251,9 +250,12 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 // take the person to upcoming with this result
-                setResult(RESULT_OK);
+                Intent data = new Intent();
+                data.putExtra("message", "Travel notice has been updated successfully!");
+                data.putExtra("travel_notice_id", tvl.id);
+                // data.putExtra("pos", position);
+                setResult(RESULT_OK, data);
                 finish();
-                Snackbar.make(parentLayout, String.format("Your travel notice has been saved successfully!"), Snackbar.LENGTH_LONG).show();
             }
 
             @Override

@@ -347,7 +347,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == RawrApp.ADDITIONAL_DETAILS_CODE) {
             // success snackbar
-            snackbarCallLong("Your travel notice has been saved.");
+            ((TravelFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getTripsData();
+            snackbarCallLong("Your travel notice has been saved");
         } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.ADDITIONAL_DETAILS_CODE) {
             // failure snackbar
             snackbarCallIndefinite(data.getStringExtra("message"));
