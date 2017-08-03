@@ -10,14 +10,7 @@
         android:layout_height="wrap_content"
         tools:context="com.codepath.rawr.fragments.ConversationsFragment">
 
-        <ImageView
-            android:id="@+id/temporary_addProfileImageButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/im_rainbow_radial"/>
-
         <TextView
-            android:layout_below="@+id/temporary_addProfileImageButton"
             android:id="@+id/tv_notification_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,10 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_notification_title"
             android:fontFamily="sans-serif"
-            android:text="You are all caught up!"
             android:gravity="center"
-            android:textAlignment="center"
             android:paddingTop="8dp"
+            android:text="You are all caught up!"
+            android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="16sp"
             android:textStyle="italic" />
