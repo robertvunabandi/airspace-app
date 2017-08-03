@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
+
 /**
  * Created by robertvunabandi on 7/20/17.
  */
@@ -22,6 +24,8 @@ public class TravelNotice {
     public String arr_iata, arr_city, arr_airport_name;
     public int arr_min, arr_hour, arr_day, arr_month, arr_year;
     public JSONArray requests_ids;
+
+    public RawrDate dateCreated;
 
     // for verbose method of dates
     public static String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -98,6 +102,13 @@ public class TravelNotice {
         tvl.arr_day = Integer.parseInt(scheduledFlights.getString("arrivalTime").substring(8, 10));
         tvl.arr_month = Integer.parseInt(scheduledFlights.getString("arrivalTime").substring(5, 7));
         tvl.arr_year = Integer.parseInt(scheduledFlights.getString("arrivalTime").substring(0, 4));
+
+        // create a new date from scratch lol
+        tvl.dateCreated = new RawrDate(); Date date = new Date();
+        tvl.dateCreated.day = date.getDay(); tvl.dateCreated.month = date.getMonth(); tvl.dateCreated.year = date.getYear();
+        tvl.dateCreated.hour = date.getHours(); tvl.dateCreated.min = date.getMinutes(); tvl.dateCreated.sec = date.getSeconds();
+        tvl.dateCreated.dateSimple = RawrDate.simpleDateFromDDMMYYYY(date.getDay(), date.getMonth(), date.getYear());
+        tvl.dateCreated.dateVerbose = RawrDate.verboseDateFromDDMMYYYY(date.getDay(), date.getMonth(), date.getYear());
 
         // return the tvl
         return tvl;
@@ -274,6 +285,8 @@ public class TravelNotice {
         tvl.arr_year = response.getInt("arr_year");
 
         tvl.requests_ids = response.getJSONArray("requests_ids");
+
+        tvl.dateCreated = RawrDate.fromJSONServer(response.getJSONObject("date_created"));
 
         // return the tvl
         return tvl;
