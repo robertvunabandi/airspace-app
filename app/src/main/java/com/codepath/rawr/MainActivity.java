@@ -9,7 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -17,9 +16,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -31,6 +30,7 @@ import android.widget.TextView;
 import com.codepath.rawr.adapters.MainPagerAdapter;
 import com.codepath.rawr.fragments.SendReceiveFragment;
 import com.codepath.rawr.fragments.TravelFragment;
+import com.codepath.rawr.models.RawrImages;
 import com.codepath.rawr.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,11 +40,15 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.Base64;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
-import java.io.ByteArrayOutputStream;
+import org.json.JSONObject;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
+import cz.msebera.android.httpclient.Header;
 
 import static com.codepath.rawr.R.id.drawerLayout;
 
@@ -186,24 +190,35 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void saveImageToFirebase(Bitmap image, String imageTitle) {
-        /* Image title needs to be the id of either user or travel notice (VERY IMPORTANT, DO NOT HARDCODE imageTitles) */
-        // add the png extension
-        String imageTitleDatabase = String.format("%.png", imageTitle);
+    public void saveProfileImageToFirebase(Bitmap image) {
+        // create the string of the image, which is based on this person's id
+        String imageTitleDatabase = String.format("%.png", RawrApp.getUsingUserId());
         // convert the image first to byte array
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        // convert the image to base64 string
-        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-        // store image to firebase storage
-        StorageReference ref = FirebaseStorage.getInstance().getReference(imageTitleDatabase);
-        ref.putBytes(baos.toByteArray()).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
+        byte[] imageByte = RawrImages.convertImageToByteArray(image);
+        // store image to firebase storage by first getting the reference to that image based on the user id
+        final StorageReference ref = FirebaseStorage.getInstance().getReference(imageTitleDatabase);
+        ref.putBytes(imageByte).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()) {
-                    // do something if the task is successful
+                    // when completed, get the image url and save it to DB
+                    ref.getDownloadUrl();
+                    RequestParams params = RawrImages.getParamsSaveProfileImage(RawrApp.getUsingUserId(), ref.getDownloadUrl().toString());
+                    client.post(RawrApp.DB_URL + "/image/profile_update", params, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                            Log.e(TAG, String.format("%s", response));
+                            // TODO - then, populate wherever the image was supposed to go on success
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                            Log.e(TAG, String.format("Error in saving image url to DB: %s", errorResponse));
+                        }
+                    });
+
                 } else {
-                    // do something if the task fails
+                    // TODO - Snackbar that it failed
                 }
             }
 
@@ -363,13 +378,10 @@ public class MainActivity extends AppCompatActivity {
                 // get the image from the cellphone
                 Uri imageUri = data.getData();
                 InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                Bitmap selectedImage = BitmapFactory.decodeStream(imageStream); // Bitmaps are the ones to be placed/replaced in imageViews
                 // convert image to bytes
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                selectedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] imageByte = stream.toByteArray();
+                byte[] imageByte = RawrImages.convertImageToByteArray(selectedImage);
                 // convert image back to bitmap
-                Bitmap testImg = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
                 // this replaces the image
                 // ConversationsFragment convoFragment = (ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem());
                 // ((ImageView) convoFragment.getView().findViewById(R.id.temporary_addProfileImageButton)).setImageBitmap(testImg);

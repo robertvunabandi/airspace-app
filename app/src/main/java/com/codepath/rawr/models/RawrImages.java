@@ -19,21 +19,27 @@ public class RawrImages {
 
 
     public static byte[] convertImageToByteArray(Bitmap image) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        image.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] imageByte = stream.toByteArray();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] imageByte = baos.toByteArray();
         return imageByte;
     }
     public static byte[] convertStringToByteArray(String image) {
         return image.getBytes();
     }
+    public static String convertImageToStringEncode64(Bitmap image) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+        return imageEncoded;
+    }
     public static String convertByteArrayToStringEncode64(byte[] imageByte) {
         return new String(imageByte);
     }
 
-    public static Bitmap convertByteArrayToImage(byte[] image) {
+    public static Bitmap convertByteArrayToImage(byte[] imageByte) {
         BitmapFactory.Options options = new BitmapFactory.Options();
-        return BitmapFactory.decodeByteArray(image, 0, image.length, options);
+        return BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length, options);
     }
     public static Bitmap convertString64ToImage(String image) throws Exception {
         byte[] encodeByte = Base64.decode(image, Base64.DEFAULT);
@@ -41,10 +47,10 @@ public class RawrImages {
         return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length, options);
     }
 
-    public static RequestParams getParamsSaveProfileImage(String user_id, String contentType) {
+    public static RequestParams getParamsSaveProfileImage(String user_id, String url) {
         RequestParams params = new RequestParams();
         params.put("user_id", user_id);
-        params.put("content_type", contentType);
+        params.put("url", url);
         return params;
     }
 
