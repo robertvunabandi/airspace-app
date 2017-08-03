@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/parentLayout"
     tools:context="com.codepath.rawr.ProfileActivity">
 
 
@@ -18,9 +19,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="150sp"
         android:layout_height="150sp"
-        android:id="@+id/profile_image"
+        android:id="@+id/iv_profile_image"
         android:src="@drawable/profile"
         android:layout_marginTop="150sp"
+        android:onClick="true"
         android:layout_centerHorizontal="true"/>
 
     <TextView
@@ -32,7 +34,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/profile_image" />
+        android:layout_below="@+id/iv_profile_image" />
 
     <TextView
         android:id="@+id/tv_location"
@@ -49,8 +51,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tv_items_sent"
-        android:layout_toEndOf="@+id/profile_image"
-        android:layout_toRightOf="@+id/profile_image"
+        android:layout_toEndOf="@+id/iv_profile_image"
+        android:layout_toRightOf="@+id/iv_profile_image"
         android:text="25"
         android:textColor="@color/dark_blue"
         android:textSize="30sp"
@@ -63,7 +65,7 @@
         android:layout_alignBaseline="@+id/tv_trips_counter"
         android:layout_alignBottom="@+id/tv_trips_counter"
         android:layout_centerHorizontal="true"
-        android:text="12"
+        android:text="300"
         android:textColor="@color/dark_blue"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -78,8 +80,8 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/profile_image"
-        android:layout_toStartOf="@+id/profile_image" />
+        android:layout_toLeftOf="@+id/iv_profile_image"
+        android:layout_toStartOf="@+id/iv_profile_image" />
 
     <TextView
     android:id="@+id/tv_trips_taken"
@@ -101,7 +103,7 @@
         android:layout_below="@+id/tv_items_counter"
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif-condensed"
-        android:text="reviews"
+        android:text="dollars made"
         android:textAllCaps="true"
         android:textColor="@android:color/black" />
 
@@ -114,8 +116,8 @@
         android:textAllCaps="true"
         android:textColor="@android:color/black"
         android:layout_below="@+id/tv_money_counter"
-        android:layout_toRightOf="@+id/tv_username"
-        android:layout_toEndOf="@+id/tv_username" />
+        android:layout_toRightOf="@+id/tv_location"
+        android:layout_toEndOf="@+id/tv_location" />
 
     <TextView
         android:id="@+id/tv_suitcase_color"
