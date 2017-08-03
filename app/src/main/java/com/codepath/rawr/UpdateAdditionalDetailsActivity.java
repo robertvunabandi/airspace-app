@@ -41,7 +41,7 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
     public String[] DB_URLS;
     public String travelNoticeId, tuid;
     public TravelNotice tvl;
-    int position;
+    // int position;
 
     // Tag for debugging, A stands for activity and parent layout for snackbar
     public final static String TAG = "A:AdditionalDetails";
@@ -273,7 +273,7 @@ public class UpdateAdditionalDetailsActivity extends AppCompatActivity {
                     Intent data = new Intent();
                     data.putExtra("message", "Travel notice has been updated successfully!");
                     data.putExtra("travel_notice_id", tvl.id);
-                    data.putExtra("pos", position);
+                    // data.putExtra("pos", position);
                     setResult(RESULT_OK, data); finish();
                 } catch (JSONException e) {
                     e.printStackTrace();
