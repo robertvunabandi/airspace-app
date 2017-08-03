@@ -291,7 +291,7 @@ public class SendReceiveFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                         try {
-                            ShippingRequest shippingRequest = ShippingRequest.fromJSONServer(requestsList.getJSONObject(finalI), response.getJSONObject("data"));
+                            ShippingRequest shippingRequest = ShippingRequest.fromJSONServer(requestsList.getJSONObject(finalI), response.getJSONObject("data"), response.getJSONObject("user"));
                             // if it's accepted, add it to the accepted RV, otherwise add it to the pending RV
                             if (shippingRequest.isAccepted()) {
                                 mAcceptedRqs.add(shippingRequest);

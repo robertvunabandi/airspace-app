@@ -1,5 +1,7 @@
 package com.codepath.rawr.models;
 
+import com.loopj.android.http.RequestParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +15,10 @@ public class User {
     public SuitcaseColor suitcaseColor;
     public int dobDay, dobMonth, dobYear;
     public JSONArray travelNoticesIds, requestsIds, chatCollections;
+    // extra stuff recently added
+    public int tripsTaken, itemsSent;
+    public double dollarsMade;
+    public RawrDate dateCreated;
 
     /* {"Black", "White", "Red", "Purple", "Blue", "Green", "Yellow", "Orange", "Grey"} , int is the index of this array */
 
@@ -86,6 +92,17 @@ public class User {
             user.chatCollections = null;
         }
 
+        user.tripsTaken = response.getInt("trips_taken");
+        user.itemsSent = response.getInt("items_sent");
+        user.dollarsMade = response.getDouble("dollars_made");
+        user.dateCreated = RawrDate.fromJSONServer(response.getJSONObject("date_created"));
+
         return user;
+    }
+
+    public RequestParams getParamsForProfileUrl() {
+        RequestParams params = new RequestParams();
+        params.put("user_id", this.id);
+        return params;
     }
 }

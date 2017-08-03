@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.R;
+import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.models.ShippingRequest;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -30,7 +31,6 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
     static private List<ShippingRequest> mRequests;
     Context context;
     AsyncHttpClient client;
-    public String[] DB_URLS;
 
     public TravelPendingRequestsAdapter(List<ShippingRequest> requests) {
         mRequests = requests;
@@ -41,7 +41,6 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_travel_pending_request, parent, false);
-        DB_URLS = new String[]{context.getString(R.string.DB_HEROKU_URL), context.getString(R.string.DB_LOCAL_URL)};
 
         return new ViewHolder(itemView);
     }
@@ -100,13 +99,13 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
 
                     // client was declared and instantiated in constructor for TravelPendingRequestsAdapter, not ViewHolder
 
-                    client.post(DB_URLS[0] + "/request/accept", params, new JsonHttpResponseHandler() {
+                    client.post(RawrApp.DB_URL + "/request/accept", params, new JsonHttpResponseHandler() {
                         // implement endpoint here
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                             try {
-                                ShippingRequest newRequest = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
+                                ShippingRequest newRequest = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"), response.getJSONObject("user"));
                                 mRequests.set(pos, newRequest);
                                 mRequests.remove(pos);
 
@@ -156,7 +155,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                     params.put("request_id",  mRequests.get(pos).id);
                     params.put("traveler_id",  mRequests.get(pos).tvl.tuid);
 
-                    client.post(DB_URLS[0] + "/request/decline", params, new JsonHttpResponseHandler() {
+                    client.post(RawrApp.DB_URL + "/request/decline", params, new JsonHttpResponseHandler() {
                         // implement endpoint here
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

@@ -10,7 +10,7 @@ import org.json.JSONObject;
 public class RawrNotification {
     // required
     public String id, message;
-    public RawrNotificationDate date;
+    public RawrDate date;
     public int action;
     public boolean sent;
     // optionals
@@ -39,7 +39,7 @@ public class RawrNotification {
         rn.id = jsonObject.getString("_id");
         rn.message = jsonObject.getString("message");
         rn.sent = jsonObject.getBoolean("sent");
-        rn.date = RawrNotificationDate.fromJSONServer(jsonObject.getJSONObject("date_received"));
+        rn.date = RawrDate.fromJSONServer(jsonObject.getJSONObject("date_received"));
         rn.action = jsonObject.getInt("action");
 
         // optional params
