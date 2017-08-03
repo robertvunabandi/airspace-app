@@ -172,15 +172,70 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/tv_photo_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="Please upload a photo of your item(s)"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp"
+                android:layout_below="@id/rl_checkboxes" />
+
+            <Button
+                android:id="@+id/bt_photo_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:text="upload"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp"
+                android:layout_below="@+id/tv_photo_upload"/>
+
+            <TextView
+                android:id="@+id/tv_file_title_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="File: "
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp"
+                android:layout_toRightOf="@id/bt_photo_upload"
+                android:layout_alignBaseline="@id/bt_photo_upload"
+                android:layout_marginLeft="10dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_file_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="no file chosen"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp"
+                android:layout_toRightOf="@id/tv_file_title_label"
+                android:layout_alignBaseline="@id/bt_photo_upload"
+                />
+
+            <ImageView
+                android:id="@+id/iv_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bt_photo_upload"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ripple_notification_white" />
+
+            <TextView
                 android:id="@+id/tv_dropoffTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/rl_checkboxes"
                 android:text="How will you get the item/s to the traveller?"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:layout_below="@+id/iv_item"/>
 
             <RelativeLayout
                 android:id="@+id/rl_flexiblityDropoffInit"
