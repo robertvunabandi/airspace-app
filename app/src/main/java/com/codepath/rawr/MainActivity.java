@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar pb;
     ImageView optionsButton;
 
-    TextView text1;
     // db
     AsyncHttpClient client;
     public FirebaseAuth mAuth;
@@ -111,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
         // get server stuffs
         client = new AsyncHttpClient();
 
+        getUsingUser();
+
+
         // get the views
         pb = (ProgressBar) findViewById(R.id.progressBarMainActivity);
         optionsButton = (ImageView) findViewById(R.id.optionsButton);
@@ -132,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         setTabIcons();
         logFirebaseImageSaver();
 
-        getUsingUser();
 
 
 
@@ -150,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
             // This method will trigger on item Click of navigation menu
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-
 
                 //Checking if the item is in checked state or not, if not make it in checked state
                 if (menuItem.isChecked()) menuItem.setChecked(false);
@@ -445,11 +445,16 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     // populate the usingUser from the JSON received here, then enable the bt_confirm
                     usingUser = User.fromJSONServer(response.getJSONObject("data"));
-                    View vi = getLayoutInflater().inflate(R.layout.header, null); //log.xml is your file.
-                    TextView tv = (TextView)vi.findViewById(R.id.tv_drawer_username); //get a reference to the textview on the log.xml file.
-                    String name = usingUser.getFullName();
-                    tv.setText(name);
-//                    navigationView.addView(vi);
+
+                    // Setting username
+                    View header = navigationView.getHeaderView(0);
+                    TextView username = (TextView) header.findViewById(R.id.tv_drawer_username); //get a reference to the textview on the log.xml file.
+                    username.setText(usingUser.getFullName());
+
+                    // Setting email
+                    TextView user_email = (TextView) header.findViewById(R.id.tv_email);
+                    user_email.setText(usingUser.email);
+
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Parsing JSON excepted %s", e));
                     Toast.makeText(getBaseContext(), String.format("User is not gotten, JSON parsing error: %s", e), Toast.LENGTH_LONG).show();
