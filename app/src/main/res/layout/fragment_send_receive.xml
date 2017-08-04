@@ -1,320 +1,324 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background_primary_color"
     tools:context="com.codepath.rawr.fragments.SendReceiveFragment">
 
-    <!-- TODO - Add a Progress Bar when making calls to the internet -->
-
-    <ScrollView
+    <Button
+        android:id="@+id/bt_expand"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@drawable/transparent_sxxdark"
+        android:drawableLeft="@drawable/ic_search"
+        android:paddingLeft="16sp"
+        android:paddingRight="16sp"
+        android:text="Search for travellers"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="@color/White"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/erl_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_expand"
+        app:ael_orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rlShipInfoBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/transparent_sxxdark">
+
+            <RelativeLayout
+                android:id="@+id/rl_collapse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <ImageButton
+                    android:id="@+id/ib_expand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="32dp"
+                    android:background="@drawable/transparent_sxdark"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_expand_less_white" />
+
+                <TextView
+                    android:id="@+id/tv_clear_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="32dp"
+                    android:background="@drawable/transparent_sxdark"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:text="clear"
+                    android:textColor="@color/White"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_collapse"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp">
+
+                <EditText
+                    android:id="@+id/et_from"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/transparent_white"
+                    android:backgroundTint="@color/SXLight"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="From"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:shadowColor="@color/SXLight"
+                    android:textColor="@color/White"
+                    android:textColorHighlight="@color/White"
+                    android:textColorHint="@color/SXLight"
+                    android:textColorLink="@color/PLight"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_from"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:paddingTop="4dp">
+
+                <EditText
+                    android:id="@+id/et_to"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/transparent_white"
+                    android:backgroundTint="@color/SXLight"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="To"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:shadowColor="@color/SXLight"
+                    android:textColor="@color/White"
+                    android:textColorHighlight="@color/White"
+                    android:textColorHint="@color/SXLight"
+                    android:textColorLink="@color/PLight"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_to"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:paddingTop="4dp">
+
+                <EditText
+                    android:id="@+id/et_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/transparent_white"
+                    android:backgroundTint="@color/SXLight"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:hint="By"
+                    android:inputType="date"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:shadowColor="@color/SXLight"
+                    android:textColor="@color/White"
+                    android:textColorHighlight="@color/White"
+                    android:textColorHint="@color/SXLight"
+                    android:textColorLink="@color/PLight"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <!-- TODO AS STRETCH: Add filters, with the expandable layout and logic below
+            <RelativeLayout
+                android:id="@+id/rl_filtersButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rl_date"
+                android:layout_marginTop="3dp">
+                <TextView
+                    android:id="@+id/tv_filterTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:text="FILTERS"
+                    android:textColor="@color/SXLight"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/iv_toggleFilters"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    android:gravity="center_vertical"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_collapsed"
+                    android:tint="@color/PLight" />
+            </RelativeLayout>
+            < ! - - FROM: http://www.viralandroid.com/2016/03/android-expandable-layout-tutorial-with-example.html
+            # Really cool expandable relative layout ! -
+                < - <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                    android:id="@+id/erl_filters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_filtersButton"
+                    app:ael_interpolator="bounce"
+                    app:ael_orientation="vertical">
+                    < - TODO - ADD FILTERS HERE -
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sample Text just for now "
+                        android:textSize="16dp" />
+
+                </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/rl_date"
+            android:layout_marginTop="4dp"
+            android:background="@color/SLight" />-->
+            <Button
+                android:id="@+id/bt_search"
+                style="@android:style/Widget.Material.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_date"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/ripple_effect"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:text="search"
+                android:textAllCaps="false"
+                android:textColor="@color/White"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/erl_info">
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/bt_expand"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/transparent_sxxdark"
-                android:drawableLeft="@drawable/ic_search"
-                android:paddingLeft="16sp"
-                android:paddingRight="16sp"
-                android:text="Search for travellers"
-                android:textAlignment="textEnd"
-                android:textAllCaps="true"
-                android:textColor="@color/White"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent">
 
-            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-                android:id="@+id/erl_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/bt_expand"
-                app:ael_orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/rlShipInfoBar"
+                    android:id="@+id/rlPendingRqs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/transparent_sxxdark">
+                    android:layout_below="@+id/erl_info">
 
-                    <RelativeLayout
-                        android:id="@+id/rl_collapse"
+                    <TextView
+                        android:id="@+id/tv_pendingTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp">
-
-                        <ImageButton
-                            android:id="@+id/ib_expand"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="32dp"
-                            android:background="@drawable/transparent_sxdark"
-                            android:padding="4dp"
-                            android:src="@drawable/ic_expand_less_white" />
-
-                        <TextView
-                            android:id="@+id/tv_clear_content"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="32dp"
-                            android:background="@drawable/transparent_sxdark"
-                            android:gravity="center"
-                            android:paddingBottom="4dp"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:paddingTop="4dp"
-                            android:text="clear"
-                            android:textColor="@color/White"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:id="@+id/rl_from"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_collapse"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="32dp"
-                        android:paddingRight="32dp">
-
-                        <EditText
-                            android:id="@+id/et_from"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@drawable/transparent_white"
-                            android:backgroundTint="@color/SXLight"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:hint="From"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:shadowColor="@color/SXLight"
-                            android:textColor="@color/White"
-                            android:textColorHighlight="@color/White"
-                            android:textColorHint="@color/SXLight"
-                            android:textColorLink="@color/PLight"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_to"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_from"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="32dp"
-                        android:paddingRight="32dp"
-                        android:paddingTop="4dp">
-
-                        <EditText
-                            android:id="@+id/et_to"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@drawable/transparent_white"
-                            android:backgroundTint="@color/SXLight"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:hint="To"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:shadowColor="@color/SXLight"
-                            android:textColor="@color/White"
-                            android:textColorHighlight="@color/White"
-                            android:textColorHint="@color/SXLight"
-                            android:textColorLink="@color/PLight"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_to"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="32dp"
-                        android:paddingRight="32dp"
-                        android:paddingTop="4dp">
-
-                        <EditText
-                            android:id="@+id/et_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_gravity="center"
-                            android:background="@drawable/transparent_white"
-                            android:backgroundTint="@color/SXLight"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:gravity="center"
-                            android:hint="By"
-                            android:inputType="date"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:shadowColor="@color/SXLight"
-                            android:textColor="@color/White"
-                            android:textColorHighlight="@color/White"
-                            android:textColorHint="@color/SXLight"
-                            android:textColorLink="@color/PLight"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <!-- TODO AS STRETCH: Add filters, with the expandable layout and logic below
-                    <RelativeLayout
-                        android:id="@+id/rl_filtersButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/rl_date"
-                        android:layout_marginTop="3dp">
-                        <TextView
-                            android:id="@+id/tv_filterTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:gravity="center_vertical"
-                            android:text="FILTERS"
-                            android:textColor="@color/SXLight"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                        <ImageView
-                            android:id="@+id/iv_toggleFilters"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:adjustViewBounds="true"
-                            android:cropToPadding="true"
-                            android:gravity="center_vertical"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_collapsed"
-                            android:tint="@color/PLight" />
-                    </RelativeLayout>
-                    < ! - - FROM: http://www.viralandroid.com/2016/03/android-expandable-layout-tutorial-with-example.html
-                    # Really cool expandable relative layout ! -
-                        < - <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-                            android:id="@+id/erl_filters"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/rl_filtersButton"
-                            app:ael_interpolator="bounce"
-                            app:ael_orientation="vertical">
-                            < - TODO - ADD FILTERS HERE -
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Sample Text just for now "
-                                android:textSize="16dp" />
-
-                        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/separator"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_below="@+id/rl_date"
-                    android:layout_marginTop="4dp"
-                    android:background="@color/SLight" />-->
-                    <Button
-                        android:id="@+id/bt_search"
-                        style="@android:style/Widget.Material.Button.Borderless.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_date"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/ripple_effect"
-                        android:paddingLeft="32dp"
-                        android:paddingRight="32dp"
-                        android:text="search"
-                        android:textAllCaps="false"
+                        android:padding="10dp"
+                        android:text="PENDING REQUESTS"
                         android:textColor="@color/White"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_pending_requests"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_pendingTitle">
+
+                    </android.support.v7.widget.RecyclerView>
                 </RelativeLayout>
 
-            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
-
-            <RelativeLayout
-                android:id="@+id/rlPendingRqs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/erl_info">
-
-                <TextView
-                    android:id="@+id/tv_pendingTitle"
+                <RelativeLayout
+                    android:id="@+id/rlAcceptedRqs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="PENDING REQUESTS"
-                    android:textColor="@color/White"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:layout_below="@+id/rlPendingRqs">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_pending_requests"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_pendingTitle">
+                    <TextView
+                        android:id="@+id/tv_acceptedTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="ACCEPTED REQUESTS"
+                        android:textColor="@color/White"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                </android.support.v7.widget.RecyclerView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_accepted_requests"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_acceptedTitle">
+
+                    </android.support.v7.widget.RecyclerView>
+                </RelativeLayout>
             </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/rlAcceptedRqs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlPendingRqs">
-
-                <TextView
-                    android:id="@+id/tv_acceptedTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="ACCEPTED REQUESTS"
-                    android:textColor="@color/White"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_accepted_requests"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_acceptedTitle">
-
-                </android.support.v7.widget.RecyclerView>
-            </RelativeLayout>
-        </RelativeLayout>
-    </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>
