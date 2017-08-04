@@ -255,14 +255,20 @@ public class MainActivity extends AppCompatActivity {
         View ic_flight = getLayoutInflater().inflate(R.layout.customtab, null);
         ((ImageView) ic_flight.findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_flight);
         ((TextView) ic_flight.findViewById(R.id.tv_text_icon)).setText(getString(R.string.travel));
+        // set the notification indicator to invisible
+        ic_flight.findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.INVISIBLE);
         tabLayout.getTabAt(0).setCustomView(ic_flight);
         View ic_suitcase = getLayoutInflater().inflate(R.layout.customtab, null);
         ((ImageView) ic_suitcase.findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_suitcase);
         ((TextView) ic_suitcase.findViewById(R.id.tv_text_icon)).setText(getString(R.string.send_receive));
+        // set the notification indicator to invisible
+        ic_suitcase.findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.INVISIBLE);
         tabLayout.getTabAt(1).setCustomView(ic_suitcase);
         View ic_chats = getLayoutInflater().inflate(R.layout.customtab, null);
         ((ImageView) ic_chats.findViewById(R.id.iv_tab_icon)).setBackgroundResource(R.drawable.ic_chats);
         ((TextView) ic_chats.findViewById(R.id.tv_text_icon)).setText(getString(R.string.chats));
+        // set the notification indicator to invisible
+        ic_chats.findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.INVISIBLE);
         tabLayout.getTabAt(2).setCustomView(ic_chats);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(vpPager) {
@@ -302,6 +308,9 @@ public class MainActivity extends AppCompatActivity {
                 super.onTabSelected(tab);
                 int tabIconColor = ContextCompat.getColor(context, R.color.White);
                 changeColorTab(tab, 1);
+                if (tab.getPosition() == 2) {
+                    // refresh the notifications
+                }
             }
 
             @Override

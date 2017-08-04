@@ -1,21 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_centerVertical="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
-        android:id="@+id/iv_tab_icon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_gravity="center" />
-    <TextView
-        android:id="@+id/tv_text_icon"
+    android:layout_height="match_parent"
+    android:layout_centerVertical="true"
+    android:orientation="vertical">
+    <!--android:background="@color/PRegular"-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="placeholder"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_tab_icon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="7dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_text_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_tab_icon"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="placeholder"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/rl_tab_notification_indicator"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="13.5dp"
+            android:background="@drawable/tab_notification_indicator_background">
+
+            <TextView
+                android:id="@+id/tv_tab_notification_indicator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="#"
+                android:textColor="@color/PRegular"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

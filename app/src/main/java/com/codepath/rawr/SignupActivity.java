@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.codepath.rawr.models.RawrImages;
 import com.codepath.rawr.models.User;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -40,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
     RelativeLayout parentView; // for snackbar
     EditText et_fName, et_lName, et_email;
     Button bt_signup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
 
         // get server stuffs
         client = new AsyncHttpClient();
-        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
+        DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
 
         // get the views
         parentView = (RelativeLayout) findViewById(R.id.ActivitySignupInitRelativeLayout);
@@ -94,6 +94,7 @@ public class SignupActivity extends AppCompatActivity {
         bt_signup.setEnabled(false);
         pb.setVisibility(View.VISIBLE);
     }
+
     public void setProgressDead() {
         bt_signup.setEnabled(true);
         pb.setVisibility(View.GONE);
@@ -111,8 +112,8 @@ public class SignupActivity extends AppCompatActivity {
                     // set the user from the response
                     usingUser = User.fromJSONServer(response.getJSONObject("data"));
                     loginUser(usingUser.email);
-                    // create the photo object for the user
-                    createProfilePhotoObject();
+                    /* // create the photo object for the user
+                    createProfilePhotoObject(); */
                 } catch (JSONException e) {
                     e.printStackTrace();
                     snackbarCall(String.format("An error occurred: %s", e));
@@ -138,7 +139,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    public void createProfilePhotoObject() {
+    /* public void createProfilePhotoObject() {
         RequestParams params = RawrImages.getParamsGetProfileImage(usingUser.id);
         client.post(RawrApp.DB_URL + "/image/profile_create", params, new JsonHttpResponseHandler() {
             @Override
@@ -151,7 +152,7 @@ public class SignupActivity extends AppCompatActivity {
                 Log.e(TAG, String.format("**** Image not saved ERROR ****: %s", errorResponse));
             }
         });
-    }
+    } */
 
     public void signInUser(String id) {
         // make a https request for getting the user with this id
@@ -190,7 +191,7 @@ public class SignupActivity extends AppCompatActivity {
         setProgressVisible(); // make the progress bar visible
         RequestParams params = new RequestParams();
         params.put("email", email);
-        client.get(RawrApp.DB_URL  + "/user/login", params, new JsonHttpResponseHandler() {
+        client.get(RawrApp.DB_URL + "/user/login", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -224,7 +225,7 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    public void updateUsingUserAndLauchMainActivity(){
+    public void updateUsingUserAndLauchMainActivity() {
         try {
             // create the editor for shared preferences (this will be done in login or sign up activity, currently just for testing)
             spEditor = sharedPref.edit();

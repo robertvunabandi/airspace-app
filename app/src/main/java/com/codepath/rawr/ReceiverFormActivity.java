@@ -41,7 +41,6 @@ public class ReceiverFormActivity extends AppCompatActivity {
 
     // for server
     AsyncHttpClient client;
-    public String[] DB_URLS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,6 @@ public class ReceiverFormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_receiver_form);
 
         // get stuff needed for db
-        DB_URLS = new String[]{getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
         client = new AsyncHttpClient();
         action = getIntent().getIntExtra("action", 0);
         resultIntent = new Intent();
@@ -207,7 +205,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
             // checks if the recipient's informations is filled up because the server will also throw an error if it's not
             Snackbar.make(parentLayout, "You must fill up all of the recipient's details.", Snackbar.LENGTH_LONG).show();
         } else {
-            client.post(DB_URLS[0] + "/request/send", params, new JsonHttpResponseHandler() {
+            client.post(RawrApp.DB_URL + "/request/send", params, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // if request sent successfully, set the result ok
@@ -260,7 +258,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
         // make a call to server to get the user and then create usingUser base on that json from the server
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
-        client.get(DB_URLS[0] + "/user/get", params, new JsonHttpResponseHandler() {
+        client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -269,6 +267,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
                     bt_confirm.setEnabled(true);
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Parsing JSON excepted %s", e));
+                    // TODO - Remove Toast
                     Toast.makeText(getBaseContext(), String.format("User is not gotten, JSON parsing error: %s", e), Toast.LENGTH_LONG).show();
                     // if an error occurred, set result cancelled because we need the user!
                     resultIntent.putExtra("message", "Error in parsing user JSON from the server");
@@ -282,17 +281,6 @@ public class ReceiverFormActivity extends AppCompatActivity {
                 Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
                 // TODO - Remove Toast
                 Toast.makeText(getBaseContext(), String.format("User not gotten error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
-                // if an error occurred, set result cancelled because we need the user!
-                resultIntent.putExtra("message", "Error in getting user from server");
-                setResult(RESULT_CANCELED, resultIntent);
-                finish();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
-                // TODO - Remove Toast
-                Toast.makeText(getBaseContext(), String.format("User not gotten error 2 %s", errorResponse), Toast.LENGTH_LONG).show();
                 // if an error occurred, set result cancelled because we need the user!
                 resultIntent.putExtra("message", "Error in getting user from server");
                 setResult(RESULT_CANCELED, resultIntent);
