@@ -124,6 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_airlineCode"
             android:layout_alignBottom="@+id/tv_airlineCode"
+            android:layout_marginLeft="4dp"
             android:layout_toEndOf="@+id/tv_airlineCode"
             android:layout_toRightOf="@+id/tv_airlineCode"
             android:text="TextView"

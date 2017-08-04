@@ -164,6 +164,22 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
                 dialog.show();
             }
         });
+
+        // CONTACT the traveler click listener
+        holder.btn_contact.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(final View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("\nPhone: " + request.tvlUser.phone + "\n\nEmail: " + request.tvlUser.email).setTitle(request.tvlUser.fName + "'s contact information");
+                builder.setNegativeButton("close", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
     @Override

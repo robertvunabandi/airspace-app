@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/SDark"
-    tools:context="com.codepath.rawr.TravelAcceptedRequestsActivity">
+    tools:context="com.codepath.rawr.TravelAcceptedRequestsActivity"
+    android:id="@+id/rlPending">
 
     <TextView
         android:id="@+id/tv_accepted_requests"

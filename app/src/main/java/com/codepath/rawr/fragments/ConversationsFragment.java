@@ -33,6 +33,7 @@ public class ConversationsFragment extends Fragment {
     public static final String TAG = "ConversationsFragment";
     // variables for HTTP calls
     AsyncHttpClient client;
+    public int NOTIFICATION_COUNT = 0;
 
     /* Declaring variables for messages TODO - Add these stuffs when we add messages
     ConversationListAdapter conversationListAdapter;
@@ -65,16 +66,14 @@ public class ConversationsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_message, container, false);
 
-        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
+        /* swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 getNotifications();
-                enableSwipeToDelete();
             }
         });
-
-        swipeContainer.setEnabled(false);
+        swipeContainer.setEnabled(false); */
 
         // populate the recycler view of notifcation with notifications from the server
         rv_notifications = (RecyclerView) v.findViewById(R.id.rv_notifications);
@@ -115,6 +114,8 @@ public class ConversationsFragment extends Fragment {
                 removeNotification(nf);
                 mNotifications.remove(position);
                 notificationsAdapter.notifyDataSetChanged();
+                // set to false to subtract to the notification indicator counter by 1
+                UpdateConversationsNotificationIndicator(false);
             }
 
             @Override
@@ -132,6 +133,10 @@ public class ConversationsFragment extends Fragment {
 
     public void getNotifications() {
         // gets the notifications from the server and then makes a call to populate them in the recycler view
+
+        // first set the notifications back to 0
+        NOTIFICATION_COUNT = 0;
+        // then make a client request to get all the notifications
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
         client.get(RawrApp.DB_URL + "/notifications/get", params, new JsonHttpResponseHandler() {
@@ -143,11 +148,11 @@ public class ConversationsFragment extends Fragment {
                 try {
                     notificationsArray = response.getJSONArray("data");
                     populateNotifications(notificationsArray);
+                    // swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     ((MainActivity) getActivity()).snackbarCallIndefinite("Error occurred while parsing json array for notifications");
                 }
-                swipeContainer.setRefreshing(false);
             }
 
             @Override
@@ -173,9 +178,9 @@ public class ConversationsFragment extends Fragment {
 
     public void animateText() {
         // creates a fadeIn fadeOut animation with the text as it logs one in
+        getView().findViewById(R.id.tv_notification_notice).setAlpha(0.0f);
         final AlphaAnimation a_go = new AlphaAnimation(0.0f, 1.0f);
         a_go.setDuration(1000);
-        getView().findViewById(R.id.tv_notification_notice).setAlpha(0.0f);
         getView().findViewById(R.id.tv_notification_notice).startAnimation(a_go);
     }
 
@@ -201,6 +206,15 @@ public class ConversationsFragment extends Fragment {
         });
     }
 
+    public void UpdateConversationsNotificationIndicator(boolean adding) {
+        if (adding) {
+            NOTIFICATION_COUNT++;
+        } else {
+            NOTIFICATION_COUNT--;
+        }
+        ((MainActivity) getActivity()).updateNotificationIndicator(2, NOTIFICATION_COUNT);
+    }
+
     public void populateNotifications(JSONArray notificationObjectsArray) {
         // from this array of notification objects, populate the recycler view with the notification objects
         boolean newNotifications = false;
@@ -212,6 +226,8 @@ public class ConversationsFragment extends Fragment {
                 }
                 mNotifications.add(rn);
                 notificationsAdapter.notifyItemInserted(mNotifications.size() - 1);
+                // set to true to add to the notification indicator counter by 1
+                UpdateConversationsNotificationIndicator(true);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -224,6 +240,8 @@ public class ConversationsFragment extends Fragment {
             // removes that view from being visiblie that says that the person has no notifications
             getView().findViewById(R.id.tv_notification_notice).setVisibility(View.GONE);
         } else {
+            // set that view to visible
+            getView().findViewById(R.id.tv_notification_notice).setVisibility(View.VISIBLE);
             animateText();
         }
     }

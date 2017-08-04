@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.adapters.MainPagerAdapter;
+import com.codepath.rawr.fragments.ConversationsFragment;
 import com.codepath.rawr.fragments.SendReceiveFragment;
 import com.codepath.rawr.fragments.TravelFragment;
 import com.codepath.rawr.models.RawrImages;
@@ -48,7 +49,6 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -219,19 +219,7 @@ public class MainActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // when completed, get the image url and save it to DB
                     ref.getDownloadUrl();
-                    RequestParams params = RawrImages.getParamsSaveProfileImage(RawrApp.getUsingUserId(), ref.getDownloadUrl().toString());
-                    client.post(RawrApp.DB_URL + "/image/profile_update", params, new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Log.e(TAG, String.format("%s", response));
-                            // TODO - then, populate wherever the image was supposed to go on success
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            Log.e(TAG, String.format("Error in saving image url to DB: %s", errorResponse));
-                        }
-                    });
+                    // TODO - Do something if task is successful
 
                 } else {
                     // TODO - Snackbar that it failed
@@ -310,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                 changeColorTab(tab, 1);
                 if (tab.getPosition() == 2) {
                     // refresh the notifications
+                    ((ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getNotifications();
                 }
             }
 
@@ -328,6 +317,22 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         vpPager.setCurrentItem(1);
+    }
+
+    public void updateNotificationIndicator(int tabIndex, int notificationCount) {
+        // safety check
+        if (tabIndex > 0 && tabIndex < 3) {
+            if (notificationCount > 0) {
+                tabLayout.getTabAt(tabIndex).getCustomView().findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.VISIBLE);
+                // a string bigger than 9 is a lot so we just put 9+
+                String newText = notificationCount > 9 ? "9+" : String.valueOf(notificationCount);
+                ((TextView) tabLayout.getTabAt(tabIndex).getCustomView().findViewById(R.id.tv_tab_notification_indicator)).setText(newText);
+            } else {
+                tabLayout.getTabAt(tabIndex).getCustomView().findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.INVISIBLE);
+                ((TextView) tabLayout.getTabAt(tabIndex).getCustomView().findViewById(R.id.tv_tab_notification_indicator)).setText(String.valueOf(0));
+            }
+        }
+
     }
 
     public void logoutUser() {
