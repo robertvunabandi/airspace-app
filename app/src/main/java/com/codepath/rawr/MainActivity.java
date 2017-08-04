@@ -298,14 +298,20 @@ public class MainActivity extends AppCompatActivity {
         vpPager.setCurrentItem(1);
     }
 
-    public void updateNotificationIndicator(int notificationCount) {
-        if (notificationCount > 0) {
-            tabLayout.getTabAt(2).getCustomView().findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.VISIBLE);
-            ((TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.tv_tab_notification_indicator)).setText(String.valueOf(notificationCount));
-        } else {
-            tabLayout.getTabAt(2).getCustomView().findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.INVISIBLE);
-            ((TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.tv_tab_notification_indicator)).setText(String.valueOf(0));
+    public void updateNotificationIndicator(int tabIndex, int notificationCount) {
+        // safety check
+        if (tabIndex > 0 && tabIndex < 3) {
+            if (notificationCount > 0) {
+                tabLayout.getTabAt(tabIndex).getCustomView().findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.VISIBLE);
+                // a string bigger than 9 is a lot so we just put 9+
+                String newText = notificationCount > 9 ? "9+" : String.valueOf(notificationCount);
+                ((TextView) tabLayout.getTabAt(tabIndex).getCustomView().findViewById(R.id.tv_tab_notification_indicator)).setText(newText);
+            } else {
+                tabLayout.getTabAt(tabIndex).getCustomView().findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.INVISIBLE);
+                ((TextView) tabLayout.getTabAt(tabIndex).getCustomView().findViewById(R.id.tv_tab_notification_indicator)).setText(String.valueOf(0));
+            }
         }
+
     }
 
     public void logoutUser() {
