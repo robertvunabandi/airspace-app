@@ -228,6 +228,18 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_trips_counter"
+                    android:layout_below="@id/tv_trips_title"
+                    android:visibility="gone"
+                    android:text="You have 0 trips added, add one now!"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/White"
+                    android:textStyle="italic"
+                    />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_trips"
                     android:layout_width="match_parent"

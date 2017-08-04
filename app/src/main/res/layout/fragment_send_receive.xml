@@ -271,8 +271,7 @@
                 <RelativeLayout
                     android:id="@+id/rlPendingRqs"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/erl_info">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_pendingTitle"
@@ -283,6 +282,17 @@
                         android:textColor="@color/White"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_pending_counter"
+                        android:layout_below="@id/tv_pendingTitle"
+                        android:visibility="gone"
+                        android:text="You have 0 pending requests"
+                        android:textStyle="italic"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/White"/>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_pending_requests"
@@ -309,6 +319,17 @@
                         android:textColor="@color/White"
                         android:textSize="16sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_accepted_counter"
+                        android:layout_below="@id/tv_acceptedTitle"
+                        android:visibility="gone"
+                        android:text="You have 0 accepted requests"
+                        android:textStyle="italic"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/White"/>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_accepted_requests"
