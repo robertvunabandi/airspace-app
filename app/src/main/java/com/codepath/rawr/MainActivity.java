@@ -28,6 +28,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.codepath.rawr.adapters.MainPagerAdapter;
+import com.codepath.rawr.fragments.ConversationsFragment;
 import com.codepath.rawr.fragments.SendReceiveFragment;
 import com.codepath.rawr.fragments.TravelFragment;
 import com.codepath.rawr.models.RawrImages;
@@ -40,15 +41,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-
-import cz.msebera.android.httpclient.Header;
 
 import static com.codepath.rawr.R.id.drawerLayout;
 
@@ -203,19 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // when completed, get the image url and save it to DB
                     ref.getDownloadUrl();
-                    RequestParams params = RawrImages.getParamsSaveProfileImage(RawrApp.getUsingUserId(), ref.getDownloadUrl().toString());
-                    client.post(RawrApp.DB_URL + "/image/profile_update", params, new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Log.e(TAG, String.format("%s", response));
-                            // TODO - then, populate wherever the image was supposed to go on success
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            Log.e(TAG, String.format("Error in saving image url to DB: %s", errorResponse));
-                        }
-                    });
+                    // TODO - Do something if task is successful
 
                 } else {
                     // TODO - Snackbar that it failed
@@ -294,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
                 changeColorTab(tab, 1);
                 if (tab.getPosition() == 2) {
                     // refresh the notifications
+                    ((ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getNotifications();
                 }
             }
 
@@ -312,6 +296,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         vpPager.setCurrentItem(1);
+    }
+
+    public void updateNotificationIndicator(int notificationCount) {
+        if (notificationCount > 0) {
+            tabLayout.getTabAt(2).getCustomView().findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.VISIBLE);
+            ((TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.tv_tab_notification_indicator)).setText(String.valueOf(notificationCount));
+        } else {
+            tabLayout.getTabAt(2).getCustomView().findViewById(R.id.rl_tab_notification_indicator).setVisibility(View.INVISIBLE);
+            ((TextView) tabLayout.getTabAt(2).getCustomView().findViewById(R.id.tv_tab_notification_indicator)).setText(String.valueOf(0));
+        }
     }
 
     public void logoutUser() {
