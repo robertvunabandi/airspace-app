@@ -61,6 +61,8 @@ public class SendReceiveFragment extends Fragment {
     RecyclerView rv_pendingRequests;
 
     SwipeRefreshLayout swipeContainer;
+    TextView tv_pending_counter;
+    TextView tv_accepted_counter;
 
     // Declaring variables for Accepted Requests
     ShippingAcceptedRequestsAdapter shippingAcceptedRequestsAdapter;
@@ -128,6 +130,8 @@ public class SendReceiveFragment extends Fragment {
         final EditText et_to = (EditText) v.findViewById(R.id.et_to);
         final EditText et_date = (EditText) v.findViewById(R.id.et_date);
         final ImageView iv_item = (ImageView) v.findViewById(R.id.iv_item);
+        tv_pending_counter = (TextView) v.findViewById(R.id.tv_pending_counter);
+        tv_accepted_counter = (TextView) v.findViewById(R.id.tv_accepted_counter);
 
         /*
         // Everything that follow in this comment is for the filters, which may be done as a stretch
@@ -232,6 +236,7 @@ public class SendReceiveFragment extends Fragment {
         et_date.setText("");
     }
 
+
     public void refreshRequests() {
         getRequestsData();
     }
@@ -259,6 +264,8 @@ public class SendReceiveFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("[sr/get_my] CODE: %s ERROR(1): %s", statusCode, errorResponse));
+                tv_accepted_counter.setVisibility(View.VISIBLE);
+                tv_pending_counter.setVisibility(View.VISIBLE);
                 String msg;
                 try {
                     msg = errorResponse.getString("message");
@@ -297,9 +304,11 @@ public class SendReceiveFragment extends Fragment {
                             if (shippingRequest.isAccepted()) {
                                 mAcceptedRqs.add(shippingRequest);
                                 shippingAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRqs.size() - 1);
+                                tv_accepted_counter.setVisibility(View.GONE);
                             } else if (shippingRequest.isPending()){
                                 mPendingRqs.add(shippingRequest);
                                 shippingPendingRequestsAdapter.notifyItemInserted(mPendingRqs.size() - 1);
+                                tv_pending_counter.setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
                             Toast.makeText(getContext(), String.format("JSON error in parsing JSON in travel notice get: %s", e), Toast.LENGTH_LONG).show();

@@ -89,6 +89,7 @@ public class TravelFragment extends Fragment {
 
     SwipeRefreshLayout swipeContainer;
     ScrollView scrollView;
+    TextView tv_trips_counter;
 
 
     public TravelFragment() {
@@ -110,6 +111,8 @@ public class TravelFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_travel, container, false);
+
+        tv_trips_counter = (TextView) v.findViewById(R.id.tv_trips_counter);
 
         scrollView = (ScrollView) v.findViewById(R.id.scrollMePls);
         scrollView.setFocusableInTouchMode(true);
@@ -553,6 +556,7 @@ public class TravelFragment extends Fragment {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 upcomingTripAdapter.clear();
                 try {
+                    tv_trips_counter.setVisibility(View.INVISIBLE);
                     populateList(response.getJSONArray("data"));
                 } catch (JSONException e) {
                 }
@@ -564,6 +568,7 @@ public class TravelFragment extends Fragment {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
                     errorResponse) {
                 Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                tv_trips_counter.setVisibility(View.VISIBLE);
                 String errorSnack;
                 boolean idError = false;
                 try {
