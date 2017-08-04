@@ -4,19 +4,19 @@
     <item
         android:id="@+id/first"
         android:checked="false"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_account"
         android:title="Profile" />
 
     <item
         android:id="@+id/second"
         android:checked="false"
-        android:icon="@drawable/ic_add"
+        android:icon="@drawable/ic_settings"
         android:title="Settings" />
 
         <item
             android:id="@+id/third"
             android:checked="false"
-            android:icon="@drawable/ic_add"
+            android:icon="@drawable/ic_logout"
             android:title="Logout" />
 
     </group>

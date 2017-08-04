@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.rawr.adapters.MainPagerAdapter;
 import com.codepath.rawr.fragments.ConversationsFragment;
@@ -41,13 +43,22 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+
+import cz.msebera.android.httpclient.Header;
 
 import static com.codepath.rawr.R.id.drawerLayout;
 
 public class MainActivity extends AppCompatActivity {
+
+    public Intent resultIntent;
 
     // set up for navigation drawer
     private String[] mDrawerTitles;
@@ -62,12 +73,15 @@ public class MainActivity extends AppCompatActivity {
     public MainPagerAdapter pagerAdapter;
     public LinearLayout parentLayout;
     public TabLayout tabLayout;
+    public TextView tv_username;
+
+    public Layout layout;
+
     Context context;
     // other views
     ProgressBar pb;
     ImageView optionsButton;
 
-    TextView text1;
     // db
     AsyncHttpClient client;
     public FirebaseAuth mAuth;
@@ -84,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        resultIntent = new Intent();
+
         // setting up navigation drawer
         mDrawerLayout = (DrawerLayout) findViewById(drawerLayout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -93,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
         // get server stuffs
         client = new AsyncHttpClient();
+
+        getUsingUser();
+
 
         // get the views
         pb = (ProgressBar) findViewById(R.id.progressBarMainActivity);
@@ -116,12 +135,13 @@ public class MainActivity extends AppCompatActivity {
         logFirebaseImageSaver();
 
 
+
+
         // TODO - Make option button actually do what it's supposed to do, include logout inside of it
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.openDrawer(Gravity.START);
-//                logoutUser();
             }
         });
 
@@ -156,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 
     /**
@@ -415,6 +436,70 @@ public class MainActivity extends AppCompatActivity {
         logoutActivity.putExtra("message", message);
         startActivity(logoutActivity);
         // finishes this activity so that we don't go back to in onBackPressed
-        MainActivity.this.finishAffinity();
+        MainActivity.this.finish();
+    }
+
+    // creating user object to get user details
+    public void getUsingUser() {
+        // make a call to server to get the user and then create usingUser base on that json from the server
+        RequestParams params = new RequestParams();
+        params.put("uid", RawrApp.getUsingUserId());
+        client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    // populate the usingUser from the JSON received here, then enable the bt_confirm
+                    usingUser = User.fromJSONServer(response.getJSONObject("data"));
+
+                    // Setting username
+                    View header = navigationView.getHeaderView(0);
+                    TextView username = (TextView) header.findViewById(R.id.tv_drawer_username); //get a reference to the textview on the log.xml file.
+                    username.setText(usingUser.getFullName());
+
+                    // Setting email
+                    TextView user_email = (TextView) header.findViewById(R.id.tv_email);
+                    user_email.setText(usingUser.email);
+
+                } catch (JSONException e) {
+                    Log.e(TAG, String.format("Parsing JSON excepted %s", e));
+                    Toast.makeText(getBaseContext(), String.format("User is not gotten, JSON parsing error: %s", e), Toast.LENGTH_LONG).show();
+                    // if an error occurred, set result cancelled because we need the user!
+                    resultIntent.putExtra("message", "Error in parsing user JSON from the server");
+                    setResult(RESULT_CANCELED, resultIntent);
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
+                // if an error occurred, set result cancelled because we need the user!
+                resultIntent.putExtra("message", "Error in getting user from server");
+                setResult(RESULT_CANCELED, resultIntent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+                Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
+                // TODO - Remove Toast
+                Toast.makeText(getBaseContext(), String.format("User not gotten error 2 %s", errorResponse), Toast.LENGTH_LONG).show();
+                // if an error occurred, set result cancelled because we need the user!
+                resultIntent.putExtra("message", "Error in getting user from server");
+                setResult(RESULT_CANCELED, resultIntent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                Log.e(TAG, String.format("%s", responseString));
+                // TODO - Remove Toast
+                Toast.makeText(getBaseContext(), String.format("User not gotten error 3 %s", responseString), Toast.LENGTH_LONG).show();
+                // if an error occurred, set result cancelled because we need the user!
+                resultIntent.putExtra("message", "Error in getting user from server");
+                setResult(RESULT_CANCELED, resultIntent);
+                finish();
+            }
+        });
     }
 }

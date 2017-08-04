@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -126,7 +127,7 @@ public class SendReceiveFragment extends Fragment {
         final EditText et_from = (EditText) v.findViewById(R.id.et_from);
         final EditText et_to = (EditText) v.findViewById(R.id.et_to);
         final EditText et_date = (EditText) v.findViewById(R.id.et_date);
-
+        final ImageView iv_item = (ImageView) v.findViewById(R.id.iv_item);
 
         /*
         // Everything that follow in this comment is for the filters, which may be done as a stretch
