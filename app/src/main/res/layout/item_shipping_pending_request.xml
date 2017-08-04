@@ -359,6 +359,14 @@
 
             </RelativeLayout>
 
+            <ImageView
+                android:layout_width="50sp"
+                android:layout_height="50sp"
+                android:id="@+id/iv_item"
+                android:src="@drawable/ic_android"
+                android:layout_below="@id/rl_flexibility"
+                android:layout_marginTop="8sp"/>
+
 
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 

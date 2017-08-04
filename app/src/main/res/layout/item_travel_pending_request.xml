@@ -127,6 +127,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="70dp" />
+
             </RelativeLayout>
 
             <RelativeLayout
@@ -147,6 +148,14 @@
                     android:text="decline"
                     android:textStyle="bold"
                     android:textColor="@android:color/white" />
+
+                <ImageView
+                    android:id="@+id/iv_item"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    app:srcCompat="@drawable/ic_android"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
             </RelativeLayout>
 
         </LinearLayout>
