@@ -2,6 +2,7 @@ package com.codepath.rawr.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -41,6 +42,7 @@ public class ConversationsFragment extends Fragment {
     // variables for notifications
     NotificationsAdapter notificationsAdapter;
     public ArrayList<RawrNotification> mNotifications;
+    SwipeRefreshLayout swipeContainer;
     RecyclerView rv_notifications;
     JSONArray notificationsArray;
     ItemTouchHelper.SimpleCallback swipeDeleteItemNotificationCallback;
@@ -63,6 +65,17 @@ public class ConversationsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_message, container, false);
 
+//        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
+//        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                getNotifications();
+//                enableSwipeToDelete();
+//            }
+//        });
+//
+//        swipeContainer.setEnabled(false);
+
         // populate the recycler view of notifcation with notifications from the server
         rv_notifications = (RecyclerView) v.findViewById(R.id.rv_notifications);
         mNotifications = new ArrayList<>();
@@ -71,6 +84,23 @@ public class ConversationsFragment extends Fragment {
         rv_notifications.setAdapter(notificationsAdapter);
         rv_notifications.setNestedScrollingEnabled(false);
 
+        /* TODO - If we add messages, we need this
+        // populate the recycler view of messages with messages from the server
+        rv_convos = (RecyclerView) v.findViewById(rv_convos);
+        mMessages = new ArrayList<>();
+        conversationListAdapter = new ConversationListAdapter(mMessages);
+        rv_convos.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_convos.setAdapter(conversationListAdapter);
+        rv_convos.setNestedScrollingEnabled(false);
+        */
+
+        enableSwipeToDelete();
+
+        return v;
+    }
+
+
+    public void enableSwipeToDelete() {
         swipeDeleteItemNotificationCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -86,21 +116,16 @@ public class ConversationsFragment extends Fragment {
                 mNotifications.remove(position);
                 notificationsAdapter.notifyDataSetChanged();
             }
+
+            @Override
+            public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+                super.onSelectedChanged(viewHolder, actionState);
+                final boolean swiping = actionState == ItemTouchHelper.ACTION_STATE_SWIPE;
+                // swipeContainer.setEnabled(!swiping);
+            }
         };
         itemTouchHelperNotification = new ItemTouchHelper(swipeDeleteItemNotificationCallback);
         itemTouchHelperNotification.attachToRecyclerView(rv_notifications);
-
-        /* TODO - If we add messages, we need this
-        // populate the recycler view of messages with messages from the server
-        rv_convos = (RecyclerView) v.findViewById(rv_convos);
-        mMessages = new ArrayList<>();
-        conversationListAdapter = new ConversationListAdapter(mMessages);
-        rv_convos.setLayoutManager(new LinearLayoutManager(getContext()));
-        rv_convos.setAdapter(conversationListAdapter);
-        rv_convos.setNestedScrollingEnabled(false);
-        */
-
-        return v;
     }
 
 
@@ -112,6 +137,8 @@ public class ConversationsFragment extends Fragment {
         client.get(RawrApp.DB_URL + "/notifications/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                notificationsAdapter.clear();
+
                 Log.e(TAG, String.format("%s", response));
                 try {
                     notificationsArray = response.getJSONArray("data");
@@ -120,6 +147,7 @@ public class ConversationsFragment extends Fragment {
                     e.printStackTrace();
                     ((MainActivity) getActivity()).snackbarCallIndefinite("Error occurred while parsing json array for notifications");
                 }
+                // swipeContainer.setRefreshing(false);
             }
 
             @Override
