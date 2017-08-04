@@ -1,10 +1,12 @@
 package com.codepath.rawr;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,9 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
 
     public static String TAG = "TvlPendingRequestsAct";
     AsyncHttpClient client;
+
+    RelativeLayout parentLayout;
+
     public String travelNoticeId;
 
     public TextView pending_count;
@@ -42,6 +47,8 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_travel_pending_requests);
 
         client = new AsyncHttpClient();
+
+        parentLayout = (RelativeLayout) findViewById(R.id.rlPending);
 
         // getting travel notice info to call the database
         travelNoticeId = getIntent().getStringExtra("travel_notice_id");
@@ -81,7 +88,8 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("CODE: %s ERROR(1): %s", statusCode, errorResponse));
-                Toast.makeText(getBaseContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                snackbarCallLong("You have no pending requests. Check back later!");
             }
 
             @Override
@@ -109,5 +117,20 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    public void snackbarCall(String message, int length){
+        Snackbar.make(parentLayout, String.format("%s", message), length).show();
+    }
+    public void snackbarCallIndefinite(String message){
+        snackbarCall(message, Snackbar.LENGTH_INDEFINITE);
+    }
+    public void snackbarCallLong(String message){
+        snackbarCall(message, Snackbar.LENGTH_LONG);
+    }
+    public void snackbarCallShort(String message){
+        snackbarCall(message, Snackbar.LENGTH_SHORT);
+    }
+
 
 }
