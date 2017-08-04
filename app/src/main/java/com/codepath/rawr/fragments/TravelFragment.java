@@ -278,7 +278,7 @@ public class TravelFragment extends Fragment {
                 .setTitle(R.string.dialog_title);
 
         // Add the buttons
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button, so send response to database
 
