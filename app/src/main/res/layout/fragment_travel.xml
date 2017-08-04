@@ -1,246 +1,250 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/swipeContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_background_primary_color"
     tools:context="com.codepath.rawr.fragments.TravelFragment">
 
-    <ScrollView
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/bt_expand"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollMePls">
+        android:background="@drawable/transparent_sxxdark"
+        android:drawableLeft="@drawable/ic_add"
+        android:paddingLeft="16sp"
+        android:paddingRight="16sp"
+        android:text="Add a trip"
+        android:textAlignment="textEnd"
+        android:textAllCaps="true"
+        android:textColor="@color/White"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+
+    <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        android:id="@+id/erl_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bt_expand"
+        app:ael_orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_add_trip"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="com.codepath.rawr.fragments.TravelFragment">
+            android:layout_height="wrap_content"
+            android:background="@drawable/transparent_sxxdark">
 
-            <Button
-                android:id="@+id/bt_expand"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/transparent_sxxdark"
-                android:drawableLeft="@drawable/ic_add"
-                android:paddingLeft="16sp"
-                android:paddingRight="16sp"
-                android:text="Add a trip"
-                android:textAlignment="textEnd"
-                android:textAllCaps="true"
-                android:textColor="@color/White"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-
-            <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-                android:id="@+id/erl_info"
+            <RelativeLayout
+                android:id="@+id/rl_collapse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/bt_expand"
-                app:ael_orientation="vertical">
+                android:layout_alignParentTop="true"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
 
-                <RelativeLayout
-                    android:id="@+id/rl_add_trip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/transparent_sxxdark" >
-
-                    <RelativeLayout
-                        android:id="@+id/rl_collapse"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp">
-
-                        <ImageButton
-                            android:id="@+id/ib_expand"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="32dp"
-                            android:background="@drawable/transparent_sxdark"
-                            android:padding="4dp"
-                            android:src="@drawable/ic_expand_less_white" />
-
-                        <TextView
-                            android:id="@+id/tv_clear_content"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="32dp"
-                            android:background="@drawable/transparent_sxdark"
-                            android:gravity="center"
-                            android:paddingBottom="4dp"
-                            android:paddingLeft="8dp"
-                            android:paddingRight="8dp"
-                            android:paddingTop="4dp"
-                            android:text="clear"
-                            android:textColor="@color/White"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_airlineCode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_collapse"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="32dp"
-                        android:paddingRight="32dp">
-
-                        <EditText
-                            android:id="@+id/til_airlineCode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@drawable/transparent_white"
-                            android:backgroundTint="@color/SXLight"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:hint="Airline Code"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:shadowColor="@color/SXLight"
-                            android:textColor="@color/White"
-                            android:textColorHighlight="@color/White"
-                            android:textColorHint="@color/SXLight"
-                            android:textColorLink="@color/PLight"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_flightNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_airlineCode"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="32dp"
-                        android:paddingRight="32dp"
-                        android:paddingTop="4dp">
-
-                        <EditText
-                            android:id="@+id/til_flightNumber"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@drawable/transparent_white"
-                            android:backgroundTint="@color/SXLight"
-                            android:ems="10"
-                            android:gravity="center"
-                            android:hint="Flight number"
-                            android:paddingBottom="10dp"
-                            android:inputType="number"
-                            android:paddingTop="10dp"
-                            android:shadowColor="@color/SXLight"
-                            android:textColor="@color/White"
-                            android:textColorHighlight="@color/White"
-                            android:textColorHint="@color/SXLight"
-                            android:textColorLink="@color/PLight"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/rl_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_flightNumber"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center"
-                        android:paddingBottom="4dp"
-                        android:paddingLeft="32dp"
-                        android:paddingRight="32dp"
-                        android:paddingTop="4dp">
-
-                        <EditText
-                            android:id="@+id/et_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_gravity="center"
-                            android:background="@drawable/transparent_white"
-                            android:backgroundTint="@color/SXLight"
-                            android:ems="10"
-                            android:focusable="false"
-                            android:gravity="center"
-                            android:hint="Departure Date"
-                            android:inputType="date"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp"
-                            android:shadowColor="@color/SXLight"
-                            android:textColor="@color/White"
-                            android:textColorHighlight="@color/White"
-                            android:textColorHint="@color/SXLight"
-                            android:textColorLink="@color/PLight"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-                    </RelativeLayout>
-
-                    <Button
-                        android:id="@+id/bt_submit"
-                        style="@android:style/Widget.Material.Button.Borderless.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/rl_date"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/ripple_effect"
-                        android:paddingLeft="32dp"
-                        android:paddingRight="32dp"
-                        android:text="add trip"
-                        android:textAllCaps="false"
-                        android:textColor="@color/White"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-
-            </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-
-
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/rl_trips"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/erl_info"
-                tools:context="com.codepath.rawr.fragments.TravelFragment">
-
-                <TextView
-                    android:id="@+id/tv_trips_title"
+                <ImageButton
+                    android:id="@+id/ib_expand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="My Trips"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="32dp"
+                    android:background="@drawable/transparent_sxdark"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_expand_less_white" />
+
+                <TextView
+                    android:id="@+id/tv_clear_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="32dp"
+                    android:background="@drawable/transparent_sxdark"
+                    android:gravity="center"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:text="clear"
                     android:textColor="@color/White"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+            </RelativeLayout>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_trips"
+            <RelativeLayout
+                android:id="@+id/rl_airlineCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_collapse"
+                android:paddingBottom="4dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp">
+
+                <EditText
+                    android:id="@+id/til_airlineCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_trips_title"
-                    android:visibility="visible">
+                    android:layout_gravity="center"
+                    android:background="@drawable/transparent_white"
+                    android:backgroundTint="@color/SXLight"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="Airline Code"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:shadowColor="@color/SXLight"
+                    android:textColor="@color/White"
+                    android:textColorHighlight="@color/White"
+                    android:textColorHint="@color/SXLight"
+                    android:textColorLink="@color/PLight"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
-                </android.support.v7.widget.RecyclerView>
+            <RelativeLayout
+                android:id="@+id/rl_flightNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_airlineCode"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:paddingTop="4dp">
+
+                <EditText
+                    android:id="@+id/til_flightNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/transparent_white"
+                    android:backgroundTint="@color/SXLight"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="Flight number"
+                    android:inputType="number"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:shadowColor="@color/SXLight"
+                    android:textColor="@color/White"
+                    android:textColorHighlight="@color/White"
+                    android:textColorHint="@color/SXLight"
+                    android:textColorLink="@color/PLight"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_flightNumber"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:paddingTop="4dp">
+
+                <EditText
+                    android:id="@+id/et_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center"
+                    android:background="@drawable/transparent_white"
+                    android:backgroundTint="@color/SXLight"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:hint="Departure Date"
+                    android:inputType="date"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:shadowColor="@color/SXLight"
+                    android:textColor="@color/White"
+                    android:textColorHighlight="@color/White"
+                    android:textColorHint="@color/SXLight"
+                    android:textColorLink="@color/PLight"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/bt_submit"
+                style="@android:style/Widget.Material.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_date"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/ripple_effect"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:text="add trip"
+                android:textAllCaps="false"
+                android:textColor="@color/White"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/erl_info">
+
+        <ScrollView
+            android:id="@+id/scrollMePls"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.codepath.rawr.fragments.TravelFragment">
+
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    xmlns:tools="http://schemas.android.com/tools"
+                    android:id="@+id/rl_trips"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context="com.codepath.rawr.fragments.TravelFragment">
+
+                    <TextView
+                        android:id="@+id/tv_trips_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="My Trips"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="@color/White"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_trips"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_trips_title"
+                        android:visibility="visible">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
-        </RelativeLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-    </ScrollView>
-
-</android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>
