@@ -54,7 +54,7 @@ public class SignupActivity extends AppCompatActivity {
         pb = (ProgressBar) findViewById(R.id.progressBarSignupActivity);
         et_fName = (EditText) findViewById(R.id.et_fName);
         et_lName = (EditText) findViewById(R.id.et_lName);
-        et_email = (EditText) findViewById(R.id.et_email);
+        et_email = (EditText) findViewById(R.id.tv_tvlr_email);
         bt_signup = (Button) findViewById(R.id.bt_signup);
 
         // make progress visible because we're doing internet stuffs, disables submit button

@@ -63,7 +63,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
         et_pickup = (EditText) findViewById(R.id.et_pickup);
         et_name = (EditText) findViewById(R.id.et_name);
         et_other = (EditText) findViewById(R.id.et_other);
-        et_email = (EditText) findViewById(R.id.et_email);
+        et_email = (EditText) findViewById(R.id.tv_tvlr_email);
         et_phone = (EditText) findViewById(R.id.et_no);
         et_payment = (EditText) findViewById(R.id.et_payment);
         et_details = (EditText) findViewById(R.id.et_details);

@@ -2,6 +2,7 @@ package com.codepath.rawr.fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -274,11 +275,36 @@ public class TravelFragment extends Fragment {
 
     // Process response for adding a trip
     public void processResponse(final JSONObject response) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(flight.getAirlineName() + "\nFlight " + flight.getAirlineCode() + " " + flight.getFlightNumber() + "\n"
-                + flight.getDepartureAirportCode() + " to " + flight.getArrivalAirportCode()
-                + "\nDeparting on " + flight.getDepartFullDate() + " at " + flight.getDepartureTime())
-                .setTitle(R.string.dialog_title);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+        // Get the layout inflater
+        LayoutInflater li = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        View vi = li.inflate(R.layout.dialog_trip_confirmation, null, false);
+
+        TextView tv_airline_title = (TextView) vi.findViewById(R.id.tv_airline_title);
+        TextView tv_airlineCode = (TextView) vi.findViewById(R.id.tv_airlineCode);
+        TextView tv_airlineNo = (TextView) vi.findViewById(R.id.tv_airlineNo);
+        TextView tv_from = (TextView) vi.findViewById(R.id.tv_from);
+        TextView tv_to = (TextView) vi.findViewById(R.id.tv_to);
+        TextView tv_fromTime = (TextView) vi.findViewById(R.id.tv_fromTime);
+        TextView tv_toTime = (TextView) vi.findViewById(R.id.tv_toTime);
+        TextView tv_dateFrom = (TextView) vi.findViewById(R.id.tv_dateFrom);
+        TextView tv_dateTo = (TextView) vi.findViewById(R.id.tv_dateTo);
+        tv_airline_title.setText(flight.getAirlineName());
+        tv_airlineCode.setText(flight.getAirlineCode());
+        tv_airlineNo.setText(flight.getFlightNumber());
+        tv_from.setText(flight.getDepartureAirportCode());
+        tv_to.setText(flight.getArrivalAirportCode());
+        tv_fromTime.setText(flight.getDepartureTime());
+        tv_toTime.setText(flight.getArrivalTime());
+        tv_dateFrom.setText(flight.getDepartFullDate());
+        tv_dateTo.setText(flight.getArriveFullDate());
+
+        builder.setView(vi);
 
         // Add the buttons
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -350,6 +376,83 @@ public class TravelFragment extends Fragment {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        builder.setMessage(flight.getAirlineName() + "\nFlight " + flight.getAirlineCode() + " " + flight.getFlightNumber() + "\n"
+//                + flight.getDepartureAirportCode() + " to " + flight.getArrivalAirportCode()
+//                + "\nDeparting on " + flight.getDepartFullDate() + " at " + flight.getDepartureTime())
+//                .setTitle(R.string.dialog_title);
+//
+//        // Add the buttons
+//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                // User clicked OK button, so send response to database
+//
+//                // first, create the travelNotice, all surrounded by try catch
+//                try {
+//                    // creates a travel notice
+//                    final TravelNotice tvl = TravelNotice.fromJSON(response, RawrApp.getUsingUserId(), null, null);
+//                    // get parameters from the method createParams() in TravelNotice, see that method
+//                    RequestParams params = tvl.createParams();
+//                    // Send a request to the database with endpoint /travel_notice_add
+//                    client.post(DB_URLS[0] + "/travel_notice/add", params, new JsonHttpResponseHandler() {
+//                        @Override
+//                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                            try {
+//                                if (!response.getBoolean("error")) {
+//                                    // in case of no error, pop up the addDetailsDialog that asks the user if they want to add more details
+//                                    addDetailsDialog(response.getJSONObject("data").getString("_id"), response.getJSONObject("data").getString("tuid"));
+//                                } else {
+//                                    // get the error from the DB
+//                                    String error = response.getJSONObject("message").toString();
+//                                    // if there is an internal db error that occurred, we handle it
+//                                    Toast.makeText(getContext(), String.format("An internal server error occurred: %s", error), Toast.LENGTH_LONG).show();
+//                                    // TODO - Handle what to do in case of an error from the DB. i.e.: tvl was not saved
+//                                    // Consider handling the case of the user having no internet connection
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                                String toastMessage = "JSON Parsing error in onSuccess";
+//                                Log.e("TravelFragment", String.format("%s, %s", e, toastMessage));
+//                                Toast.makeText(getContext(), String.format("%s", toastMessage), Toast.LENGTH_LONG).show();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+//                            Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
+//                            Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+//                            Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
+//                            Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_LONG).show();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+//                            Log.e(TAG, String.format("%s", responseString));
+//                            Toast.makeText(getContext(), String.format("error 3 %s", responseString), Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//                } catch (JSONException e) {
+//                    // Don't move forward if an error occurs
+//                    e.printStackTrace();
+//                    String toastMessage = "JSON Parsing error in client.post, BAD";
+//                    Log.e("TravelFragment", String.format("%s, %s", e.toString(), toastMessage));
+//                    Toast.makeText(getContext(), String.format("%s", toastMessage), Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//        });
+//        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//            public void onClick(DialogInterface dialog, int id) {
+//                // User cancelled the dialog
+//            }
+//        });
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
 
     }
 
