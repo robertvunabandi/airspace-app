@@ -55,7 +55,7 @@ public class LogoutActivity extends AppCompatActivity {
         tv_appName = (TextView) findViewById(R.id.tv_appName);
         bt_login = (Button) findViewById(R.id.bt_login);
         bt_signup = (Button) findViewById(R.id.bt_signup);
-        et_email = (EditText) findViewById(R.id.et_email);
+        et_email = (EditText) findViewById(R.id.tv_tvlr_email);
 
         // get intent in case this is coming from another activity, and launch a snackbar
         messageFromIntent = getIntent().getExtras().getString("message", null);

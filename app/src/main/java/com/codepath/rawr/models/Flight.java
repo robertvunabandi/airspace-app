@@ -20,6 +20,12 @@ public class Flight {
     private int departYear; // four-digit year
     private String departureTime;
     private String departFullDate;
+    private int arriveDay; // day of the month 1-31
+    private int arriveMonth; // month of the year 1-12
+    private int arriveYear; // four-digit year
+    private String arrivalTime;
+    private String arriveFullDate;
+
 
 
     public static Flight fromJSON(JSONObject jsonObject) throws JSONException {
@@ -56,6 +62,17 @@ public class Flight {
 
         // Parsing time
         flight.departureTime = departDateAndTime.substring(11, 16);
+
+
+        // Parsing departure date
+        String arriveDateAndTime = scheduledFlight.getString("arrivalTime");
+        flight.arriveYear = Integer.parseInt(arriveDateAndTime.substring(0, 4));
+        flight.arriveMonth = Integer.parseInt(arriveDateAndTime.substring(5, 7));
+        flight.arriveDay = Integer.parseInt(arriveDateAndTime.substring(8, 10));
+        flight.arriveFullDate = flight.arriveMonth + "/" + flight.arriveDay + "/" + flight.arriveYear;
+
+        // Parsing time
+        flight.arrivalTime = arriveDateAndTime.substring(11, 16);
 
         return flight;
     }
@@ -102,5 +119,13 @@ public class Flight {
 
     public String getDepartFullDate() {
         return departFullDate;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public String getArriveFullDate() {
+        return arriveFullDate;
     }
 }
