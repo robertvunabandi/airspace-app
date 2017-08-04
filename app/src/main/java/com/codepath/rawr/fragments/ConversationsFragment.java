@@ -65,16 +65,16 @@ public class ConversationsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_message, container, false);
 
-//        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
-//        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                getNotifications();
-//                enableSwipeToDelete();
-//            }
-//        });
-//
-//        swipeContainer.setEnabled(false);
+        swipeContainer = (SwipeRefreshLayout) v.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getNotifications();
+                enableSwipeToDelete();
+            }
+        });
+
+        swipeContainer.setEnabled(false);
 
         // populate the recycler view of notifcation with notifications from the server
         rv_notifications = (RecyclerView) v.findViewById(R.id.rv_notifications);
@@ -147,7 +147,7 @@ public class ConversationsFragment extends Fragment {
                     e.printStackTrace();
                     ((MainActivity) getActivity()).snackbarCallIndefinite("Error occurred while parsing json array for notifications");
                 }
-                // swipeContainer.setRefreshing(false);
+                swipeContainer.setRefreshing(false);
             }
 
             @Override
