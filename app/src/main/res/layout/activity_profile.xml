@@ -1,141 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profileParentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/parentLayout"
     tools:context="com.codepath.rawr.ProfileActivity">
 
-
-    <ImageView
-        android:id="@+id/imageView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="250sp"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/header" />
+        android:layout_height="match_parent">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="150sp"
-        android:layout_height="150sp"
-        android:id="@+id/iv_profile_image"
-        android:src="@drawable/profile"
-        android:layout_marginTop="150sp"
-        android:onClick="true"
-        android:layout_centerHorizontal="true"/>
+        <RelativeLayout
+            android:id="@+id/rl_image_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Christian Bale"
-        android:textColor="@color/dark_blue"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/iv_profile_image" />
+            <ImageView
+                android:id="@+id/iv_profile_activity_banner"
+                android:layout_width="match_parent"
+                android:layout_height="250sp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/header" />
 
-    <TextView
-        android:id="@+id/tv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_username"
-        android:layout_centerHorizontal="true"
-        android:text="Guangzhou, China"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/suitcaseColorGrey" />
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/iv_profile_image"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="150dp"
+                android:baselineAlignBottom="true"
+                android:onClick="true"
+                android:src="@drawable/profile" />
+        </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_money_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tv_items_sent"
-        android:layout_toEndOf="@+id/iv_profile_image"
-        android:layout_toRightOf="@+id/iv_profile_image"
-        android:text="25"
-        android:textColor="@color/dark_blue"
-        android:textSize="30sp"
-        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tv_items_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tv_trips_counter"
-        android:layout_alignBottom="@+id/tv_trips_counter"
-        android:layout_centerHorizontal="true"
-        android:text="300"
-        android:textColor="@color/dark_blue"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        <RelativeLayout
+            android:id="@+id/rl_profile_activity_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rl_image_background"
+            android:padding="12dp">
 
-    <TextView
-        android:id="@+id/tv_trips_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="38dp"
-        android:text="51"
-        android:textColor="@color/dark_blue"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/iv_profile_image"
-        android:layout_toStartOf="@+id/iv_profile_image" />
+            <TextView
+                android:id="@+id/tv_fullName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="Christian Bale"
+                android:textAllCaps="true"
+                android:textColor="@color/dark_blue"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    <TextView
-    android:id="@+id/tv_trips_taken"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-    android:text="Trips taken"
-    android:textAllCaps="true"
-    android:textColor="@android:color/black"
-        android:layout_alignBaseline="@+id/tv_items_sent"
-        android:layout_alignBottom="@+id/tv_items_sent"
-        android:layout_toLeftOf="@+id/tv_location"
-        android:layout_toStartOf="@+id/tv_location" />
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_fullName"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="Guangzhou, China"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:textColor="@color/suitcaseColorGrey" />
 
-    <TextView
-        android:id="@+id/tv_items_sent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_items_counter"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="sans-serif-condensed"
-        android:text="dollars made"
-        android:textAllCaps="true"
-        android:textColor="@android:color/black" />
+            <RelativeLayout
+                android:id="@+id/rl_userDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_location"
+                android:layout_marginTop="16dp">
 
-    <TextView
-        android:id="@+id/tv_reviewers"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-condensed"
-        android:text="items sent"
-        android:textAllCaps="true"
-        android:textColor="@android:color/black"
-        android:layout_below="@+id/tv_money_counter"
-        android:layout_toRightOf="@+id/tv_location"
-        android:layout_toEndOf="@+id/tv_location" />
+                <TextView
+                    android:id="@+id/tv_suitcase_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:fontFamily="serif"
+                    android:gravity="center"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    android:text="“Travel is the only thing you buy that makes you richer.”"
+                    android:textAlignment="center"
+                    android:textSize="13sp"
+                    android:textStyle="italic" />
+            </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_suitcase_color"
-        android:layout_width="300sp"
-        android:layout_height="wrap_content"
-        android:fontFamily="serif"
-        android:text="“Travel is the only thing you buy that makes you richer.”"
-        android:textAlignment="center"
-        android:textSize="13sp"
-        android:textStyle="italic"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/tv_location"
-        android:layout_alignRight="@+id/tv_reviewers"
-        android:layout_alignEnd="@+id/tv_reviewers"
-        android:layout_alignLeft="@+id/tv_trips_taken"
-        android:layout_alignStart="@+id/tv_trips_taken" />
 
-    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_trips_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="##"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_trips_taken"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center_horizontal"
+                        android:text="Trips taken"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_dollars_made_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="##"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_dollars_made_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_items_counter"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center_horizontal"
+                        android:text="dollars made"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_items_counter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="##"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_items_sent_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="sans-serif-condensed"
+                        android:gravity="center_horizontal"
+                        android:text="items sent"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/black" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!--<de.hdodenhof.circleimageview.CircleImageView-->
         <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
         <!--android:id="@+id/profile_image"-->
         <!--android:layout_width="76dp"-->
@@ -147,4 +206,5 @@
         <!--android:layout_alignParentLeft="true"-->
         <!--android:layout_alignParentStart="true"-->
         <!--android:layout_marginStart="24dp" />-->
-</RelativeLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

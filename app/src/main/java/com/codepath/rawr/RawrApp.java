@@ -3,6 +3,9 @@ package com.codepath.rawr;
 import android.app.Application;
 import android.content.Context;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 /**
  * Created by robertvunabandi on 7/25/17.
  */
@@ -36,7 +39,28 @@ public class RawrApp extends Application {
         } else throw new Exception("Invalid id for replacement");
     }
 
+    /**
+     * To get an image with this, use glide like this:
+     *
+     * View view = findViewById(R.id.<Id of the view>); // view where to store the image
+     * String id = <Id of either user or request>; // id of either user or request
+     *
+     * StorageReference ref = getStorageReferenceForImageFromFirebase(id);
+     * Glide.with(this)
+     *      .using(new FirebaseImageLoaded())
+     *      .load(ref)
+     *      .placeholder(R.drawable.<Reference to a placeholder drawable>)
+     *      .error(R.drawable.<Reference to a placeholder ERROR drawable>)
+     *      .into(view);
+     *
+     * MAKE SURE TO ALWAYS HAVE ERROR AND PLACEHOLDER
+     * */
+    public static StorageReference getStorageReferenceForImageFromFirebase(String id) {
+        return FirebaseStorage.getInstance().getReference(id+".png");
+    }
+
     public static boolean isStringEmpty(String s) {
         return !(s != null && !s.equals(""));
     }
+
 }

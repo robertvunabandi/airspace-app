@@ -55,7 +55,7 @@ public class RawrImages {
     }
     public static RequestParams getParamsSaveRequestImage(String request_id, String url) {
         RequestParams params = new RequestParams();
-        params.put("user_id", request_id);
+        params.put("request_id", request_id);
         params.put("url", url);
         return params;
     }
@@ -65,9 +65,9 @@ public class RawrImages {
         params.put("user_id", user_id);
         return params;
     }
-    public static RequestParams getParamsGetTravelNoticeImage(String travel_notice_id) {
+    public static RequestParams getParamsGetRequestImage(String request_id) {
         RequestParams params = new RequestParams();
-        params.put("travel_notice_id", travel_notice_id);
+        params.put("request_id", request_id);
         return params;
     }
 

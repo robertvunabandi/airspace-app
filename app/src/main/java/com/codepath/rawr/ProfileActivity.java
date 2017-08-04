@@ -6,17 +6,20 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.rawr.models.RawrImages;
+import com.codepath.rawr.models.User;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -24,6 +27,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
@@ -35,13 +39,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     // views
     ImageView iv_profile_image;
-    RelativeLayout parentLayout;
-
+    CoordinatorLayout parentLayout;
+    TextView tv_trips_counter, tv_dollars_made_counter, tv_items_counter, tv_fullName, tv_location;
     // Setting up database
-    public FirebaseAuth mAuth;
     AsyncHttpClient client;
-
-
+    User usingUser;
     // Tag for debugging
     private static final String TAG = "ProfileActivity";
 
@@ -50,18 +52,47 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        client = new AsyncHttpClient();
 
-        parentLayout = (RelativeLayout) findViewById(R.id.parentLayout);
+        parentLayout = (CoordinatorLayout) findViewById(R.id.profileParentLayout);
 
         // Initializing views
         iv_profile_image = (ImageView) findViewById(R.id.iv_profile_image);
+        tv_fullName = (TextView) findViewById(R.id.tv_fullName);
+        tv_location = (TextView) findViewById(R.id.tv_location);
+        tv_trips_counter = (TextView) findViewById(R.id.tv_trips_counter);
+        tv_dollars_made_counter = (TextView) findViewById(R.id.tv_dollars_made_counter);
+        tv_items_counter = (TextView) findViewById(R.id.tv_items_counter);
 
+        // do other functionalities
         iv_profile_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getImageFromAlbum();
             }
         });
+
+        // get the using user so we can do stuff with it
+        getUsingUser();
+
+        // load the profile image of the user that's currently there with Glide and Firebase
+        StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(RawrApp.getUsingUserId());
+        Glide.with(this)
+                .using(new FirebaseImageLoader())
+                .load(ref)
+                .placeholder(R.drawable.ic_android)
+                .error(R.drawable.ic_air_space_2)
+                .into(iv_profile_image);
+
+    }
+
+    public void populateUsersData() {
+        // change the personal details of the user
+        tv_fullName.setText(usingUser.getFullName());
+        tv_location.setText(usingUser.location);
+        tv_trips_counter.setText(String.valueOf(usingUser.tripsTaken));
+        tv_dollars_made_counter.setText(String.valueOf(usingUser.dollarsMade));
+        tv_items_counter.setText(String.valueOf(usingUser.itemsSent));
     }
 
     public void getImageFromAlbum() {
@@ -79,16 +110,8 @@ public class ProfileActivity extends AppCompatActivity {
                 Uri imageUri = data.getData();
                 InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream); // Bitmaps are the ones to be placed/replaced in imageViews
-                // convert image to bytes
-                byte[] imageByte = RawrImages.convertImageToByteArray(selectedImage);
-                iv_profile_image.setImageBitmap(selectedImage);
-//                saveProfileImageToFirebase(selectedImage);
-                // convert image back to bitmap
-                // this replaces the image
-                // ConversationsFragment convoFragment = (ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem());
-                // ((ImageView) convoFragment.getView().findViewById(R.id.temporary_addProfileImageButton)).setImageBitmap(testImg);
-                // once we get the image, we send the image with the enpoint
-
+                // save the image to Firebase
+                saveProfileImageToFirebase(selectedImage);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Log.e(TAG, String.format("Bitmap error! %s", e));
@@ -99,9 +122,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    public void saveProfileImageToFirebase(Bitmap image) {
+    public void saveProfileImageToFirebase(final Bitmap image) {
         // create the string of the image, which is based on this person's id
-        String imageTitleDatabase = String.format("%.png", RawrApp.getUsingUserId());
+        String imageTitleDatabase = RawrApp.getUsingUserId()+".png";
         // convert the image first to byte array
         byte[] imageByte = RawrImages.convertImageToByteArray(image);
         // store image to firebase storage by first getting the reference to that image based on the user id
@@ -110,28 +133,62 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()) {
-                    // when completed, get the image url and save it to DB
-                    ref.getDownloadUrl();
-                    RequestParams params = RawrImages.getParamsSaveProfileImage(RawrApp.getUsingUserId(), ref.getDownloadUrl().toString());
-                    client.post(RawrApp.DB_URL + "/image/profile_update", params, new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                            Log.e(TAG, String.format("%s", response));
-                            // TODO - then, populate wherever the image was supposed to go on success
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            Log.e(TAG, String.format("Error in saving image url to DB: %s", errorResponse));
-                        }
-                    });
+                    // set the profile image to this image
+                    iv_profile_image.setImageBitmap(image);
 
                 } else {
-                    // TODO - Snackbar that it failed
+                    snackbarCallIndefinite("An error occurred while uploading your image. Maximum image size may have been exceeded.");
                 }
             }
 
         });
+    }
+
+    public void getUsingUser() {
+        // make a call to server to get the user and then create usingUser base on that json from the server
+        RequestParams params = new RequestParams();
+        params.put("uid", RawrApp.getUsingUserId());
+        client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    // populate the usingUser from the JSON received here, then enable the bt_confirm
+                    usingUser = User.fromJSONServer(response.getJSONObject("data"));
+                    populateUsersData();
+                } catch (JSONException e) {
+                    Log.e(TAG, String.format("Parsing JSON excepted %s", e));
+                    // quit this activity because this error will cause more errors
+                    snackbarCallIndefinite("JSON error in parsing user object");
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
+                snackbarCallIndefinite(String.format("User not found %s", errorResponse));
+                // quit this activity because this error will cause more errors
+                finish();
+            }
+
+        });
+    }
+
+    // Snackbar calls
+    public void snackbarCall(String message, int length) {
+        Snackbar.make(parentLayout, String.format("%s", message), length).show();
+    }
+
+    public void snackbarCallIndefinite(String message) {
+        snackbarCall(message, Snackbar.LENGTH_INDEFINITE);
+    }
+
+    public void snackbarCallLong(String message) {
+        snackbarCall(message, Snackbar.LENGTH_LONG);
+    }
+
+    public void snackbarCallShort(String message) {
+        snackbarCall(message, Snackbar.LENGTH_SHORT);
     }
 
 }

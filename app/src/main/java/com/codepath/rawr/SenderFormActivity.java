@@ -405,7 +405,9 @@ public class SenderFormActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()) {
                     // when completed, get the image url and save it to DB
-                    savePictureUrlToRawrDB(request.id, ref.getDownloadUrl().toString());
+                    resultIntent.putExtra("message", "success");
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
                 } else {
                     resultIntent.putExtra("message", "FIREBASE ERROR: failure uploading picture");
                     setResult(RESULT_OK, resultIntent); finish();
@@ -414,30 +416,6 @@ public class SenderFormActivity extends AppCompatActivity {
 
         });
     }
-
-    public void savePictureUrlToRawrDB(String requestId, String URL) {
-        RequestParams params = RawrImages.getParamsSaveRequestImage(requestId, URL);
-        client.post(RawrApp.DB_URL + "/image/request_create", params, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                resultIntent.putExtra("message", "success");
-                setResult(RESULT_OK, resultIntent);
-                finish();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                resultIntent.putExtra("message", "SERVER ERROR: Image uploaded to Firebase, but URL is unknown");
-                setResult(RESULT_OK, resultIntent);
-                finish();
-            }
-        });
-    }
 }
-
-        /* public void testFirebase (Bitmap image){ // OLD FIREBASE STUFF
-            // StorageReference ref = FirebaseStorage.getInstance().getReference().child("image_test.png");
-            FirebaseDatabase firebaseDB = FirebaseDatabase.getInstance(); DatabaseReference images = firebaseDB.getReference("images"); images.setValue(imageEncoded); FirebaseStorage storageRef = FirebaseStorage.getInstance("gs://air-space-images.appspot.com"); storageRef.getReference("image_test.png");
-        } */
 
 
