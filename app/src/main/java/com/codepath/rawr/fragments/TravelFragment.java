@@ -129,6 +129,7 @@ public class TravelFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Toggle the expandable view
+                hideKeyboard(getActivity());
                 erl_info.toggle();
                 bt_expand.setVisibility(v.GONE);
             }
@@ -139,6 +140,7 @@ public class TravelFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Toggle the expandable view
+                hideKeyboard(getActivity());
                 erl_info.toggle();
                 bt_expand.setVisibility(v.VISIBLE);
 
@@ -186,6 +188,7 @@ public class TravelFragment extends Fragment {
         et_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 // TODO Auto-generated method stub
                 new DatePickerDialog(getContext(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
@@ -197,6 +200,7 @@ public class TravelFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 //create URL
                 String url = API_BASE_URL + "/v1/json/flight/" + airlineCode.getText() + "/" + flightNumber.getText() + "/departing/" + flightYear + "/" + flightMonth + "/" + flightDay;
                 Log.e(TAG, url);
@@ -253,7 +257,7 @@ public class TravelFragment extends Fragment {
         tv_clear_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearViews();
+                hideKeyboard(getActivity()); clearViews();
             }
         });
 

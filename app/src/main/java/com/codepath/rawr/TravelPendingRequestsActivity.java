@@ -6,11 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-<<<<<<< HEAD
+//<<<<<<< HEAD
 import android.widget.ImageView;
-=======
+//=======
 import android.widget.RelativeLayout;
->>>>>>> 8d252e49168df4b696366b049cd2c22c8a629f37
+//>>>>>>> 8d252e49168df4b696366b049cd2c22c8a629f37
 import android.widget.TextView;
 import android.widget.Toast;
 

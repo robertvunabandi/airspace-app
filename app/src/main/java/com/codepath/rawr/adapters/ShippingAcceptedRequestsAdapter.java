@@ -172,7 +172,25 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
             @Override
             public void onClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("\nPhone: " + request.tvlUser.phone + "\n\nEmail: " + request.tvlUser.email).setTitle(request.tvlUser.fName + "'s contact information");
+
+                // Get the layout inflater
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                // Inflate and set the layout for the dialog
+                // Pass null as the parent view because its going in the dialog layout
+                View vi = li.inflate(R.layout.dialog_contact_info, null, false);
+
+                TextView title = (TextView) vi.findViewById(R.id.dialogTitle);
+                TextView tvlrPhone = (TextView) vi.findViewById(R.id.tv_tvlr_phone);
+                TextView tvlrEmail = (TextView) vi.findViewById(R.id.tv_tvlr_email);
+                title.setText(request.tvlUser.fName + "'s contact information");
+                tvlrPhone.setText(request.tvlUser.phone);
+                tvlrEmail.setText(request.tvlUser.email);
+
+                builder.setView(vi);
+
+
+                //builder.setMessage("\nPhone: " + request.tvlUser.phone + "\n\nEmail: " + request.tvlUser.email).setTitle(request.tvlUser.fName + "'s contact information");
                 builder.setNegativeButton("close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
