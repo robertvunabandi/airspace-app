@@ -323,7 +323,7 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/et_email"
+                    android:id="@+id/tv_tvlr_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -344,7 +344,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@id/et_email"
+                    android:layout_below="@id/tv_tvlr_email"
                     android:backgroundTint="@color/SXLight"
                     android:hint="xxx-xxx-xxx"
                     android:inputType="number"

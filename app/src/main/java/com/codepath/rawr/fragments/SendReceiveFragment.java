@@ -1,5 +1,6 @@
 package com.codepath.rawr.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -61,6 +63,8 @@ public class SendReceiveFragment extends Fragment {
     RecyclerView rv_pendingRequests;
 
     SwipeRefreshLayout swipeContainer;
+    TextView tv_pending_counter;
+    TextView tv_accepted_counter;
 
     // Declaring variables for Accepted Requests
     ShippingAcceptedRequestsAdapter shippingAcceptedRequestsAdapter;
@@ -102,10 +106,13 @@ public class SendReceiveFragment extends Fragment {
         // button to collapse everything
         final ImageButton ib_collapse = (ImageButton) v.findViewById(R.id.ib_expand);
 
+        hideKeyboard(getActivity());
+
         bt_expand.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 // Toggle the expandable view
                 erl_info.toggle();
                 bt_expand.setVisibility(v.GONE);
@@ -116,6 +123,7 @@ public class SendReceiveFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 // Toggle the expandable view
                 erl_info.toggle();
                 bt_expand.setVisibility(v.VISIBLE);
@@ -128,6 +136,8 @@ public class SendReceiveFragment extends Fragment {
         final EditText et_to = (EditText) v.findViewById(R.id.et_to);
         final EditText et_date = (EditText) v.findViewById(R.id.et_date);
         final ImageView iv_item = (ImageView) v.findViewById(R.id.iv_item);
+        tv_pending_counter = (TextView) v.findViewById(R.id.tv_pending_counter);
+        tv_accepted_counter = (TextView) v.findViewById(R.id.tv_accepted_counter);
 
         /*
         // Everything that follow in this comment is for the filters, which may be done as a stretch
@@ -149,6 +159,7 @@ public class SendReceiveFragment extends Fragment {
         btSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 Intent i = new Intent(getContext(), SearchResultsActivity.class);
                 /* inside of SearchResultsActivity we will call the database using the
                 *from* *to* and *by* parameters typed in here, and there in SRA we will get
@@ -189,6 +200,7 @@ public class SendReceiveFragment extends Fragment {
         et_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 new DatePickerDialog(getContext(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -232,6 +244,7 @@ public class SendReceiveFragment extends Fragment {
         et_date.setText("");
     }
 
+
     public void refreshRequests() {
         getRequestsData();
     }
@@ -259,6 +272,8 @@ public class SendReceiveFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("[sr/get_my] CODE: %s ERROR(1): %s", statusCode, errorResponse));
+                tv_accepted_counter.setVisibility(View.VISIBLE);
+                tv_pending_counter.setVisibility(View.VISIBLE);
                 String msg;
                 try {
                     msg = errorResponse.getString("message");
@@ -297,9 +312,11 @@ public class SendReceiveFragment extends Fragment {
                             if (shippingRequest.isAccepted()) {
                                 mAcceptedRqs.add(shippingRequest);
                                 shippingAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRqs.size() - 1);
+                                tv_accepted_counter.setVisibility(View.GONE);
                             } else if (shippingRequest.isPending()){
                                 mPendingRqs.add(shippingRequest);
                                 shippingPendingRequestsAdapter.notifyItemInserted(mPendingRqs.size() - 1);
+                                tv_pending_counter.setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
                             Toast.makeText(getContext(), String.format("JSON error in parsing JSON in travel notice get: %s", e), Toast.LENGTH_LONG).show();
@@ -331,5 +348,16 @@ public class SendReceiveFragment extends Fragment {
                 Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

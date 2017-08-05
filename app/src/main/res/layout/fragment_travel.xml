@@ -219,17 +219,29 @@
                     android:layout_height="match_parent"
                     tools:context="com.codepath.rawr.fragments.TravelFragment">
 
-                    <TextView
-                        android:id="@+id/tv_trips_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:text="My Trips"
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                        android:textColor="@color/White"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_trips_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="My Trips"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/White"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_trips_counter"
+                    android:layout_below="@id/tv_trips_title"
+                    android:visibility="gone"
+                    android:text="You have 0 trips added, add one now!"
+                    android:layout_centerHorizontal="true"
+                    android:textColor="@color/White"
+                    android:textStyle="italic"
+                    />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_trips"

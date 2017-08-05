@@ -29,12 +29,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.codepath.rawr.adapters.MainPagerAdapter;
 import com.codepath.rawr.fragments.ConversationsFragment;
 import com.codepath.rawr.fragments.SendReceiveFragment;
 import com.codepath.rawr.fragments.TravelFragment;
 import com.codepath.rawr.models.RawrImages;
 import com.codepath.rawr.models.User;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -49,12 +51,15 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import cz.msebera.android.httpclient.Header;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.codepath.rawr.R.id.drawerLayout;
+import static com.codepath.rawr.RawrApp.getStorageReferenceForImageFromFirebase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -459,6 +464,16 @@ public class MainActivity extends AppCompatActivity {
                     // Setting email
                     TextView user_email = (TextView) header.findViewById(R.id.tv_email);
                     user_email.setText(usingUser.email);
+
+                    // Setting profile image
+                    CircleImageView iv_profile_image = (CircleImageView) header.findViewById(R.id.iv_profile_image);
+                    StorageReference ref = getStorageReferenceForImageFromFirebase(RawrApp.getUsingUserId());
+                    Glide.with(context)
+                            .using(new FirebaseImageLoader())
+                            .load(ref)
+                            .placeholder(R.drawable.ic_android)
+                            .error(R.drawable.ic_decline)
+                            .into(iv_profile_image);
 
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Parsing JSON excepted %s", e));

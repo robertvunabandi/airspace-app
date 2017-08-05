@@ -1,6 +1,8 @@
 package com.codepath.rawr;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -8,6 +10,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +36,8 @@ import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -110,6 +116,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Uri imageUri = data.getData();
                 InputStream imageStream = getContentResolver().openInputStream(imageUri);
                 Bitmap selectedImage = BitmapFactory.decodeStream(imageStream); // Bitmaps are the ones to be placed/replaced in imageViews
+                checkAndRequestPermissions();
                 // save the image to Firebase
                 saveProfileImageToFirebase(selectedImage);
             } catch (FileNotFoundException e) {
@@ -191,4 +198,33 @@ public class ProfileActivity extends AppCompatActivity {
         snackbarCall(message, Snackbar.LENGTH_SHORT);
     }
 
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+
+    private  boolean checkAndRequestPermissions() {
+        int camera = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
+        int storage = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int ext_storage = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        int loc2 = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (camera != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.CAMERA);
+        }
+        if (storage != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (loc2 != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (ext_storage != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (!listPermissionsNeeded.isEmpty())
+        {
+            ActivityCompat.requestPermissions(this,listPermissionsNeeded.toArray
+                    (new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
 }

@@ -47,7 +47,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
     Context context;
     AsyncHttpClient client;
 
-    public ShippingPendingRequestsAdapter(List<ShippingRequest> requests){
+    public ShippingPendingRequestsAdapter(List<ShippingRequest> requests) {
         mRequests = requests;
     }
 
@@ -95,10 +95,10 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         holder.cb_liquids.setEnabled(false);
         holder.tv_dropoff.setText(request.tvl.drop_off_flexibility);
         holder.tv_pickup.setText(request.tvl.pick_up_flexibility);
-        holder.tv_travellerName.setText(request.tvlUser.fName+"'s Trip");
+        holder.tv_travellerName.setText(request.tvlUser.fName + "'s Trip");
         // sets the name of the other item
         if (request.item_other) {
-            holder.tv_otherName.setText(": "+request.item_other_name);
+            holder.tv_otherName.setText(": " + request.item_other_name);
         } else {
             holder.tv_otherName.setVisibility(View.GONE);
         }
@@ -116,8 +116,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
                 if (holder.erl_info.isExpanded()) {
                     holder.ivToggleInfo.setRotation(0);
                     holder.tv_trips_detailsToggler.setText("See ");
-                }
-                else {
+                } else {
                     holder.ivToggleInfo.setRotation(-90);
                     holder.tv_trips_detailsToggler.setText("Hide ");
                 }
@@ -127,9 +126,8 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         });
 
 
-
         // CANCEL the request click listener
-        holder.btn_cancel.setOnClickListener(new View.OnClickListener(){
+        holder.btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
@@ -143,8 +141,8 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
                         // User clicked "YES" button, so send response to database
 
                         RequestParams params = new RequestParams();
-                        params.put("uid",  request.requesterId);
-                        params.put("request_id",  request.id);
+                        params.put("uid", request.requesterId);
+                        params.put("request_id", request.id);
                         client.post(RawrApp.DB_URL + "/request/delete", params, new JsonHttpResponseHandler() {
                             // implement endpoint here
                             @Override
@@ -156,14 +154,17 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
 
                                 // TODO - notify the traveller that the shipper cancelled the request!!!! (if not done in the database already)
                             }
+
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                                 Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
                             }
+
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                                 Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
                             }
+
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
@@ -182,11 +183,29 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         });
 
         // CONTACT the traveler click listener
-        holder.btn_contact.setOnClickListener(new View.OnClickListener(){
+        holder.btn_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("\nPhone: " + request.tvlUser.phone + "\n\nEmail: " + request.tvlUser.email).setTitle(request.tvlUser.fName + "'s contact information");
+
+                // Get the layout inflater
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                // Inflate and set the layout for the dialog
+                // Pass null as the parent view because its going in the dialog layout
+                View vi = li.inflate(R.layout.dialog_contact_info, null, false);
+
+                TextView title = (TextView) vi.findViewById(R.id.dialogTitle);
+                TextView tvlrPhone = (TextView) vi.findViewById(R.id.tv_tvlr_phone);
+                TextView tvlrEmail = (TextView) vi.findViewById(R.id.tv_tvlr_email);
+                title.setText(request.tvlUser.fName + "'s contact information");
+                tvlrPhone.setText(request.tvlUser.phone);
+                tvlrEmail.setText(request.tvlUser.email);
+
+                builder.setView(vi);
+
+
+                //builder.setMessage("\nPhone: " + request.tvlUser.phone + "\n\nEmail: " + request.tvlUser.email).setTitle(request.tvlUser.fName + "'s contact information");
                 builder.setNegativeButton("close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
@@ -229,11 +248,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         return mRequests.size();
     }
 
-
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-
         public TextView tv_from;
         public TextView tv_arrow;
         public TextView tv_to;
@@ -275,7 +290,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         public TextView tv_dropoff;
         public TextView tv_pickup;
 
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView) {
             super(itemView);
 
             tv_from = (TextView) itemView.findViewById(R.id.tv_from);
@@ -322,8 +337,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
             iv_itemRequestedPhoto = (ImageView) itemView.findViewById(R.id.iv_itemRequestedPhoto);
         }
     }
-
-
+    
     public void clear() {
         mRequests.clear();
         notifyDataSetChanged();
