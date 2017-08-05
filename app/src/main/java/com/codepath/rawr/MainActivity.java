@@ -325,6 +325,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateNotificationIndicator(int tabIndex, int notificationCount) {
+        /** The TabIndex is which tab you want to modify, the notification count is the count you want placed inside of the tab notification circle.
+         * So, for instance, if I want to place 3 notications in the travel fragment, I call updateNotificationIndicator(1, 3). 1 for the travel fragment,
+         * 3 for the count. */
         // safety check
         if (tabIndex > 0 && tabIndex < 3) {
             if (notificationCount > 0) {
