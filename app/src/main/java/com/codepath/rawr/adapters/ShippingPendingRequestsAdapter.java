@@ -229,7 +229,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         Glide.with(context)
                 .using(new FirebaseImageLoader())
                 .load(ref)
-                .bitmapTransform(new RoundedCornersTransformation(context, 10000, 0))
+                .bitmapTransform(new RoundedCornersTransformation(context, 2000, 0))
                 .placeholder(R.drawable.ic_android)
                 .error(R.drawable.ic_air_space_2)
                 .into(holder.iv_profileImageTraveller);

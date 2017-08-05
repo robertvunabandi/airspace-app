@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:color="@color/PDark"
     tools:targetApi="lollipop">
-    <item android:drawable="?attr/colorPrimary" />
-    <item android:id="@android:id/mask">
+    <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/PDark" />
+            <corners android:radius="100dip" />
+            <solid android:color="@color/PLight" />
         </shape>
     </item>
 </ripple>
