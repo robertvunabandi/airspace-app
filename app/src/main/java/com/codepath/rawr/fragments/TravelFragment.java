@@ -53,17 +53,11 @@ import cz.msebera.android.httpclient.Header;
 
 public class TravelFragment extends Fragment {
 
-    // Database url
-    public static String[] DB_URLS;
-
     // Base URL for API
     public final static String API_BASE_URL = "https://api.flightstats.com/flex/schedules/rest";
     // parameter name for API key
     public final static String APP_KEY_PARAM = "appKey";
     public final static String APP_ID_PARAM = "appId";
-
-    // Code for on activity result
-    public static final int ADDITIONAL_DETAILS_CODE = 0;
 
     // Declaring client
     AsyncHttpClient client;
@@ -101,8 +95,6 @@ public class TravelFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         client = new AsyncHttpClient();
-        DB_URLS = new String[] {getString(R.string.DB_HEROKU_URL), getString(R.string.DB_LOCAL_URL)};
-//        getRequestId();
         getTripsData();
     }
 
@@ -321,7 +313,7 @@ public class TravelFragment extends Fragment {
                     // get parameters from the method createParams() in TravelNotice, see that method
                     RequestParams params = tvl.createParams();
                     // Send a request to the database with endpoint /travel_notice_add
-                    client.post(DB_URLS[0] + "/travel_notice/add", params, new JsonHttpResponseHandler() {
+                    client.post(RawrApp.DB_URL + "/travel_notice/add", params, new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             try {
@@ -379,84 +371,6 @@ public class TravelFragment extends Fragment {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//        builder.setMessage(flight.getAirlineName() + "\nFlight " + flight.getAirlineCode() + " " + flight.getFlightNumber() + "\n"
-//                + flight.getDepartureAirportCode() + " to " + flight.getArrivalAirportCode()
-//                + "\nDeparting on " + flight.getDepartFullDate() + " at " + flight.getDepartureTime())
-//                .setTitle(R.string.dialog_title);
-//
-//        // Add the buttons
-//        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                // User clicked OK button, so send response to database
-//
-//                // first, create the travelNotice, all surrounded by try catch
-//                try {
-//                    // creates a travel notice
-//                    final TravelNotice tvl = TravelNotice.fromJSON(response, RawrApp.getUsingUserId(), null, null);
-//                    // get parameters from the method createParams() in TravelNotice, see that method
-//                    RequestParams params = tvl.createParams();
-//                    // Send a request to the database with endpoint /travel_notice_add
-//                    client.post(DB_URLS[0] + "/travel_notice/add", params, new JsonHttpResponseHandler() {
-//                        @Override
-//                        public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                            try {
-//                                if (!response.getBoolean("error")) {
-//                                    // in case of no error, pop up the addDetailsDialog that asks the user if they want to add more details
-//                                    addDetailsDialog(response.getJSONObject("data").getString("_id"), response.getJSONObject("data").getString("tuid"));
-//                                } else {
-//                                    // get the error from the DB
-//                                    String error = response.getJSONObject("message").toString();
-//                                    // if there is an internal db error that occurred, we handle it
-//                                    Toast.makeText(getContext(), String.format("An internal server error occurred: %s", error), Toast.LENGTH_LONG).show();
-//                                    // TODO - Handle what to do in case of an error from the DB. i.e.: tvl was not saved
-//                                    // Consider handling the case of the user having no internet connection
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                                String toastMessage = "JSON Parsing error in onSuccess";
-//                                Log.e("TravelFragment", String.format("%s, %s", e, toastMessage));
-//                                Toast.makeText(getContext(), String.format("%s", toastMessage), Toast.LENGTH_LONG).show();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-//                            Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
-//                            Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-//                            Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
-//                            Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_LONG).show();
-//                        }
-//
-//                        @Override
-//                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-//                            Log.e(TAG, String.format("%s", responseString));
-//                            Toast.makeText(getContext(), String.format("error 3 %s", responseString), Toast.LENGTH_LONG).show();
-//                        }
-//                    });
-//                } catch (JSONException e) {
-//                    // Don't move forward if an error occurs
-//                    e.printStackTrace();
-//                    String toastMessage = "JSON Parsing error in client.post, BAD";
-//                    Log.e("TravelFragment", String.format("%s, %s", e.toString(), toastMessage));
-//                    Toast.makeText(getContext(), String.format("%s", toastMessage), Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//        });
-//        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                // User cancelled the dialog
-//            }
-//        });
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
-
     }
 
     // Dialog asking for additional details
@@ -504,7 +418,7 @@ public class TravelFragment extends Fragment {
         Intent AdditionalDetailsActivity = new Intent(getContext(), AdditionalDetailsActivity.class);
         AdditionalDetailsActivity.putExtra("tuid", tuid);
         AdditionalDetailsActivity.putExtra("travel_notice_id", travelNoticeId);
-        getActivity().startActivityForResult(AdditionalDetailsActivity, ADDITIONAL_DETAILS_CODE);
+        getActivity().startActivityForResult(AdditionalDetailsActivity, RawrApp.ADDITIONAL_DETAILS_CODE);
     }
 
     public void updateAdditionalDetailsActivityLaunch(String travelNoticeId, String tuid) {
@@ -547,7 +461,7 @@ public class TravelFragment extends Fragment {
         // Set the request parameters
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
-        client.get(DB_URLS[0] + "/travel_notice/get_mine", params, new JsonHttpResponseHandler() {
+        client.get(RawrApp.DB_URL + "/travel_notice/get_mine", params, new JsonHttpResponseHandler() {
 
             // implement endpoint here
             @Override
@@ -599,100 +513,6 @@ public class TravelFragment extends Fragment {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
-    // get list of request IDs & call on method to get list of requests
-//    private void getRequestId() {
-//
-//        // Set the request parameters
-//        RequestParams params = new RequestParams();
-//        params.put("uid", RawrApp.getUsingUserId());
-//
-//        client.get(DB_URLS[0] + "/request_get_to_me", params, new JsonHttpResponseHandler() {
-//            // implement endpoint here
-//
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                travelPendingRequestsAdapter.clear();
-//                try {
-//                    getRequestData(response.getJSONArray("data"));
-//                    Log.e(TAG, String.format("%s", response));
-//                } catch (JSONException e) {
-//
-//                }
-//                //swipeContainer.setRefreshing(false);
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
-//                    errorResponse) {
-//                Log.e(TAG, String.format("%s", errorResponse));
-//                Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
-//                    throwable) {
-//                Log.e(TAG, String.format("%s", responseString));
-//
-//                Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-
-    // method that gets data for pending requests
-//    private void getRequestData(final JSONArray requestId) {
-//
-//        for (int i = 0; i < requestId.length(); i++) {
-//            try {
-//                // Set the request parameters
-//                RequestParams params = new RequestParams();
-//                params.put("request_id", requestId.getJSONObject(i).getString("request_id"));
-//                client.get(DB_URLS[0] + "/request_get", params, new JsonHttpResponseHandler() {
-//                    // implement endpoint here
-//                    @Override
-//                    public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                        try {
-//                             ShippingRequest sr = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"));
-//                            if (sr.isPending()) {
-//                                mRequests.add(sr);
-//                                travelPendingRequestsAdapter.notifyItemInserted(mRequests.size() - 1);
-//                                Log.e(TAG, String.format("%s", sr ));
-//                            } else if (sr.isAccepted()) {
-//                                mAcceptedRequests.add(sr);
-//                                travelAcceptedRequestsAdapter.notifyItemInserted(mAcceptedRequests.size() - 1);
-//                            }
-//                        } catch (JSONException e) {
-//                            Log.e(TAG, String.format("JSON Exception at request_get request_id: %s", e));
-//                        }
-////                        swipeContainer.setRefreshing(false);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
-//                            errorResponse) {
-//                        Log.e(TAG, String.format("Error 1 %s", errorResponse));
-//                        Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray
-//                            errorResponse) {
-//                        Log.e(TAG, String.format("Error 2 %s", errorResponse));
-//                        Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
-//                            throwable) {
-//                        Log.e(TAG, String.format("Error 3 %s", responseString));
-//                        Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 
     // This is called from the snackbar after a user adds a travel notice but decides not to add additional details, but then presses "ADD DETAILS" inside of that initial snackbar
     public class AddDetailsListener implements View.OnClickListener{

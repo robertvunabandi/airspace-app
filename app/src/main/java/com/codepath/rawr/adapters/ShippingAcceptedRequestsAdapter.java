@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.rawr.R;
+import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.models.ShippingRequest;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.loopj.android.http.AsyncHttpClient;
@@ -30,8 +31,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-
-import static com.codepath.rawr.fragments.TravelFragment.DB_URLS;
 
 /**
  * Created by rdicker on 7/24/17.
@@ -131,7 +130,7 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
                         RequestParams params = new RequestParams();
                         params.put("uid",  request.requesterId);
                         params.put("request_id",  request.id);
-                        client.post(DB_URLS[0] + "/request/delete", params, new JsonHttpResponseHandler() {
+                        client.post(RawrApp.DB_URL + "/request/delete", params, new JsonHttpResponseHandler() {
                             // implement endpoint here
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

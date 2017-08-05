@@ -337,7 +337,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
             iv_itemRequestedPhoto = (ImageView) itemView.findViewById(R.id.iv_itemRequestedPhoto);
         }
     }
-    
+
     public void clear() {
         mRequests.clear();
         notifyDataSetChanged();
