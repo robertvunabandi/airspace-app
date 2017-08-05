@@ -347,7 +347,7 @@ public class TravelFragment extends Fragment {
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
-                            Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), String.format("OOO error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
                         }
 
                         @Override
@@ -565,7 +565,8 @@ public class TravelFragment extends Fragment {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject
                     errorResponse) {
-                Toast.makeText(getContext(), String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), String.format("EEE error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, String.format("error 1 %s", errorResponse));
                 tv_trips_counter.setVisibility(View.VISIBLE);
                 String errorSnack;
                 boolean idError = false;
