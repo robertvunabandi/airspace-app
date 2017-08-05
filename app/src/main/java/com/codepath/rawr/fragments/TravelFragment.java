@@ -143,7 +143,6 @@ public class TravelFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Toggle the expandable view
-                hideKeyboard(getActivity());
                 erl_info.toggle();
                 bt_expand.setVisibility(v.VISIBLE);
 
@@ -260,7 +259,7 @@ public class TravelFragment extends Fragment {
         tv_clear_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideKeyboard(getActivity()); clearViews();
+                clearViews();
             }
         });
 
@@ -463,8 +462,7 @@ public class TravelFragment extends Fragment {
     // Dialog asking for additional details
     public void addDetailsDialog(final String travelNoticeId, final String tuid) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Would you like to add details to your travel notice?")
-                .setTitle("Add more details");
+        builder.setTitle("Would you like to add more details to your trip?");
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
