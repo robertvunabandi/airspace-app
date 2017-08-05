@@ -35,11 +35,14 @@
     <color name="suitcaseColorGrey">#7f8c8d</color> <!-- 8 -->
     <!-- TRANSPARENT -->
     <color name="colorTransparent">#00000000</color>
+    <color name="colorTransparentWhiteLess">#14FFFFFF</color>
     <color name="colorTransparentWhite">#23FFFFFF</color>
+    <color name="colorTransparentWhiteMedium">#55FFFFFF</color>
     <color name="colorTransparentWhiteMore">#DDFFFFFF</color>
     <color name="colorTransparentSXDark">#99253437</color>
     <color name="colorTransparentSXXDark">#77151d1e</color>
     <color name="colorTransparentSXXDarkMore">#20151d1e</color>
+    <color name="colorTransparentSXXDarkLess">#ee253437</color>
     <color name="colorTransparentSXXXDark">#770b0f0f</color>
     <color name="dark_blue">#0a0f2a</color>
 </resources>

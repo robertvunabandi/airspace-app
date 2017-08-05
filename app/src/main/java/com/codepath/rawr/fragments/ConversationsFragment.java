@@ -82,6 +82,7 @@ public class ConversationsFragment extends Fragment {
         rv_notifications.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_notifications.setAdapter(notificationsAdapter);
         rv_notifications.setNestedScrollingEnabled(false);
+        client = new AsyncHttpClient();
 
         /* TODO - If we add messages, we need this
         // populate the recycler view of messages with messages from the server
@@ -139,6 +140,8 @@ public class ConversationsFragment extends Fragment {
         // then make a client request to get all the notifications
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
+
+        client = new AsyncHttpClient();
         client.get(RawrApp.DB_URL + "/notifications/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -188,6 +191,8 @@ public class ConversationsFragment extends Fragment {
         // removes a notification
         RequestParams params = new RequestParams();
         params.put("_id", notification.id);
+
+        client = new AsyncHttpClient();
         client.post(RawrApp.DB_URL + "/notifications/delete_one", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
