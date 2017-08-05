@@ -37,8 +37,6 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.codepath.rawr.fragments.TravelFragment.DB_URLS;
-
 public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapter.ViewHolder> {
 
     // declare variables
@@ -172,7 +170,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
                         params.put("travel_notice_id", mTrips.get(position).id);
                         params.put("user_id", mTrips.get(position).tuid);
 
-                        client.post(DB_URLS[0] + "/travel_notice/delete", params, new JsonHttpResponseHandler() {
+                        client.post(RawrApp.DB_URL + "/travel_notice/delete", params, new JsonHttpResponseHandler() {
                             // implement endpoint here
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

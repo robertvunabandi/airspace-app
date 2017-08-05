@@ -47,8 +47,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rl_time"
                 android:ellipsize="end"
-                android:maxLines="4"
-                android:text="@string/notification_temporary_short"
+                android:maxLines="5"
+                android:text="@string/notification_temporary_long"
                 android:textColor="@color/SXDark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
