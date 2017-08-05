@@ -332,7 +332,9 @@ public class TravelFragment extends Fragment {
                                     // get the error from the DB
                                     String error = response.getJSONObject("message").toString();
                                     // if there is an internal db error that occurred, we handle it
-                                    Toast.makeText(getContext(), String.format("An internal server error occurred: %s", error), Toast.LENGTH_LONG).show();
+                                    Log.e(TAG, String.format("An internal server error occurred: %s", error));
+                                    Snackbar.make(getView(), String.format("An internal server error occurred"), Snackbar.LENGTH_LONG).show();
+
                                     // TODO - Handle what to do in case of an error from the DB. i.e.: tvl was not saved
                                     // Consider handling the case of the user having no internet connection
                                 }

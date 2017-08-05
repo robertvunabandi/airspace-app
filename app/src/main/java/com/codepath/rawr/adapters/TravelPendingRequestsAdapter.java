@@ -3,12 +3,12 @@ package com.codepath.rawr.adapters;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
@@ -31,6 +31,9 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
     static private List<ShippingRequest> mRequests;
     Context context;
     AsyncHttpClient client;
+
+    public final static String TAG = "TvlPendingRequestsAdapt";
+
 
     public TravelPendingRequestsAdapter(List<ShippingRequest> requests) {
         mRequests = requests;
@@ -127,17 +130,17 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, String.format("error 1 %s", errorResponse));
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                            Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, String.format("error 2 %s", errorResponse));
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, String.format("error 3"));
                         }
                     });
 
@@ -161,23 +164,24 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                             int status = mRequests.get(pos).status;
                             mRequests.remove(pos);
-                            Toast.makeText(context, String.format("%s", "DECLINED! Status = " + status), Toast.LENGTH_SHORT).show();
+                            Snackbar bar = Snackbar.make(itemView, "Request declined", Snackbar.LENGTH_LONG);
+                            Log.d(TAG, String.format("%s", "DECLINED! Status = " + status));
                             notifyDataSetChanged();
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                            Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, String.format("error 1 %s", errorResponse));
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                            Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, String.format("error 2 %s", errorResponse));
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, String.format("error 3"));
                         }
                     });
                 }
