@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.codepath.rawr.models.User;
 import com.loopj.android.http.AsyncHttpClient;
@@ -267,8 +266,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
                     bt_confirm.setEnabled(true);
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Parsing JSON excepted %s", e));
-                    // TODO - Remove Toast
-                    Toast.makeText(getBaseContext(), String.format("User is not gotten, JSON parsing error: %s", e), Toast.LENGTH_LONG).show();
+                    Log.e(TAG, String.format("User is not gotten, JSON parsing error: %s", e));
                     // if an error occurred, set result cancelled because we need the user!
                     resultIntent.putExtra("message", "Error in parsing user JSON from the server");
                     setResult(RESULT_CANCELED, resultIntent);
@@ -279,8 +277,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
-                // TODO - Remove Toast
-                Toast.makeText(getBaseContext(), String.format("User not gotten error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
+                Log.e(TAG, String.format("User not gotten error 1 %s", errorResponse));
                 // if an error occurred, set result cancelled because we need the user!
                 resultIntent.putExtra("message", "Error in getting user from server");
                 setResult(RESULT_CANCELED, resultIntent);
@@ -290,8 +287,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e(TAG, String.format("%s", responseString));
-                // TODO - Remove Toast
-                Toast.makeText(getBaseContext(), String.format("User not gotten error 3 %s", responseString), Toast.LENGTH_LONG).show();
+                Log.e(TAG, String.format("User not gotten error 3 %s", responseString));
                 // if an error occurred, set result cancelled because we need the user!
                 resultIntent.putExtra("message", "Error in getting user from server");
                 setResult(RESULT_CANCELED, resultIntent);

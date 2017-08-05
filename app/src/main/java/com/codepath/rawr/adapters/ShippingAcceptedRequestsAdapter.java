@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
@@ -41,6 +41,9 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
     public List<ShippingRequest> mRequests;
     Context context;
     AsyncHttpClient client;
+
+    public static final String TAG = "ShipAccReqAdap";
+
 
     public ShippingAcceptedRequestsAdapter(List<ShippingRequest> requests){
         mRequests = requests;
@@ -143,15 +146,15 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, String.format("error 1 %s", errorResponse));
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                                Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, String.format("error 2 %s", errorResponse));
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, String.format("error 3"));
                             }
                         });
                     }
