@@ -17,9 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.codepath.rawr.R;
+import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.models.ShippingRequest;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.google.firebase.storage.StorageReference;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -30,9 +34,9 @@ import org.json.JSONObject;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.codepath.rawr.R.id.bt_cancel;
-import static com.codepath.rawr.fragments.TravelFragment.DB_URLS;
 
 /**
  * Created by rdicker on 7/24/17.
@@ -73,8 +77,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
 
         holder.tv_airlineCode.setText(request.tvl.airline);
         holder.tv_airlineNo.setText(request.tvl.flight_num);
-        holder.tv_item.setText(request.getShippingItemName());
-        // TODO holder.tv_requested_date.setText(request.tvl.getDepartureDaySimple());
+        holder.tv_requested_date.setText(request.tvl.getDepartureDaySimple());
 
         holder.cb_envelope.setChecked(request.item_envelopes);
         holder.cb_largeBox.setChecked(request.item_lgbox);
@@ -92,7 +95,15 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         holder.cb_liquids.setEnabled(false);
         holder.tv_dropoff.setText(request.tvl.drop_off_flexibility);
         holder.tv_pickup.setText(request.tvl.pick_up_flexibility);
-        holder.rl_infoButton.setOnClickListener(new View.OnClickListener() {
+        holder.tv_travellerName.setText(request.tvlUser.fName+"'s Trip");
+        // sets the name of the other item
+        if (request.item_other) {
+            holder.tv_otherName.setText(": "+request.item_other_name);
+        } else {
+            holder.tv_otherName.setVisibility(View.GONE);
+        }
+
+        holder.rlCard.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
@@ -100,17 +111,22 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
                 // Toggle the expandable view
                 holder.erl_info.toggle();
 
+
                 // Rotates the toggle button to indicate when the expandableLayout is either expanded or collapsed
                 if (holder.erl_info.isExpanded()) {
                     holder.ivToggleInfo.setRotation(0);
+                    holder.tv_trips_detailsToggler.setText("See ");
                 }
                 else {
                     holder.ivToggleInfo.setRotation(-90);
+                    holder.tv_trips_detailsToggler.setText("Hide ");
                 }
 
                 // TODO - Add filters in XML
             }
         });
+
+
 
         // CANCEL the request click listener
         holder.btn_cancel.setOnClickListener(new View.OnClickListener(){
@@ -129,7 +145,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
                         RequestParams params = new RequestParams();
                         params.put("uid",  request.requesterId);
                         params.put("request_id",  request.id);
-                        client.post(DB_URLS[0] + "/request/delete", params, new JsonHttpResponseHandler() {
+                        client.post(RawrApp.DB_URL + "/request/delete", params, new JsonHttpResponseHandler() {
                             // implement endpoint here
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -180,6 +196,32 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
                 dialog.show();
             }
         });
+
+        holder.bt_edit_request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO - do something for editing the request
+            }
+        });
+
+        // TODO - Change placeholders
+        StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(request.tvl.tuid);
+        Glide.with(context)
+                .using(new FirebaseImageLoader())
+                .load(ref)
+                .bitmapTransform(new RoundedCornersTransformation(context, 10000, 0))
+                .placeholder(R.drawable.ic_android)
+                .error(R.drawable.ic_air_space_2)
+                .into(holder.iv_profileImageTraveller);
+
+        // TODO - Change placeholders
+        StorageReference refImageRequested = RawrApp.getStorageReferenceForImageFromFirebase(request.id);
+        Glide.with(context)
+                .using(new FirebaseImageLoader())
+                .load(refImageRequested)
+                .placeholder(R.drawable.ic_android)
+                .error(R.drawable.ic_air_space_2)
+                .into(holder.iv_itemRequestedPhoto);
     }
 
     @Override
@@ -205,17 +247,23 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         public TextView tv_item;
         public TextView tv_requestDateTitle;
         public TextView tv_requested_date;
+        public TextView tv_trips_detailsToggler;
+        public TextView tv_infoTitle;
+        public TextView tv_travellerName;
+        public TextView tv_otherName;
+
+        public ImageView iv_profileImageTraveller;
+        public ImageView iv_itemRequestedPhoto;
 
         public Button btn_contact;
         public Button btn_cancel;
+        public Button bt_edit_request;
 
         public RelativeLayout rlChecks;
-        public RelativeLayout rl_infoButton;
-        public TextView tv_infoTitle;
+        public RelativeLayout rlCard;
         final ImageView ivToggleInfo;
         final ExpandableRelativeLayout erl_info;
 
-        public RelativeLayout rlCheckBoxes;
         public CheckBox cb_envelope;
         public CheckBox cb_largeBox;
         public CheckBox cb_smallBox;
@@ -224,7 +272,6 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         public CheckBox cb_fragile;
         public CheckBox cb_liquids;
 
-        public RelativeLayout rl_flexibility;
         public TextView tv_dropoff;
         public TextView tv_pickup;
 
@@ -245,18 +292,21 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
             tv_item = (TextView) itemView.findViewById(R.id.tv_item);
             tv_requestDateTitle = (TextView) itemView.findViewById(R.id.tv_requestDateTitle);
             tv_requested_date = (TextView) itemView.findViewById(R.id.tv_requested_date);
+            tv_trips_detailsToggler = (TextView) itemView.findViewById(R.id.tv_trips_detailsToggler);
+            tv_travellerName = (TextView) itemView.findViewById(R.id.tv_travellerName);
+            tv_otherName = (TextView) itemView.findViewById(R.id.tv_otherName);
 
             btn_contact = (Button) itemView.findViewById(R.id.bt_contact);
             btn_cancel = (Button) itemView.findViewById(bt_cancel);
+            bt_edit_request = (Button) itemView.findViewById(R.id.bt_edit_request);
 
             rlChecks = (RelativeLayout) itemView.findViewById(R.id.rlChecks);
-            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rlCard);
+            rlCard = (RelativeLayout) itemView.findViewById(R.id.rlCard);
             tv_infoTitle = (TextView) itemView.findViewById(R.id.tv_infoTitle);
 
             ivToggleInfo = (ImageView) itemView.findViewById(R.id.iv_toggleInfo);
             erl_info = (ExpandableRelativeLayout) itemView.findViewById(R.id.erl_info);
 
-            rlCheckBoxes = (RelativeLayout) itemView.findViewById(R.id.rlCheckBoxes);
             cb_envelope = (CheckBox) itemView.findViewById(R.id.cb_envelope);
             cb_largeBox = (CheckBox) itemView.findViewById(R.id.cb_largeBox);
             cb_smallBox = (CheckBox) itemView.findViewById(R.id.cb_smallBox);
@@ -267,6 +317,9 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
 
             tv_dropoff = (TextView) itemView.findViewById(R.id.tv_dropoff);
             tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup);
+
+            iv_profileImageTraveller = (ImageView) itemView.findViewById(R.id.iv_profileImageTraveller);
+            iv_itemRequestedPhoto = (ImageView) itemView.findViewById(R.id.iv_itemRequestedPhoto);
         }
     }
 
