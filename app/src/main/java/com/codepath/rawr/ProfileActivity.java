@@ -3,11 +3,14 @@ package com.codepath.rawr;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -15,11 +18,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.codepath.rawr.models.RawrImages;
+import com.codepath.rawr.models.SuitcaseColor;
 import com.codepath.rawr.models.User;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,9 +50,11 @@ import cz.msebera.android.httpclient.Header;
 public class ProfileActivity extends AppCompatActivity {
 
     // views
-    ImageView iv_profile_image;
+    ImageView iv_profile_image, iv_profile_activity_banner;
     CoordinatorLayout parentLayout;
-    TextView tv_trips_counter, tv_dollars_made_counter, tv_items_counter, tv_fullName, tv_location;
+    TextView tv_trips_counter, tv_dollars_made_counter, tv_items_counter, tv_fullName, tv_location, tv_wished_location;
+    RelativeLayout rl_profile_activity_banner, im_suitcase_color_on_detail;
+    Button bt_edit_profile;
     // Setting up database
     AsyncHttpClient client;
     User usingUser;
@@ -64,11 +72,16 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Initializing views
         iv_profile_image = (ImageView) findViewById(R.id.iv_profile_image);
+        iv_profile_activity_banner = (ImageView) findViewById(R.id.iv_profile_activity_banner);
         tv_fullName = (TextView) findViewById(R.id.tv_fullName);
         tv_location = (TextView) findViewById(R.id.tv_location);
         tv_trips_counter = (TextView) findViewById(R.id.tv_trips_counter);
         tv_dollars_made_counter = (TextView) findViewById(R.id.tv_dollars_made_counter);
         tv_items_counter = (TextView) findViewById(R.id.tv_items_counter);
+        tv_wished_location = (TextView) findViewById(R.id.tv_wished_location);
+        bt_edit_profile = (Button) findViewById(R.id.bt_edit_profile);
+        rl_profile_activity_banner = (RelativeLayout) findViewById(R.id.rl_profile_activity_banner);
+        im_suitcase_color_on_detail = (RelativeLayout) findViewById(R.id.im_suitcase_color_on_detail);
 
         // do other functionalities
         iv_profile_image.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void populateUsersData() {
         // change the personal details of the user
         tv_fullName.setText(usingUser.getFullName());
@@ -99,6 +113,27 @@ public class ProfileActivity extends AppCompatActivity {
         tv_trips_counter.setText(String.valueOf(usingUser.tripsTaken));
         tv_dollars_made_counter.setText(String.valueOf(usingUser.dollarsMade));
         tv_items_counter.setText(String.valueOf(usingUser.itemsSent));
+        tv_wished_location.setText(usingUser.fName + " likes to go to "+ usingUser.favoriteTravelPlace);
+
+        // update the banner to the user's suitcase color
+        if (!usingUser.suitcaseColor.isRainbow()) {
+            // set the color of the suitcase
+            im_suitcase_color_on_detail.setBackgroundColor(getColor(usingUser.suitcaseColor.getDrawableId()));
+            // change the color of the banner
+            iv_profile_activity_banner.setVisibility(View.INVISIBLE);
+            // TODO - Make sure this part works... We need to add edit profile activity to check that
+            rl_profile_activity_banner.setBackgroundTintList(ColorStateList.valueOf(getColor(usingUser.suitcaseColor.getDrawableId())));
+
+        } else {
+            // set the color of the suitcase to something random
+            // rsci stands for random suitcase color integer, we want to be above index 1 and below index 8, and on top of that, get rid of 4 undesired colors
+            int rsci = (int) Math.round(Math.random()*(SuitcaseColor.getStringLength() - 1 - 4)) + 2;
+            SuitcaseColor randomSuitcaseColor = new SuitcaseColor(rsci);
+            im_suitcase_color_on_detail.setBackgroundColor(getColor(randomSuitcaseColor.getDrawableId()));
+            // change the color of the banner
+            iv_profile_activity_banner.setImageDrawable(getDrawable(usingUser.suitcaseColor.getDrawableId()));
+        }
+
     }
 
     public void getImageFromAlbum() {
@@ -131,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void saveProfileImageToFirebase(final Bitmap image) {
         // create the string of the image, which is based on this person's id
-        String imageTitleDatabase = RawrApp.getUsingUserId()+".png";
+        String imageTitleDatabase = RawrApp.getUsingUserId() + ".png";
         // convert the image first to byte array
         byte[] imageByte = RawrImages.convertImageToByteArray(image);
         // store image to firebase storage by first getting the reference to that image based on the user id
@@ -156,6 +191,7 @@ public class ProfileActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
         client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -200,7 +236,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
-    private  boolean checkAndRequestPermissions() {
+    private boolean checkAndRequestPermissions() {
         int camera = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA);
         int storage = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int ext_storage = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -219,10 +255,9 @@ public class ProfileActivity extends AppCompatActivity {
         if (ext_storage != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
-        if (!listPermissionsNeeded.isEmpty())
-        {
-            ActivityCompat.requestPermissions(this,listPermissionsNeeded.toArray
-                    (new String[listPermissionsNeeded.size()]),REQUEST_ID_MULTIPLE_PERMISSIONS);
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray
+                    (new String[listPermissionsNeeded.size()]), REQUEST_ID_MULTIPLE_PERMISSIONS);
             return false;
         }
         return true;

@@ -97,6 +97,9 @@ public class User {
         user.dollarsMade = response.getDouble("dollars_made");
         user.dateCreated = RawrDate.fromJSONServer(response.getJSONObject("date_created"));
 
+        // capitalize first and last name
+        user.capilatizeName();
+
         return user;
     }
 
@@ -104,5 +107,10 @@ public class User {
         RequestParams params = new RequestParams();
         params.put("user_id", this.id);
         return params;
+    }
+
+    private void capilatizeName() {
+        if (fName.length() > 0) this.fName = this.fName.substring(0,1).toUpperCase() + this.fName.substring(1);
+        if (lName.length() > 0) this.lName = this.lName.substring(0,1).toUpperCase() + this.lName.substring(1);
     }
 }

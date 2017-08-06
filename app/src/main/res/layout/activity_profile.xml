@@ -16,13 +16,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv_profile_activity_banner"
+            <RelativeLayout
+                android:id="@+id/rl_profile_activity_banner"
                 android:layout_width="match_parent"
-                android:layout_height="250sp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/header" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/suitcasecolor_background"
+                android:backgroundTint="@color/suitcaseColorBlack">
+
+                <ImageView
+                    android:id="@+id/iv_profile_activity_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="250sp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY" />
+            </RelativeLayout>
+
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/iv_profile_image"
@@ -33,6 +41,39 @@
                 android:baselineAlignBottom="true"
                 android:onClick="true"
                 android:src="@drawable/profile" />
+
+            <Button
+                android:id="@+id/bt_edit_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/rl_profile_activity_banner"
+                android:layout_margin="4dp"
+                android:background="@drawable/ripple_black_outline_black"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="Edit profile"
+                android:textAllCaps="false"
+                android:textColor="@color/suitcaseColorBlack"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/bt_cancel_edit_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/rl_profile_activity_banner"
+                android:layout_margin="4dp"
+                android:background="@drawable/ripple_white_bkg_red"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+
+                android:text="Cancel"
+                android:textAllCaps="false"
+                android:textColor="@color/White"
+                android:textStyle="bold"
+                android:visibility="gone" />
         </RelativeLayout>
 
 
@@ -55,38 +96,91 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_location"
+            <RelativeLayout
+                android:id="@+id/rl_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_fullName"
                 android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:text="Guangzhou, China"
-                android:textAppearance="@style/TextAppearance.AppCompat"
-                android:textColor="@color/suitcaseColorGrey" />
+                android:gravity="center">
 
-            <RelativeLayout
-                android:id="@+id/rl_userDetails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_location"
-                android:layout_marginTop="16dp">
+                <ImageView
+                    android:id="@+id/iv_locationIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16sp"
+                    android:layout_centerVertical="true"
+                    android:tint="@color/suitcaseColorBlack"
+                    app:srcCompat="@drawable/ic_location" />
 
                 <TextView
-                    android:id="@+id/tv_suitcase_color"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tv_location"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/iv_locationIcon"
+                    android:gravity="center"
+                    android:text="Guangzhou, China"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textColor="@color/suitcaseColorBlack"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_suitcase_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_location"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_suitcaseIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16sp"
+                    android:layout_centerVertical="true"
+                    android:tint="@color/suitcaseColorBlack"
+                    app:srcCompat="@drawable/ic_suitcase" />
+
+                <RelativeLayout
+                    android:id="@+id/im_suitcase_color_on_detail"
+                    android:layout_width="60dp"
+                    android:layout_height="16dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/iv_suitcaseIcon"
+                    android:background="@color/suitcaseColorBlack"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textColor="@color/suitcaseColorBlack"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_best_location_to_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_suitcase_color"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/tv_wished_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
                     android:fontFamily="serif"
                     android:gravity="center"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:text="“Travel is the only thing you buy that makes you richer.”"
-                    android:textAlignment="center"
-                    android:textSize="13sp"
-                    android:textStyle="italic" />
+                    android:textStyle="italic"
+                    android:text="Christian wishes to go somewhere here"
+                    android:textAppearance="@style/TextAppearance.AppCompat"
+                    android:textColor="@color/suitcaseColorBlack"
+                    android:textSize="14sp" />
             </RelativeLayout>
 
 
