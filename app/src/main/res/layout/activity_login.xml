@@ -57,7 +57,7 @@
                     android:layout_below="@+id/rl_logo"
                     android:layout_marginTop="120dp"
                     android:gravity="center"
-                    android:text="...loging you in..."
+                    android:text=". . . logging you in . . ."
                     android:textAlignment="center"
                     android:textColor="@color/White"
                     android:textSize="18sp"
