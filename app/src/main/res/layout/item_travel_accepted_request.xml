@@ -110,48 +110,69 @@
         android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-    <Button
-        android:id="@+id/bt_message"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="125dp"
-        android:layout_height="25dp"
-        android:background="@color/SXDark"
-        android:text="MESSAGE"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="70dp" />
-
-    </RelativeLayout>
-
         <RelativeLayout
+            android:id="@+id/rl_contact_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-    <Button
-        android:id="@+id/bt_cancel"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored"
-        android:layout_width="125dp"
-        android:layout_height="25dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="70dp"
-        android:background="@android:color/holo_red_dark"
-        android:text="cancel"
-        android:textStyle="bold"
-        android:textColor="@android:color/white" />
-    </RelativeLayout>
+            <Button
+                android:id="@+id/bt_contact"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="125dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="70dp"
+                android:background="@color/SXDark"
+                android:text="CONTACT"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
-</LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/bt_cancel"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="125dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="70dp"
+                android:background="@android:color/holo_red_dark"
+                android:text="cancel"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btns">
+
+            <Button
+                android:id="@+id/bt_deliver"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="250dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="5dp"
+                android:background="@color/SXDark"
+                android:text="CONFIRM DELIVERY"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+        </RelativeLayout>
 
     </RelativeLayout>
 

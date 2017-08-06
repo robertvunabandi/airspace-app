@@ -82,6 +82,7 @@ public class ConversationsFragment extends Fragment {
         rv_notifications.setLayoutManager(new LinearLayoutManager(getContext()));
         rv_notifications.setAdapter(notificationsAdapter);
         rv_notifications.setNestedScrollingEnabled(false);
+        client = new AsyncHttpClient();
 
         /* TODO - If we add messages, we need this
         // populate the recycler view of messages with messages from the server
@@ -97,7 +98,6 @@ public class ConversationsFragment extends Fragment {
 
         return v;
     }
-
 
     public void enableSwipeToDelete() {
         swipeDeleteItemNotificationCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -115,7 +115,7 @@ public class ConversationsFragment extends Fragment {
                 mNotifications.remove(position);
                 notificationsAdapter.notifyDataSetChanged();
                 // set to false to subtract to the notification indicator counter by 1
-                UpdateConversationsNotificationIndicator(false);
+                updateConversationsNotificationIndicator(false, false);
             }
 
             @Override
@@ -129,16 +129,14 @@ public class ConversationsFragment extends Fragment {
         itemTouchHelperNotification.attachToRecyclerView(rv_notifications);
     }
 
-
-
     public void getNotifications() {
         // gets the notifications from the server and then makes a call to populate them in the recycler view
 
-        // first set the notifications back to 0
-        NOTIFICATION_COUNT = 0;
         // then make a client request to get all the notifications
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
+
+        client = new AsyncHttpClient();
         client.get(RawrApp.DB_URL + "/notifications/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -188,6 +186,8 @@ public class ConversationsFragment extends Fragment {
         // removes a notification
         RequestParams params = new RequestParams();
         params.put("_id", notification.id);
+
+        client = new AsyncHttpClient();
         client.post(RawrApp.DB_URL + "/notifications/delete_one", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -206,18 +206,36 @@ public class ConversationsFragment extends Fragment {
         });
     }
 
-    public void UpdateConversationsNotificationIndicator(boolean adding) {
-        if (adding) {
-            NOTIFICATION_COUNT++;
+    public void updateConversationsNotificationIndicator(boolean adding, boolean backToNothing) {
+        if (!backToNothing) {
+            if (adding) {
+                NOTIFICATION_COUNT += 1;
+            } else {
+                NOTIFICATION_COUNT -= 1;
+            }
         } else {
-            NOTIFICATION_COUNT--;
+            NOTIFICATION_COUNT = 0;
         }
-        ((MainActivity) getActivity()).updateNotificationIndicator(2, NOTIFICATION_COUNT);
+        try {
+            // TODO - For some reason, this sometimes causes a null pointer error, so I made it into a try catch. Figuring out why is important... but we have to focus on other things.
+            ((MainActivity) getActivity()).updateNotificationIndicator(2, NOTIFICATION_COUNT);
+        } catch (Exception e) {
+            Log.e(TAG, String.format("<>"));
+            Log.e(TAG, String.format("<>"));
+            Log.e(TAG, String.format("Error while invoking the update notification indicator: %s", e));
+            Log.e(TAG, String.format("<<<< SEE BELOW >>>>"));
+            Log.e(TAG, String.format("<>"));
+            e.printStackTrace();
+        }
+
     }
 
     public void populateNotifications(JSONArray notificationObjectsArray) {
         // from this array of notification objects, populate the recycler view with the notification objects
         boolean newNotifications = false;
+        // first set the notifications back to 0 (the second parameter set to true does that)
+        updateConversationsNotificationIndicator(false, true);
+
         for (int i = 0; i < notificationObjectsArray.length(); i++) {
             try {
                 RawrNotification rn = RawrNotification.fromJSONServer(notificationObjectsArray.getJSONObject(i));
@@ -227,7 +245,7 @@ public class ConversationsFragment extends Fragment {
                 mNotifications.add(rn);
                 notificationsAdapter.notifyItemInserted(mNotifications.size() - 1);
                 // set to true to add to the notification indicator counter by 1
-                UpdateConversationsNotificationIndicator(true);
+                updateConversationsNotificationIndicator(true, false);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -238,14 +256,22 @@ public class ConversationsFragment extends Fragment {
         }
         if (mNotifications.size() > 0) {
             // removes that view from being visiblie that says that the person has no notifications
-            getView().findViewById(R.id.tv_notification_notice).setVisibility(View.GONE);
+            try {
+                // TODO - This caused a null pointer exception + crash, so I placed it in a try catch. IDK why it does that...
+                getView().findViewById(R.id.tv_notification_notice).setVisibility(View.GONE);
+            } catch (Exception e) {
+                Log.e(TAG, String.format("Exceptions %s", e));
+                e.printStackTrace();
+            }
+
         } else {
             // set that view to visible
             getView().findViewById(R.id.tv_notification_notice).setVisibility(View.VISIBLE);
             animateText();
         }
     }
-    public JSONArray getMessagesFromServer(){
+
+    public JSONArray getMessagesFromServer() {
         // returns all the messages from the current user
         // TODO - Implement this function, and call it in onCreateView
         return new JSONArray(); // CHANGE THIS TO THE ACTUAL RESPONSE

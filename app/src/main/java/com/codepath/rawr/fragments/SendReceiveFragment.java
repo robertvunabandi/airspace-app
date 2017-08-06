@@ -1,5 +1,6 @@
 package com.codepath.rawr.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -104,10 +106,13 @@ public class SendReceiveFragment extends Fragment {
         // button to collapse everything
         final ImageButton ib_collapse = (ImageButton) v.findViewById(R.id.ib_expand);
 
+        hideKeyboard(getActivity());
+
         bt_expand.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 // Toggle the expandable view
                 erl_info.toggle();
                 bt_expand.setVisibility(v.GONE);
@@ -118,6 +123,7 @@ public class SendReceiveFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 // Toggle the expandable view
                 erl_info.toggle();
                 bt_expand.setVisibility(v.VISIBLE);
@@ -153,6 +159,7 @@ public class SendReceiveFragment extends Fragment {
         btSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 Intent i = new Intent(getContext(), SearchResultsActivity.class);
                 /* inside of SearchResultsActivity we will call the database using the
                 *from* *to* and *by* parameters typed in here, and there in SRA we will get
@@ -193,6 +200,7 @@ public class SendReceiveFragment extends Fragment {
         et_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hideKeyboard(getActivity());
                 new DatePickerDialog(getContext(), date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -340,5 +348,16 @@ public class SendReceiveFragment extends Fragment {
                 Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

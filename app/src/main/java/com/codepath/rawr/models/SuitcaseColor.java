@@ -14,6 +14,10 @@ public class SuitcaseColor {
 
     public int colorInteger;
 
+    public boolean isRainbow() {
+        return this.colorInteger == colorStrings.length - 1;
+    }
+
     public SuitcaseColor(int colorInt){
         // defaults to black
         if (colorInt >= colorStrings.length || colorInt < 0) {
@@ -23,11 +27,15 @@ public class SuitcaseColor {
         }
     }
 
+    public static int getStringLength() {
+        return colorStrings.length;
+    }
+
     public String getColorString(){
         return colorStrings[this.colorInteger];
     }
 
-    public int getColorId(){
+    public int getDrawableId(){
         Map<String, Integer> colorMap = new HashMap<String, Integer>();
         colorMap.put(colorStrings[0], R.color.suitcaseColorBlack);
         colorMap.put(colorStrings[1], R.color.suitcaseColorWhite);
@@ -41,8 +49,26 @@ public class SuitcaseColor {
         colorMap.put(colorStrings[9], R.color.suitcaseColorBlack);
 
         if (this.colorInteger == colorStrings.length - 1) {
-            // TODO - Return rainbow gradient and return that instead of what's there
-            return colorMap.get(getColorString());
+            // rri stands for random rainbow integer
+            int rri = (int) Math.round(3*Math.random());
+            switch (rri) {
+                case 0: {
+                    return R.drawable.im_rainbow_linear;
+                }
+                case 1: {
+                    return R.drawable.im_rainbow_linear_tilted;
+                }
+                case 2: {
+                    return R.drawable.im_rainbow_radial;
+                }
+                case 3: {
+                    return R.drawable.im_rainbow_radial_fancy;
+                }
+                default: {
+                    // this is unreachable anyway!
+                    return getDrawableId(); // makes a recursive call until it reaches a value
+                }
+            }
         } else {
             return colorMap.get(getColorString());
         }

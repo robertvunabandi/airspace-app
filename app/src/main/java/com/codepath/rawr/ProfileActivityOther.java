@@ -52,9 +52,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivityOther extends AppCompatActivity {
+    private String userId;
 
     // views
     ImageView iv_profile_image, iv_profile_activity_banner;
@@ -69,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
     // special views
     ViewGroup profile_image_loading_layout;
 
-    private static final String TAG = "ProfileActivity";
+    private static final String TAG = "ProfileActivityOther";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -77,6 +77,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         client = new AsyncHttpClient();
+
+        userId = getIntent().getExtras().getString("user_id");
         parentLayout = (CoordinatorLayout) findViewById(R.id.profileParentLayout);
 
         // Initializing views
@@ -93,19 +95,11 @@ public class ProfileActivity extends AppCompatActivity {
         im_suitcase_color_on_detail = (RelativeLayout) findViewById(R.id.im_suitcase_color_on_detail);
         extentiateLoadingView(profile_image_loading_layout);
 
-        // do other functionalities
-        iv_profile_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getImageFromAlbum();
-            }
-        });
-
         // get the using user so we can do stuff with it
-        getUsingUser();
+        getUsingUser(userId);
 
         // load the profile image of the user that's currently there with Glide and Firebase
-        StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(RawrApp.getUsingUserId());
+        StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(userId);
         Glide.with(this)
                 .using(new FirebaseImageLoader())
                 .load(ref)
@@ -122,14 +116,11 @@ public class ProfileActivity extends AppCompatActivity {
                         return false;
                     }
                 })
-                .centerCrop()
-                .bitmapTransform(new RoundedCornersTransformation(this, 2000, 0))
                 .placeholder(R.drawable.ic_android)
                 .error(R.drawable.ic_air_space_2)
                 .into(iv_profile_image); // TODO - CHANGE PLACEHOLDERS!!!!!!!!
 
     }
-
     /** For animating the loading of profile photo! */
     public void animateLoadingDot(long offset, final RelativeLayout button) {
         // creates a fadeIn fadeOut animation with the text as it logs one in
@@ -215,7 +206,6 @@ public class ProfileActivity extends AppCompatActivity {
         loadingView.setVisibility(View.GONE);
     }
 
-    // other things start here
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void populateUsersData() {
         // change the personal details of the user
@@ -245,13 +235,6 @@ public class ProfileActivity extends AppCompatActivity {
             iv_profile_activity_banner.setImageDrawable(getDrawable(usingUser.suitcaseColor.getDrawableId()));
         }
 
-    }
-
-    public void getImageFromAlbum() {
-        // starts an intent for
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, RawrApp.CODE_LOAD_PROFILE_IMAGE);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -297,10 +280,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    public void getUsingUser() {
+    public void getUsingUser(String id) {
         // make a call to server to get the user and then create usingUser base on that json from the server
         RequestParams params = new RequestParams();
-        params.put("uid", RawrApp.getUsingUserId());
+        params.put("uid", id);
         client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override

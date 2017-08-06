@@ -7,6 +7,7 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,9 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.rawr.R;
+import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.models.ShippingRequest;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.loopj.android.http.AsyncHttpClient;
@@ -31,8 +32,6 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.codepath.rawr.fragments.TravelFragment.DB_URLS;
-
 /**
  * Created by rdicker on 7/24/17.
  */
@@ -42,6 +41,9 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
     public List<ShippingRequest> mRequests;
     Context context;
     AsyncHttpClient client;
+
+    public static final String TAG = "ShipAccReqAdap";
+
 
     public ShippingAcceptedRequestsAdapter(List<ShippingRequest> requests){
         mRequests = requests;
@@ -131,7 +133,7 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
                         RequestParams params = new RequestParams();
                         params.put("uid",  request.requesterId);
                         params.put("request_id",  request.id);
-                        client.post(DB_URLS[0] + "/request/delete", params, new JsonHttpResponseHandler() {
+                        client.post(RawrApp.DB_URL + "/request/delete", params, new JsonHttpResponseHandler() {
                             // implement endpoint here
                             @Override
                             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -144,15 +146,15 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                                Toast.makeText(context, String.format("error 1 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, String.format("error 1 %s", errorResponse));
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                                Toast.makeText(context, String.format("error 2 %s", errorResponse), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, String.format("error 2 %s", errorResponse));
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                                Toast.makeText(context, String.format("error 3"), Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, String.format("error 3"));
                             }
                         });
                     }
@@ -172,7 +174,25 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
             @Override
             public void onClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("\nPhone: " + request.tvlUser.phone + "\n\nEmail: " + request.tvlUser.email).setTitle(request.tvlUser.fName + "'s contact information");
+
+                // Get the layout inflater
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+                // Inflate and set the layout for the dialog
+                // Pass null as the parent view because its going in the dialog layout
+                View vi = li.inflate(R.layout.dialog_contact_info, null, false);
+
+                TextView title = (TextView) vi.findViewById(R.id.dialogTitle);
+                TextView tvlrPhone = (TextView) vi.findViewById(R.id.tv_tvlr_phone);
+                TextView tvlrEmail = (TextView) vi.findViewById(R.id.tv_tvlr_email);
+                title.setText(request.tvlUser.fName + "'s contact information");
+                tvlrPhone.setText(request.tvlUser.phone);
+                tvlrEmail.setText(request.tvlUser.email);
+
+                builder.setView(vi);
+
+
+                //builder.setMessage("\nPhone: " + request.tvlUser.phone + "\n\nEmail: " + request.tvlUser.email).setTitle(request.tvlUser.fName + "'s contact information");
                 builder.setNegativeButton("close", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog

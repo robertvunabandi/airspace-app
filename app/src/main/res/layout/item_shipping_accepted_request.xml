@@ -248,7 +248,7 @@
                             android:id="@+id/bt_contact"
                             style="@style/Widget.AppCompat.Button.Colored"
                             android:layout_width="0dp"
-                            android:layout_height="30dp"
+                            android:layout_height="32dp"
                             android:layout_marginRight="2dp"
                             android:layout_weight="0.55"
                             android:background="@drawable/ripple_light"
@@ -261,7 +261,7 @@
                             android:id="@+id/bt_cancel"
                             style="@style/Widget.AppCompat.Button.Colored"
                             android:layout_width="0dp"
-                            android:layout_height="30dp"
+                            android:layout_height="32dp"
                             android:layout_marginLeft="2dp"
                             android:layout_weight="0.45"
                             android:background="@drawable/ripple_cancel"
@@ -432,7 +432,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_toEndOf="@+id/cb_clothing"
                                 android:layout_toRightOf="@+id/cb_clothing"
-                                android:text="clothing items"
+                                android:text="clothing"
                                 android:textColor="@color/SXXDark"
                                 android:textStyle="bold" />
                         </RelativeLayout>
@@ -535,7 +535,6 @@
                     android:id="@+id/dropoffLine"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/tv_dropoff_label"
                     android:background="@color/SXXDark" />
 
                 <TextView

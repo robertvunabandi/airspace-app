@@ -27,12 +27,12 @@
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:text="ADDITIONAL DETAILS"
                 android:textColor="@color/PDark"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:focusable="true"
-                android:focusableInTouchMode="true"/>
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:id="@+id/separator_tv_title"
@@ -55,14 +55,15 @@
                 <RelativeLayout
                     android:id="@+id/lineSepStart"
                     android:layout_width="match_parent"
-                    android:background="@color/SLight"
                     android:layout_height="1dp"
-                    android:visibility="gone"/>
+                    android:background="@color/SLight"
+                    android:visibility="gone" />
+
                 <RelativeLayout
                     android:id="@+id/rl_TIPath"
-                    android:layout_below="@+id/lineSepStart"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lineSepStart">
 
                     <TextView
                         android:id="@+id/tv_TIDeparture"
@@ -83,7 +84,7 @@
                         android:layout_toEndOf="@+id/tv_TIDeparture"
                         android:layout_toRightOf="@+id/tv_TIDeparture"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/ic_arrowleftright"
+                        app:srcCompat="@drawable/ic_arrowleftright"
                         android:tint="@color/SDark" />
 
                     <TextView
@@ -102,7 +103,7 @@
                     android:id="@+id/rl_TITime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rl_TIPath" >
+                    android:layout_below="@+id/rl_TIPath">
 
                     <RelativeLayout
                         android:id="@+id/rl_TITimeWrapper"
@@ -129,7 +130,7 @@
                             android:layout_toEndOf="@+id/tv_TITimeDeparture"
                             android:layout_toRightOf="@+id/tv_TITimeDeparture"
                             android:adjustViewBounds="true"
-                            android:src="@drawable/ic_arrowleftright"
+                            app:srcCompat="@drawable/ic_arrowleftright"
                             android:tint="@color/SDark" />
 
                         <TextView
@@ -186,7 +187,7 @@
                     android:id="@+id/rl_TIDateAndFlight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rl_TITime" >
+                    android:layout_below="@+id/rl_TITime">
 
                     <TextView
                         android:id="@+id/tv_TITextOn"
@@ -228,16 +229,17 @@
                         android:layout_toEndOf="@+id/tv_TITextVia"
                         android:layout_toRightOf="@+id/tv_TITextVia"
                         android:text="AIRLINE"
-                        android:textStyle="italic"
                         android:textColor="@color/SDark"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="italic" />
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/lineSepEndp"
                     android:layout_width="match_parent"
-                    android:background="@color/SLight"
+                    android:layout_height="1dp"
                     android:layout_below="@+id/rl_TIDateAndFlight"
-                    android:layout_height="1dp" />
+                    android:background="@color/SLight" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -468,10 +470,10 @@
                 style="@android:style/Widget.Material.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_below="@+id/rl_flexiblityDropoff"
-                android:background="@color/PRegular"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/ripple_effect"
+                android:gravity="center"
                 android:text="Confirm"
                 android:textColor="@color/White" />
         </RelativeLayout>
