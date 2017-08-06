@@ -445,6 +445,8 @@ public class TravelFragment extends Fragment {
     }
 
 
+
+
 //    // populate list of trips from just an ArrayList for autorefreshing
 //    private void populateList(ArrayList<TravelNotice> travelNoticeList) {
 //        for (int i = 0; i < travelNoticeList.size(); i++) {

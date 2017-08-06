@@ -25,6 +25,8 @@ public class TravelNotice {
     public int arr_min, arr_hour, arr_day, arr_month, arr_year;
     public JSONArray requests_ids;
 
+    public int pending_requests_count, accepted_requests_count;
+
     public RawrDate dateCreated;
 
     // for verbose method of dates
@@ -177,6 +179,10 @@ public class TravelNotice {
         params.put("arr_month", this.arr_month);
         params.put("arr_year", this.arr_year);
         params.put("requests_ids", this.requests_ids);
+
+        // pending and accepted trips counter
+        params.put("pending_requests_count", this.pending_requests_count);
+        params.put("accepted_requests_count", this.accepted_requests_count);
         return params;
     }
 
@@ -285,6 +291,10 @@ public class TravelNotice {
         tvl.arr_year = response.getInt("arr_year");
 
         tvl.requests_ids = response.getJSONArray("requests_ids");
+
+        // pending and accepted requests counter
+        tvl.pending_requests_count = response.getInt("pending_requests_count");
+        tvl.accepted_requests_count = response.getInt("accepted_requests_count");
 
         tvl.dateCreated = RawrDate.fromJSONServer(response.getJSONObject("date_created"));
 

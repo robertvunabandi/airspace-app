@@ -175,38 +175,90 @@
                 </RelativeLayout>
             </RelativeLayout>
 
+            <!--<TextView-->
+            <!--android:id="@+id/notification"-->
+            <!--android:layout_width="25sp"-->
+            <!--android:layout_height="25sp"-->
+            <!--android:background="@drawable/ic_notification"-->
+            <!--android:elevation="10dp"-->
+            <!--android:fontFamily="sans-serif-condensed"-->
+            <!--android:text="0"-->
+            <!--android:paddingTop="3sp"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="@color/White"-->
+            <!--android:textSize="12sp"-->
+            <!--android:textStyle="bold"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_alignParentEnd="true" />-->
+
 
             <RelativeLayout
-                android:id="@+id/rl_buttons"
+                android:id="@+id/rl_button_notifications"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                android:elevation="10sp">
 
-                <Button
-                    android:id="@+id/bt_pending"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                <RelativeLayout
+                    android:id="@+id/rl_buttons"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="4dp"
-                    android:background="@drawable/ripple_effect"
-                    android:onClick="true"
-                    android:text="pending"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true">
 
-                <Button
-                    android:id="@+id/bt_accepted"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_below="@+id/bt_pending"
-                    android:background="@drawable/ripple_effect"
-                    android:onClick="true"
-                    android:text="accepted"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    <Button
+                        android:id="@+id/bt_pending"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/ripple_effect"
+                        android:elevation="0dp"
+                        android:onClick="true"
+                        android:text="pending"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/bt_accepted"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ripple_effect"
+                        android:onClick="true"
+                        android:text="accepted"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_below="@+id/bt_pending"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="11dp" />
+
+                    <TextView
+                        android:id="@+id/notification"
+                        android:layout_width="30sp"
+                        android:layout_height="30sp"
+                        android:layout_marginEnd="70dp"
+                        android:layout_marginRight="70dp"
+                        android:background="@drawable/ic_notification"
+                        android:elevation="10dp"
+                        android:text="0"
+                        android:visibility="gone"
+                        android:paddingTop="4sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/White"
+                        android:textStyle="bold"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
             </RelativeLayout>
+
         </RelativeLayout>
 
 
@@ -535,6 +587,9 @@
                         style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
                         android:background="@drawable/ripple_cancel"
                         android:text="Delete"
                         android:textAllCaps="false"
@@ -546,6 +601,19 @@
             </LinearLayout>
 
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+        <!--<TextView-->
+        <!--android:id="@+id/iv_profile_image"-->
+        <!--android:layout_width="15sp"-->
+        <!--android:layout_height="15sp"-->
+        <!--android:layout_marginEnd="72dp"-->
+        <!--android:layout_marginRight="72dp"-->
+        <!--android:baselineAlignBottom="true"-->
+        <!--android:onClick="true"-->
+        <!--app:srcCompat ="@drawable/ic_notification"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_alignParentEnd="true" />-->
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
