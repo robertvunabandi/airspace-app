@@ -9,10 +9,11 @@
         android:layout_height="wrap_content"
         android:background="@color/SLight"
         android:gravity="center"
+        android:padding="5dp"
         android:scaleType="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/SXXDark"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
 
@@ -30,31 +31,31 @@
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:text="The senders and receivers will be notified that the delivery was completed. This action cannot be undone."
+            android:text="The senders and receivers will be notified that the delivery was completed. \n\nThis action cannot be undone."
             android:textAlignment="center"
             android:textColor="@color/SXDark"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:orientation="horizontal">-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_weight="1"-->
+        <!--android:orientation="horizontal">-->
 
 
-            <!--<Button-->
-                <!--android:id="@+id/bt_no"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="NO" />-->
+        <!--<Button-->
+        <!--android:id="@+id/bt_no"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="NO" />-->
 
-            <!--<Button-->
-                <!--android:id="@+id/bt_yes"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:text="YES" />-->
+        <!--<Button-->
+        <!--android:id="@+id/bt_yes"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="YES" />-->
         <!--</LinearLayout>-->
 
     </LinearLayout>

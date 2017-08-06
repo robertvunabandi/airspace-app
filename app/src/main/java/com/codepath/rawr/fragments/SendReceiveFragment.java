@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.rawr.MainActivity;
 import com.codepath.rawr.R;
@@ -264,7 +263,7 @@ public class SendReceiveFragment extends Fragment {
                 try {
                     populateList(response.getJSONArray("data"));
                 } catch (JSONException e) {
-                    Toast.makeText(getContext(), "An error occurred while parsing the JSON Array", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "An error occurred while parsing the JSON Array");
                 }
                 swipeContainer.setRefreshing(false);
             }
@@ -289,7 +288,7 @@ public class SendReceiveFragment extends Fragment {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(getContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, String.format("error 3"));
                 ((MainActivity) getActivity()).snackbarCallLong(String.format("Error(3) occurred %s", responseString));
             }
         });
@@ -319,7 +318,7 @@ public class SendReceiveFragment extends Fragment {
                                 tv_pending_counter.setVisibility(View.GONE);
                             }
                         } catch (JSONException e) {
-                            Toast.makeText(getContext(), String.format("JSON error in parsing JSON in travel notice get: %s", e), Toast.LENGTH_LONG).show();
+                            Log.e(TAG, String.format("JSON error in parsing JSON in travel notice get: %s", e));
                         }
                     }
                     @Override
@@ -345,7 +344,7 @@ public class SendReceiveFragment extends Fragment {
                 e.printStackTrace();
                 Log.e(TAG, String.format("JSON Exception occurred in populateList at index %s: %s", i, e));
                 ((MainActivity) getActivity()).snackbarCallLong(String.format("JSON Exception occurred in populateList at index %s: %s", i, e));
-                Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
+                Log.e(TAG, String.format("%s", e));
             }
         }
     }

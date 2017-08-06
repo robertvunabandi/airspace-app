@@ -25,7 +25,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.rawr.AdditionalDetailsActivity;
 import com.codepath.rawr.MainActivity;
@@ -334,26 +333,25 @@ public class TravelFragment extends Fragment {
                                 e.printStackTrace();
                                 String toastMessage = "JSON Parsing error in onSuccess";
                                 Log.e("TravelFragment", String.format("%s, %s", e, toastMessage));
-                                Toast.makeText(getContext(), String.format("%s", toastMessage), Toast.LENGTH_LONG).show();
                             }
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
-                            Toast.makeText(getContext(), String.format("OOO error 1 %s", errorResponse), Toast.LENGTH_LONG).show();
+                            Log.e(TAG, String.format("OOO error 1 %s", errorResponse));
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                             Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
-                            Toast.makeText(getContext(), String.format("error 2 %s", errorResponse), Toast.LENGTH_LONG).show();
+                            Log.e(TAG, String.format("error 2 %s", errorResponse));
                         }
 
                         @Override
                         public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                             Log.e(TAG, String.format("%s", responseString));
-                            Toast.makeText(getContext(), String.format("error 3 %s", responseString), Toast.LENGTH_LONG).show();
+                            Log.e(TAG, String.format("error 3 %s", responseString));
                         }
                     });
                 } catch (JSONException e) {
@@ -361,7 +359,6 @@ public class TravelFragment extends Fragment {
                     e.printStackTrace();
                     String toastMessage = "JSON Parsing error in client.post, BAD";
                     Log.e("TravelFragment", String.format("%s, %s", e.toString(), toastMessage));
-                    Toast.makeText(getContext(), String.format("%s", toastMessage), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -442,7 +439,7 @@ public class TravelFragment extends Fragment {
             } catch (JSONException e) {
                 Log.e(TAG, String.format("Error occurred in JSON parsing"));
                 e.printStackTrace();
-                Toast.makeText(getContext(), String.format("%s", e), Toast.LENGTH_LONG).show();
+                Log.e(TAG, String.format("%s", e));
             }
         }
     }

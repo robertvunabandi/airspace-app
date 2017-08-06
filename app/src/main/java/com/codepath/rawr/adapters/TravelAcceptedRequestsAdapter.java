@@ -142,9 +142,9 @@ public class TravelAcceptedRequestsAdapter extends RecyclerView.Adapter<TravelAc
                 TextView title = (TextView) vi.findViewById(R.id.dialogTitle);
                 TextView tvlrPhone = (TextView) vi.findViewById(R.id.tv_tvlr_phone);
                 TextView tvlrEmail = (TextView) vi.findViewById(R.id.tv_tvlr_email);
-                title.setText(request.tvlUser.fName + "'s contact information");
-                tvlrPhone.setText(request.tvlUser.phone);
-                tvlrEmail.setText(request.tvlUser.email);
+                title.setText(request.recipient.name + "'s contact information");
+                tvlrPhone.setText(request.recipient.phone);
+                tvlrEmail.setText(request.recipient.email);
                 builder.setView(vi);
 
                 // Add the buttons

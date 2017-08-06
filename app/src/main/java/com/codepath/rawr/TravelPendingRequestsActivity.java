@@ -8,10 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codepath.rawr.adapters.TravelPendingRequestsAdapter;
 import com.codepath.rawr.models.ShippingRequest;
@@ -82,9 +79,9 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
                     JSONObject userJson = response.getJSONObject("user");
                     JSONArray requests = response.getJSONArray("request");
                     processResponse(userJson, travelNotice, requests);
-                    Toast.makeText(getBaseContext(), String.format("%s", response), Toast.LENGTH_LONG);
+                    Log.e(TAG, String.format("%s", response));
                 } catch (JSONException e) {
-                    Toast.makeText(getBaseContext(), String.format("JSON error in parsing JSON in travel notice get: %s", e), Toast.LENGTH_LONG).show();
+                    Log.e(TAG, String.format("JSON error in parsing JSON in travel notice get: %s", e));
                 }
 
             }
@@ -99,7 +96,6 @@ public class TravelPendingRequestsActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e(TAG, String.format("CODE: %s ERROR(3): %s", statusCode, responseString));
-                Toast.makeText(getBaseContext(), String.format("error 3"), Toast.LENGTH_SHORT).show();
             }
         });
     }
