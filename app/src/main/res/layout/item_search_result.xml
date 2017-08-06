@@ -335,23 +335,6 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/btn_request"
-                        style="@style/Widget.AppCompat.Button.Colored"
-                        android:layout_width="wrap_content"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/ripple_white_bkg_white"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="send request"
-                        android:textAllCaps="false"
-                        android:textColor="@color/SXDark"
-                        android:textStyle="bold"
-                        android:visibility="invisible" />
-                    <!--TODO - Make the view visible when editing is possible-->
 
                 </RelativeLayout>
 
@@ -359,8 +342,8 @@
                     android:id="@+id/ll_linearCheckboxes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rl_editRequest"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_below="@id/rl_editRequest">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -586,6 +569,7 @@
                             android:textAlignment="center"
                             android:textColor="@color/White"
                             android:textSize="16sp" />
+
                     </LinearLayout>
 
                     <RelativeLayout
@@ -631,6 +615,25 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_request"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/ripple_white_bkg_white"
+                    android:gravity="center"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:text="send request"
+                    android:textAllCaps="false"
+                    android:textColor="@color/SXDark"
+                    android:textStyle="bold"
+                    android:layout_below="@id/ll_flexibilities"
+                    android:layout_margin="5dp"/>
 
 
             </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
