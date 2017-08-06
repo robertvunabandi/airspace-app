@@ -397,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
             ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).refreshRequests();
         } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_REQUESTER_FORMS_ACTIVITY) {
             // failure snackbar
-            snackbarCallIndefinite(data.getStringExtra("message"));
+            //snackbarCallIndefinite(data.getStringExtra("message"));
         } else if (resultCode == RESULT_OK && requestCode == RawrApp.UPDATE_ADDITIONAL_DETAILS_CODE) {
             String msg;
             try {
