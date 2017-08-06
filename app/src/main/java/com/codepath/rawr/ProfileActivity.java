@@ -66,10 +66,10 @@ public class ProfileActivity extends AppCompatActivity {
     AsyncHttpClient client;
     User usingUser;
     // Tag for debugging
-    private static final String TAG = "ProfileActivity";
     // special views
     ViewGroup profile_image_loading_layout;
 
+    private static final String TAG = "ProfileActivity";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -126,7 +126,7 @@ public class ProfileActivity extends AppCompatActivity {
                 .bitmapTransform(new RoundedCornersTransformation(this, 2000, 0))
                 .placeholder(R.drawable.ic_android)
                 .error(R.drawable.ic_air_space_2)
-                .into(iv_profile_image);
+                .into(iv_profile_image); // TODO - CHANGE PLACEHOLDERS!!!!!!!!
 
     }
 

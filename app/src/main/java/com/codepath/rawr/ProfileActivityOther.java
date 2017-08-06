@@ -18,12 +18,18 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.codepath.rawr.models.RawrImages;
 import com.codepath.rawr.models.SuitcaseColor;
 import com.codepath.rawr.models.User;
@@ -60,9 +66,12 @@ public class ProfileActivityOther extends AppCompatActivity {
     AsyncHttpClient client;
     User usingUser;
     // Tag for debugging
+    // special views
+    ViewGroup profile_image_loading_layout;
+
     private static final String TAG = "ProfileActivityOther";
 
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +79,6 @@ public class ProfileActivityOther extends AppCompatActivity {
         client = new AsyncHttpClient();
 
         userId = getIntent().getExtras().getString("user_id");
-
         parentLayout = (CoordinatorLayout) findViewById(R.id.profileParentLayout);
 
         // Initializing views
@@ -85,8 +93,7 @@ public class ProfileActivityOther extends AppCompatActivity {
         bt_edit_profile = (Button) findViewById(R.id.bt_edit_profile);
         rl_profile_activity_banner = (RelativeLayout) findViewById(R.id.rl_profile_activity_banner);
         im_suitcase_color_on_detail = (RelativeLayout) findViewById(R.id.im_suitcase_color_on_detail);
-
-
+        extentiateLoadingView(profile_image_loading_layout);
 
         // get the using user so we can do stuff with it
         getUsingUser(userId);
@@ -96,10 +103,107 @@ public class ProfileActivityOther extends AppCompatActivity {
         Glide.with(this)
                 .using(new FirebaseImageLoader())
                 .load(ref)
+                .listener(new RequestListener<StorageReference, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, StorageReference model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        stopLoadingAnimation(profile_image_loading_layout);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, StorageReference model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        stopLoadingAnimation(profile_image_loading_layout);
+                        return false;
+                    }
+                })
                 .placeholder(R.drawable.ic_android)
                 .error(R.drawable.ic_air_space_2)
-                .into(iv_profile_image);
+                .into(iv_profile_image); // TODO - CHANGE PLACEHOLDERS!!!!!!!!
 
+    }
+    /** For animating the loading of profile photo! */
+    public void animateLoadingDot(long offset, final RelativeLayout button) {
+        // creates a fadeIn fadeOut animation with the text as it logs one in
+        final AlphaAnimation a_go = new AlphaAnimation(0.0f, 1.0f);
+        final AlphaAnimation a_blank = new AlphaAnimation(0.0f, 0.0f);
+        final AlphaAnimation a_back = new AlphaAnimation(1.0f, 0.0f);
+        a_go.setDuration(500); a_back.setDuration(500); a_blank.setDuration(1500);
+        a_go.setStartOffset(offset);
+        a_blank.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                button.startAnimation(a_go);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        a_go.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                a_go.setStartOffset(0);
+                button.startAnimation(a_back);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        a_back.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                button.startAnimation(a_blank);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        button.startAnimation(a_go);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void extentiateLoadingView(ViewGroup loadingView) {
+        loadingView = (ViewGroup) findViewById(R.id.profile_image_loading_layout);
+        // first get the view and inflate it
+        View loadingItemView = getLayoutInflater().inflate(R.layout.loading_images_progress, profile_image_loading_layout);
+        // customize the individual parameters
+        RelativeLayout bt1 = (RelativeLayout) loadingItemView.findViewById(R.id.bt_loading_1);
+        RelativeLayout bt2 = (RelativeLayout) loadingItemView.findViewById(R.id.bt_loading_2);
+        RelativeLayout bt3 = (RelativeLayout) loadingItemView.findViewById(R.id.bt_loading_3);
+        RelativeLayout bt4 = (RelativeLayout) loadingItemView.findViewById(R.id.bt_loading_4);
+        RelativeLayout bt5 = (RelativeLayout) loadingItemView.findViewById(R.id.bt_loading_5);
+        // set the colors
+        bt1.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.suitcaseColorBlack)));
+        bt2.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.suitcaseColorBlack)));
+        bt3.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.suitcaseColorBlack)));
+        bt4.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.suitcaseColorBlack)));
+        bt5.setBackgroundTintList(ColorStateList.valueOf(getColor(R.color.suitcaseColorBlack)));
+        // make the animations
+        animateLoadingDot(0, bt1);
+        animateLoadingDot(500, bt2);
+        animateLoadingDot(1000, bt3);
+        animateLoadingDot(1500, bt4);
+        animateLoadingDot(2000, bt5);
+        // set some properties on the loading view
+        loadingItemView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        // place the view inside the viewgroup
+        loadingView.addView(loadingItemView);
+    }
+    public void stopLoadingAnimation(ViewGroup loadingView) {
+        loadingView = (ViewGroup) findViewById(R.id.profile_image_loading_layout);
+        loadingView.setVisibility(View.GONE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
