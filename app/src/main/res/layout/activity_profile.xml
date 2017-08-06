@@ -39,8 +39,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="150dp"
                 android:baselineAlignBottom="true"
-                android:onClick="true"
-                android:src="@drawable/profile" />
+                android:onClick="true" />
 
             <Button
                 android:id="@+id/bt_edit_profile"
@@ -90,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:text="Christian Bale"
+                android:text="##### #####"
                 android:textAllCaps="true"
                 android:textColor="@color/dark_blue"
                 android:textSize="20sp"
@@ -121,7 +120,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@+id/iv_locationIcon"
                     android:gravity="center"
-                    android:text="Guangzhou, China"
+                    android:text="#### ####"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="@color/suitcaseColorBlack"
                     android:textSize="16sp" />
@@ -177,7 +176,7 @@
                     android:fontFamily="serif"
                     android:gravity="center"
                     android:textStyle="italic"
-                    android:text="Christian wishes to go somewhere here"
+                    android:text="################"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="@color/suitcaseColorBlack"
                     android:textSize="14sp" />
