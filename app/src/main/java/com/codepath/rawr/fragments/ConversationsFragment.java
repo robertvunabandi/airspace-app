@@ -216,7 +216,18 @@ public class ConversationsFragment extends Fragment {
         } else {
             NOTIFICATION_COUNT = 0;
         }
-        ((MainActivity) getActivity()).updateNotificationIndicator(2, NOTIFICATION_COUNT);
+        try {
+            // TODO - For some reason, this sometimes causes a null pointer error, so I made it into a try catch. Figuring out why is important... but we have to focus on other things.
+            ((MainActivity) getActivity()).updateNotificationIndicator(2, NOTIFICATION_COUNT);
+        } catch (Exception e) {
+            Log.e(TAG, String.format("<>"));
+            Log.e(TAG, String.format("<>"));
+            Log.e(TAG, String.format("Error while invoking the update notification indicator: %s", e));
+            Log.e(TAG, String.format("<<<< SEE BELOW >>>>"));
+            Log.e(TAG, String.format("<>"));
+            e.printStackTrace();
+        }
+
     }
 
     public void populateNotifications(JSONArray notificationObjectsArray) {
@@ -245,7 +256,14 @@ public class ConversationsFragment extends Fragment {
         }
         if (mNotifications.size() > 0) {
             // removes that view from being visiblie that says that the person has no notifications
-            getView().findViewById(R.id.tv_notification_notice).setVisibility(View.GONE);
+            try {
+                // TODO - This caused a null pointer exception + crash, so I placed it in a try catch. IDK why it does that...
+                getView().findViewById(R.id.tv_notification_notice).setVisibility(View.GONE);
+            } catch (Exception e) {
+                Log.e(TAG, String.format("Exceptions %s", e));
+                e.printStackTrace();
+            }
+
         } else {
             // set that view to visible
             getView().findViewById(R.id.tv_notification_notice).setVisibility(View.VISIBLE);

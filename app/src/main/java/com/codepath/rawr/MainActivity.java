@@ -56,7 +56,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import cz.msebera.android.httpclient.Header;
-import de.hdodenhof.circleimageview.CircleImageView;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.codepath.rawr.R.id.drawerLayout;
 import static com.codepath.rawr.RawrApp.getStorageReferenceForImageFromFirebase;
@@ -468,12 +468,14 @@ public class MainActivity extends AppCompatActivity {
                     TextView user_email = (TextView) header.findViewById(R.id.tv_email);
                     user_email.setText(usingUser.email);
 
-                    // Setting profile image
-                    CircleImageView iv_profile_image = (CircleImageView) header.findViewById(R.id.iv_profile_image);
+                    // Setting profile image (Change back to image view in case we want the round image)
+                    ImageView iv_profile_image = (ImageView) header.findViewById(R.id.iv_profile_image);
                     StorageReference ref = getStorageReferenceForImageFromFirebase(RawrApp.getUsingUserId());
                     Glide.with(context)
                             .using(new FirebaseImageLoader())
                             .load(ref)
+                            .centerCrop()
+                            .bitmapTransform(new RoundedCornersTransformation(context, 2000, 0))
                             .placeholder(R.drawable.ic_android)
                             .error(R.drawable.ic_decline)
                             .into(iv_profile_image);

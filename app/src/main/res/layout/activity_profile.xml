@@ -32,14 +32,32 @@
             </RelativeLayout>
 
 
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/iv_profile_image"
+            <RelativeLayout
                 android:layout_width="150sp"
                 android:layout_height="150sp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="150dp"
-                android:baselineAlignBottom="true"
-                android:onClick="true" />
+                android:baselineAlignBottom="true">
+
+                <ImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/iv_profile_image"
+                    android:layout_width="150sp"
+                    android:layout_height="150sp"
+                    android:adjustViewBounds="true"
+                    android:onClick="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_android" />
+                <!-- <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/iv_profile_image"
+                    android:layout_width="150sp"
+                    android:layout_height="150sp"
+                    android:onClick="true" /> -->
+                <RelativeLayout
+                    android:id="@+id/profile_image_loading_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></RelativeLayout>
+            </RelativeLayout>
+
 
             <Button
                 android:id="@+id/bt_edit_profile"
@@ -119,11 +137,13 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="4dp"
                     android:layout_toRightOf="@+id/iv_locationIcon"
+                    android:fontFamily="serif"
                     android:gravity="center"
                     android:text="#### ####"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="@color/suitcaseColorBlack"
-                    android:textSize="16sp" />
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -166,6 +186,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="4dp"
                 android:gravity="center">
+
                 <TextView
                     android:id="@+id/tv_wished_location"
                     android:layout_width="wrap_content"
@@ -175,11 +196,11 @@
                     android:layout_marginLeft="4dp"
                     android:fontFamily="serif"
                     android:gravity="center"
-                    android:textStyle="italic"
                     android:text="################"
                     android:textAppearance="@style/TextAppearance.AppCompat"
                     android:textColor="@color/suitcaseColorBlack"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:textStyle="italic" />
             </RelativeLayout>
 
 
