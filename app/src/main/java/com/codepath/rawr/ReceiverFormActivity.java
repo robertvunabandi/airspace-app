@@ -1,7 +1,11 @@
 package com.codepath.rawr;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,16 +13,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.codepath.rawr.models.RawrImages;
+import com.codepath.rawr.models.ShippingRequest;
 import com.codepath.rawr.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -27,7 +42,12 @@ public class ReceiverFormActivity extends AppCompatActivity {
     public CheckBox cb_envelope, cb_smallBox, cb_largeBox, cb_clothing, cb_other, cb_liquid, cb_fragile;
     public boolean item_envelope, item_smallBox, item_largeBox, item_clothing, item_other, item_liquid, item_fragile = false;
     public EditText et_dropoff, et_pickup, et_name, et_other, et_phone, et_email, et_payment, et_details;
-    public Button bt_confirm;
+    public Button bt_confirm, bt_photo_upload;
+    public ImageView iv_item;
+    public TextView tv_file_title;
+    // picture variables
+    public Bitmap requestPicture;
+    public boolean pictureUploaded = false;
 
     // for debugging and snackbar
     public final static String TAG = "S:ReceiverFormActivity";
@@ -67,6 +87,9 @@ public class ReceiverFormActivity extends AppCompatActivity {
         et_payment = (EditText) findViewById(R.id.et_payment);
         et_details = (EditText) findViewById(R.id.et_details);
         bt_confirm = (Button) findViewById(R.id.bt_confirm);
+        bt_photo_upload = (Button) findViewById(R.id.bt_photo_upload);
+        iv_item = (ImageView) findViewById(R.id.iv_itemRequestedPhoto);
+        tv_file_title = (TextView) findViewById(R.id.tv_file_title);
 
         // get the parent layout
         parentLayout = (RelativeLayout) findViewById(R.id.relativeLayoutInitReceiverForm);
@@ -81,7 +104,22 @@ public class ReceiverFormActivity extends AppCompatActivity {
         });
         // get the user using the app, which activates the button
         getUsingUser();
+
+        bt_photo_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getImageFromAlbum();
+            }
+        });
     }
+
+    public void getImageFromAlbum() {
+        // starts an intent for
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, RawrApp.CODE_LOAD_PROFILE_IMAGE);
+    }
+
 
     public void onCheckboxClicked(View view) {
 
@@ -195,7 +233,10 @@ public class ReceiverFormActivity extends AppCompatActivity {
     public void sendRequest() {
         RequestParams params = getParams();
 
-        if (getItemTotal() == 0) {
+        if (!pictureUploaded) {
+            Log.e(TAG, "Picture is not uploaded");
+            Snackbar.make(parentLayout, "You must upload a picture", Snackbar.LENGTH_LONG).show();
+        } else if (getItemTotal() == 0) {
             // don't send request and tell user that he has to pick at least one checkbox
             Log.e(TAG, "item total is 0");
             Snackbar.make(parentLayout, "You must select at least one checkbox.", Snackbar.LENGTH_LONG).show();
@@ -208,10 +249,17 @@ public class ReceiverFormActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     // if request sent successfully, set the result ok
-                    // no need for try/catch since we don't do anything with the JSON anyway
-                    resultIntent.putExtra("message", "success");
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
+                    try {
+                        // get the response id
+                        ShippingRequest request = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"), response.getJSONObject("user"));
+                        saveItemImageToFirebase(requestPicture, request.id, request);
+                    } catch (JSONException e) {
+                        // JSON ERROR occurred
+                        Log.e(TAG, String.format("%s", e));
+                        resultIntent.putExtra("message", "JSON ERROR: failure uploading picture");
+                        setResult(RESULT_OK, resultIntent);
+                        finish();
+                    }
                 }
 
                 // TODO - One of the onFailure may say that the request has already been sent. We have to put that in the resultIntent as message
@@ -219,33 +267,30 @@ public class ReceiverFormActivity extends AppCompatActivity {
                 public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                     Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
                     // if an error occurred, set result cancelled
-                    try {
-                        resultIntent.putExtra("message", errorResponse.getString("message"));
-                        setResult(RESULT_CANCELED, resultIntent);
-                        finish();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    if (errorResponse != null) {
+                        try {
+                            String msg = errorResponse.getString("message");
+                            resultIntent.putExtra("message", msg);
+                            setResult(RESULT_CANCELED, resultIntent);
+                            finish();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            resultIntent.putExtra("message", "Error (1) in endpoint request_send");
+                            setResult(RESULT_CANCELED, resultIntent);
+                            finish();
+                        }
+                    } else {
                         resultIntent.putExtra("message", "Error (1) in endpoint request_send");
                         setResult(RESULT_CANCELED, resultIntent);
                         finish();
                     }
-
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                    Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
-                    // if an error occurred, set result cancelled
-                    resultIntent.putExtra("message", "Error in (2) endpoint request_send");
-                    setResult(RESULT_CANCELED, resultIntent);
-                    finish();
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     Log.e(TAG, String.format("%s", responseString));
                     // if an error occurred, set result cancelled
-                    resultIntent.putExtra("message", "Error in (3) endpoint request_send");
+                    resultIntent.putExtra("message", "Error (3) in endpoint request_send");
                     setResult(RESULT_CANCELED, resultIntent);
                     finish();
                 }
@@ -301,5 +346,57 @@ public class ReceiverFormActivity extends AppCompatActivity {
         Intent data = new Intent();
         data.putExtra("message", String.format("Cancelled"));
         setResult(RESULT_CANCELED, data); finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == RawrApp.CODE_LOAD_PROFILE_IMAGE) {
+            // for loading images, this ma
+            try {
+                // get the image from the cellphone
+                Uri imageUri = data.getData();
+                InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                // set request picture to this new bitmap, and then set picture uploaded to true
+                requestPicture = BitmapFactory.decodeStream(imageStream); // Bitmaps are the ones to be placed/replaced in imageViews
+                // TODO - Check file size before setting that to true
+                pictureUploaded = true;
+
+                // convert image to bytes
+                byte[] imageByte = RawrImages.convertImageToByteArray(requestPicture);
+                iv_item.setImageBitmap(requestPicture);
+                iv_item.setVisibility(View.VISIBLE);
+                tv_file_title.setText("1 photo uploaded");
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Log.e(TAG, String.format("Bitmap error! %s", e));
+            }
+        } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_LOAD_PROFILE_IMAGE) {
+            Snackbar.make(parentLayout, "Cancelled loading picture image", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    public void saveItemImageToFirebase(Bitmap image, String requestId, final ShippingRequest request) {
+        // create the string of the image, which is based on this person's id
+        String imageTitleDatabase = requestId + ".png";
+        // convert the image first to byte array
+        byte[] imageByte = RawrImages.convertImageToByteArray(image);
+        // store image to firebase storage by first getting the reference to that image based on the user id
+        final StorageReference ref = FirebaseStorage.getInstance().getReference(imageTitleDatabase);
+        ref.putBytes(imageByte).addOnCompleteListener(this, new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if (task.isSuccessful()) {
+                    // when completed, get the image url and save it to DB
+                    resultIntent.putExtra("message", "success");
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
+                } else {
+                    resultIntent.putExtra("message", "FIREBASE ERROR: failure uploading picture");
+                    setResult(RESULT_OK, resultIntent); finish();
+                }
+            }
+
+        });
     }
 }

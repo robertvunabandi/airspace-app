@@ -163,10 +163,10 @@ public class SearchResultsActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        Intent data = new Intent();
-//        data.putExtra("message", String.format("Cancelled"));
-//        setResult(RESULT_CANCELED, data); finish();
-//    }
+    @Override
+    public void onBackPressed() {
+        Intent data = new Intent();
+        data.putExtra("message", String.format("Cancelled"));
+        setResult(RESULT_CANCELED, data); finish();
+    }
 }

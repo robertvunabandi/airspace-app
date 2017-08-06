@@ -18,7 +18,7 @@
 
 
     <ImageView
-        android:id="@+id/iv_requester"
+        android:id="@+id/iv_profile_image_requester"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentLeft="true"
@@ -31,8 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/iv_requester"
-        android:layout_toRightOf="@+id/iv_requester"
+        android:layout_toEndOf="@+id/iv_profile_image_requester"
+        android:layout_toRightOf="@+id/iv_profile_image_requester"
         android:paddingLeft="8dp"
         android:text="Item: "
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -56,8 +56,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_item_title"
-        android:layout_toEndOf="@+id/iv_requester"
-        android:layout_toRightOf="@+id/iv_requester"
+        android:layout_toEndOf="@+id/iv_profile_image_requester"
+        android:layout_toRightOf="@+id/iv_profile_image_requester"
         android:paddingLeft="8dp"
         android:text="Requested by:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -81,8 +81,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_requester"
-        android:layout_toEndOf="@+id/iv_requester"
-        android:layout_toRightOf="@+id/iv_requester"
+        android:layout_toEndOf="@+id/iv_profile_image_requester"
+        android:layout_toRightOf="@+id/iv_profile_image_requester"
         android:text="Requested on:"
         android:paddingLeft="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -151,6 +151,14 @@
                 android:text="cancel"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/iv_itemRequestedPhoto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/ic_android"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"/>
         </RelativeLayout>
 
     </LinearLayout>

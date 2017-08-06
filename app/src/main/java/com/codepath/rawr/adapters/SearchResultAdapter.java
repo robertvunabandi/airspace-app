@@ -17,14 +17,19 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.ReceiverFormActivity;
 import com.codepath.rawr.SenderFormActivity;
 import com.codepath.rawr.models.TravelNotice;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by rdicker on 7/21/17.
@@ -62,7 +67,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         int num = position + 1;
         int total = mTrips.size();
 
-        holder.tvName.setText("Result " + num + " of " + total);
+        holder.tvResultNum.setText("Result " + num + " of " + total);
+
+        // TODO - FIGURE OUT HOW TO GET TRAVELLER NAME
+        holder.tv_travellerName.setText("Ruben's " + " trip");
+
         holder.tv_from_isr.setText(trip.dep_iata);
         holder.tv_to_isr.setText(trip.arr_iata);
         holder.tv_dateFrom_isr.setText(trip.getDepartureDaySimple());
@@ -86,8 +95,6 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.tv_dropoff.setText(trip.drop_off_flexibility);
         holder.tv_pickup.setText(trip.pick_up_flexibility);
 
-
-
         holder.rl_infoButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -107,6 +114,16 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                 // TODO - Add filters in XML
             }
         });
+
+        // TODO - Change placeholders
+        StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(trip.tuid);
+        Glide.with(context)
+                .using(new FirebaseImageLoader())
+                .load(ref)
+                .bitmapTransform(new RoundedCornersTransformation(context, 20000, 0))
+                .placeholder(R.drawable.ic_android)
+                .error(R.drawable.ic_air_space_2)
+                .into(holder.iv_profileImageTraveller);
     }
 
     @Override
@@ -116,7 +133,8 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvName;
+        public TextView tvResultNum;
+        public TextView tv_travellerName;
         public TextView tv_from_isr;
         public TextView tv_arrow_isr;
         public TextView tv_to_isr;
@@ -139,24 +157,24 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         public CheckBox cb_fragile_isr;
         public CheckBox cb_liquids_isr;
 
-
         public TextView tv_dropoff;
         public TextView tv_pickup;
 
         public Button btn_request_isr;
 
+        public ImageView iv_profileImageTraveller;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            tvName = (TextView) itemView.findViewById(R.id.tvName_isr);
-            tv_arrow_isr = (TextView) itemView.findViewById(R.id.tv_arrow_isr);
-            tv_from_isr = (TextView) itemView.findViewById(R.id.tv_from_isr);
-            tv_to_isr = (TextView) itemView.findViewById(R.id.tv_to_isr);
-            tv_fromTime_isr = (TextView) itemView.findViewById(R.id.tv_fromTime_isr);
-            tv_toTime_isr = (TextView) itemView.findViewById(R.id.tv_toTime_isr);
-            tv_dateFrom_isr = (TextView) itemView.findViewById(R.id.tv_dateFrom_isr);
-            tv_dateTo_isr = (TextView) itemView.findViewById(R.id.tv_dateTo_isr);
+            tvResultNum = (TextView) itemView.findViewById(R.id.tv_result_num);
+            tv_travellerName = (TextView) itemView.findViewById(R.id.tv_travellerName);
+            tv_arrow_isr = (TextView) itemView.findViewById(R.id.tv_arrow);
+            tv_from_isr = (TextView) itemView.findViewById(R.id.tv_from);
+            tv_to_isr = (TextView) itemView.findViewById(R.id.tv_to);
+            tv_fromTime_isr = (TextView) itemView.findViewById(R.id.tv_fromTime);
+            tv_toTime_isr = (TextView) itemView.findViewById(R.id.tv_toTime);
+            tv_dateFrom_isr = (TextView) itemView.findViewById(R.id.tv_dateFrom);
+            tv_dateTo_isr = (TextView) itemView.findViewById(R.id.tv_dateTo);
 
             rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rlCard);
 
@@ -168,14 +186,13 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             cb_largeBox_isr = (CheckBox) itemView.findViewById(R.id.cb_largeBox);
             cb_smallBox_isr = (CheckBox) itemView.findViewById(R.id.cb_smallBox);
             cb_clothing_isr = (CheckBox) itemView.findViewById(R.id.cb_clothing);
-            cb_other_isr = (CheckBox) itemView.findViewById(R.id.cb_other_isr);
+            cb_other_isr = (CheckBox) itemView.findViewById(R.id.cb_other);
             cb_fragile_isr = (CheckBox) itemView.findViewById(R.id.cb_fragile);
-            cb_liquids_isr = (CheckBox) itemView.findViewById(R.id.cb_liquids_isr);
-
+            cb_liquids_isr = (CheckBox) itemView.findViewById(R.id.cb_liquids);
             tv_dropoff = (TextView) itemView.findViewById(R.id.tv_dropoff);
-            tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup_isr);
-
-            btn_request_isr = (Button) itemView.findViewById(R.id.btn_request_isr);
+            tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup);
+            btn_request_isr = (Button) itemView.findViewById(R.id.btn_request);
+            iv_profileImageTraveller = (ImageView) itemView.findViewById(R.id.iv_profileImageTraveller);
 
             btn_request_isr.setOnClickListener(new View.OnClickListener() {
                 @Override

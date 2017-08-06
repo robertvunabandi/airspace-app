@@ -2,6 +2,7 @@ package com.codepath.rawr.adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
@@ -17,10 +18,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.codepath.rawr.ProfileActivityOther;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.models.ShippingRequest;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
+import com.google.firebase.storage.StorageReference;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -31,6 +36,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by rdicker on 7/24/17.
@@ -200,6 +206,42 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
+
+
+                holder.iv_profileImageTraveller.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent profileActivityOther = new Intent(context, ProfileActivityOther.class);
+                        profileActivityOther.putExtra("user_id", request.tvlUser.id);
+                        context.startActivity(profileActivityOther);
+                    }
+                });
+
+//                holder.bt_edit_request.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        // TODO - do something for editing the request
+//                    }
+//                });
+
+                // TODO - Change placeholders
+                StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(request.tvl.tuid);
+                Glide.with(context)
+                        .using(new FirebaseImageLoader())
+                        .load(ref)
+                        .bitmapTransform(new RoundedCornersTransformation(context, 20000, 0))
+                        .placeholder(R.drawable.ic_android)
+                        .error(R.drawable.ic_air_space_2)
+                        .into(holder.iv_profileImageTraveller);
+
+                // TODO - Change placeholders
+                StorageReference refImageRequested = RawrApp.getStorageReferenceForImageFromFirebase(request.id);
+                Glide.with(context)
+                        .using(new FirebaseImageLoader())
+                        .load(refImageRequested)
+                        .placeholder(R.drawable.ic_android)
+                        .error(R.drawable.ic_air_space_2)
+                        .into(holder.iv_itemRequestedPhoto);
             }
         });
     }
@@ -229,6 +271,9 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
 
         public Button btn_contact;
         public Button btn_cancel;
+
+        public ImageView iv_profileImageTraveller;
+        public ImageView iv_itemRequestedPhoto;
 
         public RelativeLayout rlChecks;
         public RelativeLayout rl_infoButton;
@@ -266,6 +311,9 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
             tv_item = (TextView) itemView.findViewById(R.id.tv_item);
             tv_requestDateTitle = (TextView) itemView.findViewById(R.id.tv_requestDateTitle);
             tv_requested_date = (TextView) itemView.findViewById(R.id.tv_requested_date);
+
+            iv_profileImageTraveller = (ImageView) itemView.findViewById(R.id.iv_profileImageTraveller);
+            iv_itemRequestedPhoto = (ImageView) itemView.findViewById(R.id.iv_itemRequestedPhoto);
 
             btn_contact = (Button) itemView.findViewById(R.id.bt_contact);
             btn_cancel = (Button) itemView.findViewById(R.id.bt_cancel);

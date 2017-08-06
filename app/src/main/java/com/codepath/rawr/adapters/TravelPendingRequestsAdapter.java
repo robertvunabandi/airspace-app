@@ -8,11 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.models.ShippingRequest;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.StorageReference;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -24,6 +28,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPendingRequestsAdapter.ViewHolder> {
 
@@ -56,6 +61,25 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         holder.tv_requester.setText(request.getRequesterName());
 //        holder.tv_date.setText(request.);
 
+        // TODO - Change placeholders
+        StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(request.requesterId);
+        Glide.with(context)
+                .using(new FirebaseImageLoader())
+                .load(ref)
+                .bitmapTransform(new RoundedCornersTransformation(context, 20000, 0))
+                .placeholder(R.drawable.ic_android)
+                .error(R.drawable.ic_air_space_2)
+                .into(holder.iv_profile_image_requester);
+
+        // TODO - Change placeholders
+        StorageReference refImageRequested = RawrApp.getStorageReferenceForImageFromFirebase(request.id);
+        Glide.with(context)
+                .using(new FirebaseImageLoader())
+                .load(refImageRequested)
+                .placeholder(R.drawable.ic_android)
+                .error(R.drawable.ic_air_space_2)
+                .into(holder.iv_itemRequestedPhoto);
+
     }
 
     @Override
@@ -74,7 +98,8 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         public TextView tv_requester;
         public TextView tv_date;
 
-
+        public ImageView iv_profile_image_requester;
+        public ImageView iv_itemRequestedPhoto;
 
         public Button ib_accept;
         public Button ib_decline;
@@ -91,7 +116,8 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
             ib_accept = (Button) itemView.findViewById(R.id.ib_accept);
             ib_decline = (Button) itemView.findViewById(R.id.ib_decline);
 
-
+            iv_profile_image_requester = (ImageView) itemView.findViewById(R.id.iv_profile_image_requester);
+            iv_itemRequestedPhoto = (ImageView) itemView.findViewById(R.id.iv_itemRequestedPhoto);
 
             // ACCEPT the request click listener
             ib_accept.setOnClickListener(new View.OnClickListener(){

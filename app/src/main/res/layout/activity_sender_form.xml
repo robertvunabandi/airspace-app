@@ -217,7 +217,7 @@
                 />
 
             <ImageView
-                android:id="@+id/iv_item"
+                android:id="@+id/iv_itemRequestedPhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bt_photo_upload"
@@ -235,7 +235,7 @@
                 android:text="How will you get the item/s to the traveller?"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="18sp"
-                android:layout_below="@+id/iv_item"/>
+                android:layout_below="@+id/iv_itemRequestedPhoto"/>
 
             <RelativeLayout
                 android:id="@+id/rl_flexiblityDropoffInit"

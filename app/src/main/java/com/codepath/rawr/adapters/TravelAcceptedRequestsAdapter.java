@@ -10,11 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.models.ShippingRequest;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.firebase.storage.StorageReference;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -25,6 +29,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by mandaleeyp on 7/26/17.
@@ -71,7 +76,24 @@ public class TravelAcceptedRequestsAdapter extends RecyclerView.Adapter<TravelAc
         holder.tv_requester.setText(request.getRequesterName());
         // holder.tv_requested_date.setText(RawrDate.simpleDateFromDDMMYYYY(request.dateCreated.day, request.dateCreated.month, request.dateCreated.year));
 
+        // TODO - Change placeholders
+        StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(request.requesterId);
+        Glide.with(context)
+                .using(new FirebaseImageLoader())
+                .load(ref)
+                .bitmapTransform(new RoundedCornersTransformation(context, 20000, 0))
+                .placeholder(R.drawable.ic_android)
+                .error(R.drawable.ic_air_space_2)
+                .into(holder.iv_profile_image_requester);
 
+        // TODO - Change placeholders
+        StorageReference refImageRequested = RawrApp.getStorageReferenceForImageFromFirebase(request.id);
+        Glide.with(context)
+                .using(new FirebaseImageLoader())
+                .load(refImageRequested)
+                .placeholder(R.drawable.ic_android)
+                .error(R.drawable.ic_air_space_2)
+                .into(holder.iv_itemRequestedPhoto);
 
         // TODO - SHOULD THERE EVEN BE A CANCEL BUTTON?
         // CANCEL the request click listener
@@ -240,6 +262,9 @@ public class TravelAcceptedRequestsAdapter extends RecyclerView.Adapter<TravelAc
         public TextView tv_requestDateTitle;
         public TextView tv_requested_date;
 
+        public ImageView iv_profile_image_requester;
+        public ImageView iv_itemRequestedPhoto;
+
         public Button btn_contact;
         public Button btn_cancel;
         public Button bt_deliver;
@@ -252,6 +277,9 @@ public class TravelAcceptedRequestsAdapter extends RecyclerView.Adapter<TravelAc
             tv_requestDateTitle = (TextView) itemView.findViewById(R.id.tv_requestDateTitle);
             tv_requested_date = (TextView) itemView.findViewById(R.id.tv_requested_date);
             tv_requester = (TextView) itemView.findViewById(R.id.tv_requester);
+
+            iv_profile_image_requester = (ImageView) itemView.findViewById(R.id.iv_profile_image_requester);
+            iv_itemRequestedPhoto = (ImageView) itemView.findViewById(R.id.iv_itemRequestedPhoto);
 
             btn_contact = (Button) itemView.findViewById(R.id.bt_contact);
             btn_cancel = (Button) itemView.findViewById(R.id.bt_cancel);

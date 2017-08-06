@@ -134,7 +134,7 @@ public class SendReceiveFragment extends Fragment {
         final EditText et_from = (EditText) v.findViewById(R.id.et_from);
         final EditText et_to = (EditText) v.findViewById(R.id.et_to);
         final EditText et_date = (EditText) v.findViewById(R.id.et_date);
-        final ImageView iv_item = (ImageView) v.findViewById(R.id.iv_item);
+        final ImageView iv_item = (ImageView) v.findViewById(R.id.iv_itemRequestedPhoto);
         tv_pending_counter = (TextView) v.findViewById(R.id.tv_pending_counter);
         tv_accepted_counter = (TextView) v.findViewById(R.id.tv_accepted_counter);
 

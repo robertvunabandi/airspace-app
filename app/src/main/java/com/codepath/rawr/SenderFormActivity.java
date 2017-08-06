@@ -89,7 +89,7 @@ public class SenderFormActivity extends AppCompatActivity {
         et_details = (EditText) findViewById(R.id.et_details);
         bt_confirm = (Button) findViewById(R.id.bt_confirm);
         bt_photo_upload = (Button) findViewById(R.id.bt_photo_upload);
-        iv_item = (ImageView) findViewById(R.id.iv_item);
+        iv_item = (ImageView) findViewById(R.id.iv_itemRequestedPhoto);
         tv_file_title = (TextView) findViewById(R.id.tv_file_title);
 
         // get the parent layout
