@@ -50,7 +50,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
 
     @Override
     public void onBindViewHolder(TravelPendingRequestsAdapter.ViewHolder holder, int position) {
-        ShippingRequest request = mRequests.get(position);
+        final ShippingRequest request = mRequests.get(position);
 
         holder.tv_item.setText(request.getShippingItemName());
         holder.tv_requester.setText(request.getRequesterName());
@@ -74,6 +74,8 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         public TextView tv_requester;
         public TextView tv_date;
 
+
+
         public Button ib_accept;
         public Button ib_decline;
 
@@ -88,6 +90,8 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
             tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             ib_accept = (Button) itemView.findViewById(R.id.ib_accept);
             ib_decline = (Button) itemView.findViewById(R.id.ib_decline);
+
+
 
             // ACCEPT the request click listener
             ib_accept.setOnClickListener(new View.OnClickListener(){

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:color="@color/SXXXDark"
+    android:color="@color/suitcaseColorBlack"
     tools:targetApi="lollipop">
     <item>
         <shape android:shape="rectangle">
             <corners android:radius="100dip" />
-            <solid android:color="@color/colorTransparentSXXDarkMore" />
+            <stroke android:color="@color/suitcaseColorBlack" android:width="2dip" />
         </shape>
     </item>
 </ripple>
