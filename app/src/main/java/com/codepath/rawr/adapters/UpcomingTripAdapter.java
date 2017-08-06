@@ -87,12 +87,12 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
         holder.tv_dropoff.setText(trips.drop_off_flexibility);
         holder.tv_pickup.setText(trips.pick_up_flexibility);
 
-        //holder.notification.setVisibility(View.GONE);
+        holder.notification.setVisibility(View.GONE);
 
-//        if (trips.pending_requests_count > 0) {
-//            holder.notification.setVisibility(View.VISIBLE);
-//            holder.notification.setText(String.valueOf(trips.pending_requests_count));
-//        }
+        if (trips.pending_requests_count > 0) {
+            holder.notification.setVisibility(View.VISIBLE);
+            holder.notification.setText(String.valueOf(trips.pending_requests_count));
+        }
 
 
         holder.rl_infoButton.setOnClickListener(new View.OnClickListener() {
@@ -297,8 +297,8 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
             tv_dropoff = (TextView) itemView.findViewById(R.id.tv_dropoff);
             tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup);
 
-//            notification = (TextView) itemView.findViewById(R.id.notification);
-//            notification.setVisibility(View.GONE);
+            notification = (TextView) itemView.findViewById(R.id.notification);
+            notification.setVisibility(View.GONE);
         }
     }
 
