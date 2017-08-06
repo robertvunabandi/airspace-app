@@ -367,7 +367,6 @@
                 android:layout_below="@id/rl_flexibility"
                 android:layout_marginTop="8sp"/>
 
-
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
     </RelativeLayout>

@@ -88,8 +88,8 @@ public class ProfileActivity extends AppCompatActivity {
                 .load(ref)
                 .placeholder(R.drawable.ic_android)
                 .error(R.drawable.ic_air_space_2)
+                .dontAnimate()
                 .into(iv_profile_image);
-
     }
 
     public void populateUsersData() {
