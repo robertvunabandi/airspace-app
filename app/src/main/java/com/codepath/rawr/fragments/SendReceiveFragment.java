@@ -54,7 +54,6 @@ public class SendReceiveFragment extends Fragment {
     // for database, we need client and urls
     AsyncHttpClient client;
     // for results
-    private static final int CODE_SENDER_FORM_ACTIVITY = 1;
 
     // Declaring variables for Pending Requests
     ShippingPendingRequestsAdapter shippingPendingRequestsAdapter;
@@ -265,7 +264,12 @@ public class SendReceiveFragment extends Fragment {
     }
 
     // get data for list of trips
-    private void getRequestsData() {
+    public void getRequestsData() {
+        try {
+            ((MainActivity) getActivity()).setProgressVisible();
+        } catch (Exception exp) {
+            Log.e(TAG, String.format("SETTING VISIBLE FAIL: %s", exp));
+        }
 
         // Set the request parameters
         RequestParams params = new RequestParams();
@@ -281,6 +285,12 @@ public class SendReceiveFragment extends Fragment {
                 } catch (JSONException e) {
                     Log.e(TAG, "An error occurred while parsing the JSON Array");
                     swipeContainer.setRefreshing(false);
+                    try {
+                        ((MainActivity) getActivity()).setProgressDead();
+                    } catch (Exception exp) {
+                        Log.e(TAG, String.format("SET DEAD FAIL: %s", exp));
+                    }
+
                 }
             }
 
@@ -301,6 +311,11 @@ public class SendReceiveFragment extends Fragment {
                 // TODO - Fix this error (next line that says: (MainActivity) getActivity()).snackbarCallLong(msg);
                 ((MainActivity) getActivity()).snackbarCallLong(msg);
                 swipeContainer.setRefreshing(false);
+                try {
+                    ((MainActivity) getActivity()).setProgressDead();
+                } catch (Exception exp) {
+                    Log.e(TAG, String.format("SET DEAD FAIL: %s", exp));
+                }
             }
 
             @Override
@@ -308,6 +323,11 @@ public class SendReceiveFragment extends Fragment {
                 Log.e(TAG, String.format("error 3"));
                 ((MainActivity) getActivity()).snackbarCallLong(String.format("Error(3) occurred %s", responseString));
                 swipeContainer.setRefreshing(false);
+                try {
+                    ((MainActivity) getActivity()).setProgressDead();
+                } catch (Exception exp) {
+                    Log.e(TAG, String.format("SET DEAD FAIL: %s", exp));
+                }
             }
         });
     }
@@ -366,6 +386,11 @@ public class SendReceiveFragment extends Fragment {
             }
         }
         swipeContainer.setRefreshing(false);
+        try {
+            ((MainActivity) getActivity()).setProgressDead();
+        } catch (Exception exp) {
+            Log.e(TAG, String.format("SET DEAD FAIL: %s", exp));
+        }
     }
 
     public static void hideKeyboard(Activity activity) {

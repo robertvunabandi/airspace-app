@@ -293,9 +293,26 @@ public class MainActivity extends AppCompatActivity {
                 super.onTabSelected(tab);
                 int tabIconColor = ContextCompat.getColor(context, R.color.White);
                 changeColorTab(tab, 1);
-                if (tab.getPosition() == 2) {
+                if (tab.getPosition() == 0) {
+                    try {
+                        ((TravelFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getTripsData();
+                    } catch (Exception e) {
+                        Log.e(TAG, String.format("UPDATING FAIL: %s", e));
+                    }
+
+                } else if (tab.getPosition() == 1) {
+                    try {
+                        ((SendReceiveFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getRequestsData();
+                    } catch (Exception e) {
+                        Log.e(TAG, String.format("UPDATING FAIL: %s", e));
+                    }
+                } else if (tab.getPosition() == 2) {
                     // refresh the notifications
-                    ((ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getNotifications();
+                    try {
+                        ((ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getNotifications();
+                    } catch (Exception e) {
+                        Log.e(TAG, String.format("UPDATING FAIL: %s", e));
+                    }
                 }
             }
 
