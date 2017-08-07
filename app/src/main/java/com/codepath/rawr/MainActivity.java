@@ -312,6 +312,10 @@ public class MainActivity extends AppCompatActivity {
                 super.onTabReselected(tab);
                 int tabIconColor = ContextCompat.getColor(context, R.color.White);
                 changeColorTab(tab, 1);
+                if (tab.getPosition() == 2) {
+                    // refresh the notifications
+                    ((ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getNotifications();
+                }
             }
         });
         vpPager.setCurrentItem(1);
