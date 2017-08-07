@@ -24,6 +24,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -63,6 +64,8 @@ public class ProfileActivityOther extends AppCompatActivity {
     TextView tv_trips_counter, tv_dollars_made_counter, tv_items_counter, tv_fullName, tv_location, tv_wished_location;
     RelativeLayout rl_profile_activity_banner, im_suitcase_color_on_detail;
     Button bt_edit_profile;
+    ProgressBar pb;
+
     // Setting up database
     AsyncHttpClient client;
     User userProfile;
@@ -95,6 +98,11 @@ public class ProfileActivityOther extends AppCompatActivity {
         rl_profile_activity_banner = (RelativeLayout) findViewById(R.id.rl_profile_activity_banner);
         im_suitcase_color_on_detail = (RelativeLayout) findViewById(R.id.im_suitcase_color_on_detail);
         extentiateLoadingView(profile_image_loading_layout);
+
+        pb = (ProgressBar) findViewById(R.id.progressBarProfileActivity);
+        setProgressDead();
+
+
 
         // get the using user so we can do stuff with it
         getUser(userId);
@@ -232,6 +240,7 @@ public class ProfileActivityOther extends AppCompatActivity {
             // TODO - Make sure this part works... We need to add edit profile activity to check that
             rl_profile_activity_banner.setBackgroundTintList(ColorStateList.valueOf(getColor(userProfile.suitcaseColor.getDrawableId())));
 
+
         } else {
             // set the color of the suitcase to something random
             // rsci stands for random suitcase color integer, we want to be above index 1 and below index 8, and on top of that, get rid of 4 undesired colors
@@ -241,7 +250,7 @@ public class ProfileActivityOther extends AppCompatActivity {
             // change the color of the banner
             iv_profile_activity_banner.setImageDrawable(getDrawable(userProfile.suitcaseColor.getDrawableId()));
         }
-
+        setProgressDead();
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -288,6 +297,7 @@ public class ProfileActivityOther extends AppCompatActivity {
     }
 
     public void getUser(String id) {
+        setProgressVisible();
         // make a call to server to get the user and then create userProfile base on that json from the server
         RequestParams params = new RequestParams();
         params.put("uid", id);
@@ -303,6 +313,7 @@ public class ProfileActivityOther extends AppCompatActivity {
                     Log.e(TAG, String.format("Parsing JSON excepted %s", e));
                     // quit this activity because this error will cause more errors
                     snackbarCallIndefinite("JSON error in parsing user object");
+                    setProgressDead();
                     finish();
                 }
             }
@@ -311,11 +322,21 @@ public class ProfileActivityOther extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
                 snackbarCallIndefinite(String.format("User not found %s", errorResponse));
+                setProgressDead();
                 // quit this activity because this error will cause more errors
                 finish();
             }
 
         });
+    }
+
+
+    public void setProgressVisible() {
+        pb.setVisibility(View.VISIBLE);
+    }
+
+    public void setProgressDead() {
+        pb.setVisibility(View.GONE);
     }
 
     // Snackbar calls

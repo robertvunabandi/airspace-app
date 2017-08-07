@@ -98,9 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
         extentiateLoadingView(profile_image_loading_layout);
 
         pb = (ProgressBar) findViewById(R.id.progressBarProfileActivity);
-        setProgressVisible();
-
-
+        setProgressDead();
 
         // do other functionalities
         iv_profile_image.setOnClickListener(new View.OnClickListener() {
@@ -320,6 +318,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void getUsingUser() {
+        setProgressVisible();
         // make a call to server to get the user and then create userProfile base on that json from the server
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
@@ -335,6 +334,7 @@ public class ProfileActivity extends AppCompatActivity {
                     Log.e(TAG, String.format("Parsing JSON excepted %s", e));
                     // quit this activity because this error will cause more errors
                     snackbarCallIndefinite("JSON error in parsing user object");
+                    setProgressDead();
                     finish();
                 }
             }
@@ -343,6 +343,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
                 snackbarCallIndefinite(String.format("User not found %s", errorResponse));
+                setProgressDead();
                 // quit this activity because this error will cause more errors
                 finish();
             }
