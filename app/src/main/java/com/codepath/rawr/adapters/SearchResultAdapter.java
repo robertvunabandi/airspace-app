@@ -1,13 +1,16 @@
 package com.codepath.rawr.adapters;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +21,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.rawr.ProfileActivityOther;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.ReceiverFormActivity;
 import com.codepath.rawr.SenderFormActivity;
 import com.codepath.rawr.models.TravelNotice;
+import com.codepath.rawr.models.User;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.firebase.storage.StorageReference;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
@@ -36,12 +48,11 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
  */
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 
-    // String usingUserId = "5976c20e6e11f97eb93d8867";
-    private static int CODE_SENDER_FORM_ACTIVITY = 1;
-
+    private static final String TAG = "SearchResultAdapter";
     // declare variables
     private List<TravelNotice> mTrips;
     Context context;
+    AsyncHttpClient client;
 
     public SearchResultAdapter(List<TravelNotice> trips){
         mTrips = trips;
@@ -59,18 +70,18 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         return viewHolder;
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        TravelNotice trip = mTrips.get(position);
+        final TravelNotice trip = mTrips.get(position);
+        // this will get the user and set his name in the given holder
+        getUserAndPlaceNameInHolder(holder, trip.tuid);
 
         int num = position + 1;
         int total = mTrips.size();
 
         holder.tvResultNum.setText("Result " + num + " of " + total);
-
-        // TODO - FIGURE OUT HOW TO GET TRAVELLER NAME
-        holder.tv_travellerName.setText("Ruben's " + " trip");
 
         holder.tv_from_isr.setText(trip.dep_iata);
         holder.tv_to_isr.setText(trip.arr_iata);
@@ -115,15 +126,55 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             }
         });
 
-        // TODO - Change placeholders
+        // get placeholder images
+        Drawable profile_placeholder_loading = context.getDrawable(R.drawable.ic_profile_placeholder_loading);
+        if (profile_placeholder_loading != null)  profile_placeholder_loading.setTint(context.getColor(R.color.White));
+        Drawable profile_placeholder_error = context.getDrawable(R.drawable.ic_profile_placeholder_error);
+        if (profile_placeholder_error != null) profile_placeholder_error.setTint(context.getColor(R.color.White));
+
         StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(trip.tuid);
         Glide.with(context)
                 .using(new FirebaseImageLoader())
                 .load(ref)
                 .bitmapTransform(new RoundedCornersTransformation(context, 20000, 0))
-                .placeholder(R.drawable.ic_android)
-                .error(R.drawable.ic_air_space_2)
+                .placeholder(profile_placeholder_loading)
+                .error(profile_placeholder_error)
                 .into(holder.iv_profileImageTraveller);
+
+        holder.iv_profileImageTraveller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileActivityOther = new Intent(context, ProfileActivityOther.class);
+                profileActivityOther.putExtra("user_id", trip.tuid);
+                context.startActivity(profileActivityOther);
+            }
+        });
+    }
+
+    public void getUserAndPlaceNameInHolder(final ViewHolder holder, String user_id){
+        /* Gets the user from the given id, then places his name on the holder.tv_travellerName */
+        client = new AsyncHttpClient();
+        RequestParams params = new RequestParams();
+        params.put("uid", user_id);
+        client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
+            User user;
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                try {
+                    user = User.fromJSONServer(response.getJSONObject("data"));
+                    holder.tv_travellerName.setText(user.fName + "'s trip");
+                } catch (JSONException e) {
+                    // error occurred, so we just log it
+                    Log.e(TAG, String.format("JSON Error occurred: %s", e));
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                Log.e(TAG, String.format("Server Error Received: %s", errorResponse));
+            }
+        });
     }
 
     @Override

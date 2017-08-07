@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -112,6 +113,12 @@ public class ProfileActivity extends AppCompatActivity {
         // get the using user so we can do stuff with it
         getUsingUser();
 
+        // get placeholder images
+        Drawable profile_placeholder_loading = getDrawable(R.drawable.ic_profile_placeholder_loading);
+        profile_placeholder_loading.setTint(getColor(R.color.suitcaseColorBlack));
+        Drawable profile_placeholder_error = getDrawable(R.drawable.ic_profile_placeholder_error_own_profile);
+        profile_placeholder_error.setTint(getColor(R.color.suitcaseColorBlack));
+
         // load the profile image of the user that's currently there with Glide and Firebase
         StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(RawrApp.getUsingUserId());
         Glide.with(this)
@@ -132,9 +139,9 @@ public class ProfileActivity extends AppCompatActivity {
                 })
                 .centerCrop()
                 .bitmapTransform(new RoundedCornersTransformation(this, 2000, 0))
-                .placeholder(R.drawable.ic_android)
-                .error(R.drawable.ic_air_space_2)
-                .into(iv_profile_image); // TODO - CHANGE PLACEHOLDERS!!!!!!!!
+                .placeholder(profile_placeholder_loading)
+                .error(profile_placeholder_error)
+                .into(iv_profile_image);
 
     }
 
@@ -248,7 +255,6 @@ public class ProfileActivity extends AppCompatActivity {
             im_suitcase_color_on_detail.setBackgroundColor(getColor(usingUser.suitcaseColor.getDrawableId()));
             // change the color of the banner
             iv_profile_activity_banner.setVisibility(View.INVISIBLE);
-            // TODO - Make sure this part works... We need to add edit profile activity to check that
             rl_profile_activity_banner.setBackgroundTintList(ColorStateList.valueOf(getColor(usingUser.suitcaseColor.getDrawableId())));
 
         } else {
@@ -314,7 +320,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void getUsingUser() {
-        // make a call to server to get the user and then create usingUser base on that json from the server
+        // make a call to server to get the user and then create userProfile base on that json from the server
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
         client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
@@ -322,7 +328,7 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    // populate the usingUser from the JSON received here, then enable the bt_confirm
+                    // populate the userProfile from the JSON received here, then enable the bt_confirm
                     usingUser = User.fromJSONServer(response.getJSONObject("data"));
                     populateUsersData();
                 } catch (JSONException e) {

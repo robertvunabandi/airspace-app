@@ -3,6 +3,7 @@ package com.codepath.rawr.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
@@ -48,7 +49,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
     public List<ShippingRequest> mRequests;
     Context context;
     AsyncHttpClient client;
-    public static final String TAG = "ShipPendRqAdap";
+    private static final String TAG = "ShipPendRqAdap";
 
     public ShippingPendingRequestsAdapter(List<ShippingRequest> requests) {
         mRequests = requests;
@@ -66,6 +67,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
@@ -234,14 +236,24 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
             }
         });
 
+        // get placeholder images
+        Drawable profile_placeholder_loading = context.getDrawable(R.drawable.ic_profile_placeholder_loading);
+        profile_placeholder_loading.setTint(context.getColor(R.color.White));
+        Drawable profile_placeholder_error = context.getDrawable(R.drawable.ic_profile_placeholder_error);
+        profile_placeholder_error.setTint(context.getColor(R.color.White));
+        Drawable image_placeholder_loading = context.getDrawable(R.drawable.ic_image_placeholder_loading);
+        image_placeholder_loading.setTint(context.getColor(R.color.White));
+        Drawable image_placeholder_error = context.getDrawable(R.drawable.ic_image_placeholder_error);
+        image_placeholder_error.setTint(context.getColor(R.color.White));
+
         // TODO - Change placeholders
         StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(request.tvl.tuid);
         Glide.with(context)
                 .using(new FirebaseImageLoader())
                 .load(ref)
                 .bitmapTransform(new RoundedCornersTransformation(context, 20000, 0))
-                .placeholder(R.drawable.ic_android)
-                .error(R.drawable.ic_air_space_2)
+                .placeholder(profile_placeholder_loading)
+                .error(profile_placeholder_error)
                 .into(holder.iv_profileImageTraveller);
 
         // TODO - Change placeholders
@@ -249,8 +261,8 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         Glide.with(context)
                 .using(new FirebaseImageLoader())
                 .load(refImageRequested)
-                .placeholder(R.drawable.ic_android)
-                .error(R.drawable.ic_air_space_2)
+                .placeholder(image_placeholder_loading)
+                .error(image_placeholder_error)
                 .into(holder.iv_itemRequestedPhoto);
     }
 
