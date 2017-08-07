@@ -2,6 +2,7 @@ package com.codepath.rawr.adapters;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.rawr.ProfileActivityOther;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
 import com.codepath.rawr.TravelPendingRequestsActivity;
@@ -91,6 +93,15 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                 .placeholder(image_placeholder_loading)
                 .error(image_placeholder_error)
                 .into(holder.iv_itemRequestedPhoto);
+
+        holder.iv_profile_image_requester.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileActivityOther = new Intent(context, ProfileActivityOther.class);
+                profileActivityOther.putExtra("user_id", request.requesterId);
+                context.startActivity(profileActivityOther);
+            }
+        });
 
     }
 
