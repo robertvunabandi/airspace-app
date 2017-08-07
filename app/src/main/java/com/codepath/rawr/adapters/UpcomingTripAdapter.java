@@ -91,7 +91,7 @@ public class UpcomingTripAdapter extends RecyclerView.Adapter<UpcomingTripAdapte
 
         if (trips.pending_requests_count > 0) {
             holder.notification.setVisibility(View.VISIBLE);
-            holder.notification.setText(String.valueOf(trips.pending_requests_count));
+            holder.notification.setText("!");
         }
 
 

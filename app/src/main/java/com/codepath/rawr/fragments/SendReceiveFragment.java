@@ -143,7 +143,7 @@ public class SendReceiveFragment extends Fragment {
             public void onClick(View v) {
                 et_from.setText("San Antonio");
                 et_to.setText("Seattle");
-                et_date.setText("08/11/2017");
+                et_date.setText("08/11/17");
                 int month = Integer.parseInt(et_date.getText().toString().substring(0, 2));
                 int dayOfMonth = Integer.parseInt(et_date.getText().toString().substring(3, 5));
                 int year = Integer.parseInt(et_date.getText().toString().substring(6, 8)) + 2000;
