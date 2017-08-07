@@ -161,9 +161,14 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                         public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 
                             try {
+                                ib_accept.setText("ACCEPTED ✓");
+                                ib_accept.setEnabled(false);
+                                ib_decline.setEnabled(false);
                                 ShippingRequest newRequest = ShippingRequest.fromJSONServer(response.getJSONObject("request"), response.getJSONObject("travel_notice"), response.getJSONObject("user"));
                                 mRequests.set(pos, newRequest);
                                 mRequests.remove(pos);
+
+                                Snackbar.make(itemView, "Accepted request from " + newRequest.getRequesterName(), Snackbar.LENGTH_LONG).show();
 
                                 Snackbar bar = Snackbar.make(itemView, "Accepted request from " + newRequest.getRequesterName(), Snackbar.LENGTH_LONG)
                                         .setAction("Dismiss", new View.OnClickListener() {
