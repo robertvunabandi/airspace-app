@@ -136,8 +136,6 @@ public class TravelAcceptedRequestsAdapter extends RecyclerView.Adapter<TravelAc
                                 mAcceptedRequests .remove(position);
                                 Snackbar.make(v, String.format("Request cancelled"), Snackbar.LENGTH_LONG).show();
                                 notifyDataSetChanged();
-
-                                // TODO - notify the traveller that the shipper cancelled the request!!!! (if not done in the database already)
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
@@ -199,8 +197,6 @@ public class TravelAcceptedRequestsAdapter extends RecyclerView.Adapter<TravelAc
                                 mAcceptedRequests .remove(position);
                                 Snackbar.make(v, String.format("Request cancelled"), Snackbar.LENGTH_LONG).show();
                                 notifyDataSetChanged();
-
-                                // TODO - notify the traveller that the shipper cancelled the request!!!! (if not done in the database already)
                             }
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {

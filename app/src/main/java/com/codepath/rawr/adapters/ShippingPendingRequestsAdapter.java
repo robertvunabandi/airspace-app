@@ -246,7 +246,6 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
         Drawable image_placeholder_error = context.getDrawable(R.drawable.ic_image_placeholder_error);
         image_placeholder_error.setTint(context.getColor(R.color.White));
 
-        // TODO - Change placeholders
         StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(request.tvl.tuid);
         Glide.with(context)
                 .using(new FirebaseImageLoader())
@@ -256,7 +255,6 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
                 .error(profile_placeholder_error)
                 .into(holder.iv_profileImageTraveller);
 
-        // TODO - Change placeholders
         StorageReference refImageRequested = RawrApp.getStorageReferenceForImageFromFirebase(request.id);
         Glide.with(context)
                 .using(new FirebaseImageLoader())
