@@ -25,7 +25,7 @@ public class RawrNotification {
     public static final int ACTION_REQUEST_RECEIVED = 10; // tvl_from_id, rq_from_id, usr_from_id
     public static final int ACTION_REQUEST_ACCEPTED = 11; // tvl_from_id, rq_from_id, usr_from_id
     public static final int ACTION_REQUEST_DECLINED = 12; // tvl_from_id, rq_from_id, usr_from_id
-    public static final int ACTION_REQUEST_DELETED = 13; // TBD
+    public static final int ACTION_REQUEST_DELETED = 13; // tvl_from_id, rq_from_id, usr_from_id
     public static final int ACTION_MESSAGE_RECEIVED = 20; // TBD
     public static final int ACTION_TRAVEL_NOTICE_DELETED = 30; // X
     public static final int ACTION_TRAVEL_NOTICE_APPROACHING = 31; // TBD
