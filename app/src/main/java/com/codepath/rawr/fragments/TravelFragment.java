@@ -442,6 +442,7 @@ public class TravelFragment extends Fragment {
                 Log.e(TAG, String.format("%s", e));
             }
         }
+        swipeContainer.setRefreshing(false);
     }
 
 
@@ -475,6 +476,7 @@ public class TravelFragment extends Fragment {
                 }
                 swipeContainer.setRefreshing(false);
 
+
             }
 
             @Override
@@ -492,6 +494,7 @@ public class TravelFragment extends Fragment {
                     errorSnack = "Error (1) occurred from Server.";
                 }
                 ((MainActivity) getActivity()).snackbarCallLong(errorSnack);
+                swipeContainer.setRefreshing(false);
                 if (idError) ((MainActivity) getActivity()).launchLogoutActivity("It appears that you are not logged in. Please log in or sign up.");
             }
 
@@ -500,6 +503,7 @@ public class TravelFragment extends Fragment {
                     throwable) {
                 String errorSnack = String.format("Server error (3) (code %s): %s", statusCode, responseString);;
                 ((MainActivity) getActivity()).snackbarCallIndefinite(errorSnack);
+                swipeContainer.setRefreshing(false);
             }
         });
     }
