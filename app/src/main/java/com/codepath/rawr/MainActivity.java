@@ -52,7 +52,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
-import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 import static com.codepath.rawr.R.id.drawerLayout;
 import static com.codepath.rawr.RawrApp.getStorageReferenceForImageFromFirebase;
@@ -458,7 +457,6 @@ public class MainActivity extends AppCompatActivity {
                             .using(new FirebaseImageLoader())
                             .load(ref)
                             .centerCrop()
-                            .bitmapTransform(new RoundedCornersTransformation(context, 2000, 0))
                             .placeholder(profile_placeholder_loading)
                             .error(profile_placeholder_error)
                             .into(iv_profile_image);
