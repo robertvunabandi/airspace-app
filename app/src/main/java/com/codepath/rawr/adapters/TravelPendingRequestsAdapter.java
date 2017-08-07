@@ -63,9 +63,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
 
         holder.tv_item.setText(request.getShippingItemName());
         holder.tv_requester.setText(request.getRequesterName());
-
-        // TODO - FIX DATE
-//        holder.tv_date.setText(request.);
+        holder.tv_date.setText(request.dateCreated.dateSimple);
 
         // get placeholder images
         Drawable profile_placeholder_loading = context.getDrawable(R.drawable.ic_profile_placeholder_loading);

@@ -79,7 +79,7 @@ public class TravelAcceptedRequestsAdapter extends RecyclerView.Adapter<TravelAc
         final ShippingRequest request = mAcceptedRequests.get(position);
         holder.tv_item.setText(request.getShippingItemName());
         holder.tv_requester.setText(request.getRequesterName());
-        // holder.tv_requested_date.setText(RawrDate.simpleDateFromDDMMYYYY(request.dateCreated.day, request.dateCreated.month, request.dateCreated.year));
+        holder.tv_date.setText(request.dateCreated.dateSimple);
 
         // get placeholder images
         Drawable profile_placeholder_loading = context.getDrawable(R.drawable.ic_profile_placeholder_loading);
@@ -271,7 +271,7 @@ public class TravelAcceptedRequestsAdapter extends RecyclerView.Adapter<TravelAc
         public TextView tv_item;
         public TextView tv_requester;
         public TextView tv_requestDateTitle;
-        public TextView tv_requested_date;
+        public TextView tv_date;
 
         public ImageView iv_profile_image_requester;
         public ImageView iv_itemRequestedPhoto;
@@ -286,7 +286,7 @@ public class TravelAcceptedRequestsAdapter extends RecyclerView.Adapter<TravelAc
             tv_itemTitle = (TextView) itemView.findViewById(R.id.tv_itemTitle);
             tv_item = (TextView) itemView.findViewById(R.id.tv_item);
             tv_requestDateTitle = (TextView) itemView.findViewById(R.id.tv_requestDateTitle);
-            tv_requested_date = (TextView) itemView.findViewById(R.id.tv_requested_date);
+            tv_date = (TextView) itemView.findViewById(R.id.tv_date);
             tv_requester = (TextView) itemView.findViewById(R.id.tv_requester);
 
             iv_profile_image_requester = (ImageView) itemView.findViewById(R.id.iv_profile_image_requester);
