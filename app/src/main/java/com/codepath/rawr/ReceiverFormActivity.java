@@ -129,7 +129,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
     }
 
     public void fillUpRubensInfo(){
-        cb_smallBox.setChecked(true);
+        cb_envelope.setChecked(true);
         item_envelope = true;
         et_dropoff.setText("My mom will drive to the airport");
         et_pickup.setText("I'll meet you at arrivals");
