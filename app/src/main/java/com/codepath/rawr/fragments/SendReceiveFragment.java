@@ -280,8 +280,8 @@ public class SendReceiveFragment extends Fragment {
                     populateList(response.getJSONArray("data"));
                 } catch (JSONException e) {
                     Log.e(TAG, "An error occurred while parsing the JSON Array");
+                    swipeContainer.setRefreshing(false);
                 }
-                swipeContainer.setRefreshing(false);
             }
 
             @Override
@@ -300,12 +300,14 @@ public class SendReceiveFragment extends Fragment {
                 // TODO - This sometimes causes error, it says "java.lang.NullPointerException: Attempt to invoke virtual method 'void com.codepath.rawr.MainActivity.snackbarCallLong(java.lang.String)' on a null object"
                 // TODO - Fix this error (next line that says: (MainActivity) getActivity()).snackbarCallLong(msg);
                 ((MainActivity) getActivity()).snackbarCallLong(msg);
+                swipeContainer.setRefreshing(false);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Log.e(TAG, String.format("error 3"));
                 ((MainActivity) getActivity()).snackbarCallLong(String.format("Error(3) occurred %s", responseString));
+                swipeContainer.setRefreshing(false);
             }
         });
     }
@@ -363,6 +365,7 @@ public class SendReceiveFragment extends Fragment {
                 Log.e(TAG, String.format("%s", e));
             }
         }
+        swipeContainer.setRefreshing(false);
     }
 
     public static void hideKeyboard(Activity activity) {
