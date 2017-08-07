@@ -131,8 +131,6 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
                     holder.ivToggleInfo.setRotation(-90);
                     holder.tv_trips_detailsToggler.setText("Hide ");
                 }
-
-                // TODO - Add filters in XML
             }
         });
 
