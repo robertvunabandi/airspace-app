@@ -20,23 +20,12 @@
 
             <ImageView
                 android:id="@+id/iv_logoImg"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
                 android:tint="@color/White"
-                android:src="@drawable/ic_air_space_2" />
+                android:src="@drawable/logo" />
 
-            <TextView
-                android:id="@+id/tv_appName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_logoImg"
-                android:layout_centerHorizontal="true"
-                android:text="@string/app_name"
-                android:textColor="@color/PXXLight"
-                android:textSize="24sp"
-                android:textAllCaps="true"
-                android:textStyle="bold" />
         </RelativeLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -53,13 +42,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@null"
+                android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center"
-                android:hint="First name"
+                android:hint="F I R S T   N A M E"
                 android:maxLines="1"
                 android:textColor="@color/White"
                 android:textColorHint="@color/SLight"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="20sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -77,12 +66,11 @@
                 android:layout_gravity="center"
                 android:background="@null"
                 android:gravity="center"
-                android:hint="Last name"
+                android:hint="L A S T   N A M E"
                 android:maxLines="1"
                 android:textColor="@color/White"
-                android:textColorHint="@color/SLight"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textColorHint="@color/SDark"
+                android:textSize="20sp" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -100,33 +88,32 @@
                 android:layout_gravity="center"
                 android:background="@null"
                 android:gravity="center"
+                android:hint="E M A I L"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:hint="Email"
                 android:textColor="@color/White"
-                android:textColorHint="@color/SLight"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textColorHint="@color/SXDark"
+                android:textSize="20sp" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/bt_signup"
-            style="@android:style/Widget.Material.Button.Colored"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/til_email"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="24dp"
-            android:background="@drawable/ripple_pdark"
+            android:background="@drawable/white_button"
+            android:fontFamily="sans-serif"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"
             android:text="Sign up"
-            android:textAllCaps="false"
-            android:textColor="@color/White"
-            android:textSize="24sp"
 
-            android:textStyle="bold" />
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            android:textStyle="italic" />
 
         <ProgressBar
             android:id="@+id/progressBarSignupActivity"

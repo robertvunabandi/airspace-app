@@ -52,7 +52,7 @@ public class LogoutActivity extends AppCompatActivity {
         // get the views
         parentView = (RelativeLayout) findViewById(R.id.ActivityLogoutInitRelativeLayout);
         pb = (ProgressBar) findViewById(R.id.progressBarLogoutActivity);
-        tv_appName = (TextView) findViewById(R.id.tv_appName);
+//        tv_appName = (TextView) findViewById(R.id.tv_appName);
         bt_login = (Button) findViewById(R.id.bt_login);
         bt_signup = (Button) findViewById(R.id.bt_signup);
         et_email = (EditText) findViewById(R.id.tv_tvlr_email);

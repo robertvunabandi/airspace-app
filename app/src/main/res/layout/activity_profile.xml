@@ -29,6 +29,7 @@
                     android:layout_height="250sp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY" />
+
             </RelativeLayout>
 
 
@@ -55,7 +56,9 @@
                 <RelativeLayout
                     android:id="@+id/profile_image_loading_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></RelativeLayout>
+                    android:layout_height="match_parent">
+
+                </RelativeLayout>
             </RelativeLayout>
 
 
@@ -100,6 +103,15 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/rl_image_background"
             android:padding="12dp">
+
+            <ProgressBar
+                android:id="@+id/progressBarProfileActivity"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_best_location_to_go"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="26dp" />
 
             <TextView
                 android:id="@+id/tv_fullName"

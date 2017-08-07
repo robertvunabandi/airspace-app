@@ -23,6 +23,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -69,6 +70,8 @@ public class ProfileActivity extends AppCompatActivity {
     // special views
     ViewGroup profile_image_loading_layout;
 
+    ProgressBar pb;
+
     private static final String TAG = "ProfileActivity";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -92,6 +95,11 @@ public class ProfileActivity extends AppCompatActivity {
         rl_profile_activity_banner = (RelativeLayout) findViewById(R.id.rl_profile_activity_banner);
         im_suitcase_color_on_detail = (RelativeLayout) findViewById(R.id.im_suitcase_color_on_detail);
         extentiateLoadingView(profile_image_loading_layout);
+
+        pb = (ProgressBar) findViewById(R.id.progressBarProfileActivity);
+        setProgressVisible();
+
+
 
         // do other functionalities
         iv_profile_image.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +136,14 @@ public class ProfileActivity extends AppCompatActivity {
                 .error(R.drawable.ic_air_space_2)
                 .into(iv_profile_image); // TODO - CHANGE PLACEHOLDERS!!!!!!!!
 
+    }
+
+    public void setProgressVisible() {
+        pb.setVisibility(View.VISIBLE);
+    }
+
+    public void setProgressDead() {
+        pb.setVisibility(View.GONE);
     }
 
     /** For animating the loading of profile photo! */
@@ -244,7 +260,7 @@ public class ProfileActivity extends AppCompatActivity {
             // change the color of the banner
             iv_profile_activity_banner.setImageDrawable(getDrawable(usingUser.suitcaseColor.getDrawableId()));
         }
-
+        setProgressDead();
     }
 
     public void getImageFromAlbum() {

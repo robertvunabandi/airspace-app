@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerVertical="true"
-    android:background="@color/White"
+    android:background="@color/PXXLight"
     tools:context="com.codepath.rawr.LogoutActivity">
 
     <RelativeLayout
@@ -14,37 +14,27 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:layout_centerVertical="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
 
             <RelativeLayout
                 android:id="@+id/rl_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:id="@+id/iv_logoImg"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_centerHorizontal="true"
-                    android:tint="@color/PDark"
-                    android:src="@drawable/ic_air_space_2" />
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:tint="@color/PRegular"
+                    android:src="@drawable/logo2"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true" />
 
-                <TextView
-                    android:id="@+id/tv_appName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/iv_logoImg"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/app_name"
-                    android:textColor="@color/PRegular"
-                    android:textSize="24sp"
-                    android:textAllCaps="true"
-                    android:textStyle="bold" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -64,18 +54,19 @@
                     android:layout_marginTop="24dp"
                     android:background="@null"
                     android:gravity="center"
-                    android:hint="Email"
+                    android:hint="E M A I L"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:textColor="@color/SXXDark"
-                    android:textColorHint="@color/SXXDarkTransparent"
-                    android:textSize="28sp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/PDark"
+                    android:textColorHint="@color/SLight"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/bt_login"
                     style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250sp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_tvlr_email"
                     android:layout_centerHorizontal="true"
@@ -83,7 +74,7 @@
                     android:background="@drawable/ripple_effect"
                     android:paddingLeft="32dp"
                     android:paddingRight="32dp"
-                    android:text="Login with email"
+                    android:text="L O G I N"
                     android:textAllCaps="false"
                     android:textColor="@color/White"
                     android:textSize="16sp"
@@ -91,26 +82,47 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_or"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/rl_login"
+                android:layout_marginTop="121dp">
+
+                <TextView
+                    android:id="@+id/or"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10sp"
+                    android:text="O R"
+                    android:textColor="@color/SDark" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
                 android:id="@+id/rl_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_login"
+                android:layout_below="@+id/rl_or"
                 android:layout_marginBottom="8dp">
 
                 <Button
                     android:id="@+id/bt_signup"
                     style="@android:style/Widget.Material.Light.Button.Borderless.Colored"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250sp"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/ripple_pdark"
+                    android:background="@drawable/ripple_effect_white"
                     android:paddingLeft="32dp"
                     android:paddingRight="32dp"
-                    android:text="Sign up"
+                    android:text="S I G N  U P"
                     android:textAllCaps="false"
                     android:textColor="@color/PRegular"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="italic" />
             </RelativeLayout>
 
         </RelativeLayout>
