@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,7 +30,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,6 +53,7 @@ public class SenderFormActivity extends AppCompatActivity {
     // for debugging and snackbar
     public final static String TAG = "S:SenderFormActivity";
     public RelativeLayout parentLayout;
+    public ProgressBar pb;
 
     // to get the user and on activity result for where this comes from
     public User usingUser;
@@ -92,6 +93,10 @@ public class SenderFormActivity extends AppCompatActivity {
         iv_item = (ImageView) findViewById(R.id.iv_itemRequestedPhoto);
         tv_file_title = (TextView) findViewById(R.id.tv_file_title);
 
+        // progressbar
+        pb = (ProgressBar) findViewById(R.id.progressBar);
+        setProgressGone();
+
         // get the parent layout
         parentLayout = (RelativeLayout) findViewById(R.id.relativeLayoutInitSenderForm);
 
@@ -106,7 +111,6 @@ public class SenderFormActivity extends AppCompatActivity {
         // get the user using the app, which activates the button
         getUsingUser();
 
-
         bt_photo_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +118,19 @@ public class SenderFormActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // Snackbar calls
+    public void snackbarCall(String message, int length) {
+        Snackbar.make(parentLayout, String.format("%s", message), length).show();
+    }
+
+    public void snackbarCallIndefinite(String message) {
+        snackbarCall(message, Snackbar.LENGTH_INDEFINITE);
+    }
+
+    public void snackbarCallLong(String message) {
+        snackbarCall(message, Snackbar.LENGTH_LONG);
     }
 
     public void getImageFromAlbum() {
@@ -172,12 +189,19 @@ public class SenderFormActivity extends AppCompatActivity {
         }
     }
 
+    public void setProgressVisible() {
+        pb.setVisibility(View.VISIBLE);
+    }
+    public void setProgressGone() {
+        pb.setVisibility(View.GONE);
+    }
+
     public void disableSubmitButton() {
-        // TODO - set progress bar visible here!!!
+        setProgressVisible();
         bt_confirm.setEnabled(false);
     }
     public void enableSubmitButton() {
-        // TODO - set progress bar invisible here
+        setProgressGone();
         bt_confirm.setEnabled(true);
     }
 
@@ -274,8 +298,7 @@ public class SenderFormActivity extends AppCompatActivity {
                         // JSON ERROR occurred
                         Log.e(TAG, String.format("%s", e));
                         resultIntent.putExtra("message", "JSON ERROR: failure uploading picture");
-                        setResult(RESULT_OK, resultIntent);
-                        finish();
+                        setResult(RESULT_OK, resultIntent); finish();
                     }
                 }
 
@@ -285,18 +308,18 @@ public class SenderFormActivity extends AppCompatActivity {
                     Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
                     // if an error occurred, set result cancelled
                     if (errorResponse != null) {
+                        String msg;
                         try {
-                            String msg = errorResponse.getString("message");
-                            resultIntent.putExtra("message", msg);
-                            setResult(RESULT_CANCELED, resultIntent); finish();
+                            msg = errorResponse.getString("message");
                         } catch (JSONException e) {
+                            msg = "Error (1) in endpoint request_send";
+                            Log.e(TAG, String.format("%s, %s", errorResponse, e));
                             e.printStackTrace();
-                            resultIntent.putExtra("message", "Error (1) in endpoint request_send");
-                            setResult(RESULT_CANCELED, resultIntent); finish();
                         }
+                        snackbarCallLong(msg);
                     } else {
                         resultIntent.putExtra("message", "Error (1) in endpoint request_send");
-                        setResult(RESULT_CANCELED, resultIntent); finish();
+                        snackbarCallLong("Error (1) in endpoint request_send");
                     }
                 }
             });
@@ -304,6 +327,7 @@ public class SenderFormActivity extends AppCompatActivity {
     }
 
     public void getUsingUser() {
+        disableSubmitButton();
         // make a call to server to get the user and then create userProfile base on that json from the server
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
@@ -313,7 +337,7 @@ public class SenderFormActivity extends AppCompatActivity {
                 try {
                     // populate the userProfile from the JSON received here, then enable the bt_confirm
                     usingUser = User.fromJSONServer(response.getJSONObject("data"));
-                    bt_confirm.setEnabled(true);
+                    enableSubmitButton();
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Parsing JSON excepted %s", e));
                     Log.e(TAG, String.format("User is not gotten, JSON parsing error: %s", e));
@@ -330,18 +354,7 @@ public class SenderFormActivity extends AppCompatActivity {
                 Log.e(TAG, String.format("User not gotten error 1 %s", errorResponse));
                 // if an error occurred, set result cancelled because we need the user!
                 resultIntent.putExtra("message", "Error in getting user from server");
-                setResult(RESULT_CANCELED, resultIntent);
-                finish();
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
-                Log.e(TAG, String.format("User not gotten error 2 %s", errorResponse));
-                // if an error occurred, set result cancelled because we need the user!
-                resultIntent.putExtra("message", "Error in getting user from server");
-                setResult(RESULT_CANCELED, resultIntent);
-                finish();
+                setResult(RESULT_CANCELED, resultIntent); finish();
             }
 
             @Override
@@ -350,8 +363,7 @@ public class SenderFormActivity extends AppCompatActivity {
                 Log.e(TAG, String.format("User not gotten error 3 %s", responseString));
                 // if an error occurred, set result cancelled because we need the user!
                 resultIntent.putExtra("message", "Error in getting user from server");
-                setResult(RESULT_CANCELED, resultIntent);
-                finish();
+                setResult(RESULT_CANCELED, resultIntent); finish();
             }
         });
     }
