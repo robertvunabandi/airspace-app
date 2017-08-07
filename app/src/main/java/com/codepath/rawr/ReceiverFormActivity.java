@@ -43,7 +43,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
     public CheckBox cb_envelope, cb_smallBox, cb_largeBox, cb_clothing, cb_other, cb_liquid, cb_fragile;
     public boolean item_envelope, item_smallBox, item_largeBox, item_clothing, item_other, item_liquid, item_fragile = false;
     public EditText et_dropoff, et_pickup, et_name, et_other, et_phone, et_email, et_payment, et_details;
-    public Button bt_confirm, bt_photo_upload;
+    public Button bt_confirm, bt_photo_upload, bt_demo_ruben;
     public ImageView iv_item;
     public TextView tv_file_title;
     // picture variables
@@ -93,6 +93,15 @@ public class ReceiverFormActivity extends AppCompatActivity {
         iv_item = (ImageView) findViewById(R.id.iv_itemRequestedPhoto);
         tv_file_title = (TextView) findViewById(R.id.tv_file_title);
 
+        // FOR DEMO ONLY
+        bt_demo_ruben = (Button) findViewById(R.id.bt_demo_ruben);
+        bt_demo_ruben.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fillUpRubensInfo();
+            }
+        });
+
         // progressbar
         pb = (ProgressBar) findViewById(R.id.progressBar);
         setProgressGone();
@@ -117,6 +126,18 @@ public class ReceiverFormActivity extends AppCompatActivity {
                 getImageFromAlbum();
             }
         });
+    }
+
+    public void fillUpRubensInfo(){
+        cb_smallBox.setChecked(true);
+        item_envelope = true;
+        et_dropoff.setText("My mom will drive to the airport");
+        et_pickup.setText("I'll meet you at arrivals");
+        et_name.setText("Diana Dicker");
+        et_email.setText("diana@gmail.com");
+        et_phone.setText("2104307239");
+        et_payment.setText("I have $40 dollars");
+        et_details.setText("I can drive you to your hotel if you want");
     }
 
     // Snackbar calls
