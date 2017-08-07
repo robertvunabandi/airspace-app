@@ -138,6 +138,11 @@ public class ReceiverFormActivity extends AppCompatActivity {
         et_phone.setText("2104307239");
         et_payment.setText("I have $40 dollars");
         et_details.setText("I can drive you to your hotel if you want");
+        // upload the picture
+        requestPicture = BitmapFactory.decodeResource(getResources(), R.drawable.letter_mail_envelope);
+        iv_item.setImageBitmap(requestPicture);
+        iv_item.setVisibility(View.VISIBLE);
+        pictureUploaded = true;
     }
 
     // Snackbar calls
