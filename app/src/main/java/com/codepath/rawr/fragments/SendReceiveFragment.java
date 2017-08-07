@@ -102,6 +102,7 @@ public class SendReceiveFragment extends Fragment {
         final ExpandableRelativeLayout erl_info = (ExpandableRelativeLayout) v.findViewById(R.id.erl_info);
         final Button bt_expand = (Button) v.findViewById(R.id.bt_expand);
 
+
         // button to collapse everything
         final ImageButton ib_collapse = (ImageButton) v.findViewById(R.id.ib_expand);
 
@@ -134,6 +135,21 @@ public class SendReceiveFragment extends Fragment {
         final EditText et_from = (EditText) v.findViewById(R.id.et_from);
         final EditText et_to = (EditText) v.findViewById(R.id.et_to);
         final EditText et_date = (EditText) v.findViewById(R.id.et_date);
+
+        // BUTTON FOR DEMO
+        TextView bt_ruben_demo_add = (TextView) v.findViewById(R.id.bt_ruben_demo_add);
+        bt_ruben_demo_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_from.setText("San Antonio");
+                et_to.setText("Seattle");
+                et_date.setText("08/11/2017");
+                int month = Integer.parseInt(et_date.getText().toString().substring(0, 2));
+                int dayOfMonth = Integer.parseInt(et_date.getText().toString().substring(3, 5));
+                int year = Integer.parseInt(et_date.getText().toString().substring(6, 8)) + 2000;
+            }
+        });
+
         final ImageView iv_item = (ImageView) v.findViewById(R.id.iv_itemRequestedPhoto);
         tv_pending_counter = (TextView) v.findViewById(R.id.tv_pending_counter);
         tv_accepted_counter = (TextView) v.findViewById(R.id.tv_accepted_counter);
