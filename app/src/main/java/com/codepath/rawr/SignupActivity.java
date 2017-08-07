@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -39,6 +40,7 @@ public class SignupActivity extends AppCompatActivity {
     RelativeLayout parentView; // for snackbar
     EditText et_fName, et_lName, et_email;
     Button bt_signup;
+    ImageView iv_logoImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class SignupActivity extends AppCompatActivity {
         et_lName = (EditText) findViewById(R.id.et_lName);
         et_email = (EditText) findViewById(R.id.tv_tvlr_email);
         bt_signup = (Button) findViewById(R.id.bt_signup);
+        iv_logoImg = (ImageView) findViewById(R.id.iv_logoImg);
 
         // make progress visible because we're doing internet stuffs, disables submit button
         setProgressVisible();
@@ -69,6 +72,21 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // first sign the user up then log them in
                 signUserUp();
+            }
+        });
+
+        iv_logoImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                et_fName.setText("Ruben");
+                et_lName.setText("Dicker");
+                et_email.setText("rdicker@fb.com");
+                bt_signup.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loginUser("rdicker@fb.com");
+                    }
+                });
             }
         });
     }
