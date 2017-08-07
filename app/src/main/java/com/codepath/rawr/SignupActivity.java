@@ -140,7 +140,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     /* public void createProfilePhotoObject() {
-        RequestParams params = RawrImages.getParamsGetProfileImage(usingUser.id);
+        RequestParams params = RawrImages.getParamsGetProfileImage(userProfile.id);
         client.post(RawrApp.DB_URL + "/image/profile_create", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -64,7 +65,7 @@ public class ProfileActivityOther extends AppCompatActivity {
     Button bt_edit_profile;
     // Setting up database
     AsyncHttpClient client;
-    User usingUser;
+    User userProfile;
     // Tag for debugging
     // special views
     ViewGroup profile_image_loading_layout;
@@ -96,7 +97,13 @@ public class ProfileActivityOther extends AppCompatActivity {
         extentiateLoadingView(profile_image_loading_layout);
 
         // get the using user so we can do stuff with it
-        getUsingUser(userId);
+        getUser(userId);
+
+        // get placeholder images
+        Drawable profile_placeholder_loading = getDrawable(R.drawable.ic_profile_placeholder_loading);
+        profile_placeholder_loading.setTint(getColor(R.color.White));
+        Drawable profile_placeholder_error = getDrawable(R.drawable.ic_profile_placeholder_error);
+        profile_placeholder_error.setTint(getColor(R.color.White));
 
         // load the profile image of the user that's currently there with Glide and Firebase
         StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(userId);
@@ -116,9 +123,9 @@ public class ProfileActivityOther extends AppCompatActivity {
                         return false;
                     }
                 })
-                .placeholder(R.drawable.ic_android)
-                .error(R.drawable.ic_air_space_2)
-                .into(iv_profile_image); // TODO - CHANGE PLACEHOLDERS!!!!!!!!
+                .placeholder(profile_placeholder_loading)
+                .error(profile_placeholder_error)
+                .into(iv_profile_image);
 
     }
     /** For animating the loading of profile photo! */
@@ -209,21 +216,21 @@ public class ProfileActivityOther extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void populateUsersData() {
         // change the personal details of the user
-        tv_fullName.setText(usingUser.getFullName());
-        tv_location.setText(usingUser.location);
-        tv_trips_counter.setText(String.valueOf(usingUser.tripsTaken));
-        tv_dollars_made_counter.setText(String.valueOf(usingUser.dollarsMade));
-        tv_items_counter.setText(String.valueOf(usingUser.itemsSent));
-        tv_wished_location.setText(usingUser.fName + " likes to go to "+ usingUser.favoriteTravelPlace);
+        tv_fullName.setText(userProfile.getFullName());
+        tv_location.setText(userProfile.location);
+        tv_trips_counter.setText(String.valueOf(userProfile.tripsTaken));
+        tv_dollars_made_counter.setText(String.valueOf(userProfile.dollarsMade));
+        tv_items_counter.setText(String.valueOf(userProfile.itemsSent));
+        tv_wished_location.setText(userProfile.fName + " likes to go to "+ userProfile.favoriteTravelPlace);
 
         // update the banner to the user's suitcase color
-        if (!usingUser.suitcaseColor.isRainbow()) {
+        if (!userProfile.suitcaseColor.isRainbow()) {
             // set the color of the suitcase
-            im_suitcase_color_on_detail.setBackgroundColor(getColor(usingUser.suitcaseColor.getDrawableId()));
+            im_suitcase_color_on_detail.setBackgroundColor(getColor(userProfile.suitcaseColor.getDrawableId()));
             // change the color of the banner
             iv_profile_activity_banner.setVisibility(View.INVISIBLE);
             // TODO - Make sure this part works... We need to add edit profile activity to check that
-            rl_profile_activity_banner.setBackgroundTintList(ColorStateList.valueOf(getColor(usingUser.suitcaseColor.getDrawableId())));
+            rl_profile_activity_banner.setBackgroundTintList(ColorStateList.valueOf(getColor(userProfile.suitcaseColor.getDrawableId())));
 
         } else {
             // set the color of the suitcase to something random
@@ -232,7 +239,7 @@ public class ProfileActivityOther extends AppCompatActivity {
             SuitcaseColor randomSuitcaseColor = new SuitcaseColor(rsci);
             im_suitcase_color_on_detail.setBackgroundColor(getColor(randomSuitcaseColor.getDrawableId()));
             // change the color of the banner
-            iv_profile_activity_banner.setImageDrawable(getDrawable(usingUser.suitcaseColor.getDrawableId()));
+            iv_profile_activity_banner.setImageDrawable(getDrawable(userProfile.suitcaseColor.getDrawableId()));
         }
 
     }
@@ -280,8 +287,8 @@ public class ProfileActivityOther extends AppCompatActivity {
         });
     }
 
-    public void getUsingUser(String id) {
-        // make a call to server to get the user and then create usingUser base on that json from the server
+    public void getUser(String id) {
+        // make a call to server to get the user and then create userProfile base on that json from the server
         RequestParams params = new RequestParams();
         params.put("uid", id);
         client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
@@ -289,8 +296,8 @@ public class ProfileActivityOther extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    // populate the usingUser from the JSON received here, then enable the bt_confirm
-                    usingUser = User.fromJSONServer(response.getJSONObject("data"));
+                    // populate the userProfile from the JSON received here, then enable the bt_confirm
+                    userProfile = User.fromJSONServer(response.getJSONObject("data"));
                     populateUsersData();
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Parsing JSON excepted %s", e));

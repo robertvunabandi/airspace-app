@@ -448,14 +448,14 @@ public class MainActivity extends AppCompatActivity {
 
     // creating user object to get user details
     public void getUsingUser() {
-        // make a call to server to get the user and then create usingUser base on that json from the server
+        // make a call to server to get the user and then create userProfile base on that json from the server
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
         client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    // populate the usingUser from the JSON received here, then enable the bt_confirm
+                    // populate the userProfile from the JSON received here, then enable the bt_confirm
                     usingUser = User.fromJSONServer(response.getJSONObject("data"));
 
                     // Setting username
