@@ -49,7 +49,7 @@ public class ShippingPendingRequestsAdapter extends RecyclerView.Adapter<Shippin
     public List<ShippingRequest> mRequests;
     Context context;
     AsyncHttpClient client;
-    public static final String TAG = "ShipPendRqAdap";
+    private static final String TAG = "ShipPendRqAdap";
 
     public ShippingPendingRequestsAdapter(List<ShippingRequest> requests) {
         mRequests = requests;
