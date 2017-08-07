@@ -254,6 +254,20 @@ public class TravelFragment extends Fragment {
             }
         });
 
+        // DEMO BUTTON
+        TextView tv_demo_robert_flights = (TextView) v.findViewById(R.id.tv_demo_robert_flights);
+        tv_demo_robert_flights.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                airlineCode.setText("AS");
+                flightNumber.setText("603");
+                et_date.setText("08/10/17");
+                flightYear = 2017;
+                flightMonth = 8;
+                flightDay = 10;
+            }
+        });
+
         return v;
     }
 
