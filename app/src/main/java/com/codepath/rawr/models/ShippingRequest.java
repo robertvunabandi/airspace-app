@@ -98,7 +98,6 @@ public class ShippingRequest {
     from this travel notice using its own data, which is why the "this". */
     public RequestParams createParams() {
         /* creates parameter for endpoint call /travel_notice_add and /travel_notice_update */
-        // TODO - be careful about _id being null
         RequestParams params = new RequestParams();
         // required, 4 parameters
         params.put("_id", this.id);

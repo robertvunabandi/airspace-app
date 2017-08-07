@@ -107,9 +107,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         // get placeholder images
         Drawable profile_placeholder_loading = getDrawable(R.drawable.ic_profile_placeholder_loading);
-        profile_placeholder_loading.setTint(getColor(R.color.White));
+        profile_placeholder_loading.setTint(getColor(R.color.suitcaseColorBlack));
         Drawable profile_placeholder_error = getDrawable(R.drawable.ic_profile_placeholder_error_own_profile);
-        profile_placeholder_error.setTint(getColor(R.color.White));
+        profile_placeholder_error.setTint(getColor(R.color.suitcaseColorBlack));
 
         // load the profile image of the user that's currently there with Glide and Firebase
         StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(RawrApp.getUsingUserId());
@@ -239,7 +239,6 @@ public class ProfileActivity extends AppCompatActivity {
             im_suitcase_color_on_detail.setBackgroundColor(getColor(usingUser.suitcaseColor.getDrawableId()));
             // change the color of the banner
             iv_profile_activity_banner.setVisibility(View.INVISIBLE);
-            // TODO - Make sure this part works... We need to add edit profile activity to check that
             rl_profile_activity_banner.setBackgroundTintList(ColorStateList.valueOf(getColor(usingUser.suitcaseColor.getDrawableId())));
 
         } else {

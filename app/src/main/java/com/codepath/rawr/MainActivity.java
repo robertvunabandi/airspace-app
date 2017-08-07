@@ -1,12 +1,12 @@
 package com.codepath.rawr;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -50,9 +50,6 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -139,9 +136,6 @@ public class MainActivity extends AppCompatActivity {
         logFirebaseImageSaver();
 
 
-
-
-        // TODO - Make option button actually do what it's supposed to do, include logout inside of it
         optionsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -410,27 +404,6 @@ public class MainActivity extends AppCompatActivity {
             ((TravelFragment) pagerAdapter.getItem(vpPager.getCurrentItem())).getTripsData();
         } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.UPDATE_ADDITIONAL_DETAILS_CODE) {
             snackbarCallIndefinite(data.getStringExtra("message"));
-        } else if (resultCode == RESULT_OK && requestCode == RawrApp.CODE_LOAD_PROFILE_IMAGE) {
-            // for loading images, this ma
-            try {
-                // get the image from the cellphone
-                Uri imageUri = data.getData();
-                InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                Bitmap selectedImage = BitmapFactory.decodeStream(imageStream); // Bitmaps are the ones to be placed/replaced in imageViews
-                // convert image to bytes
-                byte[] imageByte = RawrImages.convertImageToByteArray(selectedImage);
-                // convert image back to bitmap
-                // this replaces the image
-                // ConversationsFragment convoFragment = (ConversationsFragment) pagerAdapter.getItem(vpPager.getCurrentItem());
-                // ((ImageView) convoFragment.getView().findViewById(R.id.temporary_addProfileImageButton)).setImageBitmap(testImg);
-                // once we get the image, we send the image with the enpoint
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Log.e(TAG, String.format("Bitmap error! %s", e));
-            }
-        } else if (resultCode == RESULT_CANCELED && requestCode == RawrApp.CODE_LOAD_PROFILE_IMAGE) {
-            snackbarCallLong("Cancelled loading profile image");
         }
     }
 
@@ -452,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
         client.get(RawrApp.DB_URL + "/user/get", params, new JsonHttpResponseHandler() {
+            @TargetApi(Build.VERSION_CODES.M)
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
@@ -467,6 +441,12 @@ public class MainActivity extends AppCompatActivity {
                     TextView user_email = (TextView) header.findViewById(R.id.tv_email);
                     user_email.setText(usingUser.email);
 
+                    // get placeholder images
+                    Drawable profile_placeholder_loading = getDrawable(R.drawable.ic_profile_placeholder_loading);
+                    if (profile_placeholder_loading != null) profile_placeholder_loading.setTint(getColor(R.color.White));
+                    Drawable profile_placeholder_error = getDrawable(R.drawable.ic_profile_placeholder_error);
+                    if (profile_placeholder_error != null) profile_placeholder_error.setTint(getColor(R.color.White));
+
                     // Setting profile image (Change back to image view in case we want the round image)
                     ImageView iv_profile_image = (ImageView) header.findViewById(R.id.iv_profile_image);
                     StorageReference ref = getStorageReferenceForImageFromFirebase(RawrApp.getUsingUserId());
@@ -475,8 +455,8 @@ public class MainActivity extends AppCompatActivity {
                             .load(ref)
                             .centerCrop()
                             .bitmapTransform(new RoundedCornersTransformation(context, 2000, 0))
-                            .placeholder(R.drawable.ic_android)
-                            .error(R.drawable.ic_decline)
+                            .placeholder(profile_placeholder_loading)
+                            .error(profile_placeholder_error)
                             .into(iv_profile_image);
 
                 } catch (JSONException e) {

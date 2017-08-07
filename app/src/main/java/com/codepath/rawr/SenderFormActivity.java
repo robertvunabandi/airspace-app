@@ -172,6 +172,15 @@ public class SenderFormActivity extends AppCompatActivity {
         }
     }
 
+    public void disableSubmitButton() {
+        // TODO - set progress bar visible here!!!
+        bt_confirm.setEnabled(false);
+    }
+    public void enableSubmitButton() {
+        // TODO - set progress bar invisible here
+        bt_confirm.setEnabled(true);
+    }
+
     public int getItemTotal() {
         // this implies that the person has to choose at least one item!
         int res = 0;
@@ -234,19 +243,24 @@ public class SenderFormActivity extends AppCompatActivity {
     }
 
     public void sendRequest() {
+        // we disable the button so that one does not send too many requests at the same time
+        disableSubmitButton();
         RequestParams params = getParams();
 
         if (!pictureUploaded) {
             Log.e(TAG, "Picture is not uploaded");
             Snackbar.make(parentLayout, "You must upload a picture", Snackbar.LENGTH_LONG).show();
+            enableSubmitButton();
         } else if (getItemTotal() == 0) {
             // don't send request and tell user that he has to pick at least one checkbox
             Log.e(TAG, "item total is 0");
             Snackbar.make(parentLayout, "You must select at least one checkbox.", Snackbar.LENGTH_LONG).show();
+            enableSubmitButton();
         } else if (!isRecipientFilled()) {
             Log.e(TAG, "Recipient info not filled up");
             // checks if the recipient's informations is filled up because the server will also throw an error if it's not
             Snackbar.make(parentLayout, "You must fill up all of the recipient's details.", Snackbar.LENGTH_LONG).show();
+            enableSubmitButton();
         } else {
             client.post(RawrApp.DB_URL + "/request/send", params, new JsonHttpResponseHandler() {
                 @Override
@@ -274,28 +288,16 @@ public class SenderFormActivity extends AppCompatActivity {
                         try {
                             String msg = errorResponse.getString("message");
                             resultIntent.putExtra("message", msg);
-                            setResult(RESULT_CANCELED, resultIntent);
-                            finish();
+                            setResult(RESULT_CANCELED, resultIntent); finish();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             resultIntent.putExtra("message", "Error (1) in endpoint request_send");
-                            setResult(RESULT_CANCELED, resultIntent);
-                            finish();
+                            setResult(RESULT_CANCELED, resultIntent); finish();
                         }
                     } else {
                         resultIntent.putExtra("message", "Error (1) in endpoint request_send");
-                        setResult(RESULT_CANCELED, resultIntent);
-                        finish();
+                        setResult(RESULT_CANCELED, resultIntent); finish();
                     }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                    Log.e(TAG, String.format("%s", responseString));
-                    // if an error occurred, set result cancelled
-                    resultIntent.putExtra("message", "Error (3) in endpoint request_send");
-                    setResult(RESULT_CANCELED, resultIntent);
-                    finish();
                 }
             });
         }
@@ -402,10 +404,11 @@ public class SenderFormActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // when completed, get the image url and save it to DB
                     resultIntent.putExtra("message", "success");
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
+                    enableSubmitButton();
+                    setResult(RESULT_OK, resultIntent); finish();
                 } else {
                     resultIntent.putExtra("message", "FIREBASE ERROR: failure uploading picture");
+                    enableSubmitButton();
                     setResult(RESULT_OK, resultIntent); finish();
                 }
             }
