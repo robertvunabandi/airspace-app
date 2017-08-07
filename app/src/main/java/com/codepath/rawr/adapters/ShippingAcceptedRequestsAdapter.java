@@ -1,8 +1,10 @@
 package com.codepath.rawr.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
@@ -38,6 +40,8 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
+import static com.codepath.rawr.R.id.bt_cancel;
+
 /**
  * Created by rdicker on 7/24/17.
  */
@@ -69,6 +73,8 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
     }
 
 
+    @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
@@ -83,8 +89,7 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
 
         holder.tv_airlineCode.setText(request.tvl.airline);
         holder.tv_airlineNo.setText(request.tvl.flight_num);
-        holder.tv_item.setText(request.getShippingItemName());
-        // TODO holder.tv_requested_date.setText(request.tvl.getDepartureDaySimple());
+        holder.tv_requested_date.setText(request.dateCreated.dateSimple);
 
         holder.cb_envelope.setChecked(request.item_envelopes);
         holder.cb_largeBox.setChecked(request.item_lgbox);
@@ -102,7 +107,15 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
         holder.cb_liquids.setEnabled(false);
         holder.tv_dropoff.setText(request.tvl.drop_off_flexibility);
         holder.tv_pickup.setText(request.tvl.pick_up_flexibility);
-        holder.rl_infoButton.setOnClickListener(new View.OnClickListener() {
+        holder.tv_travellerName.setText(request.tvlUser.fName + "'s Trip");
+        // sets the name of the other item
+        if (request.item_other) {
+            holder.tv_otherName.setText(": " + request.item_other_name);
+        } else {
+            holder.tv_otherName.setVisibility(View.GONE);
+        }
+
+        holder.rlCard.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onClick(View v) {
@@ -113,17 +126,19 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
                 // Rotates the toggle button to indicate when the expandableLayout is either expanded or collapsed
                 if (holder.erl_info.isExpanded()) {
                     holder.ivToggleInfo.setRotation(0);
-                }
-                else {
+                    holder.tv_trips_detailsToggler.setText("See ");
+                } else {
                     holder.ivToggleInfo.setRotation(-90);
+                    holder.tv_trips_detailsToggler.setText("Hide ");
                 }
 
                 // TODO - Add filters in XML
             }
         });
 
+
         // CANCEL the request click listener
-        holder.btn_cancel.setOnClickListener(new View.OnClickListener(){
+        holder.btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
@@ -137,8 +152,8 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
                         // User clicked "YES" button, so send response to database
 
                         RequestParams params = new RequestParams();
-                        params.put("uid",  request.requesterId);
-                        params.put("request_id",  request.id);
+                        params.put("uid", request.requesterId);
+                        params.put("request_id", request.id);
                         client.post(RawrApp.DB_URL + "/request/delete", params, new JsonHttpResponseHandler() {
                             // implement endpoint here
                             @Override
@@ -150,14 +165,17 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
 
                                 // TODO - notify the traveller that the shipper cancelled the request!!!! (if not done in the database already)
                             }
+
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                                 Log.e(TAG, String.format("error 1 %s", errorResponse));
                             }
+
                             @Override
                             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
                                 Log.e(TAG, String.format("error 2 %s", errorResponse));
                             }
+
                             @Override
                             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                                 Log.e(TAG, String.format("error 3"));
@@ -176,7 +194,7 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
         });
 
         // CONTACT the traveler click listener
-        holder.btn_contact.setOnClickListener(new View.OnClickListener(){
+        holder.btn_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -206,44 +224,53 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
-
-
-                holder.iv_profileImageTraveller.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent profileActivityOther = new Intent(context, ProfileActivityOther.class);
-                        profileActivityOther.putExtra("user_id", request.tvlUser.id);
-                        context.startActivity(profileActivityOther);
-                    }
-                });
-
-//                holder.bt_edit_request.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        // TODO - do something for editing the request
-//                    }
-//                });
-
-                // TODO - Change placeholders
-                StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(request.tvl.tuid);
-                Glide.with(context)
-                        .using(new FirebaseImageLoader())
-                        .load(ref)
-                        .bitmapTransform(new RoundedCornersTransformation(context, 20000, 0))
-                        .placeholder(R.drawable.ic_android)
-                        .error(R.drawable.ic_air_space_2)
-                        .into(holder.iv_profileImageTraveller);
-
-                // TODO - Change placeholders
-                StorageReference refImageRequested = RawrApp.getStorageReferenceForImageFromFirebase(request.id);
-                Glide.with(context)
-                        .using(new FirebaseImageLoader())
-                        .load(refImageRequested)
-                        .placeholder(R.drawable.ic_android)
-                        .error(R.drawable.ic_air_space_2)
-                        .into(holder.iv_itemRequestedPhoto);
             }
         });
+
+        holder.iv_profileImageTraveller.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profileActivityOther = new Intent(context, ProfileActivityOther.class);
+                profileActivityOther.putExtra("user_id", request.tvlUser.id);
+                context.startActivity(profileActivityOther);
+            }
+        });
+
+        holder.bt_edit_request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO - do something for editing the request
+            }
+        });
+
+        // get placeholder images
+        Drawable profile_placeholder_loading = context.getDrawable(R.drawable.ic_profile_placeholder_loading);
+        profile_placeholder_loading.setTint(context.getColor(R.color.White));
+        Drawable profile_placeholder_error = context.getDrawable(R.drawable.ic_profile_placeholder_error);
+        profile_placeholder_error.setTint(context.getColor(R.color.White));
+        Drawable image_placeholder_loading = context.getDrawable(R.drawable.ic_image_placeholder_loading);
+        image_placeholder_loading.setTint(context.getColor(R.color.White));
+        Drawable image_placeholder_error = context.getDrawable(R.drawable.ic_image_placeholder_error);
+        image_placeholder_error.setTint(context.getColor(R.color.White));
+
+        // TODO - Change placeholders
+        StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(request.tvl.tuid);
+        Glide.with(context)
+                .using(new FirebaseImageLoader())
+                .load(ref)
+                .bitmapTransform(new RoundedCornersTransformation(context, 20000, 0))
+                .placeholder(profile_placeholder_loading)
+                .error(profile_placeholder_error)
+                .into(holder.iv_profileImageTraveller);
+
+        // TODO - Change placeholders
+        StorageReference refImageRequested = RawrApp.getStorageReferenceForImageFromFirebase(request.id);
+        Glide.with(context)
+                .using(new FirebaseImageLoader())
+                .load(refImageRequested)
+                .placeholder(image_placeholder_loading)
+                .error(image_placeholder_error)
+                .into(holder.iv_itemRequestedPhoto);
     }
 
     @Override
@@ -254,7 +281,6 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         public TextView tv_from;
         public TextView tv_arrow;
         public TextView tv_to;
@@ -268,20 +294,23 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
         public TextView tv_item;
         public TextView tv_requestDateTitle;
         public TextView tv_requested_date;
-
-        public Button btn_contact;
-        public Button btn_cancel;
+        public TextView tv_trips_detailsToggler;
+        public TextView tv_infoTitle;
+        public TextView tv_travellerName;
+        public TextView tv_otherName;
 
         public ImageView iv_profileImageTraveller;
         public ImageView iv_itemRequestedPhoto;
 
+        public Button btn_contact;
+        public Button btn_cancel;
+        public Button bt_edit_request;
+
         public RelativeLayout rlChecks;
-        public RelativeLayout rl_infoButton;
-        public TextView tv_infoTitle;
+        public RelativeLayout rlCard;
         final ImageView ivToggleInfo;
         final ExpandableRelativeLayout erl_info;
 
-        public RelativeLayout rlCheckBoxes;
         public CheckBox cb_envelope;
         public CheckBox cb_largeBox;
         public CheckBox cb_smallBox;
@@ -290,11 +319,10 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
         public CheckBox cb_fragile;
         public CheckBox cb_liquids;
 
-        public RelativeLayout rl_flexibility;
         public TextView tv_dropoff;
         public TextView tv_pickup;
 
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView) {
             super(itemView);
 
             tv_from = (TextView) itemView.findViewById(R.id.tv_from);
@@ -311,21 +339,21 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
             tv_item = (TextView) itemView.findViewById(R.id.tv_item);
             tv_requestDateTitle = (TextView) itemView.findViewById(R.id.tv_requestDateTitle);
             tv_requested_date = (TextView) itemView.findViewById(R.id.tv_requested_date);
-
-            iv_profileImageTraveller = (ImageView) itemView.findViewById(R.id.iv_profileImageTraveller);
-            iv_itemRequestedPhoto = (ImageView) itemView.findViewById(R.id.iv_itemRequestedPhoto);
+            tv_trips_detailsToggler = (TextView) itemView.findViewById(R.id.tv_trips_detailsToggler);
+            tv_travellerName = (TextView) itemView.findViewById(R.id.tv_travellerName);
+            tv_otherName = (TextView) itemView.findViewById(R.id.tv_otherName);
 
             btn_contact = (Button) itemView.findViewById(R.id.bt_contact);
-            btn_cancel = (Button) itemView.findViewById(R.id.bt_cancel);
+            btn_cancel = (Button) itemView.findViewById(bt_cancel);
+            bt_edit_request = (Button) itemView.findViewById(R.id.bt_edit_request);
 
             rlChecks = (RelativeLayout) itemView.findViewById(R.id.rlChecks);
-            rl_infoButton = (RelativeLayout) itemView.findViewById(R.id.rlCard);
+            rlCard = (RelativeLayout) itemView.findViewById(R.id.rlCard);
             tv_infoTitle = (TextView) itemView.findViewById(R.id.tv_infoTitle);
 
             ivToggleInfo = (ImageView) itemView.findViewById(R.id.iv_toggleInfo);
             erl_info = (ExpandableRelativeLayout) itemView.findViewById(R.id.erl_info);
 
-            rlCheckBoxes = (RelativeLayout) itemView.findViewById(R.id.rlCheckBoxes);
             cb_envelope = (CheckBox) itemView.findViewById(R.id.cb_envelope);
             cb_largeBox = (CheckBox) itemView.findViewById(R.id.cb_largeBox);
             cb_smallBox = (CheckBox) itemView.findViewById(R.id.cb_smallBox);
@@ -336,6 +364,9 @@ public class ShippingAcceptedRequestsAdapter extends RecyclerView.Adapter<Shippi
 
             tv_dropoff = (TextView) itemView.findViewById(R.id.tv_dropoff);
             tv_pickup = (TextView) itemView.findViewById(R.id.tv_pickup);
+
+            iv_profileImageTraveller = (ImageView) itemView.findViewById(R.id.iv_profileImageTraveller);
+            iv_itemRequestedPhoto = (ImageView) itemView.findViewById(R.id.iv_itemRequestedPhoto);
         }
     }
 
