@@ -321,6 +321,7 @@ public class SenderFormActivity extends AppCompatActivity {
                         resultIntent.putExtra("message", "Error (1) in endpoint request_send");
                         snackbarCallLong("Error (1) in endpoint request_send");
                     }
+
                 }
             });
         }
