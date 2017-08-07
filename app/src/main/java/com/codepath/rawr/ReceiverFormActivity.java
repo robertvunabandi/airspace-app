@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,6 +53,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
     // for debugging and snackbar
     public final static String TAG = "S:ReceiverFormActivity";
     public RelativeLayout parentLayout;
+    public ProgressBar pb;
 
     // to get the user and on activity result for where this comes from
     public User usingUser;
@@ -91,6 +93,10 @@ public class ReceiverFormActivity extends AppCompatActivity {
         iv_item = (ImageView) findViewById(R.id.iv_itemRequestedPhoto);
         tv_file_title = (TextView) findViewById(R.id.tv_file_title);
 
+        // progressbar
+        pb = (ProgressBar) findViewById(R.id.progressBar);
+        setProgressGone();
+
         // get the parent layout
         parentLayout = (RelativeLayout) findViewById(R.id.relativeLayoutInitReceiverForm);
 
@@ -111,6 +117,19 @@ public class ReceiverFormActivity extends AppCompatActivity {
                 getImageFromAlbum();
             }
         });
+    }
+
+    // Snackbar calls
+    public void snackbarCall(String message, int length) {
+        Snackbar.make(parentLayout, String.format("%s", message), length).show();
+    }
+
+    public void snackbarCallIndefinite(String message) {
+        snackbarCall(message, Snackbar.LENGTH_INDEFINITE);
+    }
+
+    public void snackbarCallLong(String message) {
+        snackbarCall(message, Snackbar.LENGTH_LONG);
     }
 
     public void getImageFromAlbum() {
@@ -167,6 +186,22 @@ public class ReceiverFormActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    public void setProgressVisible() {
+        pb.setVisibility(View.VISIBLE);
+    }
+    public void setProgressGone() {
+        pb.setVisibility(View.GONE);
+    }
+
+    public void disableSubmitButton() {
+        setProgressVisible();
+        bt_confirm.setEnabled(false);
+    }
+    public void enableSubmitButton() {
+        setProgressGone();
+        bt_confirm.setEnabled(true);
     }
 
     public int getItemTotal() {
@@ -231,19 +266,23 @@ public class ReceiverFormActivity extends AppCompatActivity {
     }
 
     public void sendRequest() {
+        disableSubmitButton();
         RequestParams params = getParams();
 
         if (!pictureUploaded) {
             Log.e(TAG, "Picture is not uploaded");
             Snackbar.make(parentLayout, "You must upload a picture", Snackbar.LENGTH_LONG).show();
+            enableSubmitButton();
         } else if (getItemTotal() == 0) {
             // don't send request and tell user that he has to pick at least one checkbox
             Log.e(TAG, "item total is 0");
             Snackbar.make(parentLayout, "You must select at least one checkbox.", Snackbar.LENGTH_LONG).show();
+            enableSubmitButton();
         } else if (!isRecipientFilled()) {
             Log.e(TAG, "Recipient info not filled up");
             // checks if the recipient's informations is filled up because the server will also throw an error if it's not
             Snackbar.make(parentLayout, "You must fill up all of the recipient's details.", Snackbar.LENGTH_LONG).show();
+            enableSubmitButton();
         } else {
             client.post(RawrApp.DB_URL + "/request/send", params, new JsonHttpResponseHandler() {
                 @Override
@@ -268,21 +307,18 @@ public class ReceiverFormActivity extends AppCompatActivity {
                     Log.e(TAG, String.format("CODE: %s ERROR: %s", statusCode, errorResponse));
                     // if an error occurred, set result cancelled
                     if (errorResponse != null) {
+                        String msg;
                         try {
-                            String msg = errorResponse.getString("message");
-                            resultIntent.putExtra("message", msg);
-                            setResult(RESULT_CANCELED, resultIntent);
-                            finish();
+                            msg = errorResponse.getString("message");
                         } catch (JSONException e) {
+                            msg = "Error (1) in endpoint request_send";
+                            Log.e(TAG, String.format("%s, %s", errorResponse, e));
                             e.printStackTrace();
-                            resultIntent.putExtra("message", "Error (1) in endpoint request_send");
-                            setResult(RESULT_CANCELED, resultIntent);
-                            finish();
                         }
+                        snackbarCallLong(msg);
                     } else {
                         resultIntent.putExtra("message", "Error (1) in endpoint request_send");
-                        setResult(RESULT_CANCELED, resultIntent);
-                        finish();
+                        snackbarCallLong("Error (1) in endpoint request_send");
                     }
                 }
 
@@ -291,14 +327,14 @@ public class ReceiverFormActivity extends AppCompatActivity {
                     Log.e(TAG, String.format("%s", responseString));
                     // if an error occurred, set result cancelled
                     resultIntent.putExtra("message", "Error (3) in endpoint request_send");
-                    setResult(RESULT_CANCELED, resultIntent);
-                    finish();
+                    snackbarCallLong("Error (3) in endpoint request_send");
                 }
             });
         }
     }
 
     public void getUsingUser() {
+        disableSubmitButton();
         // make a call to server to get the user and then create userProfile base on that json from the server
         RequestParams params = new RequestParams();
         params.put("uid", RawrApp.getUsingUserId());
@@ -308,7 +344,7 @@ public class ReceiverFormActivity extends AppCompatActivity {
                 try {
                     // populate the userProfile from the JSON received here, then enable the bt_confirm
                     usingUser = User.fromJSONServer(response.getJSONObject("data"));
-                    bt_confirm.setEnabled(true);
+                    enableSubmitButton();
                 } catch (JSONException e) {
                     Log.e(TAG, String.format("Parsing JSON excepted %s", e));
                     Log.e(TAG, String.format("User is not gotten, JSON parsing error: %s", e));
@@ -389,10 +425,11 @@ public class ReceiverFormActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     // when completed, get the image url and save it to DB
                     resultIntent.putExtra("message", "success");
-                    setResult(RESULT_OK, resultIntent);
-                    finish();
+                    enableSubmitButton();
+                    setResult(RESULT_OK, resultIntent); finish();
                 } else {
                     resultIntent.putExtra("message", "FIREBASE ERROR: failure uploading picture");
+                    enableSubmitButton();
                     setResult(RESULT_OK, resultIntent); finish();
                 }
             }
