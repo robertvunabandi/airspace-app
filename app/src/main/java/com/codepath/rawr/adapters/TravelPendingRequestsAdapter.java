@@ -1,6 +1,9 @@
 package com.codepath.rawr.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.codepath.rawr.R;
 import com.codepath.rawr.RawrApp;
+import com.codepath.rawr.TravelPendingRequestsActivity;
 import com.codepath.rawr.models.ShippingRequest;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.storage.StorageReference;
@@ -21,7 +25,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,6 +56,7 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         return new ViewHolder(itemView);
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(TravelPendingRequestsAdapter.ViewHolder holder, int position) {
         final ShippingRequest request = mRequests.get(position);
@@ -61,23 +65,31 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
         holder.tv_requester.setText(request.getRequesterName());
 //        holder.tv_date.setText(request.);
 
-        // TODO - Change placeholders
+        // get placeholder images
+        Drawable profile_placeholder_loading = context.getDrawable(R.drawable.ic_profile_placeholder_loading);
+        if (profile_placeholder_loading != null) profile_placeholder_loading.setTint(context.getColor(R.color.PLight));
+        Drawable profile_placeholder_error = context.getDrawable(R.drawable.ic_profile_placeholder_error);
+        if (profile_placeholder_error != null) profile_placeholder_error.setTint(context.getColor(R.color.PLight));
+        Drawable image_placeholder_loading = context.getDrawable(R.drawable.ic_image_placeholder_loading);
+        if (image_placeholder_loading != null) image_placeholder_loading.setTint(context.getColor(R.color.PLight));
+        Drawable image_placeholder_error = context.getDrawable(R.drawable.ic_image_placeholder_error);
+        if (image_placeholder_error != null) image_placeholder_error.setTint(context.getColor(R.color.PLight));
+
         StorageReference ref = RawrApp.getStorageReferenceForImageFromFirebase(request.requesterId);
         Glide.with(context)
                 .using(new FirebaseImageLoader())
                 .load(ref)
                 .bitmapTransform(new RoundedCornersTransformation(context, 20000, 0))
-                .placeholder(R.drawable.ic_android)
-                .error(R.drawable.ic_air_space_2)
+                .placeholder(profile_placeholder_loading)
+                .error(profile_placeholder_error)
                 .into(holder.iv_profile_image_requester);
 
-        // TODO - Change placeholders
         StorageReference refImageRequested = RawrApp.getStorageReferenceForImageFromFirebase(request.id);
         Glide.with(context)
                 .using(new FirebaseImageLoader())
                 .load(refImageRequested)
-                .placeholder(R.drawable.ic_android)
-                .error(R.drawable.ic_air_space_2)
+                .placeholder(image_placeholder_loading)
+                .error(image_placeholder_error)
                 .into(holder.iv_itemRequestedPhoto);
 
     }
@@ -161,16 +173,13 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             Log.e(TAG, String.format("error 1 %s", errorResponse));
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                            Log.e(TAG, String.format("error 2 %s", errorResponse));
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Log.e(TAG, String.format("error 3"));
+                            String msg;
+                            try {
+                                msg = errorResponse.getString("message");
+                            } catch (JSONException e) {
+                                msg = "An error occurred from the server";
+                            }
+                            ((TravelPendingRequestsActivity) context).snackbarCallLong("ERROR: " + msg);
                         }
                     });
 
@@ -202,16 +211,13 @@ public class TravelPendingRequestsAdapter extends RecyclerView.Adapter<TravelPen
                         @Override
                         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                             Log.e(TAG, String.format("error 1 %s", errorResponse));
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                            Log.e(TAG, String.format("error 2 %s", errorResponse));
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                            Log.e(TAG, String.format("error 3"));
+                            String msg;
+                            try {
+                                msg = errorResponse.getString("message");
+                            } catch (JSONException e) {
+                                msg = "An error occurred from the server";
+                            }
+                            ((TravelPendingRequestsActivity) context).snackbarCallLong("ERROR: " + msg);
                         }
                     });
                 }
