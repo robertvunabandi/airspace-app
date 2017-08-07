@@ -165,8 +165,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:background="@color/SXDark"
+
                     android:text="ACCEPT"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/White"
                     android:textStyle="bold" />
 
             </RelativeLayout>

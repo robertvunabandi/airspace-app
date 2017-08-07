@@ -120,12 +120,13 @@
                 android:id="@+id/bt_contact"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="125dp"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="70dp"
-                android:background="@color/SXDark"
+                android:background="@drawable/ripple_cancel"
+                android:layout_marginRight="4dp"
                 android:text="CONTACT"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
@@ -142,12 +143,13 @@
                 android:id="@+id/bt_cancel"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="125dp"
-                android:layout_height="35dp"
+                android:layout_height="30dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_marginLeft="4dp"
                 android:layout_marginTop="70dp"
-                android:background="@android:color/holo_red_dark"
+                android:background="@drawable/ripple_white_bkg_black"
                 android:text="cancel"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
@@ -166,7 +168,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btns">
+            android:layout_below="@id/btns"
+            android:visibility="gone">
 
             <Button
                 android:id="@+id/bt_deliver"
