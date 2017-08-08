@@ -80,6 +80,17 @@ public class AdditionalDetailsActivity extends AppCompatActivity {
         // item XML for debugging
         parentLayout = findViewById(R.id.rootAdditionalDetails);
 
+        ((TextView) findViewById(R.id.tv_title)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cb_envelope.setChecked(true); tvl.item_envelopes = true;
+                cb_clothing.setChecked(true); tvl.item_clothing = true;
+                cb_fragile.setChecked(true); tvl.item_fragile = true;
+                dropoffFlexibility.setText("I am very flexible");
+                pickupFlexibility.setText("I can meet you at the airport");
+            }
+        });
+
 
         // update tvl dropoff flex when user changes that text
         dropoffFlexibility.addTextChangedListener(new TextWatcher() {
